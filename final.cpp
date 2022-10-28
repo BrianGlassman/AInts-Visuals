@@ -8,6 +8,7 @@
 #include <math.h>
 
 #include "final.hpp"
+#include "window.hpp"
 
 static void display()
 {
@@ -27,10 +28,7 @@ static void init(int argc, char* argv[])
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 	
-	// Create a window
-	glutInitWindowPosition(0, 0);
-	glutInitWindowSize(windowWidth, windowHeight);
-	win = glutCreateWindow("Brian Glassman - HW6 Textures");
+    CreateWindow();
 	
 	#ifdef USEGLEW
 		if (glewInit() != GLEW_OK)

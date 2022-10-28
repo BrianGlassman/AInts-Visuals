@@ -2,11 +2,6 @@
 
 #include "CSCIx229.h"
 
-// Window stuff
-int windowWidth = 900;
-int windowHeight = 900;
-static GLint win = 0;
-
 //-----------------------
 // Function declarations
 //-----------------------

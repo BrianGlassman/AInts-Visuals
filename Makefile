@@ -7,7 +7,9 @@
 # $^ = entire right side of ":"
 # -O3 = third-level optimization when compiling
 
-LIBDIR=CSCIx229
+CLIBDIR=CSCIx229
+MLIBDIR=MainLib
+INCLUDE=-I $(CLIBDIR) -I $(MLIBDIR)
 
 # Default target
 all: final
@@ -40,37 +42,46 @@ endif
 #--------------
 # Dependencies
 #--------------
-final.o: final.cpp final.hpp $(LIBDIR)/CSCIx229.h
-fatal.o: $(LIBDIR)/fatal.c $(LIBDIR)/CSCIx229.h
-errcheck.o: $(LIBDIR)/errcheck.c $(LIBDIR)/CSCIx229.h
-print.o: $(LIBDIR)/print.c $(LIBDIR)/CSCIx229.h
-loadtexbmp.o: $(LIBDIR)/loadtexbmp.c $(LIBDIR)/CSCIx229.h
-loadobj.o: $(LIBDIR)/loadobj.c $(LIBDIR)/CSCIx229.h
+# CSCIx229
+final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h
+fatal.o: $(CLIBDIR)/fatal.c $(CLIBDIR)/CSCIx229.h
+errcheck.o: $(CLIBDIR)/errcheck.c $(CLIBDIR)/CSCIx229.h
+print.o: $(CLIBDIR)/print.c $(CLIBDIR)/CSCIx229.h
+loadtexbmp.o: $(CLIBDIR)/loadtexbmp.c $(CLIBDIR)/CSCIx229.h
+loadobj.o: $(CLIBDIR)/loadobj.c $(CLIBDIR)/CSCIx229.h
+# MainLib
+window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp
 
 #----------------
 # Create archive
 #----------------
 CSCIx229.a:fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
+MainLib.a:window.o
+	ar -rcs $@ $^
 
 #---------------
 # Compile rules
 #---------------
-%.o: $(LIBDIR)/%.c
-	gcc -c $(CFLAGS) $< -I $(LIBDIR)
-%.o: $(LIBDIR)/%.cpp
-	g++ -c $(CFLAGS) $< -I $(LIBDIR)
+%.o: $(CLIBDIR)/%.c
+	gcc -c $(CFLAGS) $< $(INCLUDE)
+%.o: $(CLIBDIR)/%.cpp
+	g++ -c $(CFLAGS) $< $(INCLUDE)
+%.o: $(MLIBDIR)/%.c
+	gcc -c $(CFLAGS) $< $(INCLUDE)
+%.o: $(MLIBDIR)/%.cpp
+	g++ -c $(CFLAGS) $< $(INCLUDE)
 %.o: %.c
-	gcc -c $(CFLAGS) $< -I $(LIBDIR)
+	gcc -c $(CFLAGS) $< $(INCLUDE)
 %.o: %.cpp
-	g++ -c $(CFLAGS) $< -I $(LIBDIR)
+	g++ -c $(CFLAGS) $< $(INCLUDE)
 
 #-----------
 #  Targets
 #-----------
 # Link
-final: final.o CSCIx229.a
-	g++ -o $@ $^ $(CFLAGS) $(LIBS) -I $(LIBDIR)
+final: final.o CSCIx229.a MainLib.a
+	g++ -o $@ $^ $(CFLAGS) $(LIBS) $(INCLUDE)
 
 # Clean
 clean:
