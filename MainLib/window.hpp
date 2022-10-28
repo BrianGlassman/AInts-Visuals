@@ -7,3 +7,4 @@ static int windowHeight = 900;
 static GLint win = 0;
 
 void CreateWindow();
+void reshape(int width,int height);
