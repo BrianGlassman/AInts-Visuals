@@ -57,7 +57,7 @@ window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp
 #----------------
 CSCIx229.a:fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
-MainLib.a:window.o
+MainLib.a:window.o display.o
 	ar -rcs $@ $^
 
 #---------------
