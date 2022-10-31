@@ -50,6 +50,8 @@ print.o: $(CLIBDIR)/print.c $(CLIBDIR)/CSCIx229.h
 loadtexbmp.o: $(CLIBDIR)/loadtexbmp.c $(CLIBDIR)/CSCIx229.h
 loadobj.o: $(CLIBDIR)/loadobj.c $(CLIBDIR)/CSCIx229.h
 # MainLib
+display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp
+input.o: $(MLIBDIR)/input.cpp $(MLIBDIR)/input.hpp
 window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp
 
 #----------------
@@ -57,7 +59,7 @@ window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp
 #----------------
 CSCIx229.a:fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
-MainLib.a:window.o display.o
+MainLib.a:window.o display.o input.o
 	ar -rcs $@ $^
 
 #---------------

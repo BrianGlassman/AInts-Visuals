@@ -8,8 +8,9 @@
 #include <math.h>
 
 #include "final.hpp"
-#include "window.hpp"
 #include "display.hpp"
+#include "input.hpp"
+#include "window.hpp"
 
 static void init(int argc, char* argv[])
 {
@@ -40,9 +41,9 @@ void SetCallbacks()
 	glutDisplayFunc(display);
     //FIXME
 	glutReshapeFunc(reshape);
-	//glutKeyboardFunc(key);
-	//glutPassiveMotionFunc(mouse); // callback for when mouse is moved in window
+	glutKeyboardFunc(key);
 	//glutSpecialFunc(special);
+	//glutPassiveMotionFunc(mouse); // callback for when mouse is moved in window
 	glutVisibilityFunc(visible);
 
     ErrCheck("SetCallbacks");

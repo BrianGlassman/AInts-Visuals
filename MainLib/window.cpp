@@ -9,7 +9,12 @@ void CreateWindow()
     ErrCheck("CreateWindow");
 }
 
-static void Project()
+void Cleanup(void)
+{
+	glutDestroyWindow(win);
+}
+
+void Project()
 {
     int viewMode;
 	/* Reference: In-class Ex 9

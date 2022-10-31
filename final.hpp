@@ -8,4 +8,3 @@
 // Init stuff
 static void init(int argc, char* argv[]);
 void SetCallbacks();
-// Interface
