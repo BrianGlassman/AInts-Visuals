@@ -2,6 +2,9 @@
 #include "input.hpp"
 #include "window.hpp"
 
+float mouse_x = 0.5f;
+float mouse_y = 0.5f;
+
 /*
  * Process standard keys
  */
@@ -154,10 +157,8 @@ void special(int k, int x, int y)
  * Process mouse movement
  * Output is fraction of window
  */
-/*
 void mouse(int x, int y)
 {
-	mouse_x = x / _width - 0.5;
-	mouse_y = y / _height - 0.5;
+	mouse_x = (float)x / windowWidth - 0.5;
+	mouse_y = (float)y / windowHeight - 0.5;
 }
-*/

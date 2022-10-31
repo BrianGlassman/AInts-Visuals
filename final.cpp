@@ -43,7 +43,7 @@ void SetCallbacks()
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(key);
 	//glutSpecialFunc(special);
-	//glutPassiveMotionFunc(mouse); // callback for when mouse is moved in window
+	glutPassiveMotionFunc(mouse);
 	glutVisibilityFunc(visible);
 
     ErrCheck("SetCallbacks");
