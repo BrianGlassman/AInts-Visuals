@@ -10,6 +10,7 @@
 #include "final.hpp"
 #include "display.hpp"
 #include "input.hpp"
+#include "util.hpp"
 #include "window.hpp"
 
 static void init(int argc, char* argv[])

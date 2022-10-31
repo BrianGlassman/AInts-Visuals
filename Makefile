@@ -42,14 +42,14 @@ endif
 #--------------
 # Dependencies
 #--------------
-# CSCIx229
+#--- CSCIx229 ---
 final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h
 fatal.o: $(CLIBDIR)/fatal.c $(CLIBDIR)/CSCIx229.h
 errcheck.o: $(CLIBDIR)/errcheck.c $(CLIBDIR)/CSCIx229.h
 print.o: $(CLIBDIR)/print.c $(CLIBDIR)/CSCIx229.h
 loadtexbmp.o: $(CLIBDIR)/loadtexbmp.c $(CLIBDIR)/CSCIx229.h
 loadobj.o: $(CLIBDIR)/loadobj.c $(CLIBDIR)/CSCIx229.h
-# MainLib
+#--- MainLib ---
 display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp $(MLIBDIR)/input.o
 input.o: $(MLIBDIR)/input.cpp $(MLIBDIR)/input.hpp
 window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp
@@ -59,7 +59,7 @@ window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp
 #----------------
 CSCIx229.a:fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
-MainLib.a:window.o display.o input.o
+MainLib.a:display.o input.o util.o window.o
 	ar -rcs $@ $^
 
 #---------------
