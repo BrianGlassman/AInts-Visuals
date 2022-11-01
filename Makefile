@@ -51,7 +51,7 @@ loadtexbmp.o: $(CLIBDIR)/loadtexbmp.c $(CLIBDIR)/CSCIx229.h
 loadobj.o: $(CLIBDIR)/loadobj.c $(CLIBDIR)/CSCIx229.h
 #--- MainLib ---
 Chamber.o: $(MLIBDIR)/Chamber.cpp $(MLIBDIR)/Chamber.hpp
-display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp Tunnel.o Chamber.o
+display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp
 input.o: $(MLIBDIR)/input.cpp $(MLIBDIR)/input.hpp
 textures.o: $(MLIBDIR)/textures.cpp $(MLIBDIR)/textures.hpp
 Tunnel.o: $(MLIBDIR)/Tunnel.cpp $(MLIBDIR)/Tunnel.hpp

@@ -14,6 +14,11 @@
 #include "window.hpp"
 #include "textures.hpp"
 
+#include "Chamber.hpp"
+#include "Tunnel.hpp"
+
+
+Model* displayModelPtr;
 
 
 #define LIGHT_SRC GL_LIGHT0
@@ -99,6 +104,11 @@ void SetCallbacks()
 
 int main(int argc, char* argv[])
 {
+	// Create the scene
+	Chamber chamber;
+	Tunnel tunnel;
+	displayModelPtr = &tunnel;
+
 	init(argc, argv);
 
 	SetCallbacks();

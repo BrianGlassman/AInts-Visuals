@@ -3,7 +3,7 @@
 #include "CSCIx229.h"
 #include "util.hpp" // Model class
 
-class Chamber : Model
+class Chamber : public Model
 {
 public:
     void Draw();

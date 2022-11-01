@@ -3,7 +3,7 @@
 #include "CSCIx229.h"
 #include "util.hpp" // Model class
 
-class Tunnel : Model
+class Tunnel : public Model
 {
 public:
 	void Draw();
