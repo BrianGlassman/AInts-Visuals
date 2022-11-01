@@ -2,6 +2,7 @@
 #include "util.hpp"
 #include "display.hpp"
 #include "input.hpp"
+#include "Tunnel.hpp"
 
 static float view_rotx, view_roty, view_rotz;
 
@@ -49,9 +50,8 @@ void RotateView()
 
 void DrawScene()
 {
-	// TODO get rid of this
-	static Cylinder cylinder;
-	cylinder.Draw();
+	static Tunnel tunnel;
+	tunnel.Draw();
 }
 
 void display()

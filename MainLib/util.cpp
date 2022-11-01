@@ -11,18 +11,6 @@ void Polar2Cart(float radius, float theta, float* x_out, float* y_out)
 
 Cylinder::Cylinder()
 {
-    center[0] = 0.0f;
-    center[1] = 0.0f;
-    center[2] = 0.0f;
-
-    top = true;
-    sides = true;
-    bottom = true;
-
-    radius = 0.5f;
-    height = 1.0f;
-
-    n = 12;
 }
 
 void Cylinder::Draw()
@@ -79,4 +67,18 @@ void Cylinder::Draw()
             } glEnd();
         }
     } glPopMatrix();
+}
+
+void Cylinder::SetTopCenter(float x, float y, float z)
+{
+    center[0] = x;
+    center[1] = y - height / 2.0f;
+    center[2] = z;
+}
+
+void Cylinder::SetBottomCenter(float x, float y, float z)
+{
+    center[0] = x;
+    center[1] = y + height / 2.0f;
+    center[2] = z;
 }

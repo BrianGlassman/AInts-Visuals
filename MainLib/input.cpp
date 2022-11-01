@@ -2,8 +2,8 @@
 #include "input.hpp"
 #include "window.hpp"
 
-float mouse_x = 0.5f;
-float mouse_y = 0.5f;
+float mouse_x = windowWidth * 0.5f;
+float mouse_y = windowHeight * 0.5f;
 
 /*
  * Process standard keys

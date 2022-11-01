@@ -1,3 +1,5 @@
+#pragma once
+
 #include "CSCIx229.h"
 
 #define ORIGIN 0.0, 0.0, 0.0
@@ -5,18 +7,28 @@
 #define Y_AXIS 0.0, 1.0, 0.0
 #define Z_AXIS 0.0, 0.0, 1.0
 
-class Cylinder
+// Abstract class
+class Model
+{
+public:
+    float center[3] = {0.0f, 0.0f, 0.0f};
+
+    virtual void Draw() = 0; // = 0 makes it pure virtual
+};
+
+class Cylinder : Model
 {
 public:
     Cylinder();
 
-    float center[3];
-    bool top;
-    bool sides;
-    bool bottom;
-    float radius;
-    float height;
-    int n;
+    bool top = true;
+    bool sides = true;
+    bool bottom = true;
+    float radius = 0.5f;
+    float height = 1.0f;
+    int n = 12;
 
     void Draw();
+    void SetTopCenter(float x, float y, float z);
+    void SetBottomCenter(float x, float y, float z);
 };

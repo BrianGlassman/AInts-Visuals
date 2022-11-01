@@ -50,16 +50,17 @@ print.o: $(CLIBDIR)/print.c $(CLIBDIR)/CSCIx229.h
 loadtexbmp.o: $(CLIBDIR)/loadtexbmp.c $(CLIBDIR)/CSCIx229.h
 loadobj.o: $(CLIBDIR)/loadobj.c $(CLIBDIR)/CSCIx229.h
 #--- MainLib ---
-display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp $(MLIBDIR)/input.o
+display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp Tunnel.o
 input.o: $(MLIBDIR)/input.cpp $(MLIBDIR)/input.hpp
 window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp
+Tunnel.o: $(MLIBDIR)/Tunnel.cpp $(MLIBDIR)/Tunnel.hpp
 
 #----------------
 # Create archive
 #----------------
 CSCIx229.a:fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
-MainLib.a:display.o input.o util.o window.o
+MainLib.a:display.o input.o util.o window.o Tunnel.o
 	ar -rcs $@ $^
 
 #---------------
