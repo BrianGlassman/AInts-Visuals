@@ -9,7 +9,8 @@
 
 CLIBDIR=CSCIx229
 MLIBDIR=MainLib
-INCLUDE=-I $(CLIBDIR) -I $(MLIBDIR)
+STCRDIR=Structures
+INCLUDE=-I $(CLIBDIR) -I $(MLIBDIR) -I $(STCRDIR)
 
 # Default target
 all: final
@@ -50,15 +51,15 @@ print.o: $(CLIBDIR)/print.c $(CLIBDIR)/CSCIx229.h
 loadtexbmp.o: $(CLIBDIR)/loadtexbmp.c $(CLIBDIR)/CSCIx229.h
 loadobj.o: $(CLIBDIR)/loadobj.c $(CLIBDIR)/CSCIx229.h
 #--- MainLib ---
-Chamber.o: $(MLIBDIR)/Chamber.cpp $(MLIBDIR)/Chamber.hpp util.o
 display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp
 input.o: $(MLIBDIR)/input.cpp $(MLIBDIR)/input.hpp
 textures.o: $(MLIBDIR)/textures.cpp $(MLIBDIR)/textures.hpp
-Tunnel.o: $(MLIBDIR)/Tunnel.cpp $(MLIBDIR)/Tunnel.hpp util.o
 util.o: $(MLIBDIR)/util.cpp $(MLIBDIR)/util.hpp
 window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp
 #--- Structures ---
-Colony.o: $(MLIBDIR)/Colony.cpp $(MLIBDIR)/Colony.hpp util.o
+Chamber.o: $(STCRDIR)/Chamber.cpp $(STCRDIR)/Chamber.hpp util.o
+Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp util.o
+Tunnel.o: $(STCRDIR)/Tunnel.cpp $(STCRDIR)/Tunnel.hpp util.o
 
 #----------------
 # Create archive
@@ -78,6 +79,10 @@ MainLib.a:Colony.o Chamber.o display.o input.o textures.o Tunnel.o util.o window
 %.o: $(MLIBDIR)/%.c
 	gcc -c $(CFLAGS) $< $(INCLUDE)
 %.o: $(MLIBDIR)/%.cpp
+	g++ -c $(CFLAGS) $< $(INCLUDE)
+%.o: $(STCRDIR)/%.c
+	gcc -c $(CFLAGS) $< $(INCLUDE)
+%.o: $(STCRDIR)/%.cpp
 	g++ -c $(CFLAGS) $< $(INCLUDE)
 %.o: %.c
 	gcc -c $(CFLAGS) $< $(INCLUDE)
