@@ -42,6 +42,18 @@ void DrawLitQuad(const float A[], const float B[], const float C[], const float 
 	glEnd();
 }
 
+Model::Model()
+{
+	type = 1;
+}
+
+Model::~Model() {}
+
+void Model::Draw()
+{
+	fprintf(stdout, "PROBLEM base draw\n");
+}
+
 Cylinder::Cylinder()
 {
 }

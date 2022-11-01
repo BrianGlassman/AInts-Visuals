@@ -1,5 +1,10 @@
 #include "Tunnel.hpp"
 
+Tunnel::Tunnel()
+{
+	type = 2;
+}
+
 void Tunnel::Draw()
 {
 	glPushMatrix(); {

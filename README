@@ -9,3 +9,7 @@ Escape to exit
 
 Texture sources:
 dirtGroundTileable - https://www.deviantart.com/fabooguy/art/Dirt-Ground-Texture-Tileable-2048x2048-441212191
+
+Code references:
+Class slides, examples, and library
+Polymorphic list - https://stackoverflow.com/questions/17532076/whats-the-preferred-c-idiom-to-own-a-collection-of-polymorphic-objects

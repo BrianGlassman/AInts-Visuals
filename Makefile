@@ -42,28 +42,30 @@ endif
 #--------------
 # Dependencies
 #--------------
+final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h MainLib.a
 #--- CSCIx229 ---
-final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h
 fatal.o: $(CLIBDIR)/fatal.c $(CLIBDIR)/CSCIx229.h
 errcheck.o: $(CLIBDIR)/errcheck.c $(CLIBDIR)/CSCIx229.h
 print.o: $(CLIBDIR)/print.c $(CLIBDIR)/CSCIx229.h
 loadtexbmp.o: $(CLIBDIR)/loadtexbmp.c $(CLIBDIR)/CSCIx229.h
 loadobj.o: $(CLIBDIR)/loadobj.c $(CLIBDIR)/CSCIx229.h
 #--- MainLib ---
-Chamber.o: $(MLIBDIR)/Chamber.cpp $(MLIBDIR)/Chamber.hpp
+Chamber.o: $(MLIBDIR)/Chamber.cpp $(MLIBDIR)/Chamber.hpp util.o
 display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp
 input.o: $(MLIBDIR)/input.cpp $(MLIBDIR)/input.hpp
 textures.o: $(MLIBDIR)/textures.cpp $(MLIBDIR)/textures.hpp
-Tunnel.o: $(MLIBDIR)/Tunnel.cpp $(MLIBDIR)/Tunnel.hpp
+Tunnel.o: $(MLIBDIR)/Tunnel.cpp $(MLIBDIR)/Tunnel.hpp util.o
 util.o: $(MLIBDIR)/util.cpp $(MLIBDIR)/util.hpp
 window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp
+#--- Structures ---
+Colony.o: $(MLIBDIR)/Colony.cpp $(MLIBDIR)/Colony.hpp util.o
 
 #----------------
 # Create archive
 #----------------
 CSCIx229.a:fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
-MainLib.a:Chamber.o display.o input.o textures.o Tunnel.o util.o window.o 
+MainLib.a:Colony.o Chamber.o display.o input.o textures.o Tunnel.o util.o window.o 
 	ar -rcs $@ $^
 
 #---------------

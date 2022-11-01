@@ -13,9 +13,13 @@ void DrawLitQuad(const float A[], const float B[], const float C[], const float 
 class Model
 {
 public:
+	Model();
+	virtual ~Model(); // Need a virtual destructor for polymorphics
+	int type;
+	
 	float center[3] = {0.0f, 0.0f, 0.0f};
 
-	virtual void Draw() = 0; // = 0 makes it pure virtual
+	virtual void Draw();
 };
 
 class Cylinder : Model

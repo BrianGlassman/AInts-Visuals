@@ -14,7 +14,7 @@
 #include "window.hpp"
 #include "textures.hpp"
 
-#include "Chamber.hpp"
+#include "Colony.hpp"
 #include "Tunnel.hpp"
 
 
@@ -102,12 +102,51 @@ void SetCallbacks()
 	ErrCheck("SetCallbacks");
 }
 
+void PopulateColony(Colony& colony)
+{
+	float tunnelCoords[][3] = {
+		// Base layer
+		{0, 0, 0},
+		{0, 0, 1},
+		{0, 0, 2},
+		{1, 0, 2},
+
+		// Up shaft
+		{0, 1, 0},
+		{0, 2, 0},
+		{0, 3, 0},
+		{-1, 3, 0},
+	};
+
+	float chamberCoords[][3] = {
+		// Individual chambers
+		{-1, 0, 0},
+		{1, 2, 0},
+		{0, -1, 2},
+
+		// Grouped chambers
+		{1, 0, 0},
+		{2, 0, 0},
+		{1, 0, 1},
+		{2, 0, 1},
+	};
+
+	for (auto& i : tunnelCoords)
+	{
+		colony.AddTunnel(i);
+	}
+	for (auto& i : chamberCoords)
+	{
+		colony.AddChamber(i);
+	}
+}
+
 int main(int argc, char* argv[])
 {
-	// Create the scene
-	Chamber chamber;
-	Tunnel tunnel;
-	displayModelPtr = &tunnel;
+	// Create the colony to be displayed
+	Colony colony;
+	PopulateColony(colony);
+	displayModelPtr = &colony;
 
 	init(argc, argv);
 

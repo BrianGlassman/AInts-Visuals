@@ -6,6 +6,7 @@
 class Tunnel : public Model
 {
 public:
+	Tunnel();
 	void Draw();
 
 	float radius = 0.1f;
