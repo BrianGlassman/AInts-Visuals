@@ -7,6 +7,8 @@
 #define Y_AXIS 0.0, 1.0, 0.0
 #define Z_AXIS 0.0, 0.0, 1.0
 
+void DrawLitQuad(const float A[], const float B[], const float C[], const float D[]);
+
 // Abstract class
 class Model
 {
@@ -31,4 +33,24 @@ public:
     void Draw();
     void SetTopCenter(float x, float y, float z);
     void SetBottomCenter(float x, float y, float z);
+};
+
+class Cube : Model
+{
+public:
+    Cube();
+
+    bool   right = true; // +X
+    bool    left = true; // -X
+    bool     top = true; // +Y
+    bool  bottom = true; // -Y
+    bool forward = true; // +Z
+    bool    back = true; // -Z
+
+    // Internal (i.e. center to wall) distance
+    float radius = 0.5f;
+
+    void Draw();
+private:
+    unsigned char sides;
 };
