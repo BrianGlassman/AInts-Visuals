@@ -165,3 +165,10 @@ void mouse(int x, int y)
 
 	// DEBUG fprintf(stdout, "(%f, %f) = %d / %d - 0.5, %d / %d - 0.5\n", mouse_x, mouse_y, x, windowWidth, y, windowHeight);
 }
+
+void SetInputCallbacks()
+{
+	glutKeyboardFunc(key);
+	//glutSpecialFunc(special);
+	glutPassiveMotionFunc(mouse);
+}

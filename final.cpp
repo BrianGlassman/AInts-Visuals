@@ -90,10 +90,9 @@ void SetCallbacks()
 	glutDisplayFunc(display);
     //FIXME
 	glutReshapeFunc(reshape);
-	glutKeyboardFunc(key);
-	//glutSpecialFunc(special);
-	glutPassiveMotionFunc(mouse);
 	glutVisibilityFunc(visible);
+
+	SetInputCallbacks();
 
     ErrCheck("SetCallbacks");
 }
