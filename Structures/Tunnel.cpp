@@ -4,6 +4,17 @@ Tunnel::Tunnel()
 {
 	type = 2;
 }
+Tunnel::Tunnel(unsigned char sides)
+{
+	Tunnel();
+
+	forward = sides & 1;
+	back = sides & 2;
+	top = sides & 4;
+	bottom = sides & 8;
+	right = sides & 16;
+	left = sides & 32;
+}
 
 void Tunnel::Draw()
 {

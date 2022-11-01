@@ -33,7 +33,8 @@ CFLAGS=-O3 -Wall -Wno-deprecated-declarations -Wextra -DRES=$(RES) -Wno-unused-p
 LIBS=-framework GLUT -framework OpenGL
 #  Linux/Unix/Solaris
 else
-CFLAGS=-O3 -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable
+CFLAGS=-O3 -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-narrowing
+# FIXME turned off narrowing for the manual way of setting tunnel connections. Should be turned back on once auto-gen is implemented
 LIBS=-lglut -lGLU -lGL -lm
 endif
 #  OSX/Linux/Unix/Solaris

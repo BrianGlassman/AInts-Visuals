@@ -116,6 +116,25 @@ void PopulateColony(Colony& colony)
 		{-1, 3, 0},
 	};
 
+	unsigned char f = 1;
+	unsigned char b = 2;
+	unsigned char u = 4;
+	unsigned char d = 8;
+	unsigned char l = 16;
+	unsigned char r = 32;
+
+	unsigned char tunnelCon[] = {
+		f+r+l+u,
+		f+b+r,
+		b+r+d,
+		b+l,
+
+		u+d,
+		u+d+r,
+		d+l,
+		u+r,
+	};
+
 	float chamberCoords[][3] = {
 		// Individual chambers
 		{-1, 0, 0},
@@ -129,9 +148,9 @@ void PopulateColony(Colony& colony)
 		{2, 0, 1},
 	};
 
-	for (auto& i : tunnelCoords)
+	for (int i = 0; i < 8; i++)
 	{
-		colony.AddTunnel(i);
+		colony.AddTunnel(tunnelCoords[i], tunnelCon[i]);
 	}
 	for (auto& i : chamberCoords)
 	{
@@ -140,7 +159,7 @@ void PopulateColony(Colony& colony)
 
 	colony.AddHill(-1, 4, 0);
 
-	colony.center[1] = -2;
+	colony.center[1] = -1;
 }
 
 int main(int argc, char* argv[])

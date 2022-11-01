@@ -7,6 +7,8 @@ class Tunnel : public Model
 {
 public:
 	Tunnel();
+	// FIXME temporary convenience until auto-generating is implemented
+	Tunnel(unsigned char sides);
 	void Draw();
 
 	float radius = 0.1f;

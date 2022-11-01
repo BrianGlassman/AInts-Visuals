@@ -12,6 +12,8 @@ public:
     Colony();
     void Draw();
     void AddTunnel(float center[3]);
+    // FIXME temporary convenience until auto-generating is implemented
+    void AddTunnel(float center[3], unsigned char sides);
     void AddTunnel(float x, float y, float z);
     void AddChamber(float center[3]);
     void AddChamber(float x, float y, float z);

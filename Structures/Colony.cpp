@@ -32,6 +32,11 @@ void Colony::AddTunnel(float center[3])
     std::shared_ptr<Model> ptr = std::make_shared<Tunnel>();
     AddModel(ptr, center);
 }
+void Colony::AddTunnel(float center[3], unsigned char sides)
+{
+    std::shared_ptr<Model> ptr = std::make_shared<Tunnel>(sides);
+    AddModel(ptr, center);
+}
 void Colony::AddTunnel(float x, float y, float z)
 {
     float coords[] = {x, y, z};
