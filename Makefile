@@ -58,15 +58,19 @@ util.o: $(MLIBDIR)/util.cpp $(MLIBDIR)/util.hpp
 window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp
 #--- Structures ---
 Chamber.o: $(STCRDIR)/Chamber.cpp $(STCRDIR)/Chamber.hpp util.o
-Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp util.o
+Hill.o: $(STCRDIR)/Hill.cpp $(STCRDIR)/Hill.hpp util.o
 Tunnel.o: $(STCRDIR)/Tunnel.cpp $(STCRDIR)/Tunnel.hpp util.o
+# Colony needs to depend on all the other Structures
+Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp util.o Chamber.o Hill.o Tunnel.o
 
 #----------------
 # Create archive
 #----------------
-CSCIx229.a:fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
+CSCIx229.a: fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
-MainLib.a:Colony.o Chamber.o display.o input.o textures.o Tunnel.o util.o window.o 
+MainLib.a: display.o input.o textures.o util.o window.o 
+	ar -rcs $@ $^
+Structures.a: Chamber.o Colony.o Hill.o Tunnel.o
 	ar -rcs $@ $^
 
 #---------------
@@ -93,7 +97,7 @@ MainLib.a:Colony.o Chamber.o display.o input.o textures.o Tunnel.o util.o window
 #  Targets
 #-----------
 # Link
-final: final.o CSCIx229.a MainLib.a
+final: final.o CSCIx229.a MainLib.a Structures.a
 	g++ -o $@ $^ $(CFLAGS) $(LIBS) $(INCLUDE)
 
 # Clean

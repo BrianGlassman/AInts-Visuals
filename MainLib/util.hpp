@@ -7,6 +7,8 @@
 #define Y_AXIS 0.0, 1.0, 0.0
 #define Z_AXIS 0.0, 0.0, 1.0
 
+void Polar2Cart(float radius, float theta, float* x_out, float* y_out);
+
 void DrawLitQuad(const float A[], const float B[], const float C[], const float D[]);
 
 // Abstract class

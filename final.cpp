@@ -15,15 +15,13 @@
 #include "textures.hpp"
 
 #include "Colony.hpp"
-#include "Tunnel.hpp"
-
 
 Model* displayModelPtr;
 
 
 #define LIGHT_SRC GL_LIGHT0
 #define AMBIENT GL_LIGHT1
-float ambient_level = 0.1;
+float ambient_level = 0.6;
 float diffuse_level = 0.45;
 float specular_level = 0.7;
 #define SHINY_DEFAULT 10
@@ -139,6 +137,10 @@ void PopulateColony(Colony& colony)
 	{
 		colony.AddChamber(i);
 	}
+
+	colony.AddHill(-1, 4, 0);
+
+	colony.center[1] = -2;
 }
 
 int main(int argc, char* argv[])

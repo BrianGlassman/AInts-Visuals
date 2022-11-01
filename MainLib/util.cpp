@@ -100,11 +100,13 @@ void Cylinder::Draw()
  	 	}
 
  	 	// Bottom
+		// FIXME texture is probably swirly
  	 	if (bottom)
  	 	{
  	 	 	glBegin(GL_TRIANGLE_FAN); {
  	 	 	 	glNormal3f(0, -1, 0);
- 	 	 	 	glVertex3d(0, -height/2.0f, 0);
+            	glTexCoord2f(0.5, 0.5);
+ 	 	 	 	glVertex3d(0, 0, 0);
  	 	 	 	float x, z;
  	 	 	 	for (int theta=0; theta <= 360; theta += (360 / n))
  	 	 	 	{
