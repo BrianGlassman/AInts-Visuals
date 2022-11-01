@@ -1,5 +1,9 @@
 #include "window.hpp"
 
+int windowWidth = 900;
+int windowHeight = 900;
+GLint win = 0;
+
 void CreateWindow()
 {
 	glutInitWindowPosition(0, 0);

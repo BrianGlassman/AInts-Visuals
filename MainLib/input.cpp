@@ -153,6 +153,7 @@ void special(int k, int x, int y)
 }
 */
 
+
 /*
  * Process mouse movement
  * Output is fraction of window
@@ -161,4 +162,6 @@ void mouse(int x, int y)
 {
 	mouse_x = (float)x / windowWidth - 0.5;
 	mouse_y = (float)y / windowHeight - 0.5;
+
+	// DEBUG fprintf(stdout, "(%f, %f) = %d / %d - 0.5, %d / %d - 0.5\n", mouse_x, mouse_y, x, windowWidth, y, windowHeight);
 }

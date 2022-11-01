@@ -2,9 +2,9 @@
 
 #include "CSCIx229.h"
 
-static int windowWidth = 900;
-static int windowHeight = 900;
-static GLint win = 0;
+extern int windowWidth;
+extern int windowHeight;
+extern GLint win;
 
 void CreateWindow();
 void Cleanup();
