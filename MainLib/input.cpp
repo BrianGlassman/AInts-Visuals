@@ -4,6 +4,7 @@
 
 float mouse_x = windowWidth * 0.5f;
 float mouse_y = windowHeight * 0.5f;
+float mouse_zoom = 1;
 
 /*
  * Process standard keys
@@ -158,7 +159,7 @@ void special(int k, int x, int y)
  * Process mouse movement
  * Output is fraction of window
  */
-void mouse(int x, int y)
+void mouseMovement(int x, int y)
 {
 	mouse_x = (float)x / windowWidth - 0.5;
 	mouse_y = (float)y / windowHeight - 0.5;
@@ -166,9 +167,40 @@ void mouse(int x, int y)
 	// DEBUG fprintf(stdout, "(%f, %f) = %d / %d - 0.5, %d / %d - 0.5\n", mouse_x, mouse_y, x, windowWidth, y, windowHeight);
 }
 
+/*
+ * Process mouse buttons and scroll wheel
+ * References:
+ *   https://community.khronos.org/t/processing-mouse-wheel-actions/55776/3
+ *   https://www.opengl.org/resources/libraries/glut/spec3/node50.html
+ */
+float zoomSpeed = 0.05;
+void mouseAction(int button, int state, int x, int y)
+{
+	switch(button)
+	{
+	case 3: // Wheel down - zoom out
+		mouse_zoom -= zoomSpeed;
+		break;
+	case 4: // Wheel up - zoom in
+		mouse_zoom += zoomSpeed;
+		break;
+	default:
+		return;
+	}
+
+	// FIXME
+	if (mouse_zoom < 0.1)
+	{
+		mouse_zoom = 0.1;
+	}
+
+	Project();
+}
+
 void SetInputCallbacks()
 {
 	glutKeyboardFunc(key);
 	//glutSpecialFunc(special);
-	glutPassiveMotionFunc(mouse);
+	glutPassiveMotionFunc(mouseMovement);
+	glutMouseFunc(mouseAction);
 }

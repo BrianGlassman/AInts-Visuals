@@ -1,4 +1,5 @@
 #include "window.hpp"
+#include "input.hpp"
 
 int windowWidth = 900;
 int windowHeight = 900;
@@ -45,7 +46,7 @@ void Project()
             // TODO scale based on the smaller of width/height rather than always using height
 			double asp = (windowHeight>0) ? (double)windowWidth/windowHeight : 1;
 			// glOrtho(left, right, bottom, top, near, far)
-            int maxMag = 2; // FIXME
+            float maxMag = 2 * mouse_zoom; // FIXME
 			glOrtho(-asp*maxMag, +asp*maxMag, -maxMag, +maxMag, -maxMag, +maxMag);
 		}
 		break;
