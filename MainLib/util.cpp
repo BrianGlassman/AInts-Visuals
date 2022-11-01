@@ -50,19 +50,22 @@ void Cylinder::Draw()
 {
     glPushMatrix(); {
         glTranslatef(center[0], center[1], center[2]);
+        glScalef(radius, height, radius);
+        glTranslatef(0, -0.5, 0);
 
         // Top
         if (top)
         {
             glBegin(GL_TRIANGLE_FAN); {
                 glNormal3f(0, 1, 0);
-                glVertex3d(0, height/2.0f, 0);
+                glTexCoord2f(0.5, 0.5);
+                glVertex3d(0, 1, 0);
                 float x, z;
                 for (int theta=360; theta >= 0; theta -= (360 / n))
                 {
-                    Polar2Cart(radius, theta, &x, &z);
-                    glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
-                    glVertex3d(x, height/2.0f, z);
+                    Polar2Cart(1, theta, &x, &z);
+                    glTexCoord2f(0.5*(1 + x), 0.5*(1 + z));
+                    glVertex3d(x, 1, z);
                 }
             } glEnd();
         }
@@ -74,12 +77,12 @@ void Cylinder::Draw()
                 float x, z;
                 for (int theta=0; theta <= 360; theta += (360 / n))
                 {
-                    Polar2Cart(radius, theta, &x, &z);
+                    Polar2Cart(1, theta, &x, &z);
                     glNormal3f(x, 0, z);
                     glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
-                    glVertex3d(x, -height/2.0f, z);
+                    glVertex3d(x, 0, z);
                     glTexCoord2f(M_PI * theta / 360.0f, 1.0f);
-                    glVertex3d(x,  height/2.0f, z);
+                    glVertex3d(x, 1, z);
                 }
             } glEnd();
         }
@@ -93,9 +96,9 @@ void Cylinder::Draw()
                 float x, z;
                 for (int theta=0; theta <= 360; theta += (360 / n))
                 {
-                    Polar2Cart(radius, theta, &x, &z);
-                    glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
-                    glVertex3d(x, -height/2.0f, z);
+                    Polar2Cart(1, theta, &x, &z);
+                    glTexCoord2f(0.5*(1 + x), 0.5*(1 + z));
+                    glVertex3d(x, 0, z);
                 }
             } glEnd();
         }
@@ -153,7 +156,6 @@ void Cube::Draw()
 		glTranslatef(center[0], center[1], center[2]); // Translate to chosen center
 		glScalef(radius*2, radius*2, radius*2); // Apply scaling
 		glTranslatef(-0.5, -0.5, -0.5); // Center at target coords
-		glColor3f(1, 1, 0);
 		
 		for (int i=0; i<6; i++)
 		{

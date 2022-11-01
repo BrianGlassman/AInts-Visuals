@@ -47,7 +47,7 @@ void Project()
 			double asp = (windowHeight>0) ? (double)windowWidth/windowHeight : 1;
 			// glOrtho(left, right, bottom, top, near, far)
             float maxMag = 2 * mouse_zoom; // FIXME
-			glOrtho(-asp*maxMag, +asp*maxMag, -maxMag, +maxMag, -maxMag, +maxMag);
+			glOrtho(-asp*maxMag, +asp*maxMag, -maxMag, +maxMag, -maxMag*1.5, +maxMag*1.5);
 		}
 		break;
 	}
