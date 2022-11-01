@@ -153,6 +153,7 @@ void Cube::Draw()
 		glTranslatef(center[0], center[1], center[2]); // Translate to chosen center
 		glScalef(radius*2, radius*2, radius*2); // Apply scaling
 		glTranslatef(-0.5, -0.5, -0.5); // Center at target coords
+		glColor3f(1, 1, 0);
 		
 		for (int i=0; i<6; i++)
 		{

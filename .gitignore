@@ -3,3 +3,5 @@ final
 *.a
 
 .vscode
+
+_reference
