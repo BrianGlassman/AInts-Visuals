@@ -13,7 +13,7 @@ float mouse_zoom = 1;
 void key(unsigned char k, int x, int y)
 {
 	switch (k) {
-    /*
+	/*
 	// Movement
 	case 'w':
 	case 'W':
@@ -84,13 +84,13 @@ void key(unsigned char k, int x, int y)
 	case '\\':
 		sceneMode = SCENE_MAIN;
 		break;
-    */
+	*/
 	case 27: // Escape - exit
 		Cleanup();
 		fprintf(stdout, "User exit\n");
 		exit(0);
 		break;
-    /*
+	/*
 	case 32: // Space - reset view
 		if (viewMode == VIEW_FIRST)
 		{
@@ -105,12 +105,12 @@ void key(unsigned char k, int x, int y)
 			view_rotz = 0.0;
 		}
 		break;
-    */
+	*/
 	default:
 		return;
 	}
 	
-    /*
+	/*
 	// Clamp view mode
 	if (viewMode > VIEW_FIRST) viewMode = VIEW_ORTHO;
 	
@@ -124,7 +124,7 @@ void key(unsigned char k, int x, int y)
 	reshape(_width, _height);
 	
 	glutPostRedisplay();
-    */
+	*/
 }
 
 /*

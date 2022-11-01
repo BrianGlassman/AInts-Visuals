@@ -61,7 +61,7 @@ static void init(int argc, char* argv[])
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 	
 	// Window
-    CreateWindow();
+	CreateWindow();
 	
 	#ifdef USEGLEW
 		if (glewInit() != GLEW_OK)
@@ -88,20 +88,20 @@ static void init(int argc, char* argv[])
 void SetCallbacks()
 {
 	glutDisplayFunc(display);
-    //FIXME
+	//FIXME
 	glutReshapeFunc(reshape);
 	glutVisibilityFunc(visible);
 
 	SetInputCallbacks();
 
-    ErrCheck("SetCallbacks");
+	ErrCheck("SetCallbacks");
 }
 
 int main(int argc, char* argv[])
 {
 	init(argc, argv);
 
-    SetCallbacks();
+	SetCallbacks();
 
 	// Run display and reshape to zoom to fit
 	display();

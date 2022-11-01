@@ -48,83 +48,83 @@ Cylinder::Cylinder()
 
 void Cylinder::Draw()
 {
-    glPushMatrix(); {
-        glTranslatef(center[0], center[1], center[2]);
-        glScalef(radius, height, radius);
-        glTranslatef(0, -0.5, 0);
+ 	glPushMatrix(); {
+ 	 	glTranslatef(center[0], center[1], center[2]);
+ 	 	glScalef(radius, height, radius);
+ 	 	glTranslatef(0, -0.5, 0);
 
-        // Top
-        if (top)
-        {
-            glBegin(GL_TRIANGLE_FAN); {
-                glNormal3f(0, 1, 0);
-                glTexCoord2f(0.5, 0.5);
-                glVertex3d(0, 1, 0);
-                float x, z;
-                for (int theta=360; theta >= 0; theta -= (360 / n))
-                {
-                    Polar2Cart(1, theta, &x, &z);
-                    glTexCoord2f(0.5*(1 + x), 0.5*(1 + z));
-                    glVertex3d(x, 1, z);
-                }
-            } glEnd();
-        }
+ 	 	// Top
+ 	 	if (top)
+ 	 	{
+ 	 	 	glBegin(GL_TRIANGLE_FAN); {
+ 	 	 	 	glNormal3f(0, 1, 0);
+ 	 	 	 	glTexCoord2f(0.5, 0.5);
+ 	 	 	 	glVertex3d(0, 1, 0);
+ 	 	 	 	float x, z;
+ 	 	 	 	for (int theta=360; theta >= 0; theta -= (360 / n))
+ 	 	 	 	{
+ 	 	 	 	 	Polar2Cart(1, theta, &x, &z);
+ 	 	 	 	 	glTexCoord2f(0.5*(1 + x), 0.5*(1 + z));
+ 	 	 	 	 	glVertex3d(x, 1, z);
+ 	 	 	 	}
+ 	 	 	} glEnd();
+ 	 	}
 
-        // Sides
-        if (sides)
-        {
-            glBegin(GL_QUAD_STRIP); {
-                float x, z;
-                for (int theta=0; theta <= 360; theta += (360 / n))
-                {
-                    Polar2Cart(1, theta, &x, &z);
-                    glNormal3f(x, 0, z);
-                    glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
-                    glVertex3d(x, 0, z);
-                    glTexCoord2f(M_PI * theta / 360.0f, 1.0f);
-                    glVertex3d(x, 1, z);
-                }
-            } glEnd();
-        }
+ 	 	// Sides
+ 	 	if (sides)
+ 	 	{
+ 	 	 	glBegin(GL_QUAD_STRIP); {
+ 	 	 	 	float x, z;
+ 	 	 	 	for (int theta=0; theta <= 360; theta += (360 / n))
+ 	 	 	 	{
+ 	 	 	 	 	Polar2Cart(1, theta, &x, &z);
+ 	 	 	 	 	glNormal3f(x, 0, z);
+ 	 	 	 	 	glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
+ 	 	 	 	 	glVertex3d(x, 0, z);
+ 	 	 	 	 	glTexCoord2f(M_PI * theta / 360.0f, 1.0f);
+ 	 	 	 	 	glVertex3d(x, 1, z);
+ 	 	 	 	}
+ 	 	 	} glEnd();
+ 	 	}
 
-        // Bottom
-        if (bottom)
-        {
-            glBegin(GL_TRIANGLE_FAN); {
-                glNormal3f(0, -1, 0);
-                glVertex3d(0, -height/2.0f, 0);
-                float x, z;
-                for (int theta=0; theta <= 360; theta += (360 / n))
-                {
-                    Polar2Cart(1, theta, &x, &z);
-                    glTexCoord2f(0.5*(1 + x), 0.5*(1 + z));
-                    glVertex3d(x, 0, z);
-                }
-            } glEnd();
-        }
-    } glPopMatrix();
+ 	 	// Bottom
+ 	 	if (bottom)
+ 	 	{
+ 	 	 	glBegin(GL_TRIANGLE_FAN); {
+ 	 	 	 	glNormal3f(0, -1, 0);
+ 	 	 	 	glVertex3d(0, -height/2.0f, 0);
+ 	 	 	 	float x, z;
+ 	 	 	 	for (int theta=0; theta <= 360; theta += (360 / n))
+ 	 	 	 	{
+ 	 	 	 	 	Polar2Cart(1, theta, &x, &z);
+ 	 	 	 	 	glTexCoord2f(0.5*(1 + x), 0.5*(1 + z));
+ 	 	 	 	 	glVertex3d(x, 0, z);
+ 	 	 	 	}
+ 	 	 	} glEnd();
+ 	 	}
+ 	} glPopMatrix();
 }
 
 void Cylinder::SetTopCenter(float x, float y, float z)
 {
-    center[0] = x;
-    center[1] = y - height / 2.0f;
-    center[2] = z;
+ 	center[0] = x;
+ 	center[1] = y - height / 2.0f;
+ 	center[2] = z;
 }
 
 void Cylinder::SetBottomCenter(float x, float y, float z)
 {
-    center[0] = x;
-    center[1] = y + height / 2.0f;
-    center[2] = z;
+ 	center[0] = x;
+ 	center[1] = y + height / 2.0f;
+ 	center[2] = z;
 }
 
 Cube::Cube()
 {
-    sides = (
-        left * 32 + right * 16 +
-        bottom * 8 + top * 4 +
-        back * 2 + forward * 1);
+ 	sides = (
+ 	 	left * 32 + right * 16 +
+ 	 	bottom * 8 + top * 4 +
+ 	 	back * 2 + forward * 1);
 }
 
 void Cube::Draw()

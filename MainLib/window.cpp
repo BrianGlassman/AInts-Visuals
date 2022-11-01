@@ -11,7 +11,7 @@ void CreateWindow()
 	glutInitWindowSize(windowWidth, windowHeight);
 	win = glutCreateWindow("Brian Glassman - Graduate Final Project");
 
-    ErrCheck("CreateWindow");
+	ErrCheck("CreateWindow");
 }
 
 void Cleanup(void)
@@ -21,7 +21,7 @@ void Cleanup(void)
 
 void Project()
 {
-    int viewMode;
+	int viewMode;
 	/* Reference: In-class Ex 9
 	 * Adapted to my version of mode-setting and window sizing
 	 */
@@ -31,7 +31,7 @@ void Project()
 	glLoadIdentity();
 	switch (viewMode)
 	{
-    /*
+	/*
 	case VIEW_PERSP:
 		gluPerspective(60, _width / _height, maxMag*0.4, maxMag*10);
 		break;
@@ -39,14 +39,14 @@ void Project()
 		gluPerspective(60, _width / _height, maxMag*0.1, maxMag*10);
 		break;
 	case VIEW_ORTHO:
-    */
+	*/
 	default: // default to orthographic
 		//  Orthogonal projection box adjusted for the aspect ratio of the window
 		{
-            // TODO scale based on the smaller of width/height rather than always using height
+			// TODO scale based on the smaller of width/height rather than always using height
 			double asp = (windowHeight>0) ? (double)windowWidth/windowHeight : 1;
 			// glOrtho(left, right, bottom, top, near, far)
-            float maxMag = 2 * mouse_zoom; // FIXME
+			float maxMag = 2 * mouse_zoom; // FIXME
 			glOrtho(-asp*maxMag, +asp*maxMag, -maxMag, +maxMag, -maxMag*1.5, +maxMag*1.5);
 		}
 		break;
@@ -64,12 +64,12 @@ void Project()
  */
 void reshape(int width,int height)
 {
-    windowWidth = width;
+	windowWidth = width;
 	windowHeight = height;
-    //  Set the viewport to the entire window
-    glViewport(0,0, RES*width,RES*height);
+	//  Set the viewport to the entire window
+	glViewport(0,0, RES*width,RES*height);
 
-    Project();
+	Project();
 
-    ErrCheck("reshape");
+	ErrCheck("reshape");
 }

@@ -6,14 +6,14 @@
 class Tunnel : Model
 {
 public:
-    void Draw();
+	void Draw();
 
-    float radius = 0.1f;
+	float radius = 0.1f;
 
-    bool   right = true; // +X
-    bool    left = true; // -X
-    bool     top = true; // +Y
-    bool  bottom = true; // -Y
-    bool forward = true; // +Z
-    bool    back = true; // -Z
+	bool   right = true; // +X
+	bool    left = true; // -X
+	bool     top = true; // +Y
+	bool  bottom = true; // -Y
+	bool forward = true; // +Z
+	bool    back = true; // -Z
 };
