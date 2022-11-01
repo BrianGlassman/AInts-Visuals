@@ -2,6 +2,8 @@ External view:
 	Mouse to the edges of the screen to rotate the view
 	Mouse wheel to zoom in and out
 
+"./run.sh" or "make run" to make, run, and report the exit code
+
 Escape to exit
 
 

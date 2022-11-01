@@ -90,3 +90,8 @@ final: final.o CSCIx229.a MainLib.a
 # Clean
 clean:
 	$(CLEAN)
+
+# Make and run
+.SILENT: run
+run: final
+	./final || (echo "Exit code: $$?")
