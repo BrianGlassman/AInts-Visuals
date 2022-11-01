@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CSCIx229.h"
-#include "util.hpp"
+#include "util.hpp" // Model class
 
 class Tunnel : Model
 {

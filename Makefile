@@ -50,10 +50,12 @@ print.o: $(CLIBDIR)/print.c $(CLIBDIR)/CSCIx229.h
 loadtexbmp.o: $(CLIBDIR)/loadtexbmp.c $(CLIBDIR)/CSCIx229.h
 loadobj.o: $(CLIBDIR)/loadobj.c $(CLIBDIR)/CSCIx229.h
 #--- MainLib ---
-display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp Tunnel.o
+Chamber.o: $(MLIBDIR)/Chamber.cpp $(MLIBDIR)/Chamber.hpp
+display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp Tunnel.o Chamber.o
 input.o: $(MLIBDIR)/input.cpp $(MLIBDIR)/input.hpp
 textures.o: $(MLIBDIR)/textures.cpp $(MLIBDIR)/textures.hpp
 Tunnel.o: $(MLIBDIR)/Tunnel.cpp $(MLIBDIR)/Tunnel.hpp
+util.o: $(MLIBDIR)/util.cpp $(MLIBDIR)/util.hpp
 window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp
 
 #----------------
@@ -61,7 +63,7 @@ window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp
 #----------------
 CSCIx229.a:fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
-MainLib.a:display.o input.o textures.o Tunnel.o util.o window.o 
+MainLib.a:Chamber.o display.o input.o textures.o Tunnel.o util.o window.o 
 	ar -rcs $@ $^
 
 #---------------
