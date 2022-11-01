@@ -43,7 +43,7 @@ endif
 #--------------
 # Dependencies
 #--------------
-final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h MainLib.a
+final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h MainLib.a Structures.a
 #--- CSCIx229 ---
 fatal.o: $(CLIBDIR)/fatal.c $(CLIBDIR)/CSCIx229.h
 errcheck.o: $(CLIBDIR)/errcheck.c $(CLIBDIR)/CSCIx229.h
