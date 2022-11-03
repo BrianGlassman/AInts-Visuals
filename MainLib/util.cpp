@@ -186,3 +186,44 @@ void Cube::Draw()
 		}
 	} glPopMatrix();
 }
+
+Sphere::Sphere()
+{
+}
+
+void Sphere::Draw()
+{
+	glPushMatrix(); {
+		// Apply transformations
+		glTranslatef(center[0], center[1], center[2]); // Translate to chosen center
+		glScalef(radius, radius, radius); // Apply scaling
+
+		int d = 360 / n;
+		float x, z, r0, r1, y0, y1;
+
+		// Draw sphere, using degenerate quads for the caps (ref Ex. 8)
+		for (float phi = -90; phi < 90; phi += d)
+		{
+			Polar2Cart(1, phi, &r0, &y0);
+			Polar2Cart(1, phi + d, &r1, &y1);
+			// fprintf(stdout, "slice %f: (%f, %f), (%f, %f)\n", phi, r0, y0, r1, y1);
+
+			glBegin(GL_QUAD_STRIP);
+			for (int theta = 0; theta <= 360; theta += d)
+			{
+				// FIXME texture
+				Polar2Cart(r0, theta, &x, &z);
+				glNormal3d(x, y0, z);
+				glVertex3d(x, y0, z);
+				// fprintf(stdout, "0: (%f, %f, %f)", x, y0, z);
+				Polar2Cart(r1, theta, &x, &z);
+				glNormal3d(x, y1, z);
+				glVertex3d(x, y1, z);
+				// fprintf(stdout, "   1: (%f, %f, %f)\n", x, y1, z);
+			}
+			glEnd();
+		}
+	} glPopMatrix();
+
+	// FatalDef();
+}

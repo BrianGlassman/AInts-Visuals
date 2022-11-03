@@ -60,3 +60,14 @@ public:
 private:
 	unsigned char sides;
 };
+
+class Sphere : Model
+{
+public:
+	Sphere();
+
+	float radius = 0.5f;
+	int n = 12;
+
+	void Draw();
+};
