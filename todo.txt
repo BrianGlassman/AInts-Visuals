@@ -1,3 +1,5 @@
+switch from using combined primitives to a centerline with offset
+
 look into using LINE_LOOP to make a wireframe? The LEGO example used a wireframe, too, but I think a different methodology
 
 use VBOs (ref Ex. 8) for performance improvement

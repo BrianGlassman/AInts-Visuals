@@ -21,7 +21,7 @@ Model* displayModelPtr;
 
 #define LIGHT_SRC GL_LIGHT0
 #define AMBIENT GL_LIGHT1
-float ambient_level = 0.6;
+float ambient_level = 0.2;
 float diffuse_level = 0.45;
 float specular_level = 0.7;
 #define SHINY_DEFAULT 10
