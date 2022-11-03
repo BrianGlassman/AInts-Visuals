@@ -54,6 +54,7 @@ extern "C" {
 
 void Print(const char* format , ...);
 void Fatal(const int code, const char* format , ...);
+void FatalDef();
 unsigned int LoadTexBMP(const char* file);
 void ErrCheck(const char* where);
 int  LoadOBJ(const char* file);

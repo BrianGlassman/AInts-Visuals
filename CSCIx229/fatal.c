@@ -13,3 +13,7 @@ void Fatal(const int code, const char* format , ...)
    va_end(args);
    exit(code);
 }
+void FatalDef()
+{
+   Fatal(999, "Default Fatal");
+}
