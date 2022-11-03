@@ -1,9 +1,11 @@
 #pragma once
 
 #include "CSCIx229.h"
+#include "Structure.hpp"
+#include "Corner.hpp"
 #include "util.hpp" // Model class
 
-class Tunnel : public Model
+class Tunnel : public Structure
 {
 public:
 	Tunnel();
@@ -20,4 +22,8 @@ public:
 	bool  bottom = true; // -Y
 	bool forward = true; // +Z
 	bool    back = true; // -Z
+private:
+	Corner corners[8];
+
+	void OldDraw();
 };

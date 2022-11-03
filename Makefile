@@ -63,9 +63,13 @@ util.o: $(MLIBDIR)/util.cpp $(MLIBDIR)/util.hpp $(MLIBDIR)/globals.hpp
 window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp $(MLIBDIR)/globals.hpp
 
 #--- Structures ---
-Chamber.o: $(STCRDIR)/Chamber.cpp $(STCRDIR)/Chamber.hpp MainLib.a
-Hill.o: $(STCRDIR)/Hill.cpp $(STCRDIR)/Hill.hpp MainLib.a
-Tunnel.o: $(STCRDIR)/Tunnel.cpp $(STCRDIR)/Tunnel.hpp MainLib.a
+# Base structures
+Structure.o: $(STCRDIR)/Structure.cpp $(STCRDIR)/Structure.hpp util.o
+Corner.o: $(STCRDIR)/Corner.cpp $(STCRDIR)/Corner.hpp util.o Structure.o
+# Composite structures
+Chamber.o: $(STCRDIR)/Chamber.cpp $(STCRDIR)/Chamber.hpp util.o
+Hill.o: $(STCRDIR)/Hill.cpp $(STCRDIR)/Hill.hpp util.o
+Tunnel.o: $(STCRDIR)/Tunnel.cpp $(STCRDIR)/Tunnel.hpp util.o Corner.o
 # Colony needs to depend on all the other Structures
 Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp Chamber.o Hill.o Tunnel.o MainLib.a
 
@@ -76,7 +80,7 @@ CSCIx229.a: fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
 MainLib.a: globals.o display.o input.o textures.o util.o window.o
 	ar -rcs $@ $^
-Structures.a: Chamber.o Colony.o Hill.o Tunnel.o
+Structures.a: Structure.o Corner.o Chamber.o Hill.o Tunnel.o Colony.o
 	ar -rcs $@ $^
 
 #---------------
