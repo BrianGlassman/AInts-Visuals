@@ -81,12 +81,13 @@ Tunnel::Tunnel(unsigned char sides)
 	corner->surroundings.y = (int)bottom;
 	corner->surroundings.z = (int)back;
 
-	for (auto&& corner : corners)
-	{
-		corner.surroundings.x = 0;
-		corner.surroundings.y = 0;
-		corner.surroundings.z = 0;
-	}
+	// FIXME temp override
+	// for (auto&& corner : corners)
+	// {
+	// 	corner.surroundings.x = 1;
+	// 	corner.surroundings.y = 0;
+	// 	corner.surroundings.z = 0;
+	// }
 }
 
 void Tunnel::OldDraw()
@@ -105,7 +106,7 @@ void Tunnel::OldDraw()
 		if (right)
 		{
 			glPushMatrix(); {
-				glRotatef(90, Z_AXIS);
+				glRotatef(-90, Z_AXIS);
 				cyl.Draw();
 			} glPopMatrix();
 		}
@@ -113,7 +114,7 @@ void Tunnel::OldDraw()
 		if (left)
 		{
 			glPushMatrix(); {
-				glRotatef(-90, Z_AXIS);
+				glRotatef(90, Z_AXIS);
 				cyl.Draw();
 			} glPopMatrix();
 		}

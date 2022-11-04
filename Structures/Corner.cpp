@@ -13,13 +13,13 @@ void Corner::SetRotateAndScale()
 		{
 			// x >= y >= z - Matches default
 			rotate[0] = 0; rotate[1] = 0; rotate[2] = 0;
-			scale[0] = 1; scale[1] = 1; scale[2] = 1;
+			scale[0] *= 1; scale[1] *= 1; scale[2] *= 1;
 		}
 		else
 		{
 			// x >= z >= y
 			rotate[0] = 90; rotate[1] = 0; rotate[2] = 0;
-			scale[0] = 1; scale[1] = 1; scale[2] = -1;
+			scale[0] *= 1; scale[1] *= 1; scale[2] *= -1;
 		}
 	}
 	else if (surroundings.y >= surroundings.x && surroundings.y >= surroundings.z)
@@ -28,13 +28,13 @@ void Corner::SetRotateAndScale()
 		{
 			// y >= z >= x
 			rotate[0] = 0; rotate[1] = 90; rotate[2] = 90;
-			scale[0] = 1; scale[1] = 1; scale[2] = 1;
+			scale[0] *= 1; scale[1] *= 1; scale[2] *= 1;
 		}
 		else
 		{
 			// y >= x >= z
 			rotate[0] = 0; rotate[1] = 0; rotate[2] = 90;
-			scale[0] = 1; scale[1] = -1; scale[2] = 1;
+			scale[0] *= 1; scale[1] *= -1; scale[2] *= 1;
 		}
 	}
 	else if (surroundings.z >= surroundings.x && surroundings.z >= surroundings.y)
@@ -43,13 +43,13 @@ void Corner::SetRotateAndScale()
 		{
 			// z >= x >= y
 			rotate[0] = -90; rotate[1] = 0; rotate[2] = -90;
-			scale[0] = 1; scale[1] = 1; scale[2] = 1;
+			scale[0] *= 1; scale[1] *= 1; scale[2] *= 1;
 		}
 		else
 		{
 			// z >= y >= x
 			rotate[0] = 0; rotate[1] = -90; rotate[2] = 0;
-			scale[0] = 1; scale[1] = 1; scale[2] = -1;
+			scale[0] *= 1; scale[1] *= 1; scale[2] *= -1;
 		}
 	}
 	else
@@ -149,7 +149,7 @@ void Corner::UpdateConnections()
 	
 	//int key[2] = {surroundings.sqrMagnitude(), 0};
 
-	//SetRotateAndScale();
+	SetRotateAndScale();
 
 	glPushMatrix(); {
 		glScalef(scale[0], scale[1], scale[2]);
@@ -191,12 +191,12 @@ void Corner::Draw()
 		glTranslatef(center[0], center[1], center[2]);
 
 		glDisable(GL_TEXTURE_2D);
-        glColor3f(0.75 + scale[0]*.25, 0.75 + scale[1]*.25, 0.75 + scale[2]*.25);
+        glColor4f(0.75 + scale[0]*.25, 0.75 + scale[1]*.25, 0.75 + scale[2]*.25, 0.5);
 
         // FIXME shouldn't recalculate every time
         UpdateConnections();
 
 		glEnable(GL_TEXTURE_2D);
-        glColor3f(1, 1, 1);
+        glColor4f(1, 1, 1, 1);
     } glPopMatrix();
 }

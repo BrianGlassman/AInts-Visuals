@@ -126,8 +126,8 @@ void PopulateColony(Colony& colony)
 	unsigned char b = 2;
 	unsigned char u = 4;
 	unsigned char d = 8;
-	unsigned char l = 16;
-	unsigned char r = 32;
+	unsigned char r = 16;
+	unsigned char l = 32;
 
 	unsigned char tunnelCon[] = {
 		f+r+l+u,
@@ -196,6 +196,10 @@ int main(int argc, char* argv[])
 	}
 
 	init(argc, argv);
+
+	// Enable alpha
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable( GL_BLEND );
 
 	SetCallbacks();
 
