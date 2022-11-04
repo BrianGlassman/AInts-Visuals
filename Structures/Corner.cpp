@@ -1,30 +1,24 @@
 #include "Corner.hpp"
 #include "Structure.hpp"
 
-struct EulerAndScale {
-	float euler[3];
-	float scale[3];
-};
-
 Corner::Corner()
 {
 }
 
-EulerAndScale CalculateEulerAndScale(Surroundings surroundings)
+void Corner::SetRotateAndScale()
 {
-	float euler[3], scale[3];
 	if (surroundings.x >= surroundings.y && surroundings.x >= surroundings.z)
 	{
 		if (surroundings.y >= surroundings.z)
 		{
 			// x >= y >= z - Matches default
-			euler[0] = 0; euler[1] = 0; euler[2] = 0;
+			rotate[0] = 0; rotate[1] = 0; rotate[2] = 0;
 			scale[0] = 1; scale[1] = 1; scale[2] = 1;
 		}
 		else
 		{
 			// x >= z >= y
-			euler[0] = 90; euler[1] = 0; euler[2] = 0;
+			rotate[0] = 90; rotate[1] = 0; rotate[2] = 0;
 			scale[0] = 1; scale[1] = 1; scale[2] = -1;
 		}
 	}
@@ -33,13 +27,13 @@ EulerAndScale CalculateEulerAndScale(Surroundings surroundings)
 		if (surroundings.z >= surroundings.x)
 		{
 			// y >= z >= x
-			euler[0] = 0; euler[1] = 90; euler[2] = 90;
+			rotate[0] = 0; rotate[1] = 90; rotate[2] = 90;
 			scale[0] = 1; scale[1] = 1; scale[2] = 1;
 		}
 		else
 		{
 			// y >= x >= z
-			euler[0] = 0; euler[1] = 0; euler[2] = 90;
+			rotate[0] = 0; rotate[1] = 0; rotate[2] = 90;
 			scale[0] = 1; scale[1] = -1; scale[2] = 1;
 		}
 	}
@@ -48,25 +42,20 @@ EulerAndScale CalculateEulerAndScale(Surroundings surroundings)
 		if (surroundings.x >= surroundings.y)
 		{
 			// z >= x >= y
-			euler[0] = -90; euler[1] = 0; euler[2] = -90;
+			rotate[0] = -90; rotate[1] = 0; rotate[2] = -90;
 			scale[0] = 1; scale[1] = 1; scale[2] = 1;
 		}
 		else
 		{
 			// z >= y >= x
-			euler[0] = 0; euler[1] = -90; euler[2] = 0;
+			rotate[0] = 0; rotate[1] = -90; rotate[2] = 0;
 			scale[0] = 1; scale[1] = 1; scale[2] = -1;
 		}
 	}
 	else
 	{
-		Fatal(999, "CalculateEulerAndScale fell through");
+		Fatal(999, "SetRotateAndScale fell through");
 	}
-
-	EulerAndScale ans;
-	memcpy(ans.euler, euler, 3*sizeof(float));
-	memcpy(ans.scale, scale, 3*sizeof(float));
-	return ans;
 }
 
 SideType GetNodeType(int x, int y, int z)
@@ -83,7 +72,8 @@ void DrawClosed(int n, float radius)
 	float x, z, r0, r1, y0, y1;
 
     glPushMatrix(); {
-        glScalef(radius, radius, radius);
+        // FIXME radius doubled just for visibility
+        glScalef(radius*2, radius*2, radius*2);
 
         // Draw quarter sphere, using degenerate quads for the caps (ref Ex. 8)
         for (float phi = 0; phi < 90; phi += d)
@@ -139,8 +129,8 @@ void DrawThreeTunnels(int n, float radius)
 {
 	// FIXME
 	DrawOneTunnel(n, radius);
-	glPushMatrix(); glRotatef(90, Z_AXIS); DrawOneTunnel(n, radius); glPopMatrix();
-	glPushMatrix(); glRotatef(-90, Y_AXIS); DrawOneTunnel(n, radius); glPopMatrix();
+	glPushMatrix(); glRotatef(90, Y_AXIS); glRotatef(90, Z_AXIS); DrawOneTunnel(n, radius); glPopMatrix();
+	glPushMatrix(); glRotatef(-90, Z_AXIS); glRotatef(-90, Y_AXIS); DrawOneTunnel(n, radius); glPopMatrix();
 }
 
 void Corner::UpdateConnections()
@@ -158,27 +148,36 @@ void Corner::UpdateConnections()
     */
 	
 	//int key[2] = {surroundings.sqrMagnitude(), 0};
-	EulerAndScale ans = CalculateEulerAndScale(surroundings);
 
-	// TODO need a second key to handle diagonals eventually
-	switch(surroundings.sqrMagnitude())
-	{
-	case 0:
-		DrawClosed(n, radius);
-		break;
-	case 1:
-		DrawOneTunnel(n, radius);
-		break;
-	case 2:
-		DrawTwoTunnels(n, radius);
-		break;
-	case 3:
-		DrawThreeTunnels(n, radius);
-		break;
-	// TODO handle chambers, too
-	default:
-		Fatal(999, "Unknown connection %d\n", surroundings.sqrMagnitude());
-	}
+	//SetRotateAndScale();
+
+	glPushMatrix(); {
+		glScalef(scale[0], scale[1], scale[2]);
+		glRotatef(rotate[0], X_AXIS);
+		glRotatef(rotate[1], Y_AXIS);
+		glRotatef(rotate[2], Z_AXIS);
+
+		// TODO need a second key to handle diagonals eventually
+		switch(surroundings.sqrMagnitude())
+		{
+		case 0:
+			DrawClosed(n, radius);
+			break;
+		case 1:
+			DrawOneTunnel(n, radius);
+			break;
+		case 2:
+			DrawTwoTunnels(n, radius);
+			break;
+		case 3:
+			DrawThreeTunnels(n, radius);
+			break;
+		// TODO handle chambers, too
+		default:
+			Fatal(999, "Unknown connection %d\n", surroundings.sqrMagnitude());
+		}
+	} glPopMatrix();
+
 	// FIXME
 	/*
 	meshFilter.transform.localEulerAngles = ans.euler;
@@ -190,11 +189,14 @@ void Corner::Draw()
 {
 	glPushMatrix(); {
 		glTranslatef(center[0], center[1], center[2]);
-        glColor3f(0.5 + center[0], 0.5 + center[1], 0.5 + center[2]);
+
+		glDisable(GL_TEXTURE_2D);
+        glColor3f(0.75 + scale[0]*.25, 0.75 + scale[1]*.25, 0.75 + scale[2]*.25);
 
         // FIXME shouldn't recalculate every time
         UpdateConnections();
 
+		glEnable(GL_TEXTURE_2D);
         glColor3f(1, 1, 1);
     } glPopMatrix();
 }

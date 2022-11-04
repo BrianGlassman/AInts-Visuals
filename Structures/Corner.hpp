@@ -22,6 +22,9 @@ class Corner : public Model
 public:
     Corner();
 
+	float rotate[3] = {0, 0, 0};
+	float scale[3] = {1, 1, 1};
+
 	float radius = 0.1f;
     int n = 12;
 
@@ -30,4 +33,5 @@ public:
     void Draw();
 private:
     void UpdateConnections();
+	void SetRotateAndScale();
 };
