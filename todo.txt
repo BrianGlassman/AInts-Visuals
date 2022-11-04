@@ -3,3 +3,13 @@ switch from using combined primitives to a centerline with offset
 look into using LINE_LOOP to make a wireframe? The LEGO example used a wireframe, too, but I think a different methodology
 
 use VBOs (ref Ex. 8) for performance improvement
+
+May be better to use a pixel shader?
+Marching cubes? Some other isosurface algorithm?
+	https://www3.cs.stonybrook.edu/~qin/courses/visualization/visualization-surface-rendering-with-polygons.pdf
+	https://people.eecs.berkeley.edu/~jrs/meshpapers/Bloomenthal.pdf
+
+May want to use a DisplayList instead of VBO (so that I can store transformations, not just vertices)
+	note: deprecated in OpenGL 3, although it's still available through compatibility
+
+have a player option for switching between back-cull (exterior) and front-cull (interior) for tunnel/chamber walls
