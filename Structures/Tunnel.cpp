@@ -20,7 +20,7 @@ Tunnel::Tunnel(unsigned char sides)
 	// Right top front
 	corner = &corners[0];
 	// FIXME final version should not be offset
-	corner->scale[0] = 1; corner->scale[1] = 1; corner->scale[2] = 1;
+	corner->baseScale[0] = 1; corner->baseScale[1] = 1; corner->baseScale[2] = 1;
 	corner->surroundings.x = (int)right;
 	corner->surroundings.y = (int)top;
 	corner->surroundings.z = (int)forward;
@@ -28,7 +28,7 @@ Tunnel::Tunnel(unsigned char sides)
 	// Right top back
 	corner = &corners[1];
 	// FIXME final version should not be offset
-	corner->scale[0] = 1; corner->scale[1] = 1; corner->scale[2] = -1;
+	corner->baseScale[0] = 1; corner->baseScale[1] = 1; corner->baseScale[2] = -1;
 	corner->surroundings.x = (int)right;
 	corner->surroundings.y = (int)top;
 	corner->surroundings.z = (int)back;
@@ -36,7 +36,7 @@ Tunnel::Tunnel(unsigned char sides)
 	// Right bottom front
 	corner = &corners[2];
 	// FIXME final version should not be offset
-	corner->scale[0] = 1; corner->scale[1] = -1; corner->scale[2] = 1;
+	corner->baseScale[0] = 1; corner->baseScale[1] = -1; corner->baseScale[2] = 1;
 	corner->surroundings.x = (int)right;
 	corner->surroundings.y = (int)bottom;
 	corner->surroundings.z = (int)forward;
@@ -44,7 +44,7 @@ Tunnel::Tunnel(unsigned char sides)
 	// Right bottom back
 	corner = &corners[3];
 	// FIXME final version should not be offset
-	corner->scale[0] = 1; corner->scale[1] = -1; corner->scale[2] = -1;
+	corner->baseScale[0] = 1; corner->baseScale[1] = -1; corner->baseScale[2] = -1;
 	corner->surroundings.x = (int)right;
 	corner->surroundings.y = (int)bottom;
 	corner->surroundings.z = (int)back;
@@ -52,7 +52,7 @@ Tunnel::Tunnel(unsigned char sides)
 	// Left top front
 	corner = &corners[4];
 	// FIXME final version should not be offset
-	corner->scale[0] = -1; corner->scale[1] = 1; corner->scale[2] = 1;
+	corner->baseScale[0] = -1; corner->baseScale[1] = 1; corner->baseScale[2] = 1;
 	corner->surroundings.x = (int)left;
 	corner->surroundings.y = (int)top;
 	corner->surroundings.z = (int)forward;
@@ -60,7 +60,7 @@ Tunnel::Tunnel(unsigned char sides)
 	// Left top back
 	corner = &corners[5];
 	// FIXME final version should not be offset
-	corner->scale[0] = -1; corner->scale[1] = 1; corner->scale[2] = -1;
+	corner->baseScale[0] = -1; corner->baseScale[1] = 1; corner->baseScale[2] = -1;
 	corner->surroundings.x = (int)left;
 	corner->surroundings.y = (int)top;
 	corner->surroundings.z = (int)back;
@@ -68,7 +68,7 @@ Tunnel::Tunnel(unsigned char sides)
 	// Left bottom front
 	corner = &corners[6];
 	// FIXME final version should not be offset
-	corner->scale[0] = -1; corner->scale[1] = -1; corner->scale[2] = 1;
+	corner->baseScale[0] = -1; corner->baseScale[1] = -1; corner->baseScale[2] = 1;
 	corner->surroundings.x = (int)left;
 	corner->surroundings.y = (int)bottom;
 	corner->surroundings.z = (int)forward;
@@ -76,7 +76,7 @@ Tunnel::Tunnel(unsigned char sides)
 	// Left bottom back
 	corner = &corners[7];
 	// FIXME final version should not be offset
-	corner->scale[0] = -1; corner->scale[1] = -1; corner->scale[2] = -1;
+	corner->baseScale[0] = -1; corner->baseScale[1] = -1; corner->baseScale[2] = -1;
 	corner->surroundings.x = (int)left;
 	corner->surroundings.y = (int)bottom;
 	corner->surroundings.z = (int)back;
@@ -86,7 +86,7 @@ Tunnel::Tunnel(unsigned char sides)
 	// {
 	// 	corner.surroundings.x = 1;
 	// 	corner.surroundings.y = 0;
-	// 	corner.surroundings.z = 0;
+	// 	corner.surroundings.z = 1;
 	// }
 }
 
@@ -167,6 +167,7 @@ void Tunnel::Draw()
 		{
 			corner.Draw();
 		}
+		// corners[0].Draw();
 		
 	} glPopMatrix();
 }

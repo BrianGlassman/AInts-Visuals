@@ -22,8 +22,13 @@ class Corner : public Model
 public:
     Corner();
 
-	float rotate[3] = {0, 0, 0};
-	float scale[3] = {1, 1, 1};
+	// Transformation to put the corner in the right spot
+	float baseRotate[3] = {0, 0, 0};
+	float baseScale[3] = {1, 1, 1};
+
+	// Transformation to align the mesh properly
+	float meshRotate[3] = {0, 0, 0};
+	float meshScale[3] = {1, 1, 1};
 
 	float radius = 0.1f;
     int n = 12;

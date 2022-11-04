@@ -7,49 +7,52 @@ Corner::Corner()
 
 void Corner::SetRotateAndScale()
 {
+	// Base meshes are defined with X >= Y >= Z 
+	// So rotate to match that convention
+
 	if (surroundings.x >= surroundings.y && surroundings.x >= surroundings.z)
 	{
 		if (surroundings.y >= surroundings.z)
 		{
 			// x >= y >= z - Matches default
-			rotate[0] = 0; rotate[1] = 0; rotate[2] = 0;
-			scale[0] *= 1; scale[1] *= 1; scale[2] *= 1;
+			meshRotate[0] = 0; meshRotate[1] = 0; meshRotate[2] = 0;
+			meshScale[0] = 1; meshScale[1] = 1; meshScale[2] = 1;
 		}
 		else
 		{
-			// x >= z >= y
-			rotate[0] = 90; rotate[1] = 0; rotate[2] = 0;
-			scale[0] *= 1; scale[1] *= 1; scale[2] *= -1;
+			// x >= z >= y - Switch Y and Z
+			meshRotate[0] = 90; meshRotate[1] = 0; meshRotate[2] = 0;
+			meshScale[0] = 1; meshScale[1] = 1; meshScale[2] = -1;
 		}
 	}
 	else if (surroundings.y >= surroundings.x && surroundings.y >= surroundings.z)
 	{
 		if (surroundings.z >= surroundings.x)
 		{
-			// y >= z >= x
-			rotate[0] = 0; rotate[1] = 90; rotate[2] = 90;
-			scale[0] *= 1; scale[1] *= 1; scale[2] *= 1;
+			// y >= z >= x - X --> Z, Y --> X, Z --> Y
+			meshRotate[0] = 0; meshRotate[1] = 90; meshRotate[2] = 90;
+			meshScale[0] = 1; meshScale[1] = 1; meshScale[2] = 1;
 		}
 		else
 		{
-			// y >= x >= z
-			rotate[0] = 0; rotate[1] = 0; rotate[2] = 90;
-			scale[0] *= 1; scale[1] *= -1; scale[2] *= 1;
+			// y >= x >= z - Switch X and Y
+			meshRotate[0] = 0; meshRotate[1] =  0; meshRotate[2] = 90;
+			meshScale[0] = -1; meshScale[1] = 1; meshScale[2] = 1;
 		}
 	}
 	else if (surroundings.z >= surroundings.x && surroundings.z >= surroundings.y)
 	{
 		if (surroundings.x >= surroundings.y)
 		{
-			// z >= x >= y
-			rotate[0] = -90; rotate[1] = 0; rotate[2] = -90;
-			scale[0] *= 1; scale[1] *= 1; scale[2] *= 1;
+			// z >= x >= y - X --> Y, Y --> Z, Z --> X
+			meshRotate[0] = -90; meshRotate[1] = 0; meshRotate[2] = -90;
+			meshScale[0] = 1; meshScale[1] = 1; meshScale[2] = 1;
 		}
 		else
 		{
 			// z >= y >= x
-			rotate[0] = 0; rotate[1] = -90; rotate[2] = 0;
-			scale[0] *= 1; scale[1] *= 1; scale[2] *= -1;
+			meshRotate[0] = 0; meshRotate[1] = -90; meshRotate[2] = 0;
+			meshScale[0] = -1; meshScale[1] = 1; meshScale[2] = 1;
 		}
 	}
 	else
@@ -123,7 +126,7 @@ void DrawTwoTunnels(int n, float radius)
 {
 	// FIXME
 	DrawOneTunnel(n, radius);
-	glPushMatrix(); glRotatef(90, Z_AXIS); DrawOneTunnel(n, radius); glPopMatrix();
+	glPushMatrix(); glRotatef(90, Y_AXIS); glRotatef(90, Z_AXIS); DrawOneTunnel(n, radius); glPopMatrix();
 }
 void DrawThreeTunnels(int n, float radius)
 {
@@ -152,10 +155,10 @@ void Corner::UpdateConnections()
 	SetRotateAndScale();
 
 	glPushMatrix(); {
-		glScalef(scale[0], scale[1], scale[2]);
-		glRotatef(rotate[0], X_AXIS);
-		glRotatef(rotate[1], Y_AXIS);
-		glRotatef(rotate[2], Z_AXIS);
+		glScalef(baseScale[0]*meshScale[0], baseScale[1]*meshScale[1], baseScale[2]*meshScale[2]);
+		glRotatef(baseRotate[0] + meshRotate[0], X_AXIS);
+		glRotatef(baseRotate[1] + meshRotate[1], Y_AXIS);
+		glRotatef(baseRotate[2] + meshRotate[2], Z_AXIS);
 
 		// TODO need a second key to handle diagonals eventually
 		switch(surroundings.sqrMagnitude())
@@ -191,7 +194,7 @@ void Corner::Draw()
 		glTranslatef(center[0], center[1], center[2]);
 
 		glDisable(GL_TEXTURE_2D);
-        glColor4f(0.75 + scale[0]*.25, 0.75 + scale[1]*.25, 0.75 + scale[2]*.25, 0.5);
+        glColor4f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25, 0.5);
 
         // FIXME shouldn't recalculate every time
         UpdateConnections();
