@@ -82,6 +82,11 @@ static void init(int argc, char* argv[])
 	// Lighting
 	initLighting();
 
+	// Enable alpha
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable( GL_BLEND );
+
+
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	
@@ -125,14 +130,14 @@ void PopulateColony(Colony& colony)
 
 	unsigned char tunnelCon[] = {
 		f+r+l+u,
-		f+b+r,
-		b+r+d,
-		b+l,
+		f+b+l,
+		b+l+d,
+		b+r,
 
 		u+d,
-		u+d+r,
-		d+l,
-		u+r,
+		u+d+l,
+		d+r,
+		u+l,
 	};
 
 	float chamberCoords[][3] = {
@@ -166,7 +171,13 @@ int main(int argc, char* argv[])
 {
 	// Create the colony to be displayed
 	Colony colony;
-	PopulateColony(colony);
+	if (true)
+		PopulateColony(colony);
+	else
+	{
+		float coords[] = {0, 0, 0};
+		colony.AddTunnel(coords, 16);
+	}
 	displayModelPtr = &colony;
 
 	init(argc, argv);

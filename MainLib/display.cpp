@@ -63,6 +63,12 @@ void display()
 	// Drawing the scene must be AFTER rotation
 	DrawScene();
 
+	glDisable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
+	DrawAxes(2);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_TEXTURE_2D);
+
 	glFlush();
 	glutSwapBuffers();
 

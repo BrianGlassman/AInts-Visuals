@@ -35,7 +35,7 @@ void Tunnel::Draw()
 			if (right)
 			{
 				glPushMatrix(); {
-					glRotatef(90, Z_AXIS);
+					glRotatef(-90, Z_AXIS);
 					cyl.Draw();
 				} glPopMatrix();
 			}
@@ -43,7 +43,7 @@ void Tunnel::Draw()
 			if (left)
 			{
 				glPushMatrix(); {
-					glRotatef(-90, Z_AXIS);
+					glRotatef(90, Z_AXIS);
 					cyl.Draw();
 				} glPopMatrix();
 			}

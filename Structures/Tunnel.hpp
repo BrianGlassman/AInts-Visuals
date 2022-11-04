@@ -12,6 +12,7 @@ public:
 	void Draw();
 
 	float radius = 0.1f;
+	int n = 12;
 
 	bool   right = true; // +X
 	bool    left = true; // -X

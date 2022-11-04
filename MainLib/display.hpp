@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CSCIx229.h"
-#include "util.hpp" // Model class
+#include "util.hpp" // Model class and DrawAxes
 
 extern Model* displayModelPtr;
 
