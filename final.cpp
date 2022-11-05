@@ -188,7 +188,7 @@ int main(int argc, char* argv[])
 	{
 		baseMag = 1;
 		float coords[] = {0, 0, 0};
-		// Looking just at default (white) corner: 17 broken, others good
+		// Looking just at default (white) corner: all good
 		tunnel.AddTunnel(coords, 21);
 		displayModelPtr = &tunnel;
 		break;

@@ -22,7 +22,7 @@ void Corner::SetRotateAndScale()
 		{
 			// x >= z >= y - Switch Y and Z
 			meshRotate[0] = 90; meshRotate[1] = 0; meshRotate[2] = 0;
-			meshScale[0] = 1; meshScale[1] = 1; meshScale[2] = -1;
+			meshScale[0] = 1; meshScale[1] = -1; meshScale[2] = 1;
 		}
 	}
 	else if (surroundings.y >= surroundings.x && surroundings.y >= surroundings.z)
