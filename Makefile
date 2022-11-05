@@ -45,31 +45,36 @@ endif
 # Dependencies
 #--------------
 final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h MainLib.a Structures.a
+
 #--- CSCIx229 ---
 fatal.o: $(CLIBDIR)/fatal.c $(CLIBDIR)/CSCIx229.h
 errcheck.o: $(CLIBDIR)/errcheck.c $(CLIBDIR)/CSCIx229.h
 print.o: $(CLIBDIR)/print.c $(CLIBDIR)/CSCIx229.h
 loadtexbmp.o: $(CLIBDIR)/loadtexbmp.c $(CLIBDIR)/CSCIx229.h
 loadobj.o: $(CLIBDIR)/loadobj.c $(CLIBDIR)/CSCIx229.h
+
 #--- MainLib ---
-display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp
-input.o: $(MLIBDIR)/input.cpp $(MLIBDIR)/input.hpp
-textures.o: $(MLIBDIR)/textures.cpp $(MLIBDIR)/textures.hpp
-util.o: $(MLIBDIR)/util.cpp $(MLIBDIR)/util.hpp
-window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp
+globals.o: $(MLIBDIR)/globals.cpp $(MLIBDIR)/globals.hpp
+# Everything else depends on globals (and display depends on util)
+display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp $(MLIBDIR)/globals.hpp $(MLIBDIR)/util.hpp
+input.o: $(MLIBDIR)/input.cpp $(MLIBDIR)/input.hpp $(MLIBDIR)/globals.hpp
+textures.o: $(MLIBDIR)/textures.cpp $(MLIBDIR)/textures.hpp $(MLIBDIR)/globals.hpp
+util.o: $(MLIBDIR)/util.cpp $(MLIBDIR)/util.hpp $(MLIBDIR)/globals.hpp
+window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp $(MLIBDIR)/globals.hpp
+
 #--- Structures ---
-Chamber.o: $(STCRDIR)/Chamber.cpp $(STCRDIR)/Chamber.hpp util.o
-Hill.o: $(STCRDIR)/Hill.cpp $(STCRDIR)/Hill.hpp util.o
-Tunnel.o: $(STCRDIR)/Tunnel.cpp $(STCRDIR)/Tunnel.hpp util.o
+Chamber.o: $(STCRDIR)/Chamber.cpp $(STCRDIR)/Chamber.hpp MainLib.a
+Hill.o: $(STCRDIR)/Hill.cpp $(STCRDIR)/Hill.hpp MainLib.a
+Tunnel.o: $(STCRDIR)/Tunnel.cpp $(STCRDIR)/Tunnel.hpp MainLib.a
 # Colony needs to depend on all the other Structures
-Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp util.o Chamber.o Hill.o Tunnel.o
+Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp Chamber.o Hill.o Tunnel.o MainLib.a
 
 #----------------
 # Create archive
 #----------------
 CSCIx229.a: fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
-MainLib.a: display.o input.o textures.o util.o window.o 
+MainLib.a: globals.o display.o input.o textures.o util.o window.o
 	ar -rcs $@ $^
 Structures.a: Chamber.o Colony.o Hill.o Tunnel.o
 	ar -rcs $@ $^

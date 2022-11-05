@@ -1,10 +1,7 @@
 
 #include "input.hpp"
+#include "globals.hpp"
 #include "window.hpp"
-
-float mouse_x = windowWidth * 0.5f;
-float mouse_y = windowHeight * 0.5f;
-float mouse_zoom = 1;
 
 /*
  * Process standard keys
@@ -71,16 +68,15 @@ void key(unsigned char k, int x, int y)
 	case 'L':
 		lightMode = 1 - lightMode;
 		break;
+	*/
+	// FIXME no way to update the displayModelPtr, so scene doesn't actually change
 	case '[':
-		if (sceneMode == 0)
-			// Unsigned char, so can't just wrap negatives
-			sceneMode = SCENE_MAX;
-		else
-			sceneMode -= 1;
+		sceneChoice--;
 		break;
 	case ']':
-		sceneMode += 1;
+		sceneChoice++;
 		break;
+	/*
 	case '\\':
 		sceneMode = SCENE_MAIN;
 		break;

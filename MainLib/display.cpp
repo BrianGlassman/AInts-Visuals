@@ -1,5 +1,6 @@
 
 #include "display.hpp"
+#include "globals.hpp"
 #include "input.hpp"
 
 static float view_rotx, view_roty, view_rotz;

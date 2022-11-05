@@ -9,6 +9,7 @@
 
 #include "final.hpp"
 #include "display.hpp"
+#include "globals.hpp"
 #include "input.hpp"
 #include "util.hpp"
 #include "window.hpp"
@@ -169,16 +170,30 @@ void PopulateColony(Colony& colony)
 
 int main(int argc, char* argv[])
 {
-	// Create the colony to be displayed
+	// Create the scene to be displayed
+	Scene sceneChoice = Scene::colony;
 	Colony colony;
-	if (true)
-		PopulateColony(colony);
-	else
+	Colony tunnel;
+	switch(sceneChoice)
 	{
-		float coords[] = {0, 0, 0};
-		colony.AddTunnel(coords, 16);
+	case Scene::colony:
+	{
+		baseMag = 4;
+		PopulateColony(colony);
+		displayModelPtr = &colony;
+		break;
 	}
-	displayModelPtr = &colony;
+	case Scene::tunnel:
+	{
+		baseMag = 1;
+		float coords[] = {0, 0, 0};
+		tunnel.AddTunnel(coords, 16);
+		displayModelPtr = &tunnel;
+		break;
+	}
+	default:
+		Fatal(999, "Unknown scene\n");
+	}
 
 	init(argc, argv);
 
