@@ -88,7 +88,8 @@ static void init(int argc, char* argv[])
 	glEnable( GL_BLEND );
 
 
-	glEnable(GL_CULL_FACE);
+	// FIXME re-enable
+	//glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	
 	ErrCheck("init");
@@ -131,14 +132,14 @@ void PopulateColony(Colony& colony)
 
 	unsigned char tunnelCon[] = {
 		f+r+l+u,
-		f+b+l,
-		b+l+d,
-		b+r,
+		f+b+r,
+		b+r+d,
+		b+l,
 
 		u+d,
-		u+d+l,
-		d+r,
-		u+l,
+		u+d+r,
+		d+l,
+		u+r,
 	};
 
 	float chamberCoords[][3] = {
