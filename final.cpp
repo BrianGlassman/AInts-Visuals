@@ -172,7 +172,7 @@ void PopulateColony(Colony& colony)
 int main(int argc, char* argv[])
 {
 	// Create the scene to be displayed
-	Scene sceneChoice = Scene::colony;
+	Scene sceneChoice = Scene::tunnel;
 	Colony colony;
 	Colony tunnel;
 	switch(sceneChoice)
@@ -188,7 +188,8 @@ int main(int argc, char* argv[])
 	{
 		baseMag = 1;
 		float coords[] = {0, 0, 0};
-		tunnel.AddTunnel(coords, 16);
+		// Looking just at default (white) corner: 17 broken, others good
+		tunnel.AddTunnel(coords, 21);
 		displayModelPtr = &tunnel;
 		break;
 	}
