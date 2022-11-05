@@ -11,7 +11,7 @@ extern float mouse_zoom;
 // Main, Input --> Display
 //-------------------------
 // Enum that can be incremented or decremented, adapted from https://stackoverflow.com/a/15451002
-enum class Scene : unsigned { START_OF_LIST, colony, tunnel, END_OF_LIST };
+enum class Scene : unsigned { START_OF_LIST, colony, tunnel, allTunnels, END_OF_LIST };
 Scene& operator++(Scene &val );
 Scene operator++(Scene &val, int );
 Scene& operator--(Scene &val );

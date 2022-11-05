@@ -169,10 +169,121 @@ void PopulateColony(Colony& colony)
 	colony.center[1] = -1;
 }
 
+void PopulateTunnels(Colony& colony)
+{
+	float tunnelCoords[][3] = {
+		// 0
+		{0, 0, 0},
+
+		// 1
+		{1, 0, 0},
+		{0, 1, 0},
+		{0, 0, 1},
+		{-1, 0, 0},
+		{0, -1, 0},
+		{0, 0, -1},
+
+		// 2 - x = 0
+		{0, 1, 1},
+		{0, -1, 1},
+		{0, 1, -1},
+		{0, -1, -1},
+
+		// 2 - y = 0
+		{1, 0, 1},
+		{-1, 0, 1},
+		{1, 0, -1},
+		{-1, 0, -1},
+
+		// 2 - z=0
+		{1, 1, 0},
+		{-1, 1, 0},
+		{1, -1, 0},
+		{-1, -1, 0},
+
+		// 3 - all +
+		{1, 1, 1},
+
+		// 3 - one -
+		{-1, 1, 1},
+		{1, -1, 1},
+		{1, 1, -1},
+
+		// 3 - two -
+		{-1, -1, 1},
+		{-1, 1, -1},
+		{1, -1, -1},
+
+		// 3 - all -
+		{-1, -1, -1},
+
+		// FIXME doesn't include 2 tunnels per axis
+	};
+
+	unsigned char f = 1;
+	unsigned char b = 2;
+	unsigned char u = 4;
+	unsigned char d = 8;
+	unsigned char r = 16;
+	unsigned char l = 32;
+
+	unsigned char tunnelCon[] = {
+		// 0
+		0,
+
+		// 1
+		r,
+		u,
+		f,
+		l,
+		d,
+		b,
+
+		// 2 - x = 0
+		u+f,
+		d+f,
+		u+b,
+		d+b,
+
+		// 2 - y = 0
+		r+f,
+		l+f,
+		r+b,
+		l+b,
+
+		// 2 - z=0
+		r+u,
+		l+u,
+		r+d,
+		l+d,
+
+		// 3 - all +
+		r+u+f,
+
+		// 3 - one -
+		l+u+f,
+		r+d+f,
+		r+u+b,
+
+		// 3 - two -
+		l+d+f,
+		l+u+b,
+		r+d+b,
+
+		// 3 - all -
+		l+d+b,
+	};
+
+	for (int i = 0; i < 27; i++)
+	{
+		colony.AddTunnel(tunnelCoords[i], tunnelCon[i]);
+	}
+}
+
 int main(int argc, char* argv[])
 {
 	// Create the scene to be displayed
-	Scene sceneChoice = Scene::tunnel;
+	Scene sceneChoice = Scene::colony;
 	Colony colony;
 	Colony tunnel;
 	switch(sceneChoice)
@@ -189,7 +300,14 @@ int main(int argc, char* argv[])
 		baseMag = 1;
 		float coords[] = {0, 0, 0};
 		// Looking just at default (white) corner: all good
-		tunnel.AddTunnel(coords, 21);
+		tunnel.AddTunnel(coords, 63);
+		displayModelPtr = &tunnel;
+		break;
+	}
+	case Scene::allTunnels:
+	{
+		baseMag = 4;
+		PopulateTunnels(tunnel);
 		displayModelPtr = &tunnel;
 		break;
 	}
