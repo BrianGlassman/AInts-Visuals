@@ -3,7 +3,6 @@
 
 Corner::Corner()
 {
-	Create();
 }
 
 void Corner::SetRotateAndScale()
@@ -121,12 +120,48 @@ void Corner::CreateClosed()
 		}
 	}
 }
+void Corner::CreateOneTunnel()
+{
+	float y, z;
+	for (int theta=0; theta <= 90; theta += (360 / n))
+	{
+		Polar2Cart(1, theta, &y, &z);
+
+		indices.push_back(vertices.size());
+		normals.push_back({0, y, z});
+		// glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
+		vertices.push_back({1, y, z});
+
+		indices.push_back(vertices.size());
+		normals.push_back({0, y, z});
+		// glTexCoord2f(M_PI * theta / 360.0f, 1.0f);
+		vertices.push_back({0, y, z});
+	}
+}
 
 void Corner::Create()
 {
 	vertices.clear();
 
-	CreateClosed();
+	// TODO need a second key to handle diagonals eventually
+	switch(surroundings.sqrMagnitude())
+	{
+	case 0:
+		CreateClosed();
+		break;
+	case 1:
+		CreateOneTunnel();
+		break;
+	case 2:
+		// CreateTwoTunnel();
+		break;
+	case 3:
+		// CreateThreeTunnel();
+		break;
+	// TODO handle chambers, too
+	default:
+		Fatal(999, "Unknown connection %d\n", surroundings.sqrMagnitude());
+	}
 }
 
 void DrawClosed(
@@ -168,38 +203,65 @@ void DrawClosed(
 		} glPopMatrix();
 	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 }
-void DrawOneTunnel(int n, float radius)
+void DrawOneTunnel(
+	const std::vector<std::vector<float>> &vertices,
+	const std::vector<std::vector<float>> &normals,
+	const std::vector<int> &indices,
+	const float radius)
 {
-    glPushMatrix(); {
-        // FIXME radius doubled just for visibility
-        glScalef(0.5, radius*2, radius*2);
+	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
+		// Convert vector of vectors to flat array
+		float vertexArray[vertices.size() * 3];
+		for (unsigned int i = 0; i < vertices.size(); i++)
+		{
+			vertexArray[i*3 + 0] = vertices[i][0];
+			vertexArray[i*3 + 1] = vertices[i][1];
+			vertexArray[i*3 + 2] = vertices[i][2];
+		}
+		float normalArray[normals.size() * 3];
+		for (unsigned int i = 0; i < normals.size(); i++)
+		{
+			normalArray[i*3 + 0] = normals[i][0];
+			normalArray[i*3 + 1] = normals[i][1];
+			normalArray[i*3 + 2] = normals[i][2];
+		}
 
-        glBegin(GL_QUAD_STRIP); {
-            float y, z;
-            for (int theta=0; theta <= 90; theta += (360 / n))
-            {
-                Polar2Cart(1, theta, &y, &z);
-                glNormal3f(0, y, z);
-                glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
-                glVertex3d(1, y, z);
-                glTexCoord2f(M_PI * theta / 360.0f, 1.0f);
-                glVertex3d(0, y, z);
-            }
-        } glEnd();
-    } glPopMatrix();
+		unsigned char indexArray[indices.size()];
+		for (unsigned int i = 0; i < indices.size(); i++)
+		{
+			indexArray[i] = indices[i];
+		}
+
+		glPushMatrix(); {
+			// FIXME radius doubled just for visibility
+			glScalef(0.5, radius*2, radius*2);
+
+			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+			glNormalPointer(GL_FLOAT, 0, normalArray); 
+			glDrawElements(GL_QUAD_STRIP, indices.size(), GL_UNSIGNED_BYTE, indexArray);
+		} glPopMatrix();
+	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 }
-void DrawTwoTunnels(int n, float radius)
+void DrawTwoTunnels(
+	const std::vector<std::vector<float>> &vertices,
+	const std::vector<std::vector<float>> &normals,
+	const std::vector<int> &indices,
+	const float radius)
 {
 	// FIXME
-	DrawOneTunnel(n, radius);
-	glPushMatrix(); glRotatef(90, Y_AXIS); glRotatef(90, Z_AXIS); DrawOneTunnel(n, radius); glPopMatrix();
+	DrawOneTunnel(vertices, normals, indices, radius);
+	glPushMatrix(); glRotatef(90, Y_AXIS); glRotatef(90, Z_AXIS); DrawOneTunnel(vertices, normals, indices, radius); glPopMatrix();
 }
-void DrawThreeTunnels(int n, float radius)
+void DrawThreeTunnels(
+	const std::vector<std::vector<float>> &vertices,
+	const std::vector<std::vector<float>> &normals,
+	const std::vector<int> &indices,
+	const float radius)
 {
 	// FIXME
-	DrawOneTunnel(n, radius);
-	glPushMatrix(); glRotatef(90, Y_AXIS); glRotatef(90, Z_AXIS); DrawOneTunnel(n, radius); glPopMatrix();
-	glPushMatrix(); glRotatef(-90, Z_AXIS); glRotatef(-90, Y_AXIS); DrawOneTunnel(n, radius); glPopMatrix();
+	DrawOneTunnel(vertices, normals, indices, radius);
+	glPushMatrix(); glRotatef(90, Y_AXIS); glRotatef(90, Z_AXIS); DrawOneTunnel(vertices, normals, indices, radius); glPopMatrix();
+	glPushMatrix(); glRotatef(-90, Z_AXIS); glRotatef(-90, Y_AXIS); DrawOneTunnel(vertices, normals, indices, radius); glPopMatrix();
 }
 
 void Corner::UpdateConnections()
@@ -222,6 +284,9 @@ void Corner::UpdateConnections()
 
 	glPushMatrix(); {
 		glScalef(baseScale[0]*meshScale[0], baseScale[1]*meshScale[1], baseScale[2]*meshScale[2]);
+		glRotatef(meshRotate[0], X_AXIS);
+		glRotatef(meshRotate[1], Y_AXIS);
+		glRotatef(meshRotate[2], Z_AXIS);
 
 		// TODO need a second key to handle diagonals eventually
 		switch(surroundings.sqrMagnitude())
@@ -230,13 +295,13 @@ void Corner::UpdateConnections()
 			DrawClosed(vertices, normals, indices, radius);
 			break;
 		case 1:
-			DrawOneTunnel(n, radius);
+			DrawOneTunnel(vertices, normals, indices, radius);
 			break;
 		case 2:
-			DrawTwoTunnels(n, radius);
+			DrawTwoTunnels(vertices, normals, indices, radius);
 			break;
 		case 3:
-			DrawThreeTunnels(n, radius);
+			DrawThreeTunnels(vertices, normals, indices, radius);
 			break;
 		// TODO handle chambers, too
 		default:

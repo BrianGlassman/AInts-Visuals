@@ -88,6 +88,12 @@ Tunnel::Tunnel(unsigned char sides)
 	// 	corner.surroundings.y = 0;
 	// 	corner.surroundings.z = 1;
 	// }
+
+	// Create vertices AFTER setting surroundings
+	for (auto&& corner : corners)
+	{
+		corner.Create();
+	}
 }
 
 void Tunnel::OldDraw()
