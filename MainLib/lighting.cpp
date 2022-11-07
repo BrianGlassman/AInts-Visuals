@@ -1,4 +1,5 @@
 #include "lighting.hpp"
+#include "globals.hpp"
 
 #define SHINY_DEFAULT 10
 
@@ -100,6 +101,11 @@ OrbitLight::OrbitLight(float ambient, float diffuse, float specular)
 		SetDiffuseLevel(diffuse);
 		SetSpecularLevel(specular);
 	}
+
+
+	// FIXME temporary hack
+	float position[] = {baseMag, 0, 0, 0};
+	glLightfv(id, GL_POSITION, position);
 }
 
 void initLighting()
