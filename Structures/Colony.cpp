@@ -39,8 +39,14 @@ void Colony::AddTunnel(float center[3], unsigned char sides)
 }
 void Colony::AddTunnel(float x, float y, float z)
 {
-    float coords[] = {x, y, z};
-    AddTunnel(coords);
+    float center[] = {x, y, z};
+    AddTunnel(center);
+}
+void Colony::AddTunnel(float x, float y, float z, unsigned char sides)
+{
+    std::shared_ptr<Model> ptr = std::make_shared<Tunnel>(sides);
+    float center[] = {x, y, z};
+    AddModel(ptr, center);
 }
 
 void Colony::AddChamber(float center[3])
@@ -50,8 +56,8 @@ void Colony::AddChamber(float center[3])
 }
 void Colony::AddChamber(float x, float y, float z)
 {
-    float coords[] = {x, y, z};
-    AddChamber(coords);
+    float center[] = {x, y, z};
+    AddChamber(center);
 }
 
 void Colony::AddHill(float center[3])
@@ -61,6 +67,6 @@ void Colony::AddHill(float center[3])
 }
 void Colony::AddHill(float x, float y, float z)
 {
-    float coords[] = {x, y, z};
-    AddHill(coords);
+    float center[] = {x, y, z};
+    AddHill(center);
 }

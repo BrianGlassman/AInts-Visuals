@@ -15,6 +15,8 @@ public:
     // FIXME temporary convenience until auto-generating is implemented
     void AddTunnel(float center[3], unsigned char sides);
     void AddTunnel(float x, float y, float z);
+    // FIXME temporary convenience until auto-generating is implemented
+    void AddTunnel(float x, float y, float z, unsigned char sides);
     void AddChamber(float center[3]);
     void AddChamber(float x, float y, float z);
     void AddHill(float center[3]);
