@@ -1,8 +1,6 @@
-switch from using combined primitives to a centerline with offset
-
 look into using LINE_LOOP to make a wireframe? The LEGO example used a wireframe, too, but I think a different methodology
 
-make a Lighting file, with a "return to default" function so that I can easily turn lighting off for everything
+add "return to default" functions for lighting, materials, textures, colors, etc.
 
 use VBOs (ref Ex. 8) for performance improvement
 
@@ -14,4 +12,4 @@ Marching cubes? Some other isosurface algorithm?
 May want to use a DisplayList instead of VBO (so that I can store transformations, not just vertices)
 	note: deprecated in OpenGL 3, although it's still available through compatibility
 
-have a player option for switching between back-cull (exterior) and front-cull (interior) for tunnel/chamber walls
+have a player option in exterior view for switching between back-cull (exterior) and front-cull (interior) for tunnel/chamber walls
