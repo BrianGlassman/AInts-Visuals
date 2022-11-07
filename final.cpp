@@ -8,12 +8,8 @@
 #include <math.h>
 
 #include "final.hpp"
-#include "display.hpp"
 #include "globals.hpp"
-#include "input.hpp"
 #include "lighting.hpp"
-#include "util.hpp"
-#include "window.hpp"
 #include "textures.hpp"
 
 #include "Colony.hpp"
@@ -57,18 +53,6 @@ static void init(int argc, char* argv[])
 	glEnable(GL_DEPTH_TEST);
 
 	ErrCheck("init");
-}
-
-void SetCallbacks()
-{
-	glutDisplayFunc(display);
-	//FIXME
-	glutReshapeFunc(reshape);
-	glutVisibilityFunc(visible);
-
-	SetInputCallbacks();
-
-	ErrCheck("SetCallbacks");
 }
 
 void PopulateColony(Colony& colony)
@@ -242,6 +226,15 @@ void PopulateTunnels(Colony& colony)
 	{
 		colony.AddTunnel(tunnelCoords[i], tunnelCon[i]);
 	}
+}
+
+void display()
+{
+	preDisplay();
+
+	displayModelPtr->Draw();
+
+	postDisplay();
 }
 
 int main(int argc, char* argv[])

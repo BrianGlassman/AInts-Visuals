@@ -47,12 +47,7 @@ void RotateView()
 	glRotated(view_rotz, Z_AXIS);
 }
 
-void DrawScene()
-{
-	displayModelPtr->Draw();
-}
-
-void display()
+void preDisplay()
 {
 	// Clear previous
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -60,10 +55,10 @@ void display()
 
 	HandleMousePosition();
 	RotateView();
+}
 
-	// Drawing the scene must be AFTER rotation
-	DrawScene();
-
+void postDisplay()
+{
 	DrawAxes(2);
 
 	glFlush();

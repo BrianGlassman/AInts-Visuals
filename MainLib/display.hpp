@@ -5,6 +5,7 @@
 
 extern Model* displayModelPtr;
 
-void display();
+void preDisplay();
+void postDisplay();
 void idle();
 void visible(int vis);
