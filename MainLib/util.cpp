@@ -17,39 +17,39 @@ void Polar2Cart(float radius, float theta, float* x_out, float* y_out)
  */
 void DrawAxes(float scale)
 {
-       glDisable(GL_LIGHTING);
-       glDisable(GL_TEXTURE_2D);
-       
-       glPushMatrix(); {
-               glScaled(scale, scale, scale);
-       
-               glColor3f(1,0,0);
-               glBegin(GL_LINES); {
-                       glVertex3d(ORIGIN);
-                       glVertex3d(X_AXIS);
-               } glEnd();
-               glRasterPos3d(X_AXIS);
-               
-               glColor3f(0,1,0);
-               glBegin(GL_LINES); {
-                       glVertex3d(ORIGIN);
-                       glVertex3d(Y_AXIS);
-               } glEnd();
-               glRasterPos3d(Y_AXIS);
-               
-               glColor3f(0,0,1);
-               glBegin(GL_LINES); {
-                       glVertex3d(ORIGIN);
-                       glVertex3d(Z_AXIS);
-               } glEnd();
-               glRasterPos3d(Z_AXIS);
-       } glPopMatrix();
-       
-       glEnable(GL_LIGHTING);
-       glEnable(GL_TEXTURE_2D);
-       glColor3f(1, 1, 1);
-       
-       ErrCheck("DrawAxes");
+	glDisable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
+	
+	glPushMatrix(); {
+			glScaled(scale, scale, scale);
+	
+			glColor3f(1,0,0);
+			glBegin(GL_LINES); {
+					glVertex3d(ORIGIN);
+					glVertex3d(X_AXIS);
+			} glEnd();
+			glRasterPos3d(X_AXIS);
+			
+			glColor3f(0,1,0);
+			glBegin(GL_LINES); {
+					glVertex3d(ORIGIN);
+					glVertex3d(Y_AXIS);
+			} glEnd();
+			glRasterPos3d(Y_AXIS);
+			
+			glColor3f(0,0,1);
+			glBegin(GL_LINES); {
+					glVertex3d(ORIGIN);
+					glVertex3d(Z_AXIS);
+			} glEnd();
+			glRasterPos3d(Z_AXIS);
+	} glPopMatrix();
+	
+	glEnable(GL_LIGHTING);
+	glEnable(GL_TEXTURE_2D);
+	glColor3f(1, 1, 1);
+	
+	ErrCheck("DrawAxes");
 }
 
 /*
