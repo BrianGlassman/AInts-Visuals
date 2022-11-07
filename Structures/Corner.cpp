@@ -266,6 +266,7 @@ void Corner::Draw()
         // FIXME shouldn't recalculate every time
         UpdateConnections();
 
+		glFrontFace(GL_CCW);
 		glEnable(GL_TEXTURE_2D);
         glColor4f(1, 1, 1, 1);
     } glPopMatrix();
