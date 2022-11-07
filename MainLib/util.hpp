@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "CSCIx229.h"
 
 #define ORIGIN 0.0, 0.0, 0.0
@@ -23,7 +25,13 @@ public:
 	
 	float center[3] = {0.0f, 0.0f, 0.0f};
 
+    virtual void Create();
 	virtual void Draw();
+protected:
+    std::vector<std::vector<float>> vertices;
+	std::vector<std::vector<float>> normals;
+	std::vector<std::vector<float>> texCoords;
+	std::vector<int> indices;
 };
 
 class Cylinder : Model

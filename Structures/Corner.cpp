@@ -3,6 +3,7 @@
 
 Corner::Corner()
 {
+	Create();
 }
 
 void Corner::SetRotateAndScale()
@@ -69,38 +70,91 @@ SideType GetNodeType(int x, int y, int z)
 	return structure.sideType;
 }
 
-void DrawClosed(int n, float radius)
+void Corner::CreateClosed()
 {
 	int d = 360 / n;
-	float x, z, r0, r1, y0, y1;
+	float r, y;
+	float x, z;
 
-    glPushMatrix(); {
+	// Quarter sphere, using degenerate quads for the caps
+	int rowLength = n / 4 + 1;
+	int numRows = rowLength - 1; // Pole doesn't count as a row
+	int poleIdx = vertices.size();
+
+	// Generate the vertices, starting from the pole
+	normals.push_back({0, 1, 0});
+	vertices.push_back({0, 1, 0});
+	for (float phi = 90 - d; phi >= 0; phi -= d)
+	{
+		Polar2Cart(1, phi, &r, &y);
+		for (int theta = 0; theta <= 90; theta += d)
+		{
+			Polar2Cart(r, theta, &z, &x); // Flip X/Z to get CCW winding
+			normals.push_back({x, y, z});
+			vertices.push_back({x, y, z});
+		}
+	}
+
+	// Assign indices for first row, all using the pole
+	for (int col = 0; col < rowLength - 1; col++)
+	{
+		indices.push_back(poleIdx);
+		indices.push_back(poleIdx + 1 + col);
+		indices.push_back(poleIdx + 2 + col);
+	}
+
+	// Assign indices for the rest of the rows
+	int thisRowStart, nextRowStart;
+	for (int row = 0; row < numRows - 1; row++)
+	{
+		thisRowStart = poleIdx+1 + rowLength*row;
+		nextRowStart = thisRowStart + rowLength;
+		for (int col = 0; col < rowLength - 1; col++)
+		{
+			indices.push_back(thisRowStart + 0 + col); // Top left
+			indices.push_back(nextRowStart + 0 + col); // Bottom left
+			indices.push_back(thisRowStart + 1 + col); // Top right
+
+			indices.push_back(thisRowStart + 1 + col); // Top right
+			indices.push_back(nextRowStart + 0 + col); // Bottom left
+			indices.push_back(nextRowStart + 1 + col); // Bottom right
+		}
+	}
+}
+
+void Corner::Create()
+{
+	vertices.clear();
+
+	CreateClosed();
+}
+
+void DrawClosed(const std::vector<std::vector<float>> &vertices,
+	const std::vector<int> &indices,
+	const float radius)
+{
+	glEnableClientState(GL_VERTEX_ARRAY); {
+		// Convert vector of vectors to flat array
+		float vertexArray[vertices.size() * 3];
+		for (unsigned int i = 0; i < vertices.size(); i++)
+		{
+			vertexArray[i*3 + 0] = vertices[i][0];
+			vertexArray[i*3 + 1] = vertices[i][1];
+			vertexArray[i*3 + 2] = vertices[i][2];
+		}
+
+		unsigned char indexArray[indices.size()];
+		for (unsigned int i = 0; i < indices.size(); i++)
+		{
+			indexArray[i] = indices[i];
+		}
+
         // FIXME radius doubled just for visibility
         glScalef(radius*2, radius*2, radius*2);
 
-        // Draw quarter sphere, using degenerate quads for the caps (ref Ex. 8)
-        for (float phi = 0; phi < 90; phi += d)
-        {
-            Polar2Cart(1, phi, &r0, &y0);
-            Polar2Cart(1, phi + d, &r1, &y1);
-            // fprintf(stdout, "slice %f: (%f, %f), (%f, %f)\n", phi, r0, y0, r1, y1);
-
-            glBegin(GL_QUAD_STRIP);
-            for (int theta = 0; theta <= 90; theta += d)
-            {
-                // FIXME texture
-                Polar2Cart(r0, theta, &x, &z);
-                glNormal3d(x, y0, z);
-                glVertex3d(x, y0, z);
-                // fprintf(stdout, "0: (%f, %f, %f)", x, y0, z);
-                Polar2Cart(r1, theta, &x, &z);
-                glNormal3d(x, y1, z);
-                glVertex3d(x, y1, z);
-                // fprintf(stdout, "   1: (%f, %f, %f)\n", x, y1, z);
-            }
-            glEnd();
-        }
-    } glPopMatrix();
+		glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_BYTE, indexArray);
+	} glDisableClientState(GL_VERTEX_ARRAY);
 }
 void DrawOneTunnel(int n, float radius)
 {
@@ -164,7 +218,7 @@ void Corner::UpdateConnections()
 		switch(surroundings.sqrMagnitude())
 		{
 		case 0:
-			DrawClosed(n, radius);
+			DrawClosed(vertices, indices, radius);
 			break;
 		case 1:
 			DrawOneTunnel(n, radius);
@@ -195,6 +249,9 @@ void Corner::Draw()
 
 		glDisable(GL_TEXTURE_2D);
         glColor4f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25, 0.5);
+
+		// Mirroring reverses the face culling behavior, so have to correct for that
+		glFrontFace((baseScale[0]*baseScale[1]*baseScale[2] > 0) ? GL_CCW : GL_CW);
 
         // FIXME shouldn't recalculate every time
         UpdateConnections();

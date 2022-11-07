@@ -2,6 +2,8 @@ switch from using combined primitives to a centerline with offset
 
 look into using LINE_LOOP to make a wireframe? The LEGO example used a wireframe, too, but I think a different methodology
 
+make a Lighting file, with a "return to default" function so that I can easily turn lighting off for everything
+
 use VBOs (ref Ex. 8) for performance improvement
 
 May be better to use a pixel shader?

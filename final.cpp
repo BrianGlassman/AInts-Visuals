@@ -32,29 +32,29 @@ void initLighting()
 	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
 	glShadeModel(GL_SMOOTH);
-	
+
 	// Translate intensity to color vectors
 	float Ambient[] = {ambient_level, ambient_level, ambient_level, 1.0};
 	float Diffuse[] = {diffuse_level, diffuse_level, diffuse_level, 1.0};
 	float Specular[] = {specular_level, specular_level, specular_level, 1.0};
-	
+
 	glEnable(GL_NORMALIZE);
-	
+
 	// Setup ambient lighting
 	glEnable(AMBIENT);
 	glLightfv(AMBIENT, GL_AMBIENT, Ambient);
-	
+
 	// Setup directed lighting
 	glEnable(LIGHT_SRC);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, 1.0); // Use eye point for specular reflection
 	glLightfv(LIGHT_SRC, GL_DIFFUSE, Diffuse);
 	glLightfv(LIGHT_SRC, GL_SPECULAR, Specular);
-	
+
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, SHINY_DEFAULT);
-	
+
 	// Setting color will set ambient and diffuse colors
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-	
+
 	ErrCheck("initLighting");
 }
 
@@ -63,16 +63,19 @@ static void init(int argc, char* argv[])
 	// Do all the OpenGL setup
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-	
+
 	// Window
 	CreateWindow();
-	
+
 	#ifdef USEGLEW
 		if (glewInit() != GLEW_OK)
 		{
 			Fatal(1, "Error initializing GLEW\n");
 		}
 	#endif
+
+	// Wireframe
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	// Textures
 	// FIXME for SOME REASON having this load here makes the one inside textures.cpp work
@@ -87,11 +90,10 @@ static void init(int argc, char* argv[])
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable( GL_BLEND );
 
-
-	// FIXME re-enable
-	//glEnable(GL_CULL_FACE);
+	// Face culling and Z-buffering
+	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-	
+
 	ErrCheck("init");
 }
 
@@ -329,7 +331,7 @@ int main(int argc, char* argv[])
 
 	ErrCheck("main");
 	glutMainLoop();
-	
+
 	fprintf(stdout, "Passed loop\n");
 	return 99;
 }

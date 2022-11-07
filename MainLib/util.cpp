@@ -92,6 +92,13 @@ Model::Model()
 
 Model::~Model() {}
 
+void Model::Create()
+{
+    vertices.clear();
+
+    // Fill in the vertices
+}
+
 void Model::Draw()
 {
 	fprintf(stdout, "PROBLEM base draw\n");

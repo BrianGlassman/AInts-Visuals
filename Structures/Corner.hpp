@@ -35,8 +35,11 @@ public:
 
     Surroundings surroundings;
 
+	void Create();
     void Draw();
 private:
     void UpdateConnections();
 	void SetRotateAndScale();
+
+	void CreateClosed();
 };
