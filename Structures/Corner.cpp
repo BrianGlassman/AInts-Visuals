@@ -135,7 +135,7 @@ void DrawClosed(
 	const std::vector<int> &indices,
 	const float radius)
 {
-	glEnableClientState(GL_VERTEX_ARRAY); {
+	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
 		// Convert vector of vectors to flat array
 		float vertexArray[vertices.size() * 3];
 		for (unsigned int i = 0; i < vertices.size(); i++)
@@ -164,7 +164,7 @@ void DrawClosed(
 		glVertexPointer(3, GL_FLOAT, 0, vertexArray);
 		glNormalPointer(GL_FLOAT, 0, normalArray); 
 		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_BYTE, indexArray);
-	} glDisableClientState(GL_VERTEX_ARRAY);
+	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 }
 void DrawOneTunnel(int n, float radius)
 {
