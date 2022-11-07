@@ -48,11 +48,12 @@ static void init(int argc, char* argv[])
 	// Light ambient(0.5, 0, 0);
 	// OrbitLight orbiter(0, 0.45, 0.7);
 	OrbitLight orbiter(0, 0.4, 0);
+	orbiter.radius = baseMag * 1.2;
 	orbiterPtr = &orbiter;
 
 	// Enable alpha
-	// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	// glEnable( GL_BLEND );
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable( GL_BLEND );
 
 	// Face culling and Z-buffering
 	glEnable(GL_CULL_FACE);
@@ -266,7 +267,6 @@ int main(int argc, char* argv[])
 	{
 		baseMag = 1;
 		float coords[] = {0, 0, 0};
-		// Looking just at default (white) corner: all good
 		tunnel.AddTunnel(coords, 63);
 		displayModelPtr = &tunnel;
 		break;

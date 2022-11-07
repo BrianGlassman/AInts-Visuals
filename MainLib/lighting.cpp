@@ -120,6 +120,8 @@ void OrbitLight::Draw()
 			glVertex3d(-position[0], 0, -position[2]);
 			glVertex3d(-position[0], -position[1], -position[2]);
 		} glEnd();
+
+		glColor3f(1, 1, 1);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_TEXTURE_2D);
 	} glPopMatrix();
