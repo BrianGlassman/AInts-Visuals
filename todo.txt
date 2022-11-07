@@ -4,6 +4,8 @@ add "return to default" functions for lighting, materials, textures, colors, etc
 
 use VBOs (ref Ex. 8) for performance improvement
 
+make orbiting lights based on fixed speed, not display speed
+
 May be better to use a pixel shader?
 Marching cubes? Some other isosurface algorithm?
 	https://www3.cs.stonybrook.edu/~qin/courses/visualization/visualization-surface-rendering-with-polygons.pdf

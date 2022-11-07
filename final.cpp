@@ -16,6 +16,8 @@
 
 Model* displayModelPtr;
 
+OrbitLight* orbiterPtr;
+
 static void init(int argc, char* argv[])
 {
 	// Do all the OpenGL setup
@@ -43,10 +45,14 @@ static void init(int argc, char* argv[])
 
 	// Lighting
 	initLighting();
+	// Light ambient(0.5, 0, 0);
+	// OrbitLight orbiter(0, 0.45, 0.7);
+	OrbitLight orbiter(0, 0.4, 0);
+	orbiterPtr = &orbiter;
 
 	// Enable alpha
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable( GL_BLEND );
+	// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	// glEnable( GL_BLEND );
 
 	// Face culling and Z-buffering
 	glEnable(GL_CULL_FACE);
@@ -232,6 +238,10 @@ void display()
 {
 	preDisplay();
 
+	// FIXME this should probably not be in display
+	orbiterPtr->UpdatePosition();
+	orbiterPtr->Draw();
+
 	displayModelPtr->Draw();
 
 	postDisplay();
@@ -273,10 +283,6 @@ int main(int argc, char* argv[])
 	}
 
 	init(argc, argv);
-
-	// Enable alpha
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable( GL_BLEND );
 
 	SetCallbacks();
 
