@@ -129,7 +129,9 @@ void Corner::Create()
 	CreateClosed();
 }
 
-void DrawClosed(const std::vector<std::vector<float>> &vertices,
+void DrawClosed(
+	const std::vector<std::vector<float>> &vertices,
+	const std::vector<std::vector<float>> &normals,
 	const std::vector<int> &indices,
 	const float radius)
 {
@@ -142,6 +144,13 @@ void DrawClosed(const std::vector<std::vector<float>> &vertices,
 			vertexArray[i*3 + 1] = vertices[i][1];
 			vertexArray[i*3 + 2] = vertices[i][2];
 		}
+		float normalArray[normals.size() * 3];
+		for (unsigned int i = 0; i < normals.size(); i++)
+		{
+			normalArray[i*3 + 0] = normals[i][0];
+			normalArray[i*3 + 1] = normals[i][1];
+			normalArray[i*3 + 2] = normals[i][2];
+		}
 
 		unsigned char indexArray[indices.size()];
 		for (unsigned int i = 0; i < indices.size(); i++)
@@ -153,6 +162,7 @@ void DrawClosed(const std::vector<std::vector<float>> &vertices,
         glScalef(radius*2, radius*2, radius*2);
 
 		glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+		glNormalPointer(GL_FLOAT, 0, normalArray); 
 		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_BYTE, indexArray);
 	} glDisableClientState(GL_VERTEX_ARRAY);
 }
@@ -218,7 +228,7 @@ void Corner::UpdateConnections()
 		switch(surroundings.sqrMagnitude())
 		{
 		case 0:
-			DrawClosed(vertices, indices, radius);
+			DrawClosed(vertices, normals, indices, radius);
 			break;
 		case 1:
 			DrawOneTunnel(n, radius);
