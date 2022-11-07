@@ -167,7 +167,6 @@ void Tunnel::Draw()
 		{
 			corner.Draw();
 		}
-		// corners[0].Draw();
 		
 	} glPopMatrix();
 }
