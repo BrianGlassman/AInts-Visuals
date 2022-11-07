@@ -17,12 +17,14 @@ void Corner::SetRotateAndScale()
 			// x >= y >= z - Matches default
 			meshRotate[0] = 0; meshRotate[1] = 0; meshRotate[2] = 0;
 			meshScale[0] = 1; meshScale[1] = 1; meshScale[2] = 1;
+			windCW = false;
 		}
 		else
 		{
 			// x >= z >= y - Switch Y and Z
 			meshRotate[0] = 90; meshRotate[1] = 0; meshRotate[2] = 0;
 			meshScale[0] = 1; meshScale[1] = -1; meshScale[2] = 1;
+			windCW = true;
 		}
 	}
 	else if (surroundings.y >= surroundings.x && surroundings.y >= surroundings.z)
@@ -32,12 +34,15 @@ void Corner::SetRotateAndScale()
 			// y >= z >= x - X --> Z, Y --> X, Z --> Y
 			meshRotate[0] = 0; meshRotate[1] = 90; meshRotate[2] = 90;
 			meshScale[0] = 1; meshScale[1] = 1; meshScale[2] = 1;
+			windCW = false;
 		}
 		else
 		{
 			// y >= x >= z - Switch X and Y
-			meshRotate[0] = 0; meshRotate[1] =  0; meshRotate[2] = 90;
-			meshScale[0] = -1; meshScale[1] = 1; meshScale[2] = 1;
+			// NOTE: only used once chambers matter
+			// meshRotate[0] = 0; meshRotate[1] =  0; meshRotate[2] = 90;
+			// meshScale[0] = -1; meshScale[1] = 1; meshScale[2] = 1;
+			// windCW = false;
 		}
 	}
 	else if (surroundings.z >= surroundings.x && surroundings.z >= surroundings.y)
@@ -47,18 +52,32 @@ void Corner::SetRotateAndScale()
 			// z >= x >= y - X --> Y, Y --> Z, Z --> X
 			meshRotate[0] = -90; meshRotate[1] = 0; meshRotate[2] = -90;
 			meshScale[0] = 1; meshScale[1] = 1; meshScale[2] = 1;
+			windCW = false;
 		}
 		else
 		{
 			// z >= y >= x
-			meshRotate[0] = 0; meshRotate[1] = -90; meshRotate[2] = 0;
-			meshScale[0] = -1; meshScale[1] = 1; meshScale[2] = 1;
+			// NOTE: only used once chambers matter
+			// meshRotate[0] = 0; meshRotate[1] = -90; meshRotate[2] = 0;
+			// meshScale[0] = -1; meshScale[1] = 1; meshScale[2] = 1;
+			// windCW = false;
 		}
 	}
 	else
 	{
 		Fatal(999, "SetRotateAndScale fell through");
 	}
+
+	// Mirroring reverses the face culling behavior, so have to correct for that
+	if (baseScale[0]*baseScale[1]*baseScale[2] < 0)
+	{
+		windCW = not windCW;
+	}
+
+	if (windCW)
+		windMode = GL_CW;
+	else
+		windMode = GL_CCW;
 }
 
 SideType GetNodeType(int x, int y, int z)
@@ -138,6 +157,14 @@ void Corner::CreateOneTunnel()
 		vertices.push_back({0, y, z});
 	}
 }
+void Corner::CreateTwoTunnel()
+{
+	CreateOneTunnel();
+}
+void Corner::CreateThreeTunnel()
+{
+	CreateOneTunnel();
+}
 
 void Corner::Create()
 {
@@ -153,10 +180,10 @@ void Corner::Create()
 		CreateOneTunnel();
 		break;
 	case 2:
-		// CreateTwoTunnel();
+		CreateTwoTunnel();
 		break;
 	case 3:
-		// CreateThreeTunnel();
+		CreateThreeTunnel();
 		break;
 	// TODO handle chambers, too
 	default:
@@ -308,12 +335,6 @@ void Corner::UpdateConnections()
 			Fatal(999, "Unknown connection %d\n", surroundings.sqrMagnitude());
 		}
 	} glPopMatrix();
-
-	// FIXME
-	/*
-	meshFilter.transform.localEulerAngles = ans.euler;
-	meshFilter.transform.localScale = ans.scale;
-	*/
 }
 
 void Corner::Draw()
@@ -323,9 +344,7 @@ void Corner::Draw()
 
 		glDisable(GL_TEXTURE_2D);
         glColor4f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25, 0.5);
-
-		// Mirroring reverses the face culling behavior, so have to correct for that
-		glFrontFace((baseScale[0]*baseScale[1]*baseScale[2] > 0) ? GL_CCW : GL_CW);
+		glFrontFace(windMode);
 
         // FIXME shouldn't recalculate every time
         UpdateConnections();

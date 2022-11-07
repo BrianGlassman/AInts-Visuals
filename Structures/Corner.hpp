@@ -38,6 +38,10 @@ private:
 	float meshRotate[3] = {0, 0, 0};
 	float meshScale[3] = {1, 1, 1};
 
+	// Flag to get vertex winding correct
+	bool windCW = false;
+	GLenum windMode = GL_CCW;
+
     void UpdateConnections();
 	void SetRotateAndScale();
 
