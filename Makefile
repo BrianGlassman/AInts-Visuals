@@ -58,6 +58,7 @@ globals.o: $(MLIBDIR)/globals.cpp $(MLIBDIR)/globals.hpp
 # Everything else depends on globals (and display depends on util)
 display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp $(MLIBDIR)/globals.hpp $(MLIBDIR)/util.hpp
 input.o: $(MLIBDIR)/input.cpp $(MLIBDIR)/input.hpp $(MLIBDIR)/globals.hpp
+lighting.o: $(MLIBDIR)/lighting.cpp $(MLIBDIR)/lighting.hpp $(MLIBDIR)/globals.hpp
 textures.o: $(MLIBDIR)/textures.cpp $(MLIBDIR)/textures.hpp $(MLIBDIR)/globals.hpp
 util.o: $(MLIBDIR)/util.cpp $(MLIBDIR)/util.hpp $(MLIBDIR)/globals.hpp
 window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp $(MLIBDIR)/globals.hpp
@@ -78,7 +79,7 @@ Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp Chamber.o Hill.o Tunnel.o 
 #----------------
 CSCIx229.a: fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
-MainLib.a: globals.o display.o input.o textures.o util.o window.o
+MainLib.a: globals.o display.o lighting.o input.o textures.o util.o window.o
 	ar -rcs $@ $^
 Structures.a: Structure.o Corner.o Chamber.o Hill.o Tunnel.o Colony.o
 	ar -rcs $@ $^
