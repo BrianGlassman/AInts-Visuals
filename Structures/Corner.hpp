@@ -23,23 +23,26 @@ public:
     Corner();
 
 	// Transformation to put the corner in the right spot
-	float baseRotate[3] = {0, 0, 0};
 	float baseScale[3] = {1, 1, 1};
 
-	// Transformation to align the mesh properly
-	float meshRotate[3] = {0, 0, 0};
-	float meshScale[3] = {1, 1, 1};
-
-	float radius = 0.1f;
-    int n = 12;
-
+	// FIXME make public once auto-generation is implemented
     Surroundings surroundings;
 
 	void Create();
     void Draw();
 private:
+	float radius = 0.1f;
+    int n = 12;
+
+	// Transformation to align the mesh properly
+	float meshRotate[3] = {0, 0, 0};
+	float meshScale[3] = {1, 1, 1};
+
     void UpdateConnections();
 	void SetRotateAndScale();
 
 	void CreateClosed();
+	void CreateOneTunnel();
+	void CreateTwoTunnel();
+	void CreateThreeTunnel();
 };

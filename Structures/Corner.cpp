@@ -158,12 +158,14 @@ void DrawClosed(
 			indexArray[i] = indices[i];
 		}
 
-        // FIXME radius doubled just for visibility
-        glScalef(radius*2, radius*2, radius*2);
+		glPushMatrix(); {
+			// FIXME radius doubled just for visibility
+			glScalef(radius*2, radius*2, radius*2);
 
-		glVertexPointer(3, GL_FLOAT, 0, vertexArray);
-		glNormalPointer(GL_FLOAT, 0, normalArray); 
-		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_BYTE, indexArray);
+			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+			glNormalPointer(GL_FLOAT, 0, normalArray); 
+			glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_BYTE, indexArray);
+		} glPopMatrix();
 	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 }
 void DrawOneTunnel(int n, float radius)
@@ -220,9 +222,6 @@ void Corner::UpdateConnections()
 
 	glPushMatrix(); {
 		glScalef(baseScale[0]*meshScale[0], baseScale[1]*meshScale[1], baseScale[2]*meshScale[2]);
-		glRotatef(baseRotate[0] + meshRotate[0], X_AXIS);
-		glRotatef(baseRotate[1] + meshRotate[1], Y_AXIS);
-		glRotatef(baseRotate[2] + meshRotate[2], Z_AXIS);
 
 		// TODO need a second key to handle diagonals eventually
 		switch(surroundings.sqrMagnitude())
