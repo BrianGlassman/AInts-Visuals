@@ -1,14 +1,19 @@
 #include <iostream>
 
 #include "Noise.hpp"
+#include "Perlin.hpp"
 
 int main(int argc, char* argv[])
 {
-    Noise noise;
+    Noise* noisePtr = new Perlin;
 
-    auto vec = noise.getVec3();
-    fprintf(stdout, "%f\n", noise.getFloat());
-    fprintf(stdout, "(%f, %f, %f)\n", vec[0], vec[1], vec[2]);
+    auto vec = noisePtr->getVec3();
+    fprintf(stdout, "float: %f\n", noisePtr->getFloat());
+    fprintf(stdout, "vec3: (%f, %f, %f)\n", vec[0], vec[1], vec[2]);
+    vec = noisePtr->getNoise(0, 0, 0);
+    fprintf(stdout, "noise at (0, 0, 0): (%f, %f, %f)\n", vec[0], vec[1], vec[2]);
+
+    delete noisePtr;
 
     return 0;
 }

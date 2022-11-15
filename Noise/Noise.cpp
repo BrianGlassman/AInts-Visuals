@@ -33,6 +33,8 @@ Noise::Noise()
     }
 }
 
+Noise::~Noise() {}
+
 float Noise::getFloat()
 {
     return (float)rand() / RAND_MAX;
@@ -46,6 +48,10 @@ std::vector<float> Noise::getVec3()
 
 std::vector<float> Noise::getNoise(float x, float y, float z)
 {
-    // FIXME
     return getVec3();
+}
+
+std::vector<float> Noise::getNoise(std::vector<float> coords)
+{
+    return getNoise(coords[0], coords[1], coords[2]);
 }

@@ -7,8 +7,9 @@ class Noise
 public:
     Noise();
     Noise(unsigned int seed);
+	virtual ~Noise(); // Need a virtual destructor for polymorphics
 
-    std::vector<float> getNoise(float x, float y, float z);
+    virtual std::vector<float> getNoise(float x, float y, float z);
     std::vector<float> getNoise(std::vector<float> coords);
 
     float getFloat();

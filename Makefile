@@ -77,7 +77,7 @@ Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp Chamber.o Hill.o Tunnel.o 
 
 #--- Noise ---
 Noise.o: $(NOISDIR)/Noise.cpp $(NOISDIR)/Noise.hpp
-#perlin.o: $(NOISDIR)/perlin.cpp $(NOISDIR)/perlin.hpp
+Perlin.o: $(NOISDIR)/Perlin.cpp $(NOISDIR)/Perlin.hpp
 
 #----------------
 # Create archive
@@ -88,7 +88,7 @@ MainLib.a: globals.o display.o lighting.o input.o textures.o util.o window.o
 	ar -rcs $@ $^
 Structures.a: Structure.o Corner.o Chamber.o Hill.o Tunnel.o Colony.o
 	ar -rcs $@ $^
-Noise.a: Noise.o
+Noise.a: Noise.o Perlin.o
 	ar -rcs $@ $^
 
 #---------------
