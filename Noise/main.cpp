@@ -14,6 +14,8 @@ int main(int argc, char* argv[])
     fprintf(stdout, "noise at (0, 0, 0): (%f, %f, %f)\n", vec[0], vec[1], vec[2]);
     vec = noisePtr->getNoise(1, 2, 3);
     fprintf(stdout, "noise at (1, 2, 3): (%f, %f, %f)\n", vec[0], vec[1], vec[2]);
+    vec = noisePtr->getNoise(0, 0, 0);
+    fprintf(stdout, "again at (0, 0, 0): (%f, %f, %f)\n", vec[0], vec[1], vec[2]);
 
     delete noisePtr;
 

@@ -13,7 +13,7 @@ Vector3 Perlin::getPVector(Vector3Int coords)
     if (iter == pVectorsKeys.end())
     {
         // Create, store, and return a new vector
-        Vector3 vec({coords.x*2.0, coords.y*2.0, coords.z*2.0}); // FIXME should be random and such
+        Vector3 vec({getFloat(), getFloat(), getFloat()});
         pVectorsKeys.push_back(coords);
         pVectorsVals.push_back(vec);
         return vec;
