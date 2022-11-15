@@ -10,7 +10,8 @@
 CLIBDIR=CSCIx229
 MLIBDIR=MainLib
 STCRDIR=Structures
-INCLUDE=-I $(CLIBDIR) -I $(MLIBDIR) -I $(STCRDIR)
+NOISDIR=Noise
+INCLUDE=-I $(CLIBDIR) -I $(MLIBDIR) -I $(STCRDIR) -I $(NOISDIR)
 
 # Default target
 all: final
@@ -74,6 +75,10 @@ Tunnel.o: $(STCRDIR)/Tunnel.cpp $(STCRDIR)/Tunnel.hpp util.o Corner.o
 # Colony needs to depend on all the other Structures
 Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp Chamber.o Hill.o Tunnel.o MainLib.a
 
+#--- Noise ---
+Noise.o: $(NOISDIR)/Noise.cpp $(NOISDIR)/Noise.hpp
+#perlin.o: $(NOISDIR)/perlin.cpp $(NOISDIR)/perlin.hpp
+
 #----------------
 # Create archive
 #----------------
@@ -83,6 +88,8 @@ MainLib.a: globals.o display.o lighting.o input.o textures.o util.o window.o
 	ar -rcs $@ $^
 Structures.a: Structure.o Corner.o Chamber.o Hill.o Tunnel.o Colony.o
 	ar -rcs $@ $^
+Noise.a: Noise.o
+	ar -rcs $@ $^
 
 #---------------
 # Compile rules
@@ -91,14 +98,22 @@ Structures.a: Structure.o Corner.o Chamber.o Hill.o Tunnel.o Colony.o
 	gcc -c $(CFLAGS) $< $(INCLUDE)
 %.o: $(CLIBDIR)/%.cpp
 	g++ -c $(CFLAGS) $< $(INCLUDE)
+
 %.o: $(MLIBDIR)/%.c
 	gcc -c $(CFLAGS) $< $(INCLUDE)
 %.o: $(MLIBDIR)/%.cpp
 	g++ -c $(CFLAGS) $< $(INCLUDE)
+
 %.o: $(STCRDIR)/%.c
 	gcc -c $(CFLAGS) $< $(INCLUDE)
 %.o: $(STCRDIR)/%.cpp
 	g++ -c $(CFLAGS) $< $(INCLUDE)
+
+%.o: $(NOISDIR)/%.c
+	gcc -c $(CFLAGS) $< $(INCLUDE)
+%.o: $(NOISDIR)/%.cpp
+	g++ -c $(CFLAGS) $< $(INCLUDE)
+
 %.o: %.c
 	gcc -c $(CFLAGS) $< $(INCLUDE)
 %.o: %.cpp
@@ -110,6 +125,12 @@ Structures.a: Structure.o Corner.o Chamber.o Hill.o Tunnel.o Colony.o
 # Link
 final: final.o CSCIx229.a MainLib.a Structures.a
 	g++ -o $@ $^ $(CFLAGS) $(LIBS) $(INCLUDE)
+
+noise: $(NOISDIR)/main.cpp Noise.a
+	g++ -o final $^ $(CFLAGS) $(LIBS) -I $(NOISDIR)
+.SILENT: noiseRun
+noiseRun: noise
+	./final
 
 # Clean
 clean:
