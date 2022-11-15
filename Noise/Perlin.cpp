@@ -1,6 +1,11 @@
 #include <algorithm>
+#include <cmath>
+
+#include <iostream> // Just for debugging printouts
 
 #include "Perlin.hpp"
+
+// Some functions drawn from https://cs.nyu.edu/~perlin/noise/
 
 Vector3 Perlin::getPVector(Vector3Int coords)
 {
@@ -13,7 +18,14 @@ Vector3 Perlin::getPVector(Vector3Int coords)
     if (iter == pVectorsKeys.end())
     {
         // Create, store, and return a new vector
+
+        // Create a random vector
         Vector3 vec({getFloat(), getFloat(), getFloat()});
+
+        // Normalize
+        float mag = sqrt(vec.x*vec.x + vec.y*vec.y + vec.z*vec.z);
+        vec.x /= mag; vec.y /= mag; vec.z /= mag;
+
         pVectorsKeys.push_back(coords);
         pVectorsVals.push_back(vec);
         return vec;
@@ -30,11 +42,57 @@ Vector3 Perlin::getPVector(int x, int y, int z)
     return getPVector(coords);
 }
 
+float lerp(float fraction, float low, float high)
+{
+    return low + fraction * (high - low);
+}
+Vector3 lerp(float fraction, Vector3 low, Vector3 high)
+{
+    auto x = lerp(fraction, low.x, high.x);
+    auto y = lerp(fraction, low.y, high.y);
+    auto z = lerp(fraction, low.z, high.z);
+    Vector3 ret({x, y, z});
+    return ret;
+}
+
 std::vector<float> Perlin::getNoise(float x, float y, float z)
 {
-    // FIXME interpolate
-    Vector3 vec3 = getPVector(x, y, z);
+    // Get the cube corners and corresponding vectors
+    int xLow = floor(x), yLow = floor(y), zLow = floor(z);
+    int xHigh = xLow + 1, yHigh = yLow + 1, zHigh = zLow + 1;
+    Vector3 lll = getPVector( xLow,  yLow,  zLow);
+    Vector3 lhl = getPVector( xLow, yHigh,  zLow);
+    Vector3 llh = getPVector( xLow,  yLow, zHigh);
+    Vector3 lhh = getPVector( xLow, yHigh, zHigh);
+    Vector3 hll = getPVector(xHigh,  yLow,  zLow);
+    Vector3 hhl = getPVector(xHigh, yHigh,  zLow);
+    Vector3 hlh = getPVector(xHigh,  yLow, zHigh);
+    Vector3 hhh = getPVector(xHigh, yHigh, zHigh);
+
+    // Find relative X, Y, Z of point in cube
+    x -= xLow; y -= yLow; z -= zLow;
+
+    //--- Interpolate ---
+    // X axis
+    auto xll = lerp(x, lll, hll);
+    auto xhl = lerp(x, lhl, hhl);
+    auto xlh = lerp(x, llh, hlh);
+    auto xhh = lerp(x, lhh, hhh);
+
+    // Y axis
+    auto xyl = lerp(y, xll, xhl);
+    auto xyh = lerp(y, xlh, xhh);
+
+    // Z axis
+    auto xyz = lerp(z, xyl, xyh);
+    //---
+
+
+    float mag = sqrt(xyz.x*xyz.x + xyz.y*xyz.y + xyz.z*xyz.z);
+    fprintf(stdout, "mag = %f\n", mag);
+
+
     std::vector<float> vec;
-    vec.push_back(vec3.x); vec.push_back(vec3.y); vec.push_back(vec3.z);
+    vec.push_back(xyz.x); vec.push_back(xyz.y); vec.push_back(xyz.z);
     return vec;
 }
