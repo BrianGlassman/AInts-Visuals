@@ -37,7 +37,12 @@ Noise::~Noise() {}
 
 float Noise::getFloat()
 {
-    return (float)rand() / RAND_MAX;
+    float mn = -1.0, mx = 1.0;
+
+    float raw = (float)rand() / RAND_MAX;
+    float scaled = raw * (mx - mn);
+    float centered = scaled - (mx - mn) / 2;
+    return centered;
 }
 
 std::vector<float> Noise::getVec3()
