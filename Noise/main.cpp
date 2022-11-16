@@ -78,7 +78,7 @@ const static unsigned char indices[][4] = {
     {3, 4, 6, 7}, // Z = 1
 };
 
-void DrawPerturbedCube(float xCenter, float yCenter, float zCenter)
+void DrawPerturbedCube(float sideLength, float xCenter, float yCenter, float zCenter)
 {
     float x, y, z;
     float vertices[4][3];
@@ -89,9 +89,9 @@ void DrawPerturbedCube(float xCenter, float yCenter, float zCenter)
         for (int j = 0; j < 4; j++)
         {
             // Cube vertices are centered around (0.5, 0.5, 0.5)
-            vertices[j][0] = xCenter - 0.5 + baseVertices[indices[5-i][j]][0];
-            vertices[j][1] = yCenter - 0.5 + baseVertices[indices[5-i][j]][1];
-            vertices[j][2] = zCenter - 0.5 + baseVertices[indices[5-i][j]][2];
+            vertices[j][0] = xCenter + sideLength*(baseVertices[indices[5-i][j]][0] - 0.5);
+            vertices[j][1] = yCenter + sideLength*(baseVertices[indices[5-i][j]][1] - 0.5);
+            vertices[j][2] = zCenter + sideLength*(baseVertices[indices[5-i][j]][2] - 0.5);
 
             // Perturb
             auto perturbation = noisePtr->getNoise(
@@ -117,16 +117,20 @@ void display()
 
     static Cube cube;
 
+    const float sideLength = 0.5;
+    cube.radius = 0.5 * sideLength;
+    float mn = -1.5 * sideLength, mx = 1.5 * sideLength;
+
 	glDisable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
 
     // Draw the baseline (grid without noise)
     glColor4f(1, 1, 1, 0.5);
-    for (float x = -0.5; x <= 0.5; x += 1.0)
+    for (float x = mn; x <= mx; x += sideLength)
     {
-        for (float y = -0.5; y <= 0.5; y += 1.0)
+        for (float y = mn; y <= mx; y += sideLength)
         {
-            for (float z = -0.5; z <= 0.5; z += 1.0)
+            for (float z = mn; z <= mx; z += sideLength)
             {
                 glPushMatrix();
                 glTranslatef(x, y, z);
@@ -138,13 +142,13 @@ void display()
 
     // Draw the perturbed grid
     glColor4f(0.6, 1.0, 0.6, 1.0);
-    for (float x = -0.5; x <= 0.5; x += 1.0)
+    for (float x = mn; x <= mx; x += sideLength)
     {
-        for (float y = -0.5; y <= 0.5; y += 1.0)
+        for (float y = mn; y <= mx; y += sideLength)
         {
-            for (float z = -0.5; z <= 0.5; z += 1.0)
+            for (float z = mn; z <= mx; z += sideLength)
             {
-                DrawPerturbedCube(x, y, z);
+                DrawPerturbedCube(sideLength, x, y, z);
             }
         }
     }
