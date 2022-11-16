@@ -87,10 +87,7 @@ std::vector<float> Perlin::getNoise(float x, float y, float z)
     auto xyz = lerp(z, xyl, xyh);
     //---
 
-
     float mag = sqrt(xyz.x*xyz.x + xyz.y*xyz.y + xyz.z*xyz.z);
-    fprintf(stdout, "mag = %f\n", mag);
-
 
     std::vector<float> vec;
     vec.push_back(xyz.x); vec.push_back(xyz.y); vec.push_back(xyz.z);
