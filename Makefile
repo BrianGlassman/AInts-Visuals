@@ -126,8 +126,8 @@ Noise.a: Noise.o Perlin.o
 final: final.o CSCIx229.a MainLib.a Structures.a
 	g++ -o $@ $^ $(CFLAGS) $(LIBS) $(INCLUDE)
 
-noise: $(NOISDIR)/main.cpp Noise.a
-	g++ -o final $^ $(CFLAGS) $(LIBS) -I $(NOISDIR)
+noise: $(NOISDIR)/main.cpp Noise.a CSCIx229.a MainLib.a
+	g++ -o final $^ $(CFLAGS) $(LIBS) $(INCLUDE)
 .SILENT: noiseRun
 noiseRun: noise
 	./final
