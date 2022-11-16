@@ -3,6 +3,14 @@ about 1/3 of the time the light doesn't show up at all. WTF????
 look into using LINE_LOOP to make a wireframe? The LEGO example used a wireframe, too, but I think a different methodology
 
 add "return to default" functions for lighting, materials, textures, colors, etc.
+	or use push/pop attrib
+
+prevent neighboring vertices from overlapping
+	change how much the perturbation applies based on the line length? Probably not. That limits the max displacement
+	somehow ensure that all lines are the same length? That way a fixed perturbation value (lineLength * 0.49) will always be ok
+		also need to ensure open spaces (ex. between opposite walls) are larger than this value, but that should be fine
+	do multiple perturbation passes? Large displacement for broad strokes applies to long edges, then smaller displacements use smaller edges
+	bias or constrain the perturbations? ex. each vertical slice of a tunnel can only perturb up or down
 
 use VBOs (ref Ex. 8) for performance improvement
 
