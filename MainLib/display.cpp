@@ -57,14 +57,18 @@ void preDisplay()
 	RotateView();
 }
 
-void postDisplay()
+void postDisplay(float scale)
 {
-	DrawAxes(2);
+	DrawAxes(scale);
 
 	glFlush();
 	glutSwapBuffers();
 
 	ErrCheck("display");
+}
+void postDisplay()
+{
+	postDisplay(2);
 }
 
 void idle()

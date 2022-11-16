@@ -6,6 +6,7 @@
 extern Model* displayModelPtr;
 
 void preDisplay();
+void postDisplay(float scale);
 void postDisplay();
 void idle();
 void visible(int vis);
