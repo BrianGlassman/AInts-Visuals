@@ -9,7 +9,7 @@
 #include "input.hpp"
 #include "window.hpp"
 
-Noise* noisePtr;
+Perlin* noisePtr;
 
 //-----------------------
 // Function declarations
@@ -99,9 +99,10 @@ void DrawPerturbedCube(float sideLength, float xCenter, float yCenter, float zCe
                 vertices[j][1],
                 vertices[j][2]);
             
-            vertices[j][0] += perturbation[0] * 0.1;
-            vertices[j][1] += perturbation[1] * 0.1;
-            vertices[j][2] += perturbation[2] * 0.45;
+            // Limit perturbation to less than half a side to prevent intersections
+            vertices[j][0] += perturbation[0] * sideLength * 0.49;
+            vertices[j][1] += perturbation[1] * sideLength * 0.49;
+            vertices[j][2] += perturbation[2] * sideLength * 0.49;
         }
 
         DrawLitQuad(vertices[0],
@@ -117,20 +118,49 @@ void display()
 
     static Cube cube;
 
-    const float sideLength = 0.5;
+    const float sideLength = 1 / 3.0;
     cube.radius = 0.5 * sideLength;
-    float mn = -1.5 * sideLength, mx = 1.5 * sideLength;
+    // Extents of the grid
+    float mn = -1, mx = 1;
 
 	glDisable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
 
+    // Draw the perturbations
+    glColor4f(1.0, 1.0, 0.6, 0.5);
+    for (float x = floor(mn); x <= ceil(mx); x++)
+    {
+        for (float y = floor(mn); y <= ceil(mx); y++)
+        {
+            for (float z = floor(mn); z <= ceil(mx); z++)
+            {
+                glPushAttrib(GL_POINT_BIT);
+                glPointSize(15);
+                glBegin(GL_POINTS);
+                glVertex3f(x, y, z);
+                glEnd();
+                glPopAttrib();
+
+                auto p = noisePtr->getPVector(x, y, z);
+                glBegin(GL_LINES);
+                glVertex3f(x, y, z);
+                glVertex3f(x + p.x * (sideLength * 0.5), y + p.y * (sideLength * 0.5), z + p.z * (sideLength * 0.5));
+                glEnd();
+            }
+        }
+    }
+
+    //--- Change from grid-extents to center locations ---
+    mn += sideLength * 0.5; mx -= sideLength * 0.5;
+    //---   ---
+
     // Draw the baseline (grid without noise)
     glColor4f(1, 1, 1, 0.5);
-    for (float x = mn; x <= mx; x += sideLength)
+    for (float x = mn; x <= mx + 0.01; x += sideLength)
     {
-        for (float y = mn; y <= mx; y += sideLength)
+        for (float y = mn; y <= mx + 0.01; y += sideLength)
         {
-            for (float z = mn; z <= mx; z += sideLength)
+            for (float z = mn; z <= mx + 0.01; z += sideLength)
             {
                 glPushMatrix();
                 glTranslatef(x, y, z);
@@ -142,11 +172,11 @@ void display()
 
     // Draw the perturbed grid
     glColor4f(0.6, 1.0, 0.6, 1.0);
-    for (float x = mn; x <= mx; x += sideLength)
+    for (float x = mn; x <= mx + 0.01; x += sideLength)
     {
-        for (float y = mn; y <= mx; y += sideLength)
+        for (float y = mn; y <= mx + 0.01; y += sideLength)
         {
-            for (float z = mn; z <= mx; z += sideLength)
+            for (float z = mn; z <= mx + 0.01; z += sideLength)
             {
                 DrawPerturbedCube(sideLength, x, y, z);
             }
@@ -165,7 +195,7 @@ int main(int argc, char* argv[])
 
     SetCallbacks();
 
-    noisePtr = new Perlin;
+    noisePtr = new Perlin();
 
 	// Run display and reshape to zoom to fit
 	display();

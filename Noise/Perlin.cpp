@@ -5,7 +5,11 @@
 
 #include "Perlin.hpp"
 
-// Some functions drawn from https://cs.nyu.edu/~perlin/noise/
+// Broadly adapted from https://cs.nyu.edu/~perlin/noise/
+
+Perlin::Perlin(unsigned int seed) : Noise(seed)
+{
+}
 
 Vector3 Perlin::getPVector(Vector3Int coords)
 {
@@ -42,15 +46,20 @@ Vector3 Perlin::getPVector(int x, int y, int z)
     return getPVector(coords);
 }
 
+float fade(float t)
+{
+    return t * t * t * (t * (t * 6 - 15) + 10);
+}
+
 float lerp(float fraction, float low, float high)
 {
     return low + fraction * (high - low);
 }
 Vector3 lerp(float fraction, Vector3 low, Vector3 high)
 {
-    auto x = lerp(fraction, low.x, high.x);
-    auto y = lerp(fraction, low.y, high.y);
-    auto z = lerp(fraction, low.z, high.z);
+    auto x = lerp(fade(fraction), low.x, high.x);
+    auto y = lerp(fade(fraction), low.y, high.y);
+    auto z = lerp(fade(fraction), low.z, high.z);
     Vector3 ret({x, y, z});
     return ret;
 }
