@@ -120,20 +120,27 @@ void Model::PostCreate()
 }
 
 // Must be called AFTER Create so that both vertex lists are populated
-void Model::ApplyNoise(Noise& noise)
+void Model::ApplyNoise(Noise* noise)
 {
     for (unsigned int i = 0; i < baseVertices.size(); i++)
     {
-        auto p = noise.getNoise(baseVertices[i]);
-        vertices[i][0] = baseVertices[i][0] + p[0]*0.1;
-        vertices[i][1] = baseVertices[i][1] + p[1]*0.1;
-        vertices[i][2] = baseVertices[i][2] + p[2]*0.1;
+        auto p = noise->getNoise(baseVertices[i]);
+        vertices[i][0] = baseVertices[i][0] + p[0]*0.07;
+        vertices[i][1] = baseVertices[i][1] + p[1]*0.07;
+        vertices[i][2] = baseVertices[i][2] + p[2]*0.07;
+
+		if (i == 0)
+		{
+			// fprintf(stdout, "base (%f, %f, %f), noise (%f, %f, %f)\n",
+			// 	baseVertices[i][0], baseVertices[i][1], baseVertices[i][2],
+			// 	p[0], p[1], p[2]);
+		}
     }
 }
 
 void Model::Draw()
 {
-	fprintf(stdout, "PROBLEM base draw\n");
+	fprintf(stdout, "WARNING base draw\n");
 }
 
 Cylinder::Cylinder()

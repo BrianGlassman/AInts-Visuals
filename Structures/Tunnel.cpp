@@ -107,9 +107,8 @@ void Tunnel::Create()
 	PostCreate();
 }
 
-void Tunnel::ApplyNoise(Noise& noise)
+void Tunnel::ApplyNoise(Noise* noise)
 {
-	fprintf(stdout, "here\n");
 	for (auto&& corner : corners)
 	{
 		corner.ApplyNoise(noise);

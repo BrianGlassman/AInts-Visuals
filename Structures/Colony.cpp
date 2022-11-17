@@ -9,7 +9,7 @@ Colony::Colony()
     type = 4;
 }
 
-void Colony::ApplyNoise(Noise& noise)
+void Colony::ApplyNoise(Noise* noise)
 {
 	for (auto&& child : children)
 	{

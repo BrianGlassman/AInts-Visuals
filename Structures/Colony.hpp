@@ -10,7 +10,7 @@ class Colony : public Model
 {
 public:
     Colony();
-    void ApplyNoise(Noise& noise);
+    void ApplyNoise(Noise* noise);
     void Draw();
     void AddTunnel(float center[3]);
     // FIXME temporary convenience until auto-generating is implemented
