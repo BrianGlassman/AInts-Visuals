@@ -259,7 +259,7 @@ int main(int argc, char* argv[])
 	noisePtr = &noise;
 
 	// Create the scene to be displayed
-	Scene sceneChoice = Scene::tunnel;
+	Scene sceneChoice = Scene::colony;
 	Colony colony;
 	Colony tunnel;
 	switch(sceneChoice)
