@@ -17,8 +17,8 @@ struct Vector3 {
 class Perlin : public Noise
 {
 public:
-    Perlin();
-    Perlin(unsigned int seed);
+    Perlin() : Noise() {};
+    Perlin(unsigned int seed) : Noise(seed) {};
 
     std::vector<float> getNoise(float x, float y, float z);
 

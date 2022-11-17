@@ -53,6 +53,7 @@ std::vector<float> Noise::getVec3()
 
 std::vector<float> Noise::getNoise(float x, float y, float z)
 {
+    fprintf(stdout, "WARNING: called getNoise on base Noise class\n");
     return getVec3();
 }
 

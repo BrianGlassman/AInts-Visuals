@@ -7,10 +7,6 @@
 
 // Broadly adapted from https://cs.nyu.edu/~perlin/noise/
 
-Perlin::Perlin(unsigned int seed) : Noise(seed)
-{
-}
-
 Vector3 Perlin::getPVector(Vector3Int coords)
 {
     // https://www.geeksforgeeks.org/how-to-find-index-of-a-given-element-in-a-vector-in-cpp/
