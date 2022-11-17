@@ -3,6 +3,7 @@
 
 #include <iostream> // Just for debugging printouts
 
+#include "CSCIx229.h"
 #include "Perlin.hpp"
 
 // Broadly adapted from https://cs.nyu.edu/~perlin/noise/
@@ -97,4 +98,33 @@ std::vector<float> Perlin::getNoise(float x, float y, float z)
     std::vector<float> vec;
     vec.push_back(xyz.x); vec.push_back(xyz.y); vec.push_back(xyz.z);
     return vec;
+}
+
+void Perlin::DrawNoise()
+{
+    glDisable(GL_TEXTURE_2D);
+    glPushAttrib(GL_POINT_BIT);
+    glPointSize(15);
+    glPushAttrib(GL_LINE_BIT);
+    glLineWidth(7);
+    glColor4f(1, 1, 0.6, 0.5);
+    for (unsigned int i = 0; i < pVectorsKeys.size(); i++)
+    {
+        auto coords = pVectorsKeys[i];
+        glBegin(GL_POINTS);
+        glVertex3f(coords.x, coords.y, coords.z);
+        glEnd();
+
+        auto p = pVectorsVals[i];
+        glBegin(GL_LINES);
+        glVertex3f(coords.x, coords.y, coords.z);
+        glVertex3f(
+            coords.x + p.x*0.6,
+            coords.y + p.y*0.6,
+            coords.z + p.z*0.6);
+        glEnd();
+    }
+    glPopAttrib();
+    glPopAttrib();
+    glEnable(GL_TEXTURE_2D);
 }

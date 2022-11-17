@@ -4,6 +4,7 @@
 #include "Perlin.hpp"
 
 #include "CSCIx229.h"
+#include "util.hpp"
 #include "display.hpp"
 #include "globals.hpp"
 #include "input.hpp"

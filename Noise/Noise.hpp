@@ -14,6 +14,8 @@ public:
 
     float getFloat();
     std::vector<float> getVec3();
+
+    virtual void DrawNoise() {};
 protected:
     std::vector<float> randomVec3();
 

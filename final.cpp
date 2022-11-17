@@ -250,6 +250,8 @@ void display()
 
 	displayModelPtr->Draw();
 
+	noisePtr->DrawNoise();
+
 	postDisplay();
 }
 
