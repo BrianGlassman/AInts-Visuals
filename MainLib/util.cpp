@@ -92,11 +92,43 @@ Model::Model()
 
 Model::~Model() {}
 
-void Model::Create()
+void Model::PreCreate()
 {
     vertices.clear();
+	baseVertices.clear();
+	normals.clear();
+	texCoords.clear();
+	indices.clear();
+}
 
-    // Fill in the vertices
+void Model::Create()
+{
+	PreCreate();
+
+    // Fill in the trackers
+
+	PostCreate();
+}
+
+void Model::PostCreate()
+{
+	// Copy vertices to baseVertices
+	for (auto vertex : vertices)
+	{
+		baseVertices.push_back(vertex);
+	}
+}
+
+// Must be called AFTER Create so that both vertex lists are populated
+void Model::ApplyNoise(Noise& noise)
+{
+    for (unsigned int i = 0; i < baseVertices.size(); i++)
+    {
+        auto p = noise.getNoise(baseVertices[i]);
+        vertices[i][0] = baseVertices[i][0] + p[0]*0.1;
+        vertices[i][1] = baseVertices[i][1] + p[1]*0.1;
+        vertices[i][2] = baseVertices[i][2] + p[2]*0.1;
+    }
 }
 
 void Model::Draw()

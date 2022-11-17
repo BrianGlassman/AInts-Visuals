@@ -45,7 +45,7 @@ endif
 #--------------
 # Dependencies
 #--------------
-final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h MainLib.a Structures.a
+final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h MainLib.a Structures.a Noise.a
 
 #--- CSCIx229 ---
 fatal.o: $(CLIBDIR)/fatal.c $(CLIBDIR)/CSCIx229.h
@@ -123,7 +123,7 @@ Noise.a: Noise.o Perlin.o
 #  Targets
 #-----------
 # Link
-final: final.o CSCIx229.a MainLib.a Structures.a
+final: final.o CSCIx229.a MainLib.a Structures.a Noise.a
 	g++ -o $@ $^ $(CFLAGS) $(LIBS) $(INCLUDE)
 
 noise: $(NOISDIR)/main.cpp Noise.a CSCIx229.a MainLib.a

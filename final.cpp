@@ -14,9 +14,13 @@
 
 #include "Colony.hpp"
 
+#include "Noise.hpp"
+
 Model* displayModelPtr;
 
 OrbitLight* orbiterPtr;
+
+Noise* noisePtr;
 
 static void init(int argc, char* argv[])
 {
@@ -250,8 +254,11 @@ void display()
 
 int main(int argc, char* argv[])
 {
+	Noise noise;
+	noisePtr = &noise;
+
 	// Create the scene to be displayed
-	Scene sceneChoice = Scene::colony;
+	Scene sceneChoice = Scene::tunnel;
 	Colony colony;
 	Colony tunnel;
 	switch(sceneChoice)
@@ -267,7 +274,7 @@ int main(int argc, char* argv[])
 	{
 		baseMag = 1;
 		float coords[] = {0, 0, 0};
-		tunnel.AddTunnel(coords, 63);
+		tunnel.AddTunnel(coords, 5);
 		displayModelPtr = &tunnel;
 		break;
 	}
@@ -281,6 +288,7 @@ int main(int argc, char* argv[])
 	default:
 		Fatal(999, "Unknown scene\n");
 	}
+	displayModelPtr->ApplyNoise(*noisePtr);
 
 	init(argc, argv);
 

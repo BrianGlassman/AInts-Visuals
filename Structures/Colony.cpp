@@ -9,6 +9,14 @@ Colony::Colony()
     type = 4;
 }
 
+void Colony::ApplyNoise(Noise& noise)
+{
+	for (auto&& child : children)
+	{
+		child->ApplyNoise(noise);
+	}
+}
+
 void Colony::Draw()
 {
 	glPushMatrix(); {

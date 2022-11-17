@@ -168,7 +168,7 @@ void Corner::CreateThreeTunnel()
 
 void Corner::Create()
 {
-	vertices.clear();
+	PreCreate();
 
 	// TODO need a second key to handle diagonals eventually
 	switch(surroundings.sqrMagnitude())
@@ -189,6 +189,8 @@ void Corner::Create()
 	default:
 		Fatal(999, "Unknown connection %d\n", surroundings.sqrMagnitude());
 	}
+
+	PostCreate();
 }
 
 void DrawClosed(

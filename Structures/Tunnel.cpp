@@ -16,6 +16,14 @@ Tunnel::Tunnel(unsigned char sides)
 	right = sides & 16;
 	left = sides & 32;
 
+	Create();
+}
+
+void Tunnel::Create()
+{
+	fprintf(stdout, "Create Tunnel\n");
+	PreCreate();
+
 	Corner* corner;
 	// Right top front
 	corner = &corners[0];
@@ -93,6 +101,17 @@ Tunnel::Tunnel(unsigned char sides)
 	for (auto&& corner : corners)
 	{
 		corner.Create();
+	}
+
+	PostCreate();
+}
+
+void Tunnel::ApplyNoise(Noise& noise)
+{
+	fprintf(stdout, "here\n");
+	for (auto&& corner : corners)
+	{
+		corner.ApplyNoise(noise);
 	}
 }
 

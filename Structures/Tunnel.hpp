@@ -11,6 +11,8 @@ public:
 	Tunnel();
 	// FIXME temporary convenience until auto-generating is implemented
 	Tunnel(unsigned char sides);
+	void Create();
+	void ApplyNoise(Noise& noise);
 	void Draw();
 
 	float radius = 0.1f;

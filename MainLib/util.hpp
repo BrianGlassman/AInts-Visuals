@@ -4,6 +4,8 @@
 
 #include "CSCIx229.h"
 
+#include "Noise.hpp"
+
 #define ORIGIN 0.0, 0.0, 0.0
 #define X_AXIS 1.0, 0.0, 0.0
 #define Y_AXIS 0.0, 1.0, 0.0
@@ -25,10 +27,15 @@ public:
 	
 	float center[3] = {0.0f, 0.0f, 0.0f};
 
+	void PreCreate();
     virtual void Create();
+	void PostCreate();
 	virtual void Draw();
+
+    virtual void ApplyNoise(Noise& noise);
 protected:
     std::vector<std::vector<float>> vertices;
+	std::vector<std::vector<float>> baseVertices;
 	std::vector<std::vector<float>> normals;
 	std::vector<std::vector<float>> texCoords;
 	std::vector<int> indices;
