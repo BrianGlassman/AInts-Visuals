@@ -15,7 +15,7 @@ public:
 	void ApplyNoise(Noise& noise);
 	void Draw();
 
-	float radius = 0.1f;
+	float radius = 0.2f;
 	int n = 12;
 
 	bool   right = true; // +X

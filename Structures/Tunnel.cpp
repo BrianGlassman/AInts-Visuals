@@ -21,7 +21,6 @@ Tunnel::Tunnel(unsigned char sides)
 
 void Tunnel::Create()
 {
-	fprintf(stdout, "Create Tunnel\n");
 	PreCreate();
 
 	Corner* corner;
@@ -100,6 +99,8 @@ void Tunnel::Create()
 	// Create vertices AFTER setting surroundings
 	for (auto&& corner : corners)
 	{
+		corner.n = n;
+		corner.radius = radius;
 		corner.Create();
 	}
 
@@ -119,12 +120,12 @@ void Tunnel::OldDraw()
 {
 	// Arms
 	{
-		float cyl_height = 0.5f - radius;
+		float cyl_height = 0.5f - radius*0.5;
 
 		static Cylinder cyl;
 		cyl.top = true;
 		cyl.bottom = false;
-		cyl.radius = radius;
+		cyl.radius = radius * 0.5;
 		cyl.height = cyl_height;
 		cyl.SetTopCenter(0, 0.5f, 0);
 
@@ -176,7 +177,7 @@ void Tunnel::OldDraw()
 
 	// Core
 	static Cube core;
-	core.radius = radius;
+	core.radius = radius * 0.5;
 	core.Draw();
 
 }
