@@ -119,6 +119,7 @@ void Corner::CreateClosed()
 		indices.push_back(poleIdx);
 		indices.push_back(poleIdx + 1 + col);
 		indices.push_back(poleIdx + 2 + col);
+		indices.push_back(poleIdx);
 	}
 
 	// Assign indices for the rest of the rows
@@ -131,11 +132,8 @@ void Corner::CreateClosed()
 		{
 			indices.push_back(thisRowStart + 0 + col); // Top left
 			indices.push_back(nextRowStart + 0 + col); // Bottom left
-			indices.push_back(thisRowStart + 1 + col); // Top right
-
-			indices.push_back(thisRowStart + 1 + col); // Top right
-			indices.push_back(nextRowStart + 0 + col); // Bottom left
 			indices.push_back(nextRowStart + 1 + col); // Bottom right
+			indices.push_back(thisRowStart + 1 + col); // Top right
 		}
 	}
 }
@@ -228,7 +226,7 @@ void DrawClosed(
 
 			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
 			glNormalPointer(GL_FLOAT, 0, normalArray); 
-			glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_BYTE, indexArray);
+			glDrawElements(GL_QUADS, indices.size(), GL_UNSIGNED_BYTE, indexArray);
 		} glPopMatrix();
 	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 }
