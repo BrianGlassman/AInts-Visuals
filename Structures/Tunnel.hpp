@@ -16,7 +16,7 @@ public:
 	void Draw();
 
 	float radius = 0.2f;
-	int n = 12;
+	int n = 8; // Must be a multiple of 8 for the sake of passing to Corner
 
 	bool   right = true; // +X
 	bool    left = true; // -X

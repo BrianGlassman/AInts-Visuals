@@ -258,7 +258,7 @@ int main(int argc, char* argv[])
 	noisePtr = &noise;
 
 	// Create the scene to be displayed
-	Scene sceneChoice = Scene::tunnel;
+	Scene sceneChoice = Scene::allTunnels;
 	Colony colony;
 	Colony tunnel;
 	switch(sceneChoice)
@@ -274,7 +274,7 @@ int main(int argc, char* argv[])
 	{
 		baseMag = 1;
 		float coords[] = {0, 0, 0};
-		tunnel.AddTunnel(coords, 5);
+		tunnel.AddTunnel(coords, 0);
 		displayModelPtr = &tunnel;
 		break;
 	}
@@ -288,7 +288,7 @@ int main(int argc, char* argv[])
 	default:
 		Fatal(999, "Unknown scene\n");
 	}
-	displayModelPtr->ApplyNoise(*noisePtr);
+	// displayModelPtr->ApplyNoise(*noisePtr);
 
 	init(argc, argv);
 

@@ -29,7 +29,7 @@ public:
     Surroundings surroundings;
 
 	float radius = 0.1f;
-    int n = 12;
+    int n = 8; // Must be a multiple of 8 to handle 45 degree triple-corners
 
 	void Create();
     void Draw();
@@ -41,6 +41,9 @@ private:
 	// Flag to get vertex winding correct
 	bool windCW = false;
 	GLenum windMode = GL_CCW;
+
+	// Using multiple index arrays, so have to track the separations
+	std::vector<int> indexBounds;
 
     void UpdateConnections();
 	void SetRotateAndScale();

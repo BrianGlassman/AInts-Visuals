@@ -100,11 +100,11 @@ void Corner::CreateClosed()
 	int poleIdx = vertices.size();
 
 	// Generate the vertices, starting from the pole
-	normals.push_back({0, 1, 0});
-	vertices.push_back({0, 1, 0});
+	normals.push_back({0, radius, 0});
+	vertices.push_back({0, radius, 0});
 	for (float phi = 90 - d; phi >= 0; phi -= d)
 	{
-		Polar2Cart(1, phi, &r, &y);
+		Polar2Cart(radius, phi, &r, &y);
 		for (int theta = 0; theta <= 90; theta += d)
 		{
 			Polar2Cart(r, theta, &z, &x); // Flip X/Z to get CCW winding
@@ -114,13 +114,12 @@ void Corner::CreateClosed()
 	}
 
 	// Assign indices for first row, all using the pole
-	for (int col = 0; col < rowLength - 1; col++)
+	for (int col = 0; col < rowLength; col++)
 	{
 		indices.push_back(poleIdx);
 		indices.push_back(poleIdx + 1 + col);
-		indices.push_back(poleIdx + 2 + col);
-		indices.push_back(poleIdx);
 	}
+	indexBounds.push_back(indices.size());
 
 	// Assign indices for the rest of the rows
 	int thisRowStart, nextRowStart;
@@ -128,45 +127,203 @@ void Corner::CreateClosed()
 	{
 		thisRowStart = poleIdx+1 + rowLength*row;
 		nextRowStart = thisRowStart + rowLength;
-		for (int col = 0; col < rowLength - 1; col++)
+		for (int col = 0; col < rowLength; col++)
 		{
-			indices.push_back(thisRowStart + 0 + col); // Top left
-			indices.push_back(nextRowStart + 0 + col); // Bottom left
-			indices.push_back(nextRowStart + 1 + col); // Bottom right
-			indices.push_back(thisRowStart + 1 + col); // Top right
+			indices.push_back(thisRowStart + col);
+			indices.push_back(nextRowStart + col);
 		}
+		indexBounds.push_back(indices.size());
 	}
 }
 void Corner::CreateOneTunnel()
 {
-	float y, z;
+	// Tunnel along "x" - stop at plane X=0
+	float x, y, z;
 	for (int theta=0; theta <= 90; theta += (360 / n))
 	{
-		Polar2Cart(1, theta, &y, &z);
+		Polar2Cart(radius, theta, &y, &z);
+		x = 0;
 
+		// Outer point
 		indices.push_back(vertices.size());
-		normals.push_back({0, y, z});
+		normals.push_back({x, y, z});
 		// glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
-		vertices.push_back({1, y, z});
+		vertices.push_back({0.5, y, z});
 
+		// Inner point
 		indices.push_back(vertices.size());
 		normals.push_back({0, y, z});
 		// glTexCoord2f(M_PI * theta / 360.0f, 1.0f);
-		vertices.push_back({0, y, z});
+		vertices.push_back({x, y, z});
 	}
 }
 void Corner::CreateTwoTunnel()
 {
-	CreateOneTunnel();
+	std::vector<int> yInner;
+
+	// Tunnel along X - stop at plane X=Y
+	{
+		float x, y, z;
+		for (int theta=0; theta <= 90; theta += (360 / n))
+		{
+			Polar2Cart(radius, theta, &y, &z);
+			x = y;
+
+			// Outer point
+			indices.push_back(vertices.size());
+			normals.push_back({0, y, z});
+			// glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
+			vertices.push_back({0.5, y, z});
+
+			// Inner point
+			indices.push_back(vertices.size());
+			yInner.push_back(vertices.size());
+			normals.push_back({0, y, z});
+			// glTexCoord2f(M_PI * theta / 360.0f, 1.0f);
+			vertices.push_back({x, y, z});
+		}
+	}
+
+	indexBounds.push_back(indices.size());
+
+	// Tunnel along Y - stop at plane X=Y, re-use inner points
+	{
+		int yInnerIdx = 0;
+		float x, z;
+		for (int theta=0; theta <= 90; theta += (360 / n))
+		{
+			Polar2Cart(radius, theta, &x, &z);
+
+			// Re-use inner point
+			indices.push_back(yInner[yInnerIdx]);
+			yInnerIdx++;
+
+			// Outer point
+			indices.push_back(vertices.size());
+			normals.push_back({x, 0, z});
+			// FIXME texture
+			vertices.push_back({x, 0.5, z});
+		}
+	}
 }
 void Corner::CreateThreeTunnel()
 {
-	CreateOneTunnel();
+	std::vector<int> yInner;
+	std::vector<int> zInner;
+
+	// Tunnel along X - stop at planes X=Y or X=Z
+	{
+		float x, y, z;
+		for (int theta=90; theta >= 0; theta -= (360 / n))
+		{
+			Polar2Cart(radius, theta, &y, &z);
+
+			// Inner point
+			indices.push_back(vertices.size());
+			normals.push_back({0, y, z});
+			// glTexCoord2f(M_PI * theta / 360.0f, 1.0f);
+			if (y > z)
+			{
+				x = y;
+				yInner.push_back(vertices.size());
+				// fprintf(stdout, "add to yInner (%f, %f, %f)\n", x, y, z);
+			}
+			else if (y == z)
+			{
+				x = y;
+				yInner.push_back(vertices.size());
+				// fprintf(stdout, "add to yInner (%f, %f, %f)\n", x, y, z);
+				zInner.push_back(vertices.size());
+			}
+			else
+			{
+				x = z;
+				zInner.push_back(vertices.size());
+			}
+			vertices.push_back({x, y, z});
+
+			// Outer point
+			indices.push_back(vertices.size());
+			normals.push_back({0, y, z});
+			// glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
+			vertices.push_back({0.5, y, z});
+		}
+	}
+
+	indexBounds.push_back(indices.size());
+
+	// Tunnel along Y - stop at planes Y=X or Y=Z, re-use inner points for Y=X
+	{
+		int yInnerIdx = 0;
+		float x, z;
+		for (int theta=90; theta >= 0; theta -= (360 / n))
+		{
+			Polar2Cart(radius, theta, &x, &z);
+
+			// Outer point
+			indices.push_back(vertices.size());
+			normals.push_back({x, 0, z});
+			// FIXME texture
+			vertices.push_back({x, 0.5, z});
+
+			// Inner point
+			if (x >= z)
+			{
+				// Re-use from X=Y
+				indices.push_back(yInner[yInnerIdx]);
+				// fprintf(stdout, "reu %f, %f, %f\n", vertices[yInner[yInnerIdx]][0], vertices[yInner[yInnerIdx]][1], vertices[yInner[yInnerIdx]][2]);
+				yInnerIdx++;
+			}
+			else
+			{
+				// Create a new point on Y=Z
+				float y = z;
+				indices.push_back(vertices.size());
+				zInner.push_back(vertices.size());
+				normals.push_back({x, 0, z});
+				// FIXME texture
+				vertices.push_back({x, y, z});
+				// fprintf(stdout, "new %f, %f, %f\n", x, y, z);
+			}
+		}
+	}
+
+	indexBounds.push_back(indices.size());
+
+	// for (int i = 0; i < yInner.size(); i++)
+	// {
+	// 	fprintf(stdout, "%d (%f, %f, %f), ", yInner[i], vertices[yInner[i]][0], vertices[yInner[i]][1], vertices[yInner[i]][2]);
+	// }
+	// fprintf(stdout, "\n");
+
+	// Tunnel along Z - re-use inner points
+	{
+		int zInnerIdx = 0;
+		float x, y;
+		for (int theta=0; theta <= 90; theta += (360 / n))
+		{
+			Polar2Cart(radius, theta, &x, &y);
+
+			// Outer point
+			indices.push_back(vertices.size());
+			normals.push_back({x, y, 0});
+			// FIXME texture
+			vertices.push_back({x, y, 0.5});
+
+			// Inner point, re-use from Z=X or Z=Y
+			indices.push_back(zInner[zInnerIdx]);
+			zInnerIdx++;
+		}
+	}
 }
 
 void Corner::Create()
 {
 	PreCreate();
+	indexBounds.clear();
+	indexBounds.push_back(0);
+
+    UpdateConnections();
 
 	// TODO need a second key to handle diagonals eventually
 	switch(surroundings.sqrMagnitude())
@@ -188,107 +345,50 @@ void Corner::Create()
 		Fatal(999, "Unknown connection %d\n", surroundings.sqrMagnitude());
 	}
 
+	// Apply scaling and rotation to the created vertices and normals
+	for (auto&& vertex : vertices)
+	{
+		float x = vertex[0], y = vertex[1], z = vertex[2];
+
+		// fprintf(stdout, "Pre (%f, %f, %f) rot (%f, %f, %f) * (%f, %f, %f)\n", 
+		// 	vertex[0], vertex[1], vertex[2],
+		// 	meshRotate[0], meshRotate[1], meshRotate[2],
+		// 	meshScale[0], meshScale[1], meshScale[2]);
+
+		// Rotate around Z axis
+		vertex[0] =  Cos(meshRotate[2])*x - Sin(meshRotate[2])*y;
+		vertex[1] =  Sin(meshRotate[2])*x + Cos(meshRotate[2])*y;
+		vertex[2] =  z;
+		x = vertex[0]; y = vertex[1]; z = vertex[2];
+
+		// fprintf(stdout, "Post Z (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]);
+
+		// Rotate around Y axis
+		vertex[0] =  Cos(meshRotate[1])*x + Sin(meshRotate[1])*z;
+		vertex[1] =  y;
+		vertex[2] = -Sin(meshRotate[1])*x + Cos(meshRotate[1])*z;
+		x = vertex[0]; y = vertex[1]; z = vertex[2];
+
+		// fprintf(stdout, "Post Y (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]);
+
+		// Rotate around X axis
+		vertex[0] =  x;
+		vertex[1] =  Cos(meshRotate[0])*y - Sin(meshRotate[0])*z;
+		vertex[2] =  Sin(meshRotate[0])*y + Cos(meshRotate[0])*z;
+		x = vertex[0]; y = vertex[1]; z = vertex[2];
+
+		// fprintf(stdout, "Post X (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]);
+
+		// Scale
+		vertex[0] *= baseScale[0] * meshScale[0];
+		vertex[1] *= baseScale[1] * meshScale[1];
+		vertex[2] *= baseScale[2] * meshScale[2];
+
+		// fprintf(stdout, "Post scale (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]);
+	}
+
+	indexBounds.push_back(indices.size());
 	PostCreate();
-}
-
-void DrawClosed(
-	const std::vector<std::vector<float>> &vertices,
-	const std::vector<std::vector<float>> &normals,
-	const std::vector<int> &indices,
-	const float radius)
-{
-	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
-		// Convert vector of vectors to flat array
-		float vertexArray[vertices.size() * 3];
-		for (unsigned int i = 0; i < vertices.size(); i++)
-		{
-			vertexArray[i*3 + 0] = vertices[i][0];
-			vertexArray[i*3 + 1] = vertices[i][1];
-			vertexArray[i*3 + 2] = vertices[i][2];
-		}
-		float normalArray[normals.size() * 3];
-		for (unsigned int i = 0; i < normals.size(); i++)
-		{
-			normalArray[i*3 + 0] = normals[i][0];
-			normalArray[i*3 + 1] = normals[i][1];
-			normalArray[i*3 + 2] = normals[i][2];
-		}
-
-		unsigned char indexArray[indices.size()];
-		for (unsigned int i = 0; i < indices.size(); i++)
-		{
-			indexArray[i] = indices[i];
-		}
-
-		glPushMatrix(); {
-			// FIXME radius doubled just for visibility
-			glScalef(radius*2, radius*2, radius*2);
-
-			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
-			glNormalPointer(GL_FLOAT, 0, normalArray); 
-			glDrawElements(GL_QUADS, indices.size(), GL_UNSIGNED_BYTE, indexArray);
-		} glPopMatrix();
-	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
-}
-void DrawOneTunnel(
-	const std::vector<std::vector<float>> &vertices,
-	const std::vector<std::vector<float>> &normals,
-	const std::vector<int> &indices,
-	const float radius)
-{
-	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
-		// Convert vector of vectors to flat array
-		float vertexArray[vertices.size() * 3];
-		for (unsigned int i = 0; i < vertices.size(); i++)
-		{
-			vertexArray[i*3 + 0] = vertices[i][0];
-			vertexArray[i*3 + 1] = vertices[i][1];
-			vertexArray[i*3 + 2] = vertices[i][2];
-		}
-		float normalArray[normals.size() * 3];
-		for (unsigned int i = 0; i < normals.size(); i++)
-		{
-			normalArray[i*3 + 0] = normals[i][0];
-			normalArray[i*3 + 1] = normals[i][1];
-			normalArray[i*3 + 2] = normals[i][2];
-		}
-
-		unsigned char indexArray[indices.size()];
-		for (unsigned int i = 0; i < indices.size(); i++)
-		{
-			indexArray[i] = indices[i];
-		}
-
-		glPushMatrix(); {
-			// FIXME radius doubled just for visibility
-			glScalef(0.5, radius*2, radius*2);
-
-			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
-			glNormalPointer(GL_FLOAT, 0, normalArray); 
-			glDrawElements(GL_QUAD_STRIP, indices.size(), GL_UNSIGNED_BYTE, indexArray);
-		} glPopMatrix();
-	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
-}
-void DrawTwoTunnels(
-	const std::vector<std::vector<float>> &vertices,
-	const std::vector<std::vector<float>> &normals,
-	const std::vector<int> &indices,
-	const float radius)
-{
-	// FIXME
-	DrawOneTunnel(vertices, normals, indices, radius);
-	glPushMatrix(); glRotatef(90, Y_AXIS); glRotatef(90, Z_AXIS); DrawOneTunnel(vertices, normals, indices, radius); glPopMatrix();
-}
-void DrawThreeTunnels(
-	const std::vector<std::vector<float>> &vertices,
-	const std::vector<std::vector<float>> &normals,
-	const std::vector<int> &indices,
-	const float radius)
-{
-	// FIXME
-	DrawOneTunnel(vertices, normals, indices, radius);
-	glPushMatrix(); glRotatef(90, Y_AXIS); glRotatef(90, Z_AXIS); DrawOneTunnel(vertices, normals, indices, radius); glPopMatrix();
-	glPushMatrix(); glRotatef(-90, Z_AXIS); glRotatef(-90, Y_AXIS); DrawOneTunnel(vertices, normals, indices, radius); glPopMatrix();
 }
 
 void Corner::UpdateConnections()
@@ -308,33 +408,6 @@ void Corner::UpdateConnections()
 	//int key[2] = {surroundings.sqrMagnitude(), 0};
 
 	SetRotateAndScale();
-
-	glPushMatrix(); {
-		glScalef(baseScale[0]*meshScale[0], baseScale[1]*meshScale[1], baseScale[2]*meshScale[2]);
-		glRotatef(meshRotate[0], X_AXIS);
-		glRotatef(meshRotate[1], Y_AXIS);
-		glRotatef(meshRotate[2], Z_AXIS);
-
-		// TODO need a second key to handle diagonals eventually
-		switch(surroundings.sqrMagnitude())
-		{
-		case 0:
-			DrawClosed(vertices, normals, indices, radius);
-			break;
-		case 1:
-			DrawOneTunnel(vertices, normals, indices, radius);
-			break;
-		case 2:
-			DrawTwoTunnels(vertices, normals, indices, radius);
-			break;
-		case 3:
-			DrawThreeTunnels(vertices, normals, indices, radius);
-			break;
-		// TODO handle chambers, too
-		default:
-			Fatal(999, "Unknown connection %d\n", surroundings.sqrMagnitude());
-		}
-	} glPopMatrix();
 }
 
 void Corner::Draw()
@@ -346,8 +419,40 @@ void Corner::Draw()
         glColor4f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25, 0.5);
 		glFrontFace(windMode);
 
-        // FIXME shouldn't recalculate every time
-        UpdateConnections();
+		// FIXME array-ification can happen in Create, doesn't need to be in Draw
+		glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
+			// Convert vector of vectors to flat array
+			float vertexArray[vertices.size() * 3];
+			for (unsigned int i = 0; i < vertices.size(); i++)
+			{
+				vertexArray[i*3 + 0] = vertices[i][0];
+				vertexArray[i*3 + 1] = vertices[i][1];
+				vertexArray[i*3 + 2] = vertices[i][2];
+				// fprintf(stdout, "%d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]);
+			}
+			float normalArray[normals.size() * 3];
+			for (unsigned int i = 0; i < normals.size(); i++)
+			{
+				normalArray[i*3 + 0] = normals[i][0];
+				normalArray[i*3 + 1] = normals[i][1];
+				normalArray[i*3 + 2] = normals[i][2];
+			}
+
+			unsigned char indexArray[indices.size()];
+			for (unsigned int i = 0; i < indices.size(); i++)
+			{
+				indexArray[i] = indices[i];
+				// fprintf(stdout, "%d\n", indices[i]);
+			}
+
+			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+			glNormalPointer(GL_FLOAT, 0, normalArray);
+			for (unsigned int i = 0; i < indexBounds.size() - 1; i++)
+			{
+				int count = indexBounds[i+1] - indexBounds[i];
+				glDrawElements(GL_QUAD_STRIP, count, GL_UNSIGNED_BYTE, indexArray + indexBounds[i] * sizeof(unsigned char));
+			}
+		} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 
 		glFrontFace(GL_CCW);
 		glEnable(GL_TEXTURE_2D);
