@@ -28,12 +28,12 @@ public:
 	// FIXME make public once auto-generation is implemented
     Surroundings surroundings;
 
-	void Create();
-    void Draw();
-private:
 	float radius = 0.1f;
     int n = 12;
 
+	void Create();
+    void Draw();
+private:
 	// Transformation to align the mesh properly
 	float meshRotate[3] = {0, 0, 0};
 	float meshScale[3] = {1, 1, 1};
