@@ -20,7 +20,8 @@ void initLighting()
 	// Setup for Lighting, based on Ex. 13
 	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
-	glShadeModel(GL_SMOOTH);
+	// glShadeModel(GL_SMOOTH);
+	glShadeModel(GL_FLAT); // FIXME using flat to debug
 
 	glEnable(GL_NORMALIZE);
 
