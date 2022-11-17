@@ -1,3 +1,7 @@
+probably going to have to do perturbations at the same time as vertex-generation to get the normals right
+
+stop having intersecting tunnels for 2 or 3 tunnel configurations
+
 about 1/3 of the time the light doesn't show up at all. WTF????
 
 look into using LINE_LOOP to make a wireframe? The LEGO example used a wireframe, too, but I think a different methodology
