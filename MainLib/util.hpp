@@ -32,7 +32,12 @@ public:
 	void PostCreate();
 	virtual void Draw();
 
-    virtual void ApplyNoise(Noise* noise);
+    virtual void ApplyNoise(Noise* noise, float offset[]);
+	void ApplyNoise(Noise* noise)
+	{
+		float offset[] = {0, 0, 0};
+		ApplyNoise(noise, offset);
+	}
 protected:
     std::vector<std::vector<float>> vertices;
 	std::vector<std::vector<float>> baseVertices;

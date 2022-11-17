@@ -120,12 +120,17 @@ void Model::PostCreate()
 }
 
 // Must be called AFTER Create so that both vertex lists are populated
-void Model::ApplyNoise(Noise* noise)
+void Model::ApplyNoise(Noise* noise, float offset[])
 {
     for (unsigned int i = 0; i < baseVertices.size(); i++)
     {
-        auto p = noise->getNoise(baseVertices[i]);
-        vertices[i][0] = baseVertices[i][0] + p[0]*0.07;
+		float x = baseVertices[i][0] + center[0] + offset[0];
+		float y = baseVertices[i][1] + center[1] + offset[1];
+		float z = baseVertices[i][2] + center[2] + offset[2];
+
+        auto p = noise->getNoise(x, y, z);
+        
+		vertices[i][0] = baseVertices[i][0] + p[0]*0.07;
         vertices[i][1] = baseVertices[i][1] + p[1]*0.07;
         vertices[i][2] = baseVertices[i][2] + p[2]*0.07;
 

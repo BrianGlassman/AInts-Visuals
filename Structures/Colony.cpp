@@ -9,11 +9,12 @@ Colony::Colony()
     type = 4;
 }
 
-void Colony::ApplyNoise(Noise* noise)
+void Colony::ApplyNoise(Noise* noise, float offset[])
 {
+    float newOffset[] = {offset[0] + center[0], offset[1] + center[1], offset[2] + center[2]};
 	for (auto&& child : children)
 	{
-		child->ApplyNoise(noise);
+		child->ApplyNoise(noise, newOffset);
 	}
 }
 

@@ -107,11 +107,12 @@ void Tunnel::Create()
 	PostCreate();
 }
 
-void Tunnel::ApplyNoise(Noise* noise)
+void Tunnel::ApplyNoise(Noise* noise, float offset[])
 {
+    float newOffset[] = {offset[0] + center[0], offset[1] + center[1], offset[2] + center[2]};
 	for (auto&& corner : corners)
 	{
-		corner.ApplyNoise(noise);
+		corner.ApplyNoise(noise, newOffset);
 	}
 }
 
