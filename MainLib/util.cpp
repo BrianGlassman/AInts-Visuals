@@ -88,6 +88,7 @@ void DrawLitQuad(const float A[], const float B[], const float C[], const float 
 Model::Model()
 {
 	type = 1;
+	noiseScale = 0.07;
 }
 
 Model::~Model() {}
@@ -122,6 +123,8 @@ void Model::PostCreate()
 // Must be called AFTER Create so that both vertex lists are populated
 void Model::ApplyNoise(Noise* noise, float offset[])
 {
+	// fprintf(stdout, "Applying noise to type %d with %f scale\n", type, noiseScale);
+
     for (unsigned int i = 0; i < baseVertices.size(); i++)
     {
 		float x = baseVertices[i][0] + center[0] + offset[0];
@@ -130,9 +133,9 @@ void Model::ApplyNoise(Noise* noise, float offset[])
 
         auto p = noise->getNoise(x, y, z);
         
-		vertices[i][0] = baseVertices[i][0] + p[0]*0.07;
-        vertices[i][1] = baseVertices[i][1] + p[1]*0.07;
-        vertices[i][2] = baseVertices[i][2] + p[2]*0.07;
+		vertices[i][0] = baseVertices[i][0] + p[0]*noiseScale;
+        vertices[i][1] = baseVertices[i][1] + p[1]*noiseScale;
+        vertices[i][2] = baseVertices[i][2] + p[2]*noiseScale;
 
 		if (i == 0)
 		{

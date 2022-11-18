@@ -39,6 +39,9 @@ public:
 		ApplyNoise(noise, offset);
 	}
 protected:
+	// Scaling factor applied to the noise effect
+	float noiseScale = 0.07;
+
     std::vector<std::vector<float>> vertices;
 	std::vector<std::vector<float>> baseVertices;
 	std::vector<std::vector<float>> normals;
