@@ -135,6 +135,18 @@ void Corner::CreateClosed()
 		indexBounds.push_back(indices.size());
 	}
 }
+
+void Corner::CreateArm(int i0, int i1, float c1, int i2, float c2)
+{
+	std::vector<float> coords(3);
+	coords[i0] = 0; coords[i1] = c1; coords[i2] = c2;
+	indices.push_back(vertices.size());
+	normals.push_back(coords);
+	// FIXME texture
+	coords[i0] = 0.5;
+	vertices.push_back(coords);
+}
+
 void Corner::XTunnel(bool makeY, bool makeZ)
 {
 	yInner.clear();
@@ -147,11 +159,8 @@ void Corner::XTunnel(bool makeY, bool makeZ)
 		Polar2Cart(radius, theta, &z, &y);
 		z = -z;
 
-		// Outer point
-		indices.push_back(vertices.size());
-		normals.push_back({0, y, z});
-		// FIXME texture
-		vertices.push_back({0.5, y, z});
+		// Outer point(s)
+		CreateArm(0, 1, y, 2, z);
 
 		// Inner point
 		indices.push_back(vertices.size());
@@ -226,11 +235,8 @@ void Corner::YTunnel(bool makeZ)
 				yInnerIdx++;
 			}
 
-			// Outer point
-			indices.push_back(vertices.size());
-			normals.push_back({x, 0, z});
-			// FIXME texture
-			vertices.push_back({x, 0.5, z});
+			// Outer point(s)
+			CreateArm(1, 0, x, 2, z);
 		}
 	}
 }
@@ -257,11 +263,8 @@ void Corner::ZTunnel()
 			indices.push_back(zInner[zInnerIdx]);
 			zInnerIdx++;
 
-			// Outer point
-			indices.push_back(vertices.size());
-			normals.push_back({x, y, 0});
-			// FIXME texture
-			vertices.push_back({x, y, 0.5});
+			// Outer point(s)
+			CreateArm(2, 0, x, 1, y);
 		}
 	}
 }
