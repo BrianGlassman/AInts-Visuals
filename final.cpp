@@ -261,7 +261,7 @@ int main(int argc, char* argv[])
 	noisePtr = &noise;
 
 	// Create the scene to be displayed
-	Scene sceneChoice = Scene::colony;
+	Scene sceneChoice = Scene::allTunnels;
 	Colony colony;
 	Colony tunnel;
 	switch(sceneChoice)
@@ -277,7 +277,13 @@ int main(int argc, char* argv[])
 	{
 		baseMag = 1;
 		float coords[] = {0, 0, 0};
-		tunnel.AddTunnel(coords, 0);
+		// forward : 1
+		//    back : 2
+		//     top : 4
+		//  bottom : 8
+		//   right : 16
+		//    left : 32
+		tunnel.AddTunnel(coords, 21);
 		displayModelPtr = &tunnel;
 		break;
 	}
