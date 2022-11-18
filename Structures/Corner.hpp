@@ -30,6 +30,8 @@ public:
 
 	float radius = 0.1f;
     int n = 8; // Must be a multiple of 8 to handle 45 degree triple-corners
+	// Number of strips making up each arm
+	int armPanels = 4;
 
 	void Create();
     void Draw();
@@ -53,7 +55,8 @@ private:
 	void SetRotateAndScale();
 
 	void CreateClosed();
-	void CreateArm(int i0, int i1, float c1, int i2, float c2);
+	void CreateCoreOuter(int i0, int i1, float c1, int i2, float c2);
+	void CreateArm(int i0, int i1, int i2);
 	void XTunnel(bool makeY, bool makeZ);
 	void YTunnel(bool makeZ);
 	void ZTunnel();

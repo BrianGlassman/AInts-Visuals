@@ -187,7 +187,7 @@ void Tunnel::Draw()
 	glPushMatrix(); {
 		glTranslatef(center[0], center[1], center[2]);
 
-		OldDraw();
+		// OldDraw();
 
 		for (auto &&corner : corners)
 		{

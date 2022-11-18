@@ -135,18 +135,56 @@ void Corner::CreateClosed()
 		indexBounds.push_back(indices.size());
 	}
 }
-
-void Corner::CreateArm(int i0, int i1, float c1, int i2, float c2)
+/// @brief Creates the outer point of the core
+/// @param i0 axis index along the arm
+/// @param i1 secondary axis index
+/// @param c1 secondary coordinate
+/// @param i2 tertiary axis index
+/// @param c2 tertiary coordinate
+void Corner::CreateCoreOuter(int i0, int i1, float c1, int i2, float c2)
 {
 	std::vector<float> coords(3);
 	coords[i0] = 0; coords[i1] = c1; coords[i2] = c2;
 	indices.push_back(vertices.size());
 	normals.push_back(coords);
 	// FIXME texture
-	coords[i0] = 0.5;
+	coords[i0] = radius;
 	vertices.push_back(coords);
 }
+void Corner::CreateArm(int i0, int i1, int i2)
+{
+	float d = (0.5 - radius) / armPanels;
 
+	std::vector<float> coords(3);
+	float x = radius, y, z;
+	for (int i = 0; i < armPanels; i++)
+	{
+		indexBounds.push_back(indices.size());
+		for (float theta = 90; theta <= 180; theta += (360 / n))
+		{
+			// Top-left quadrant, moving CCW
+			Polar2Cart(radius, theta, &z, &y);
+			z = -z;
+			coords[i0] = 0; coords[i1] = y; coords[i2] = z;
+
+			// Outer edge
+			indices.push_back(vertices.size());
+			normals.push_back(coords);
+			// FIXME texture
+			coords[i0] = x + d;
+			vertices.push_back(coords);
+
+			// Inner edge
+			indices.push_back(vertices.size());
+			normals.push_back(coords);
+			// FIXME texture
+			coords[i0] = x;
+			vertices.push_back(coords);
+		}
+
+		x += d;
+	}
+}
 void Corner::XTunnel(bool makeY, bool makeZ)
 {
 	yInner.clear();
@@ -159,8 +197,8 @@ void Corner::XTunnel(bool makeY, bool makeZ)
 		Polar2Cart(radius, theta, &z, &y);
 		z = -z;
 
-		// Outer point(s)
-		CreateArm(0, 1, y, 2, z);
+		// Outer point
+		CreateCoreOuter(0, 1, y, 2, z);
 
 		// Inner point
 		indices.push_back(vertices.size());
@@ -199,46 +237,47 @@ void Corner::XTunnel(bool makeY, bool makeZ)
 		}
 		vertices.push_back({x, y, z});
 	}
+
+	CreateArm(0, 1, 2);
 }
 void Corner::YTunnel(bool makeZ)
 {
 	indexBounds.push_back(indices.size());
-
-	// Tunnel along Y - stop at plane X=Y, re-use inner points
+	
+	int yInnerIdx = 0;
+	float x, z;
+	for (int theta = 270; theta >= 180; theta -= (360 / n))
 	{
-		int yInnerIdx = 0;
-		float x, z;
-		for (int theta = 270; theta >= 180; theta -= (360 / n))
-		{
-			// Bottom-left quadrant when viewed from +Y, moving Clockwise
-			Polar2Cart(radius, theta, &z, &x);
-			x = -x; z = -z;
+		// Bottom-left quadrant when viewed from +Y, moving Clockwise
+		Polar2Cart(radius, theta, &z, &x);
+		x = -x; z = -z;
 
-			// Inner point
-			if (makeZ && x < z)
-			{ // Create a new point on Y = Z
-				float y = z;
-				indices.push_back(vertices.size());
-				zInner.insert(zInner.begin(), vertices.size());
-				normals.push_back({x, 0, z});
-				// FIXME texture
-				vertices.push_back({x, y, z});
-				// fprintf(stdout, "new %f, %f, %f\n", x, y, z);
-			}
-			else
-			{ // Re-use from XTunnel
-				indices.push_back(yInner[yInnerIdx]);
-				// fprintf(stdout, "reu %f, %f, %f\n", 
-				// 	vertices[yInner[yInnerIdx]][0],
-				// 	vertices[yInner[yInnerIdx]][1],
-				// 	vertices[yInner[yInnerIdx]][2]);
-				yInnerIdx++;
-			}
-
-			// Outer point(s)
-			CreateArm(1, 0, x, 2, z);
+		// Inner point
+		if (makeZ && x < z)
+		{ // Create a new point on Y = Z
+			float y = z;
+			indices.push_back(vertices.size());
+			zInner.insert(zInner.begin(), vertices.size());
+			normals.push_back({x, 0, z});
+			// FIXME texture
+			vertices.push_back({x, y, z});
+			// fprintf(stdout, "new %f, %f, %f\n", x, y, z);
 		}
+		else
+		{ // Re-use from XTunnel
+			indices.push_back(yInner[yInnerIdx]);
+			// fprintf(stdout, "reu %f, %f, %f\n", 
+			// 	vertices[yInner[yInnerIdx]][0],
+			// 	vertices[yInner[yInnerIdx]][1],
+			// 	vertices[yInner[yInnerIdx]][2]);
+			yInnerIdx++;
+		}
+
+		// Outer point
+		CreateCoreOuter(1, 0, x, 2, z);
 	}
+
+	CreateArm(1, 2, 0);
 }
 void Corner::ZTunnel()
 {
@@ -250,23 +289,22 @@ void Corner::ZTunnel()
 	// }
 	// fprintf(stdout, "\n");
 
-	// Tunnel along Z - re-use inner points
+	int zInnerIdx = 0;
+	float x, y;
+	for (int theta = 90; theta >= 0; theta -= (360 / n))
 	{
-		int zInnerIdx = 0;
-		float x, y;
-		for (int theta = 90; theta >= 0; theta -= (360 / n))
-		{
-			// Top-right quadrant when viewed from +Z, moving Clockwise
-			Polar2Cart(radius, theta, &x, &y);
+		// Top-right quadrant when viewed from +Z, moving Clockwise
+		Polar2Cart(radius, theta, &x, &y);
 
-			// Inner point, re-use from Z=X or Z=Y
-			indices.push_back(zInner[zInnerIdx]);
-			zInnerIdx++;
+		// Inner point, re-use from Z=X or Z=Y
+		indices.push_back(zInner[zInnerIdx]);
+		zInnerIdx++;
 
-			// Outer point(s)
-			CreateArm(2, 0, x, 1, y);
-		}
+		// Outer point(s)
+		CreateCoreOuter(2, 0, x, 1, y);
 	}
+
+	CreateArm(2, 0, 1);
 }
 
 void Corner::Create()

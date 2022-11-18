@@ -15,7 +15,7 @@ public:
 	void ApplyNoise(Noise* noise, float offset[]);
 	void Draw();
 
-	float radius = 0.2f;
+	float radius = 0.1f;
 	int n = 8; // Must be a multiple of 8 for the sake of passing to Corner
 
 	bool   right = true; // +X

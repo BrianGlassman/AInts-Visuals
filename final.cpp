@@ -40,7 +40,7 @@ static void init(int argc, char* argv[])
 	#endif
 
 	// Wireframe
-	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	// Textures
 	// FIXME for SOME REASON having this load here makes the one inside textures.cpp work
@@ -261,7 +261,7 @@ int main(int argc, char* argv[])
 	noisePtr = &noise;
 
 	// Create the scene to be displayed
-	Scene sceneChoice = Scene::allTunnels;
+	Scene sceneChoice = Scene::colony;
 	Colony colony;
 	Colony tunnel;
 	switch(sceneChoice)
