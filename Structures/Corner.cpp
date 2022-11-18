@@ -135,68 +135,96 @@ void Corner::CreateClosed()
 		indexBounds.push_back(indices.size());
 	}
 }
-void Corner::CreateOneTunnel()
+void Corner::XTunnel(bool makeY, bool makeZ)
 {
-	// Tunnel along "x" - stop at plane X=0
+	yInner.clear();
+	zInner.clear();
+
 	float x, y, z;
-	for (int theta=0; theta <= 90; theta += (360 / n))
+	for (float theta = 90; theta <= 180; theta += (360 / n))
 	{
-		Polar2Cart(radius, theta, &y, &z);
-		x = 0;
+		// Top-left quadrant when viewed from +X, moving CCW
+		Polar2Cart(radius, theta, &z, &y);
+		z = -z;
 
 		// Outer point
 		indices.push_back(vertices.size());
-		normals.push_back({x, y, z});
-		// glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
+		normals.push_back({0, y, z});
+		// FIXME texture
 		vertices.push_back({0.5, y, z});
 
 		// Inner point
 		indices.push_back(vertices.size());
 		normals.push_back({0, y, z});
-		// glTexCoord2f(M_PI * theta / 360.0f, 1.0f);
+		// FIXME texture
+		if (makeY)
+		{
+			if (makeZ)
+			{ // X, Y, and Z tunnels - stop at X = Y or X = Z
+				if (y > z)
+				{
+					x = y;
+					yInner.push_back(vertices.size());
+				}
+				else if (y == z)
+				{
+					x = y;
+					yInner.push_back(vertices.size());
+					zInner.push_back(vertices.size());
+				}
+				else
+				{
+					x = z;
+					zInner.push_back(vertices.size());
+				}
+			}
+			else
+			{ // X and Y tunnels - stop at X = Y
+				x = y;
+				yInner.push_back(vertices.size());
+			}
+		}
+		else
+		{ // Only X tunnel - Stop at X = 0
+			x = 0;
+		}
 		vertices.push_back({x, y, z});
 	}
 }
-void Corner::CreateTwoTunnel()
+void Corner::YTunnel(bool makeZ)
 {
-	std::vector<int> yInner;
-
-	// Tunnel along X - stop at plane X=Y
-	{
-		float x, y, z;
-		for (int theta=0; theta <= 90; theta += (360 / n))
-		{
-			Polar2Cart(radius, theta, &y, &z);
-			x = y;
-
-			// Outer point
-			indices.push_back(vertices.size());
-			normals.push_back({0, y, z});
-			// glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
-			vertices.push_back({0.5, y, z});
-
-			// Inner point
-			indices.push_back(vertices.size());
-			yInner.push_back(vertices.size());
-			normals.push_back({0, y, z});
-			// glTexCoord2f(M_PI * theta / 360.0f, 1.0f);
-			vertices.push_back({x, y, z});
-		}
-	}
-
 	indexBounds.push_back(indices.size());
 
 	// Tunnel along Y - stop at plane X=Y, re-use inner points
 	{
 		int yInnerIdx = 0;
 		float x, z;
-		for (int theta=0; theta <= 90; theta += (360 / n))
+		for (int theta = 270; theta >= 180; theta -= (360 / n))
 		{
-			Polar2Cart(radius, theta, &x, &z);
+			// Bottom-left quadrant when viewed from +Y, moving Clockwise
+			Polar2Cart(radius, theta, &z, &x);
+			x = -x; z = -z;
 
-			// Re-use inner point
-			indices.push_back(yInner[yInnerIdx]);
-			yInnerIdx++;
+			// Inner point
+			if (makeZ && x < z)
+			{ // Create a new point on Y = Z
+				float y = z;
+				indices.push_back(vertices.size());
+				zInner.insert(zInner.begin(), vertices.size());
+				normals.push_back({x, 0, z});
+				// FIXME texture
+				vertices.push_back({x, y, z});
+				// fprintf(stdout, "new %f, %f, %f\n", x, y, z);
+			}
+			else
+			{ // Re-use from XTunnel
+				indices.push_back(yInner[yInnerIdx]);
+				// fprintf(stdout, "reu %f, %f, %f\n", 
+				// 	vertices[yInner[yInnerIdx]][0],
+				// 	vertices[yInner[yInnerIdx]][1],
+				// 	vertices[yInner[yInnerIdx]][2]);
+				yInnerIdx++;
+			}
 
 			// Outer point
 			indices.push_back(vertices.size());
@@ -206,88 +234,8 @@ void Corner::CreateTwoTunnel()
 		}
 	}
 }
-void Corner::CreateThreeTunnel()
+void Corner::ZTunnel()
 {
-	std::vector<int> yInner;
-	std::vector<int> zInner;
-
-	// Tunnel along X - stop at planes X=Y or X=Z
-	{
-		float x, y, z;
-		for (int theta=90; theta >= 0; theta -= (360 / n))
-		{
-			Polar2Cart(radius, theta, &y, &z);
-
-			// Inner point
-			indices.push_back(vertices.size());
-			normals.push_back({0, y, z});
-			// glTexCoord2f(M_PI * theta / 360.0f, 1.0f);
-			if (y > z)
-			{
-				x = y;
-				yInner.push_back(vertices.size());
-				// fprintf(stdout, "add to yInner (%f, %f, %f)\n", x, y, z);
-			}
-			else if (y == z)
-			{
-				x = y;
-				yInner.push_back(vertices.size());
-				// fprintf(stdout, "add to yInner (%f, %f, %f)\n", x, y, z);
-				zInner.push_back(vertices.size());
-			}
-			else
-			{
-				x = z;
-				zInner.push_back(vertices.size());
-			}
-			vertices.push_back({x, y, z});
-
-			// Outer point
-			indices.push_back(vertices.size());
-			normals.push_back({0, y, z});
-			// glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
-			vertices.push_back({0.5, y, z});
-		}
-	}
-
-	indexBounds.push_back(indices.size());
-
-	// Tunnel along Y - stop at planes Y=X or Y=Z, re-use inner points for Y=X
-	{
-		int yInnerIdx = 0;
-		float x, z;
-		for (int theta=90; theta >= 0; theta -= (360 / n))
-		{
-			Polar2Cart(radius, theta, &x, &z);
-
-			// Outer point
-			indices.push_back(vertices.size());
-			normals.push_back({x, 0, z});
-			// FIXME texture
-			vertices.push_back({x, 0.5, z});
-
-			// Inner point
-			if (x >= z)
-			{
-				// Re-use from X=Y
-				indices.push_back(yInner[yInnerIdx]);
-				// fprintf(stdout, "reu %f, %f, %f\n", vertices[yInner[yInnerIdx]][0], vertices[yInner[yInnerIdx]][1], vertices[yInner[yInnerIdx]][2]);
-				yInnerIdx++;
-			}
-			else
-			{
-				// Create a new point on Y=Z
-				float y = z;
-				indices.push_back(vertices.size());
-				zInner.push_back(vertices.size());
-				normals.push_back({x, 0, z});
-				// FIXME texture
-				vertices.push_back({x, y, z});
-				// fprintf(stdout, "new %f, %f, %f\n", x, y, z);
-			}
-		}
-	}
-
 	indexBounds.push_back(indices.size());
 
 	// for (int i = 0; i < yInner.size(); i++)
@@ -300,19 +248,20 @@ void Corner::CreateThreeTunnel()
 	{
 		int zInnerIdx = 0;
 		float x, y;
-		for (int theta=0; theta <= 90; theta += (360 / n))
+		for (int theta = 90; theta >= 0; theta -= (360 / n))
 		{
+			// Top-right quadrant when viewed from +Z, moving Clockwise
 			Polar2Cart(radius, theta, &x, &y);
+
+			// Inner point, re-use from Z=X or Z=Y
+			indices.push_back(zInner[zInnerIdx]);
+			zInnerIdx++;
 
 			// Outer point
 			indices.push_back(vertices.size());
 			normals.push_back({x, y, 0});
 			// FIXME texture
 			vertices.push_back({x, y, 0.5});
-
-			// Inner point, re-use from Z=X or Z=Y
-			indices.push_back(zInner[zInnerIdx]);
-			zInnerIdx++;
 		}
 	}
 }
@@ -332,13 +281,16 @@ void Corner::Create()
 		CreateClosed();
 		break;
 	case 1:
-		CreateOneTunnel();
+		XTunnel(false, false);
 		break;
 	case 2:
-		CreateTwoTunnel();
+		XTunnel(true, false);
+		YTunnel(false);
 		break;
 	case 3:
-		CreateThreeTunnel();
+		XTunnel(true, true);
+		YTunnel(true);
+		ZTunnel();
 		break;
 	// TODO handle chambers, too
 	default:

@@ -45,11 +45,15 @@ private:
 	// Using multiple index arrays, so have to track the separations
 	std::vector<int> indexBounds;
 
+	// Track the shared vertices
+	std::vector<int> yInner;
+	std::vector<int> zInner;
+
     void UpdateConnections();
 	void SetRotateAndScale();
 
 	void CreateClosed();
-	void CreateOneTunnel();
-	void CreateTwoTunnel();
-	void CreateThreeTunnel();
+	void XTunnel(bool makeY, bool makeZ);
+	void YTunnel(bool makeZ);
+	void ZTunnel();
 };
