@@ -153,11 +153,11 @@ void Corner::CreateCoreOuter(int i0, int i1, float c1, int i2, float c2)
 }
 void Corner::CreateArm(int i0, int i1, int i2)
 {
-	float d = (0.5 - radius) / armPanels;
+	float d = (0.5 - radius) / panels;
 
 	std::vector<float> coords(3);
 	float x = radius, y, z;
-	for (int i = 0; i < armPanels; i++)
+	for (int i = 0; i < panels; i++)
 	{
 		indexBounds.push_back(indices.size());
 		for (float theta = 90; theta <= 180; theta += (360 / n))

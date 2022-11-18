@@ -31,7 +31,7 @@ public:
 	float radius = 0.1f;
     int n = 8; // Must be a multiple of 8 to handle 45 degree triple-corners
 	// Number of strips making up each arm
-	int armPanels = 4;
+	int panels = 4;
 
 	void Create();
     void Draw();

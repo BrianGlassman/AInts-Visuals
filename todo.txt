@@ -4,6 +4,7 @@ something's wrong with the lighting in some cases
 	triple-tunnel, the core and the arms aren't being lit the same
 
 about 1/3 of the time the light doesn't show up at all. WTF????
+	in some scenes it's at the wrong Y value, may or may not be related
 
 look into using LINE_LOOP to make a wireframe? The LEGO example used a wireframe, too, but I think a different methodology
 
