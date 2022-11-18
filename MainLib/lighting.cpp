@@ -51,6 +51,8 @@ Light::Light(float ambient, float diffuse, float specular)
 	SetAmbientLevel(ambient);
 	SetDiffuseLevel(diffuse);
 	SetSpecularLevel(specular);
+
+	// fprintf(stdout, "(Creation) Light pos = (%f, %f, %f), elevation = %f\n", position[0], position[1], position[2]);
 }
 
 void Light::SetLightfv(GLenum pname, float level)
@@ -83,6 +85,7 @@ void OrbitLight::UpdatePosition()
 	position[0] = radius*Cos(azimuth)*Cos(elevation);
 	position[1] = radius*Sin(elevation);
 	position[2] = radius*Sin(azimuth)*Cos(elevation);
+	// fprintf(stdout, "Light pos = (%f, %f, %f), elevation = %f\n", position[0], position[1], position[2], elevation);
 	glLightfv(id, GL_POSITION, position);
 }
 

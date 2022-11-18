@@ -35,7 +35,7 @@ private:
         manual,
     };
 
-	float azimuth, elevation;
+	float azimuth = 0, elevation = 0;
 
 	OrbitMode mode = OrbitMode::orbiting;
 };
