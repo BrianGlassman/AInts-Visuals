@@ -9,6 +9,8 @@ void printCallback(int val)
     printf("Option %d\n", val);
 }
 
+namespace Callbacks{} ;
+
 Menu::Menu() { name = "UNSET"; callback = printCallback; }
 
 void Menu::Create()
@@ -40,7 +42,7 @@ MainMenu::MainMenu()
     name = "Main";
 }
 
-void cb_idk(int val)
+namespace Callbacks{ void idk(int val)
 {
     switch(val)
     {
@@ -50,12 +52,12 @@ void cb_idk(int val)
     default:
         Fatal(999, "Unknown val %d\n", val);
     }
-}
+} }
 idkMenu::idkMenu()
 {
     name = "idk";
     buttons = { "Toggle Wireframe" };
-    callback = cb_idk;
+    callback = Callbacks::idk;
 };
 
 LightMenu::LightMenu()
