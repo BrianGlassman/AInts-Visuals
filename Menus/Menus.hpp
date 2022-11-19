@@ -7,6 +7,8 @@ void nullopCallback(int val);
 
 typedef void (*Callback)(int val);
 
+void CreateMenus();
+
 class Menu
 {
 public:

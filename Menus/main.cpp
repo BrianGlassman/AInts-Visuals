@@ -65,18 +65,7 @@ int main(int argc, char* argv[])
 	
     display();
 
-    // Main
-    MainMenu mainMenu;
-    mainMenu.Create();
-    mainMenu.Attach(GLUT_RIGHT_BUTTON);
-
-    // Lighting
-    LightMenu light; light.Create();
-    mainMenu.AddSubMenu(&light);
-
-    // idk
-    idkMenu idk; idk.Create();
-    mainMenu.AddSubMenu(&idk);
+	CreateMenus();
 
 	ErrCheck("main");
 	glutMainLoop();

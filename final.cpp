@@ -7,15 +7,21 @@
 #include <stdarg.h>
 #include <math.h>
 
+// MainLib
 #include "final.hpp"
 #include "globals.hpp"
 #include "lighting.hpp"
 #include "textures.hpp"
 
+// Structures
 #include "Colony.hpp"
 
+// Noise
 #include "Noise.hpp"
 #include "Perlin.hpp"
+
+// Menus
+#include "Menus.hpp"
 
 Model* displayModelPtr;
 
@@ -307,6 +313,8 @@ int main(int argc, char* argv[])
 	init(argc, argv);
 
 	SetCallbacks();
+
+	CreateMenus();
 
 	// Run display and reshape to zoom to fit
 	display();

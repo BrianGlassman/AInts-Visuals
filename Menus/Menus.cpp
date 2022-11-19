@@ -9,7 +9,23 @@ void printCallback(int val)
     printf("Option %d\n", val);
 }
 
-namespace Callbacks{} ;
+namespace Callbacks{};
+
+void CreateMenus()
+{
+    // Main
+    MainMenu mainMenu;
+    mainMenu.Create();
+    mainMenu.Attach(GLUT_RIGHT_BUTTON);
+
+    // Lighting
+    LightMenu light; light.Create();
+    mainMenu.AddSubMenu(&light);
+
+    // idk
+    idkMenu idk; idk.Create();
+    mainMenu.AddSubMenu(&idk);
+}
 
 Menu::Menu() { name = "UNSET"; callback = printCallback; }
 

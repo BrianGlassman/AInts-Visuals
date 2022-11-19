@@ -134,7 +134,7 @@ Menus.a: Menus.o
 #  Targets
 #-----------
 # Link
-final: final.o CSCIx229.a MainLib.a Structures.a Noise.a
+final: final.o CSCIx229.a MainLib.a Structures.a Noise.a Menus.a
 	g++ -o $@ $^ $(CFLAGS) $(LIBS) $(INCLUDE)
 
 noise: $(NOISDIR)/main.cpp Noise.a CSCIx229.a MainLib.a
