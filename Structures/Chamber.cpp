@@ -213,16 +213,17 @@ void Chamber::Draw()
 				normalArray[i*3 + 2] = normals[i][2];
 			}
 
-			unsigned char indexArray[indices.size()];
+			unsigned int indexArray[indices.size()];
 			for (unsigned int i = 0; i < indices.size(); i++)
 			{
 				indexArray[i] = indices[i];
-				// fprintf(stdout, "%d\n", indices[i]);
+				// fprintf(stdout, "%d\n", indexArray[i]);
 			}
+			// fprintf(stdout, "%d: %d\n", indices.size()-1, indexArray[indices.size()-1]); // Check for overflow
 
 			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
 			glNormalPointer(GL_FLOAT, 0, normalArray);
-			glDrawElements(GL_QUADS, indices.size(), GL_UNSIGNED_BYTE, indexArray);
+			glDrawElements(GL_QUADS, indices.size(), GL_UNSIGNED_INT, indexArray);
 		} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 	} glPopMatrix();
 }

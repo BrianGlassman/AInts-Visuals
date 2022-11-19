@@ -1,3 +1,7 @@
+chamber uses a different noiseScale than tunnel, so the tunnel and chamber edges don't line up anymore
+
+chamber lighting is very wrong
+
 probably going to have to do perturbations at the same time as vertex-generation to get the normals right
 
 something's wrong with the lighting in some cases

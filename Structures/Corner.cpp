@@ -431,7 +431,7 @@ void Corner::Draw()
 				normalArray[i*3 + 2] = normals[i][2];
 			}
 
-			unsigned char indexArray[indices.size()];
+			unsigned int indexArray[indices.size()];
 			for (unsigned int i = 0; i < indices.size(); i++)
 			{
 				indexArray[i] = indices[i];
@@ -443,7 +443,7 @@ void Corner::Draw()
 			for (unsigned int i = 0; i < indexBounds.size() - 1; i++)
 			{
 				int count = indexBounds[i+1] - indexBounds[i];
-				glDrawElements(GL_QUAD_STRIP, count, GL_UNSIGNED_BYTE, indexArray + indexBounds[i] * sizeof(unsigned char));
+				glDrawElements(GL_QUAD_STRIP, count, GL_UNSIGNED_INT, indexArray + indexBounds[i] * sizeof(unsigned char));
 			}
 		} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 

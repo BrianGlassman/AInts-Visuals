@@ -13,7 +13,7 @@ public:
 
     float radius = 0.5f;
     // Number of panels per side (panels = 2 --> 4 quads per side). Must be at least 3
-    int panels = 4; // FIXME something about sending more than 256 vertices breaks and doesn't draw them
+    int panels = 5;
 private:
     float panelWidth;
 
