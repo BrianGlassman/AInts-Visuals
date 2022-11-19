@@ -2,6 +2,8 @@ chamber uses a different noiseScale than tunnel, so the tunnel and chamber edges
 
 chamber lighting is very wrong
 
+can I use a shader with OpenGL 2 and still use the rest of the fixed pipeline?
+
 probably going to have to do perturbations at the same time as vertex-generation to get the normals right
 
 something's wrong with the lighting in some cases
