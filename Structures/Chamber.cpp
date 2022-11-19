@@ -10,6 +10,9 @@ Chamber::Chamber()
 
 void Chamber::CreateCorner(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 {
+	std::vector<float> norm(3);
+	norm[i0] = f0 ? -1 : 1; norm[i1] = f1 ? -1 : 1; norm[i2] = f2 ? -1 : 1;
+
 	std::vector<float> coords(3);
 	int idx = vertices.size();
 	float x, y, z;
@@ -49,6 +52,10 @@ void Chamber::CreateCorner(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 void Chamber::CreateEdge(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 {
 	// fprintf(stdout, "Start CreateEdge, %d vertices\n", vertices.size());
+
+	std::vector<float> norm(3);
+	norm[i0] = 0; norm[i1] = f1 ? -1 : 1; norm[i2] = f2 ? -1 : 1;
+
 	std::vector<float> coords(3);
 	int idx = vertices.size();
 	float thisX, nextX, y, z;
@@ -84,7 +91,7 @@ void Chamber::CreateEdge(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 
 		for (int i = 0; i < 4; i++)
 		{
-			normals.push_back(std::vector<float> {0, 0, (f2) ? -1.0f : 1.0f});
+			normals.push_back(norm);
 			indices.push_back(idx);
 			idx++;
 		}
@@ -94,6 +101,10 @@ void Chamber::CreateEdge(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 void Chamber::CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 {
 	// fprintf(stdout, "Start CreateFace, %d vertices\n", vertices.size());
+
+	std::vector<float> norm(3);
+	norm[i0] = 0; norm[i1] = 0; norm[i2] = f2 ? -1 : 1;
+
 	std::vector<float> coords(3);
 	int idx = vertices.size();
 	float x, y, z = f2 ? -0.5 : 0.5;
@@ -126,7 +137,7 @@ void Chamber::CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 
 			for (int i = 0; i < 4; i++)
 			{
-				normals.push_back(std::vector<float> {0, 0, (f2) ? -1.0f : 1.0f});
+				normals.push_back(norm);
 				indices.push_back(idx);
 				idx++;
 			}
