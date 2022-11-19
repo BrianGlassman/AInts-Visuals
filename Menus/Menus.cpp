@@ -2,6 +2,8 @@
 #include "display.hpp"
 #include "Menus.hpp"
 
+using namespace Menus;
+
 void nullopCallback(int val) {};
 
 void printCallback(int val)
@@ -11,7 +13,7 @@ void printCallback(int val)
 
 namespace Callbacks{};
 
-void CreateMenus()
+void Menus::CreateMenus()
 {
     // Main
     MainMenu mainMenu;

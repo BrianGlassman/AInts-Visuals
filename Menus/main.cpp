@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
 	
     display();
 
-	CreateMenus();
+	Menus::CreateMenus();
 
 	ErrCheck("main");
 	glutMainLoop();

@@ -314,7 +314,7 @@ int main(int argc, char* argv[])
 
 	SetCallbacks();
 
-	CreateMenus();
+	Menus::CreateMenus();
 
 	// Run display and reshape to zoom to fit
 	display();

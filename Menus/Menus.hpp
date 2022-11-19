@@ -3,6 +3,7 @@
 #include <functional>
 #include <vector>
 
+namespace Menus{
 void nullopCallback(int val);
 
 typedef void (*Callback)(int val);
@@ -34,3 +35,5 @@ class MainMenu : public Menu { public: MainMenu(); };
 class idkMenu : public Menu { public: idkMenu(); };
 
 class LightMenu : public Menu { public: LightMenu(); };
+
+} // namespace Menus
