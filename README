@@ -13,3 +13,7 @@ dirtGroundTileable - https://www.deviantart.com/fabooguy/art/Dirt-Ground-Texture
 Code references:
 Class slides, examples, and library
 Polymorphic list - https://stackoverflow.com/questions/17532076/whats-the-preferred-c-idiom-to-own-a-collection-of-polymorphic-objects
+GLUT menus	
+	http://www.cs.sjsu.edu/~bruce/fall_2016_cs_116a_lecture_creating_mouse_driven_menus.html
+	http://www.cs.sjsu.edu/~bruce/programs/fall_2016_cs_116a/example_glut_menu/example_glut_menu.c
+	https://www.opengl.org/resources/libraries/glut/spec3/node35.html

@@ -65,14 +65,18 @@ int main(int argc, char* argv[])
 	
     display();
 
-    // http://www.cs.sjsu.edu/~bruce/fall_2016_cs_116a_lecture_creating_mouse_driven_menus.html
-    // http://www.cs.sjsu.edu/~bruce/programs/fall_2016_cs_116a/example_glut_menu/example_glut_menu.c
-    idkMenu subSubMenu; subSubMenu.Create(); // Have to call Create separately to use the derived class values
-    int glut_sub_menu = glutCreateMenu(callback);
-    glutAddSubMenu("sub menu", subSubMenu.id);
-    glutCreateMenu(callback);
-    glutAddSubMenu("menu", glut_sub_menu);
-    glutAttachMenu(GLUT_RIGHT_BUTTON);
+    // Main
+    MainMenu mainMenu;
+    mainMenu.Create();
+    mainMenu.Attach(GLUT_RIGHT_BUTTON);
+
+    // Lighting
+    LightMenu light; light.Create();
+    mainMenu.AddSubMenu(&light);
+
+    // idk
+    idkMenu idk; idk.Create();
+    mainMenu.AddSubMenu(&idk);
 
 	ErrCheck("main");
 	glutMainLoop();

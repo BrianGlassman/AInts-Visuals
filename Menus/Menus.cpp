@@ -1,6 +1,8 @@
 #include "CSCIx229.h"
 #include "Menus.hpp"
 
+void nullopCallback(int val) {};
+
 void callback(int val)
 {
     fprintf(stdout, "%d\n", val);
@@ -8,8 +10,6 @@ void callback(int val)
 
 Menu::Menu()
 {
-    options = { "Option 0", "Option 1", "Option 2" };
-    callbacks = { NULL, NULL, NULL };
 }
 
 void Menu::Create()
@@ -18,24 +18,43 @@ void Menu::Create()
     id = glutCreateMenu(callback);
 
     // Create sub-menus
-    for (unsigned int i = 0; i < options.size(); i++)
+    for (unsigned int i = 0; i < buttons.size(); i++)
     {
-        glutAddMenuEntry(options[i], i);
-        if (callbacks[i] != NULL)
-        {
-            // FIXME
-        }
+        glutAddMenuEntry(buttons[i], i);
+    }
+
+    // Assign callbacks
+    for (unsigned int i = 0; i < callbacks.size(); i++)
+    {
+        // FIXME
     }
 };
 
+void Menu::Attach(int button)
+{
+    glutSetMenu(id);
+    glutAttachMenu(button);
+}
+
+void Menu::AddSubMenu(Menu* menu)
+{
+    glutSetMenu(id);
+    glutAddSubMenu(menu->name, menu->id);
+}
+
+MainMenu::MainMenu()
+{
+    name = "Main";
+}
+
 idkMenu::idkMenu()
 {
-    options = { "Toggle Wireframe" };
-    callbacks = { NULL };
+    name = "idk";
+    buttons = { "Toggle Wireframe" };
 };
 
 LightMenu::LightMenu()
 {
-    options = { "Toggle ambient light", "Toggle directed light" };
-    callbacks = { NULL, NULL, NULL };
+    name = "Lighting";
+    buttons = { "Toggle ambient light", "Toggle directed light" };
 };
