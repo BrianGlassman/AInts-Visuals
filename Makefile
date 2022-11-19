@@ -11,7 +11,8 @@ CLIBDIR=CSCIx229
 MLIBDIR=MainLib
 STCRDIR=Structures
 NOISDIR=Noise
-INCLUDE=-I $(CLIBDIR) -I $(MLIBDIR) -I $(STCRDIR) -I $(NOISDIR)
+MENUDIR=Menus
+INCLUDE=-I $(CLIBDIR) -I $(MLIBDIR) -I $(STCRDIR) -I $(NOISDIR) -I $(MENUDIR)
 
 # Default target
 all: final
@@ -79,6 +80,9 @@ Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp Chamber.o Hill.o Tunnel.o 
 Noise.o: $(NOISDIR)/Noise.cpp $(NOISDIR)/Noise.hpp
 Perlin.o: $(NOISDIR)/Perlin.cpp $(NOISDIR)/Perlin.hpp
 
+#--- Menus ---
+Menus.o: $(MENUDIR)/Menus.cpp $(MENUDIR)/Menus.hpp
+
 #----------------
 # Create archive
 #----------------
@@ -89,6 +93,8 @@ MainLib.a: globals.o display.o lighting.o input.o textures.o util.o window.o
 Structures.a: Structure.o Corner.o Chamber.o Hill.o Tunnel.o Colony.o
 	ar -rcs $@ $^
 Noise.a: Noise.o Perlin.o
+	ar -rcs $@ $^
+Menus.a: Menus.o
 	ar -rcs $@ $^
 
 #---------------
@@ -114,6 +120,11 @@ Noise.a: Noise.o Perlin.o
 %.o: $(NOISDIR)/%.cpp
 	g++ -c $(CFLAGS) $< $(INCLUDE)
 
+%.o: $(MENUDIR)/%.c
+	gcc -c $(CFLAGS) $< $(INCLUDE)
+%.o: $(MENUDIR)/%.cpp
+	g++ -c $(CFLAGS) $< $(INCLUDE)
+
 %.o: %.c
 	gcc -c $(CFLAGS) $< $(INCLUDE)
 %.o: %.cpp
@@ -130,6 +141,12 @@ noise: $(NOISDIR)/main.cpp Noise.a CSCIx229.a MainLib.a
 	g++ -o final $^ $(CFLAGS) $(LIBS) $(INCLUDE)
 .SILENT: noiseRun
 noiseRun: noise
+	./final
+
+menus: $(MENUDIR)/main.cpp Menus.a CSCIx229.a MainLib.a
+	g++ -o final $^ $(CFLAGS) $(LIBS) $(INCLUDE)
+.SILENT: menusRun
+menusRun: menus
 	./final
 
 # Clean
