@@ -2,6 +2,11 @@
 
 #include "globals.hpp"
 
+//---------
+// Toggles
+//---------
+bool lightOrbiting = true;
+
 //-------------------
 // Input --> Display
 //-------------------

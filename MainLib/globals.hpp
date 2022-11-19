@@ -1,5 +1,10 @@
 #pragma once
 
+//---------
+// Toggles
+//---------
+extern bool lightOrbiting;
+
 //-------------------
 // Input --> Display
 //-------------------

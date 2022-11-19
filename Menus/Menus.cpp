@@ -1,8 +1,11 @@
 #include "CSCIx229.h"
 #include "display.hpp"
 #include "Menus.hpp"
+#include "globals.hpp"
 
 using namespace Menus;
+
+namespace Callbacks{
 
 void nullopCallback(int val) {};
 
@@ -10,8 +13,7 @@ void printCallback(int val)
 {
     printf("Option %d\n", val);
 }
-
-namespace Callbacks{};
+}
 
 void Menus::CreateMenus()
 {
@@ -29,7 +31,7 @@ void Menus::CreateMenus()
     mainMenu.AddSubMenu(&idk);
 }
 
-Menu::Menu() { name = "UNSET"; callback = printCallback; }
+Menu::Menu() { name = "UNSET"; callback = Callbacks::printCallback; }
 
 void Menu::Create()
 {
@@ -68,9 +70,9 @@ namespace Callbacks{ void idk(int val)
         ToggleWireframe();
         break;
     default:
-        Fatal(999, "Unknown val %d\n", val);
+        Fatal(999, "Unknown val %d to idk callback\n", val);
     }
-} }
+}}
 idkMenu::idkMenu()
 {
     name = "idk";
@@ -78,8 +80,26 @@ idkMenu::idkMenu()
     callback = Callbacks::idk;
 };
 
+namespace Callbacks{ void Light(int val)
+{
+    switch(val)
+    {
+    case 0:
+        // FIXME toggle ambient
+        break;
+    case 1:
+        // FIXME toggle direct
+        break;
+    case 2:
+        lightOrbiting = !lightOrbiting;
+        break;
+    default:
+        Fatal(999, "Unknown val %d to Light callback\n");
+    }
+}}
 LightMenu::LightMenu()
 {
     name = "Lighting";
-    buttons = { "Toggle ambient light", "Toggle directed light" };
+    buttons = { "Toggle ambient light", "Toggle directed light", "Toggle auto/manual orbit" };
+    callback = Callbacks::Light;
 };
