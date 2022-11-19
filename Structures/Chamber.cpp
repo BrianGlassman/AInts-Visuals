@@ -187,14 +187,14 @@ void Chamber::Create()
 
 	// Corners
 	{
-	CreateCorner(0, false, 1, false, 2, false); // Right Top Front
-	CreateCorner(1, false, 0, false, 2,  true); // Right Top Back
-	CreateCorner(0, false, 1,  true, 2,  true); // Right Bottom Back
-	CreateCorner(2, false, 1,  true, 0, false); // Right Bottom Front
-	CreateCorner(0,  true, 1, false, 2,  true); // Left Top Back
-	CreateCorner(0,  true, 2, false, 1, false); // Left Top Front
-	CreateCorner(0,  true, 1,  true, 2, false); // Left Bottom Front
-	CreateCorner(0,  true, 2,  true, 1,  true); // Left Bottom Back
+		CreateCorner(0, false, 1, false, 2, false); // Right Top Front
+		CreateCorner(1, false, 0, false, 2,  true); // Right Top Back
+		CreateCorner(0, false, 1,  true, 2,  true); // Right Bottom Back
+		CreateCorner(2, false, 1,  true, 0, false); // Right Bottom Front
+		CreateCorner(0,  true, 1, false, 2,  true); // Left Top Back
+		CreateCorner(0,  true, 2, false, 1, false); // Left Top Front
+		CreateCorner(0,  true, 1,  true, 2, false); // Left Bottom Front
+		CreateCorner(0,  true, 2,  true, 1,  true); // Left Bottom Back
 	}
 
 	ErrCheck("Chamber::Create\n");
