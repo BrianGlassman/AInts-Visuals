@@ -39,9 +39,6 @@ static void init(int argc, char* argv[])
 		}
 	#endif
 
-	// Wireframe
-	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
 	// Textures
 	// FIXME for SOME REASON having this load here makes the one inside textures.cpp work
 	LoadTexBMP("Textures/dirtGroundTileable.bmp");

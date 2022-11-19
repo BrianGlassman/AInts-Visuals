@@ -10,3 +10,6 @@ void postDisplay(float scale);
 void postDisplay();
 void idle();
 void visible(int vis);
+
+void ToggleWireframe();
+void SetWireframe(bool useWire);

@@ -83,3 +83,20 @@ void visible(int vis)
 	else
 		glutIdleFunc(NULL);
 }
+
+bool usingWire = false;
+void ToggleWireframe()
+{
+	SetWireframe(!usingWire);
+}
+void SetWireframe(bool useWire)
+{
+	if (useWire)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
