@@ -1,20 +1,19 @@
 #include "CSCIx229.h"
+#include "display.hpp"
 #include "Menus.hpp"
 
 void nullopCallback(int val) {};
 
-void callback(int val)
+void printCallback(int val)
 {
-    fprintf(stdout, "%d\n", val);
+    printf("Option %d\n", val);
 }
 
-Menu::Menu()
-{
-}
+Menu::Menu() { name = "UNSET"; callback = printCallback; }
 
 void Menu::Create()
 {
-    // Create the parent menu
+    // Create the parent menu, using the given callback
     id = glutCreateMenu(callback);
 
     // Create sub-menus
@@ -22,13 +21,7 @@ void Menu::Create()
     {
         glutAddMenuEntry(buttons[i], i);
     }
-
-    // Assign callbacks
-    for (unsigned int i = 0; i < callbacks.size(); i++)
-    {
-        // FIXME
-    }
-};
+}
 
 void Menu::Attach(int button)
 {
@@ -47,10 +40,22 @@ MainMenu::MainMenu()
     name = "Main";
 }
 
+void cb_idk(int val)
+{
+    switch(val)
+    {
+    case 0:
+        ToggleWireframe();
+        break;
+    default:
+        Fatal(999, "Unknown val %d\n", val);
+    }
+}
 idkMenu::idkMenu()
 {
     name = "idk";
     buttons = { "Toggle Wireframe" };
+    callback = cb_idk;
 };
 
 LightMenu::LightMenu()

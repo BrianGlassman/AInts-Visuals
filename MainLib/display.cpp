@@ -94,9 +94,11 @@ void SetWireframe(bool useWire)
 	if (useWire)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		usingWire = true;
 	}
 	else
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		usingWire = false;
 	}
 }

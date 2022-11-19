@@ -4,23 +4,27 @@
 #include <vector>
 
 void nullopCallback(int val);
-void callback(int val);
+
+typedef void (*Callback)(int val);
 
 class Menu
 {
 public:
     Menu();
+    virtual ~Menu() {};
 
     int id;
 
     /// @brief Shared creation tasks for all menus
-    virtual void Create();
+    void Create();
+
     void Attach(int button);
     void AddSubMenu(Menu* menu);
 protected:
     const char* name;
     std::vector<const char*> buttons;
-    std::vector<std::function<void(int)>> callbacks; // https://en.cppreference.com/w/cpp/utility/functional/function
+    Callback callback;
+    // std::vector<std::function<void(int)>> callbacks; // https://en.cppreference.com/w/cpp/utility/functional/function
 };
 
 class MainMenu : public Menu { public: MainMenu(); };
