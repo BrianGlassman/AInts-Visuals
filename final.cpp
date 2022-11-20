@@ -280,14 +280,13 @@ int main(int argc, char* argv[])
 	case Scene::tunnel:
 	{
 		baseMag = 1;
-		float coords[] = {0, 0, 0};
 		// forward : 1
 		//    back : 2
 		//     top : 4
 		//  bottom : 8
 		//   right : 16
 		//    left : 32
-		tunnel.AddTunnel(coords, 21);
+		tunnel.AddTunnel(0, 0, 0, 21);
 		displayModelPtr = &tunnel;
 		break;
 	}
