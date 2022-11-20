@@ -15,12 +15,19 @@ void printCallback(int val)
 }
 }
 
+//-------------
+// Menus Class
+//-------------
 void Menus::CreateMenus()
 {
     // Main
     MainMenu mainMenu;
     mainMenu.Create();
     mainMenu.Attach(GLUT_RIGHT_BUTTON);
+
+    // View
+    ViewMenu view; view.Create();
+    mainMenu.AddSubMenu(&view);
 
     // Lighting
     LightMenu light; light.Create();
@@ -57,11 +64,41 @@ void Menu::AddSubMenu(Menu* menu)
     glutAddSubMenu(menu->name, menu->id);
 }
 
+//------
+// Main
+//------
 MainMenu::MainMenu()
 {
     name = "Main";
 }
 
+//------
+// View
+//------
+namespace Callbacks{ void View(int val)
+{
+    switch(val)
+    {
+    case 0:
+        // FIXME Exterior
+        break;
+    case 1:
+        // FIXME Interior
+        break;
+    default:
+        Fatal(999, "Unknown val %d to View callback\n", val);
+    }
+}}
+ViewMenu::ViewMenu()
+{
+    name = "View";
+    buttons = { "Exterior", "Interior" };
+    callback = Callbacks::View;
+}
+
+//-----
+// IDK
+//-----
 namespace Callbacks{ void idk(int val)
 {
     switch(val)
@@ -80,6 +117,9 @@ idkMenu::idkMenu()
     callback = Callbacks::idk;
 };
 
+//-------
+// Light
+//-------
 namespace Callbacks{ void Light(int val)
 {
     switch(val)
