@@ -1,10 +1,5 @@
 #include "Tunnel.hpp"
 
-Tunnel::Tunnel()
-{
-	sideType = SideType::tunnel;
-	Tunnel(63);
-}
 Tunnel::Tunnel(unsigned char sides)
 {
 	type = 2;
