@@ -13,4 +13,14 @@ class Structure : public Model
 {
 public:
     SideType sideType;
+    
+    // Whether there's a Structure in the neighboring position
+	bool   right = true; // +X
+	bool    left = true; // -X
+	bool     top = true; // +Y
+	bool  bottom = true; // -Y
+	bool forward = true; // +Z
+	bool    back = true; // -Z
+protected:
+    void UnpackSides(unsigned char sides);
 };

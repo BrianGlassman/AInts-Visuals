@@ -17,6 +17,7 @@ public:
 	}
 };
 
+// Model, not Structure, because Corners are part of Tunnels
 class Corner : public Model
 {
 public:

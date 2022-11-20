@@ -1,3 +1,8 @@
+Noise menu:
+	turn off noise entirely
+	toggle perturbation vector display
+	show unperturbed geometry somehow
+
 add something to exterior view that shows where the interior view is located
 
 [thanksgiving] random noise perturbations
