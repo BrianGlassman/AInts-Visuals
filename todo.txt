@@ -1,3 +1,9 @@
+[thanksgiving] random noise perturbations
+
+[thanksgiving] buildings and other ants
+
+[thanksgiving] exterior and interior views, with movement controls
+
 chamber uses a different noiseScale than tunnel, so the tunnel and chamber edges don't line up anymore
 
 can I use a shader with OpenGL 2 and still use the rest of the fixed pipeline?
@@ -19,6 +25,8 @@ prevent neighboring vertices from overlapping
 		also need to ensure open spaces (ex. between opposite walls) are larger than this value, but that should be fine
 	do multiple perturbation passes? Large displacement for broad strokes applies to long edges, then smaller displacements use smaller edges
 	bias or constrain the perturbations? ex. each vertical slice of a tunnel can only perturb up or down
+	
+[initial] meshes for tunnels and empty chambers, with adjacent structures connecting to each other
 
 use VBOs (ref Ex. 8) for performance improvement
 
@@ -34,8 +42,25 @@ May want to use a DisplayList instead of VBO (so that I can store transformation
 
 have a player option in exterior view for switching between back-cull (exterior) and front-cull (interior) for tunnel/chamber walls
 
+[final] place new structures and delete existing ones
+[final] UI menu to select which structure to place
+[final] 3D grid visualization and ghost of to-be-placed
+
+[stretch0] texture variations
+[stretch1] merge adjacent chambers
+[stretch2] shadowing
+[stretch3] custom shader for cutatways to create a smooth cut
+[stretch4] animations to ants/buildings
+[stretch5] collision detection for interior view movement
 
 
+HOPEFULLY DONE
+---------------
 Hopefully this has been fixed by using "float azimuth = 0, elevation = 0" instead of "float azimuth, elevation" but need to keep an eye on it
 					about 1/3 of the time the light doesn't show up at all. WTF????
 						in some scenes it's at the wrong Y value, may or may not be related
+
+DONE
+----------------
+[initial] predefined layout
+[initial] placeholder textures and lighting
