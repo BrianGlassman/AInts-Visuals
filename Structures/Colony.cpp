@@ -63,10 +63,21 @@ void Colony::AddChamber(float center[3])
     std::shared_ptr<Model> ptr = std::make_shared<Chamber>();
     AddModel(ptr, center);
 }
+void Colony::AddChamber(float center[3], unsigned char sides)
+{
+    std::shared_ptr<Model> ptr = std::make_shared<Chamber>(sides);
+    AddModel(ptr, center);
+}
 void Colony::AddChamber(float x, float y, float z)
 {
     float center[] = {x, y, z};
     AddChamber(center);
+}
+void Colony::AddChamber(float x, float y, float z, unsigned char sides)
+{
+    std::shared_ptr<Model> ptr = std::make_shared<Chamber>(sides);
+    float center[] = {x, y, z};
+    AddModel(ptr, center);
 }
 
 void Colony::AddHill(float center[3])

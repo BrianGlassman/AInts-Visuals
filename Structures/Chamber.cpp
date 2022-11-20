@@ -1,11 +1,22 @@
 #include "Chamber.hpp"
 
+// FIXME should be able to combine padding into radius
 float padding = 0.1; // Padding between edge of chamber and edge of cell
 
-Chamber::Chamber()
+// FIXME these should be linked, not hard-coded
+float tunnelNoiseScale = 0.07;
+int tunnelN = 8;
+int armPanels = 1; // Shouldn't be the same as the tunnel value, but should be related
+float tunnelRadius = 0.1f;
+// endFixme
+
+Chamber::Chamber(unsigned char sides)
 {
 	type = 3;
+	sideType = SideType::chamber;
 	noiseScale = 0.49;
+
+	UnpackSides(sides);
 
 	Create();
 }
@@ -147,6 +158,64 @@ void Chamber::CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 	}
 	// fprintf(stdout, "End CreateFace, %d vertices\n", vertices.size());
 }
+void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
+{
+	float d = padding / armPanels;
+	float thetaD = 360 / tunnelN;
+
+	std::vector<float> coords(3);
+	float x = (0.5 - padding), y, z;
+	for (int i = 0; i < armPanels; i++)
+	{
+		for (float theta = 0; theta < 360; theta += thetaD)
+		{
+			// Top-left quadrant, moving CCW
+			{ // This row
+				Polar2Cart(tunnelRadius, theta, &z, &y);
+				z = -z;
+				coords[i0] = 0;
+				coords[i1] = f1 ? -y : y;
+				coords[i2] = f2 ? -z : z;
+
+				// Outer edge
+				indices.push_back(vertices.size());
+				normals.push_back(coords);
+				// FIXME texture
+				coords[i0] = (f0 ? -1 : 1) * (x + d);
+				vertices.push_back(coords);
+
+				// Inner edge
+				indices.push_back(vertices.size());
+				normals.push_back(coords);
+				// FIXME texture
+				coords[i0] = f0 ? -x : x;
+				vertices.push_back(coords);
+			}
+			{ // Next row
+				Polar2Cart(tunnelRadius, theta + thetaD, &z, &y);
+				z = -z;
+				coords[i0] = 0;
+				coords[i1] = f1 ? -y : y;
+				coords[i2] = f2 ? -z : z;
+				// Inner edge
+				indices.push_back(vertices.size());
+				normals.push_back(coords);
+				// FIXME texture
+				coords[i0] = f0 ? -x : x;
+				vertices.push_back(coords);
+
+				// Outer edge
+				indices.push_back(vertices.size());
+				normals.push_back(coords);
+				// FIXME texture
+				coords[i0] = (f0 ? -1 : 1) * (x + d);
+				vertices.push_back(coords);
+			}
+		}
+
+		x += d;
+	}
+}
 void Chamber::Create()
 {
 	PreCreate();
@@ -157,16 +226,18 @@ void Chamber::Create()
 	// Note: flip i0 to change winding direction
 
 	// Faces
+	if (true)
 	{
 		CreateFace(0, false, 1, false, 2, false); // Front
 		CreateFace(1, false, 2, false, 0, false); // Right
 		CreateFace(2, false, 0, false, 1, false); // Top
-		CreateFace(0, true, 1,  false, 2,  true); // Back
-		CreateFace(1, true, 2,  false, 0,  true); // Left
-		CreateFace(2, true, 0,  false, 1,  true); // Bottom
+		CreateFace(0,  true, 1, false, 2,  true); // Back
+		CreateFace(1,  true, 2, false, 0,  true); // Left
+		CreateFace(2,  true, 0, false, 1,  true); // Bottom
 	}
 
 	// Edges
+	if (true)
 	{
 		// X-major
 		CreateEdge(0, false, 1, false, 2, false); // Top Front
@@ -188,6 +259,7 @@ void Chamber::Create()
 	}
 
 	// Corners
+	if (true)
 	{
 		CreateCorner(0, false, 1, false, 2, false); // Right Top Front
 		CreateCorner(1, false, 0, false, 2,  true); // Right Top Back
@@ -197,6 +269,17 @@ void Chamber::Create()
 		CreateCorner(0,  true, 2, false, 1, false); // Left Top Front
 		CreateCorner(0,  true, 1,  true, 2, false); // Left Bottom Front
 		CreateCorner(0,  true, 2,  true, 1,  true); // Left Bottom Back
+	}
+
+	// Connections to neighbors
+	if (true)
+	{
+		if (forward) CreateArm(2, false, 0, false, 1, false);
+		if (right) CreateArm(0, false, 1, false, 2, false);
+		if (top) CreateArm(1, false, 2, false, 0, false);
+		if (back) CreateArm(2,  true, 0, false, 1,  true);
+		if (left) CreateArm(0,  true, 1, false, 2,  true);
+		if (bottom) CreateArm(1,  true, 2, false, 0,  true);
 	}
 
 	ErrCheck("Chamber::Create\n");

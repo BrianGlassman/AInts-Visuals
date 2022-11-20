@@ -2,6 +2,12 @@ Noise menu:
 	turn off noise entirely
 	toggle perturbation vector display
 	show unperturbed geometry somehow
+	
+seed 1668970082 creates an intersection between the back-left chamber and the adjacent tunnel
+	
+cutout in chamber face where the connecting tunnel is
+
+chamber arm lighting is wrong. Seems to be using the normal of the face?
 
 add something to exterior view that shows where the interior view is located
 

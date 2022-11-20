@@ -118,13 +118,26 @@ void PopulateColony(Colony& colony)
 		{2, 0, 1},
 	};
 
+	unsigned char chamberCon[] = {
+		// Individual chambers
+		r,
+		l,
+		u,
+
+		// Grouped chambers
+		r+l+f,
+		l+f,
+		r+l+f+b,
+		l+b,
+	};
+
 	for (int i = 0; i < 8; i++)
 	{
 		colony.AddTunnel(tunnelCoords[i], tunnelCon[i]);
 	}
-	for (auto& i : chamberCoords)
+	for (int i = 0; i < 7; i++)
 	{
-		colony.AddChamber(i);
+		colony.AddChamber(chamberCoords[i], chamberCon[i]);
 	}
 
 	colony.AddHill(-1, 4, 0);
@@ -264,7 +277,7 @@ int main(int argc, char* argv[])
 	noisePtr = &noise;
 
 	// Create the scene to be displayed
-	Scene sceneChoice = Scene::chamber;
+	Scene sceneChoice = Scene::colony;
 	Colony colony;
 	Colony tunnel;
 	Colony chamber;
@@ -293,7 +306,7 @@ int main(int argc, char* argv[])
 	case Scene::chamber:
 	{
 		baseMag = 2;
-		chamber.AddChamber(0, 0, 0);
+		chamber.AddChamber(0, 0, 0, 21);
 		displayModelPtr = &chamber;
 		break;
 	}
