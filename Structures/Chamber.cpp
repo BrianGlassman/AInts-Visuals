@@ -14,7 +14,7 @@ Chamber::Chamber(unsigned char sides)
 {
 	type = 3;
 	sideType = SideType::chamber;
-	noiseScale = 0.49;
+	noiseScale = 0.3;
 
 	UnpackSides(sides);
 
@@ -179,6 +179,7 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 
 				// Outer edge
 				indices.push_back(vertices.size());
+				armIndices.insert(vertices.size());
 				normals.push_back(coords);
 				// FIXME texture
 				coords[i0] = (f0 ? -1 : 1) * (x + d);
@@ -206,6 +207,7 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 
 				// Outer edge
 				indices.push_back(vertices.size());
+				armIndices.insert(vertices.size());
 				normals.push_back(coords);
 				// FIXME texture
 				coords[i0] = (f0 ? -1 : 1) * (x + d);
@@ -285,6 +287,40 @@ void Chamber::Create()
 	ErrCheck("Chamber::Create\n");
 
 	PostCreate();
+}
+
+void Chamber::ApplyNoise(Noise* noise, float offset[])
+{
+	// Use different noise scaling for arm portion versus main chamber
+	float scale;
+	for (unsigned int i = 0; i < baseVertices.size(); i++)
+	{
+		if (armIndices.find(i) == armIndices.end())
+		{
+			scale = noiseScale;
+		}
+		else
+		{
+			scale = tunnelNoiseScale;
+		}
+
+		float x = baseVertices[i][0] + center[0] + offset[0];
+		float y = baseVertices[i][1] + center[1] + offset[1];
+		float z = baseVertices[i][2] + center[2] + offset[2];
+
+        auto p = noise->getNoise(x, y, z);
+        
+		vertices[i][0] = baseVertices[i][0] + p[0]*scale;
+        vertices[i][1] = baseVertices[i][1] + p[1]*scale;
+        vertices[i][2] = baseVertices[i][2] + p[2]*scale;
+
+		if (i == 0)
+		{
+			// fprintf(stdout, "base (%f, %f, %f), noise (%f, %f, %f)\n",
+			// 	baseVertices[i][0], baseVertices[i][1], baseVertices[i][2],
+			// 	p[0], p[1], p[2]);
+		}
+    }
 }
 
 void Chamber::Draw()

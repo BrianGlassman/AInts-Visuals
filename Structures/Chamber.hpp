@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_set>
+
 #include "CSCIx229.h"
 #include "Structure.hpp"
 
@@ -11,6 +13,7 @@ public:
     Chamber(unsigned char sides);
 
     void Create();
+    void ApplyNoise(Noise* noise, float offset[]);
     void Draw();
 
     float radius = 0.5f;
@@ -18,6 +21,7 @@ public:
     int panels = 5;
 private:
     float panelWidth;
+    std::unordered_set<int> armIndices;
 
     void CreateCorner(int i0, bool f0, int i1, bool f1, int i2, bool f2);
     void CreateEdge(int i0, bool f0, int i1, bool f1, int i2, bool f2);

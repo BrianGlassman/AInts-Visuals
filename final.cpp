@@ -320,7 +320,7 @@ int main(int argc, char* argv[])
 	default:
 		Fatal(999, "Unknown scene\n");
 	}
-	// displayModelPtr->ApplyNoise(noisePtr);
+	displayModelPtr->ApplyNoise(noisePtr);
 
 	init(argc, argv);
 
