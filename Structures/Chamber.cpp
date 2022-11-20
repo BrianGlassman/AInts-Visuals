@@ -1,5 +1,7 @@
 #include "Chamber.hpp"
 
+float padding = 0.1; // Padding between edge of chamber and edge of cell
+
 Chamber::Chamber()
 {
 	type = 3;
@@ -18,23 +20,23 @@ void Chamber::CreateCorner(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 	float x, y, z;
 	// Draw a degenerate quad, repeated the top point
 
-	x = (f0 ? -1 : 1) * (0.5 - panelWidth);
-	y = (f1 ? -1 : 1) * (0.5 - panelWidth);
-	z = (f2 ? -1 : 1) * (0.5 - panelWidth);
+	x = (f0 ? -1 : 1) * ((0.5 - padding) - panelWidth);
+	y = (f1 ? -1 : 1) * ((0.5 - padding) - panelWidth);
+	z = (f2 ? -1 : 1) * ((0.5 - padding) - panelWidth);
 
 	// Top point
 	coords[i0] = x;
-	coords[i1] = f1 ? -0.5 : 0.5;
+	coords[i1] = f1 ? -(0.5 - padding) : (0.5 - padding);
 	coords[i2] = z;
 	vertices.push_back(coords);
 	vertices.push_back(coords);
 	// Bottom left
 	coords[i0] = x;
 	coords[i1] = y;
-	coords[i2] = f2 ? -0.5 : 0.5;
+	coords[i2] = f2 ? -(0.5 - padding) : (0.5 - padding);
 	vertices.push_back(coords);
 	// Bottom right
-	coords[i0] = f0 ? -0.5 : 0.5;
+	coords[i0] = f0 ? -(0.5 - padding) : (0.5 - padding);
 	coords[i1] = y;
 	coords[i2] = z;
 	vertices.push_back(coords);
@@ -61,14 +63,14 @@ void Chamber::CreateEdge(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 	float thisX, nextX, y, z;
 	for (int xi = 1; xi < panels - 1; xi++)
 	{
-		thisX = -0.5 + panelWidth*xi;
+		thisX = -(0.5 - padding) + panelWidth*xi;
 		nextX = thisX + panelWidth;
 		// fprintf(stdout, "x = %f", x);
 
 		//--- For now, make diagonal quads ---
 
 		// Bottom left
-		y = 0.5 - panelWidth; z = 0.5;
+		y = (0.5 - padding) - panelWidth; z = (0.5 - padding);
 		coords[i0] = f0 ? -thisX : thisX;
 		coords[i1] = f1 ? -y : y;
 		coords[i2] = f2 ? -z : z;
@@ -79,7 +81,7 @@ void Chamber::CreateEdge(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 		vertices.push_back(coords);
 		// fprintf(stdout, "Adding vertex (%f, %f, %f)\n", coords[0], coords[1], coords[2]);
 		// Top right
-		y = 0.5; z = 0.5 - panelWidth;
+		y = (0.5 - padding); z = (0.5 - padding) - panelWidth;
 		coords[i1] = f1 ? -y : y;
 		coords[i2] = f2 ? -z : z;
 		vertices.push_back(coords);
@@ -107,15 +109,15 @@ void Chamber::CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 
 	std::vector<float> coords(3);
 	int idx = vertices.size();
-	float x, y, z = f2 ? -0.5 : 0.5;
+	float x, y, z = f2 ? -(0.5 - padding) : (0.5 - padding);
 	coords[i2] = z;
 	for (int xi = 1; xi < panels - 1; xi++)
 	{
-		x = -0.5 + panelWidth*xi;
+		x = -(0.5 - padding) + panelWidth*xi;
 		// fprintf(stdout, "x = %f", x);
 		for (int yi = 1; yi < panels - 1; yi++)
 		{
-			y = -0.5 + panelWidth*yi;
+			y = -(0.5 - padding) + panelWidth*yi;
 			// fprintf(stdout, "y = %f", y);
 
 			// Bottom left
@@ -149,7 +151,7 @@ void Chamber::Create()
 {
 	PreCreate();
 
-	panelWidth = 1.0 / panels;
+	panelWidth = (1.0 - 2 * padding) / panels;
 	// fprintf(stdout, "panelWidth = %f\n", panelWidth);
 
 	// Note: flip i0 to change winding direction
