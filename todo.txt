@@ -1,13 +1,12 @@
 chamber uses a different noiseScale than tunnel, so the tunnel and chamber edges don't line up anymore
 
-chamber lighting is very wrong
-
 can I use a shader with OpenGL 2 and still use the rest of the fixed pipeline?
 
 probably going to have to do perturbations at the same time as vertex-generation to get the normals right
 
 something's wrong with the lighting in some cases
 	triple-tunnel, the core and the arms aren't being lit the same
+	probably going to have to stop sharing vertices between arms, since each face needs a different normal
 
 look into using LINE_LOOP to make a wireframe? The LEGO example used a wireframe, too, but I think a different methodology
 
