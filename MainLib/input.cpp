@@ -17,9 +17,9 @@ void fpsKey(unsigned char k)
 	case 'W':
 		{
 			// Move along the line from eye to center
-			iv::eyePos[0] += speed * (iv::lookPos[0] - iv::eyePos[0]);
-			iv::eyePos[1] += speed * (iv::lookPos[1] - iv::eyePos[1]);
-			iv::eyePos[2] += speed * (iv::lookPos[2] - iv::eyePos[2]);
+			iv::eyePos[0] += speed * iv::lookDir[0];
+			iv::eyePos[1] += speed * iv::lookDir[1];
+			iv::eyePos[2] += speed * iv::lookDir[2];
 		}
 		break;
 	// case 'a':
@@ -30,9 +30,9 @@ void fpsKey(unsigned char k)
 	case 'S':
 		{
 			// Move opposite the line from eye to center
-			iv::eyePos[0] -= speed * (iv::lookPos[0] - iv::eyePos[0]);
-			iv::eyePos[1] -= speed * (iv::lookPos[1] - iv::eyePos[1]);
-			iv::eyePos[2] -= speed * (iv::lookPos[2] - iv::eyePos[2]);
+			iv::eyePos[0] -= speed * iv::lookDir[0];
+			iv::eyePos[1] -= speed * iv::lookDir[1];
+			iv::eyePos[2] -= speed * iv::lookDir[2];
 		}
 		break;
 	// case 'd':
@@ -140,6 +140,10 @@ void mouseMovement(int x, int y)
 {
 	Globals::mouse_x = (float)x / windowWidth - 0.5;
 	Globals::mouse_y = (float)y / windowHeight - 0.5;
+
+	// Create a deadzone in the middle
+	if (Globals::mouse_x > -0.1 && Globals::mouse_x < 0.1) Globals::mouse_x = 0;
+	if (Globals::mouse_y > -0.1 && Globals::mouse_y < 0.1) Globals::mouse_y = 0;
 
 	// DEBUG fprintf(stdout, "(%f, %f) = %d / %d - 0.5, %d / %d - 0.5\n", mouse_x, mouse_y, x, windowWidth, y, windowHeight);
 }

@@ -11,29 +11,31 @@ namespace InteriorView {
 
 void HandleMousePosition()
 {
-	// Create a deadzone in the middle
-	if (Globals::mouse_x > -0.1 && Globals::mouse_x < 0.1) Globals::mouse_x = 0;
-	if (Globals::mouse_y > -0.1 && Globals::mouse_y < 0.1) Globals::mouse_y = 0;
-	
-	/*
-	if (viewMode == VIEW_FIRST)
+	if (Globals::viewMode == ViewMode::INTERIOR)
 	{
-		fp_rotH += 10 * mouse_x * fabs(mouse_x);
-		fp_rotV += 10 * mouse_y * fabs(mouse_y);
+		namespace iv = Globals::InteriorView;
+
+		iv::rotH += 10 * Globals::mouse_x * fabs(Globals::mouse_x);
+		iv::rotV += 10 * Globals::mouse_y * fabs(Globals::mouse_y);
 		
-		// Wrap-around horizontal, but clamp vertical
-		fp_rotH = fmodf(fp_rotH, 360.0);
-		if (fp_rotV > 89.9) fp_rotV = 89.9;
-		if (fp_rotV < -89.9) fp_rotV = -89.9;
-		
-		fp_centX = fp_eyeX + Sin(fp_rotH)*Cos(fp_rotV);
-		fp_centY = fp_eyeY - Sin(fp_rotV);
-		fp_centZ = fp_eyeZ - Cos(fp_rotH)*Cos(fp_rotV);
+		// Wrap-around horizontal
+		iv::rotH = fmodf(iv::rotH, 360.0);
+		if (iv::rotH < 0) iv::rotH = 360 + iv::rotH;
+		// printf("rotH = %f\n", iv::rotH);
+
+		// Wrap-around vertical
+		iv::rotV = fmodf(iv::rotV, 360.0);
+		if (iv::rotV < 0) iv::rotV = 360 + iv::rotV;
+		// printf("rotH = %f\n", iv::rotH);
+
+		// Update view vector
+		iv::lookDir[0] =  Sin(iv::rotH)*Cos(iv::rotV);
+		iv::lookDir[1] =  Sin(iv::rotV);
+		iv::lookDir[2] = -Cos(iv::rotH)*Cos(iv::rotV);
+		printf("lookDir (%f, %f, %f)\n", iv::lookDir[0], iv::lookDir[1], iv::lookDir[2]);
 	}
 	else
-	*/
 	{
-	
 		view_roty += 10 * Globals::mouse_x * fabs(Globals::mouse_x);
 		view_rotx += 10 * Globals::mouse_y * fabs(Globals::mouse_y);
 		
@@ -65,16 +67,17 @@ void preDisplay()
 		RotateView();
 		break;
 	case ViewMode::INTERIOR:
+		namespace iv = Globals::InteriorView;
 		gluLookAt(
-			Globals::InteriorView::eyePos[0],
-			Globals::InteriorView::eyePos[1],
-			Globals::InteriorView::eyePos[2],
-			Globals::InteriorView::lookPos[0],
-			Globals::InteriorView::lookPos[1],
-			Globals::InteriorView::lookPos[2],
-			Globals::InteriorView::up[0],
-			Globals::InteriorView::up[1],
-			Globals::InteriorView::up[2]);
+			iv::eyePos[0],
+			iv::eyePos[1],
+			iv::eyePos[2],
+			iv::eyePos[0] + iv::lookDir[0],
+			iv::eyePos[1] + iv::lookDir[1],
+			iv::eyePos[2] + iv::lookDir[2],
+			iv::up[0],
+			iv::up[1],
+			iv::up[2]);
 		break;
 	default:
 		FatalDef();

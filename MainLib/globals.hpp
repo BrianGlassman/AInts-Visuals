@@ -53,7 +53,7 @@ namespace Globals
     namespace InteriorView {
         extern float up[3];
         extern float rotH, rotV;
-        extern float lookPos[3];
         extern float eyePos[3];
+        extern float lookDir[3];
     }
 }

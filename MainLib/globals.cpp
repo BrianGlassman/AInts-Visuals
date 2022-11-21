@@ -62,10 +62,10 @@ int windowHeight = 900;
 ViewMode Globals::viewMode = ViewMode::INTERIOR;
 namespace Globals {
   namespace InteriorView {
-    float up[3] = {0, 0, 1.0f};
+    float up[3] = {0, 0, 1};
     float rotH = 0;
-    float rotV = 0;
-    float lookPos[3] = {0, 0, 0};
-    float eyePos[3] = {1, 0, 0};
+    float rotV = -89.9;
+    float eyePos[3] = {-1, 3, 0};
+    float lookDir[3] = {0, -1, 0};
   }
 }
