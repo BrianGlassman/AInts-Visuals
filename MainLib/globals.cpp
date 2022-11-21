@@ -5,7 +5,8 @@
 //---------
 // Toggles
 //---------
-bool lightOrbiting = true;
+bool Toggles::lightOrbiting = true;
+bool Toggles::Noise::showPVectors = false;
 
 //-------------------
 // Input --> Display

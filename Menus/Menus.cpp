@@ -33,6 +33,10 @@ void Menus::CreateMenus()
     LightMenu light; light.Create();
     mainMenu.AddSubMenu(&light);
 
+    // Noise
+    NoiseMenu noise; noise.Create();
+    mainMenu.AddSubMenu(&noise);
+
     // idk
     idkMenu idk; idk.Create();
     mainMenu.AddSubMenu(&idk);
@@ -131,7 +135,7 @@ namespace Callbacks{ void Light(int val)
         // FIXME toggle direct
         break;
     case 2:
-        lightOrbiting = !lightOrbiting;
+        Toggles::lightOrbiting = !Toggles::lightOrbiting;
         break;
     default:
         Fatal(999, "Unknown val %d to Light callback\n");
@@ -143,3 +147,30 @@ LightMenu::LightMenu()
     buttons = { "Toggle ambient light", "Toggle directed light", "Toggle auto/manual orbit" };
     callback = Callbacks::Light;
 };
+
+//-------
+// Noise
+//-------
+namespace Callbacks{ void Noise(int val)
+{
+    switch(val)
+    {
+    case 0:
+        // FIXME toggle noise entirely
+        break;
+    case 1:
+        Toggles::Noise::showPVectors = !Toggles::Noise::showPVectors;
+        break;
+    case 2:
+        // FIXME toggle showing base geometry
+        break;
+    default:
+        Fatal(999, "Unknown val %d to Noise callback\n");
+    }
+}}
+NoiseMenu::NoiseMenu()
+{
+    name = "Noise";
+    buttons = { "Toggle noise", "Toggle P Vectors", "Toggle base geometry" };
+    callback = Callbacks::Noise;
+}

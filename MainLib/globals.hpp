@@ -3,7 +3,15 @@
 //---------
 // Toggles
 //---------
-extern bool lightOrbiting;
+namespace Toggles
+{
+    extern bool lightOrbiting;
+    namespace Noise
+    {
+        extern bool showPVectors;
+    } // namespace Noise
+} // namespace Toggles
+
 
 //-------------------
 // Input --> Display

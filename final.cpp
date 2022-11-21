@@ -266,7 +266,7 @@ void display()
 
 	displayModelPtr->Draw();
 
-	noisePtr->DrawNoise();
+	if (Toggles::Noise::showPVectors) noisePtr->DrawNoise();
 
 	postDisplay();
 }

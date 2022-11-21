@@ -1,9 +1,6 @@
 Noise menu:
 	turn off noise entirely
-	toggle perturbation vector display
 	show unperturbed geometry somehow
-	
-seed 1668970082 creates an intersection between the back-left chamber and the adjacent tunnel
 	
 cutout in chamber face where the connecting tunnel is
 
@@ -17,7 +14,7 @@ add something to exterior view that shows where the interior view is located
 
 [thanksgiving] exterior and interior views, with movement controls
 
-chamber uses a different noiseScale than tunnel, so the tunnel and chamber edges don't line up anymore
+chamber uses a different noiseScale than tunnel, so there's a chance for cross-over
 
 can I use a shader with OpenGL 2 and still use the rest of the fixed pipeline?
 

@@ -80,7 +80,7 @@ OrbitLight::OrbitLight(float ambient, float diffuse, float specular) : Light(amb
 void OrbitLight::UpdatePosition()
 {
 	// FIXME HACK
-	mode = lightOrbiting ? OrbitMode::orbiting : OrbitMode::manual;
+	mode = Toggles::lightOrbiting ? OrbitMode::orbiting : OrbitMode::manual;
 
 	// Position is set relative to the eye, so have to update whenever the eye point moves
 	if (mode == OrbitMode::orbiting) azimuth -= speed;

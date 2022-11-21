@@ -36,6 +36,8 @@ class idkMenu : public Menu { public: idkMenu(); };
 
 class LightMenu : public Menu { public: LightMenu(); };
 
-class ViewMenu: public Menu { public: ViewMenu(); };
+class NoiseMenu : public Menu { public: NoiseMenu(); };
+
+class ViewMenu : public Menu { public: ViewMenu(); };
 
 } // namespace Menus
