@@ -6,6 +6,8 @@ cutout in chamber face where the connecting tunnel is
 
 chamber arm lighting is wrong. Seems to be using the normal of the face?
 
+chamber face lighting is very wrong
+
 add something to exterior view that shows where the interior view is located
 
 [thanksgiving] random noise perturbations

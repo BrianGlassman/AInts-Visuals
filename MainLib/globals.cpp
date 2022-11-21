@@ -61,7 +61,7 @@ int windowHeight = 900;
 //--------------------
 // Dispaly --> Window
 //--------------------
-ViewMode Globals::viewMode = ViewMode::INTERIOR;
+ViewMode Globals::viewMode = ViewMode::EXTERIOR;
 namespace Globals {
   namespace InteriorView {
     float up[3] = {0, 1, 0};

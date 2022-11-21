@@ -23,8 +23,7 @@ private:
     float panelWidth;
     std::unordered_set<int> armIndices;
 
-    void CreateCorner(int i0, bool f0, int i1, bool f1, int i2, bool f2);
-    void CreateEdge(int i0, bool f0, int i1, bool f1, int i2, bool f2);
-    void CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2);
+    void FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm);
+    void CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm);
     void CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2);
 };

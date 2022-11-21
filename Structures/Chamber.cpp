@@ -1,7 +1,10 @@
+#include <functional>
+
 #include "Chamber.hpp"
 
 // FIXME should be able to combine padding into radius
 float padding = 0.1; // Padding between edge of chamber and edge of cell
+float padScale = 1 - 2*padding; // Scale factor to account for padding
 
 // FIXME these should be linked, not hard-coded
 float tunnelNoiseScale = 0.3;
@@ -21,142 +24,69 @@ Chamber::Chamber(unsigned char sides)
 	Create();
 }
 
-void Chamber::CreateCorner(int i0, bool f0, int i1, bool f1, int i2, bool f2)
+std::vector<float> SetCoords(const float v0, const float v1, const float v2, int i0, bool f0, int i1, bool f1, int i2, bool f2)
 {
-	std::vector<float> norm(3);
-	norm[i0] = f0 ? -1 : 1; norm[i1] = f1 ? -1 : 1; norm[i2] = f2 ? -1 : 1;
-
+	std::vector<float> coords(3);
+	coords[i0] = (f0 ? -1 : 1) * v0;
+	coords[i1] = (f1 ? -1 : 1) * v1;
+	coords[i2] = (f2 ? -1 : 1) * v2;
+	return coords;
+}
+void Chamber::FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm)
+{
 	std::vector<float> coords(3);
 	int idx = vertices.size();
-	float x, y, z;
-	// Draw a degenerate quad, repeated the top point
 
-	x = (f0 ? -1 : 1) * ((0.5 - padding) - panelWidth);
-	y = (f1 ? -1 : 1) * ((0.5 - padding) - panelWidth);
-	z = (f2 ? -1 : 1) * ((0.5 - padding) - panelWidth);
-
-	// Top point
-	coords[i0] = x;
-	coords[i1] = f1 ? -(0.5 - padding) : (0.5 - padding);
-	coords[i2] = z;
-	vertices.push_back(coords);
-	vertices.push_back(coords);
-	// Bottom left
-	coords[i0] = x;
-	coords[i1] = y;
-	coords[i2] = f2 ? -(0.5 - padding) : (0.5 - padding);
-	vertices.push_back(coords);
-	// Bottom right
-	coords[i0] = f0 ? -(0.5 - padding) : (0.5 - padding);
-	coords[i1] = y;
-	coords[i2] = z;
-	vertices.push_back(coords);
-
-	for (int i = 0; i < 4; i++)
+	float useTR;
+	if (hasArm)
 	{
-		normals.push_back(std::vector<float> {
-			f0 ? -1.0f : 1.0f,
-			f1 ? -1.0f : 1.0f,
-			f2 ? -1.0f : 1.0f});
-		indices.push_back(idx);
-		idx++;
+		// Make an opening for the arm
+		useTR = tunnelRadius;
+	}
+	else
+	{
+		// Use degenerate quads to close the face
+		useTR = 0;
+	}
+
+	// FIXME generalize for n != 8
+
+	// Ref https://en.cppreference.com/w/cpp/utility/functional/bind
+	auto coordSetter = std::bind(SetCoords, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, i0, f0, i1, f1, i2, f2);
+
+	{ // Top cap-to-center
+		coords = coordSetter(0.5 * padScale, useTR*sqrt(2)/2, useTR*sqrt(2)/2); // Bottom left
+		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
+		coords = coordSetter(0.5 * padScale, useTR, 0); // Bottom right
+		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
+		coords = coordSetter(sqrt(2) / 4 * padScale, sqrt(2) / 4 * padScale, 0); // Top right
+		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
+		coords = coordSetter(sqrt(3) / 6 * padScale, sqrt(3) / 6 * padScale, sqrt(3) / 6 * padScale); // Top left
+		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
+	}
+
+	{ // Bottom cap-to-center
+		coords = coordSetter(sqrt(3) / 6 * padScale, sqrt(3) / 6 * padScale, sqrt(3) / 6 * padScale); // Triple center
+		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
+		coords = coordSetter(sqrt(2) / 4 * padScale, 0, sqrt(2) / 4 * padScale); // Bottom edge, center
+		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
+		coords = coordSetter(0.5 * padScale, 0, useTR); // Bottom edge, arm
+		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
+		coords = coordSetter(0.5 * padScale, useTR*sqrt(2)/2, useTR*sqrt(2)/2); // Arm center
+		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
 	}
 }
-void Chamber::CreateEdge(int i0, bool f0, int i1, bool f1, int i2, bool f2)
+void Chamber::CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm)
 {
-	// fprintf(stdout, "Start CreateEdge, %d vertices\n", vertices.size());
+	FaceHelper(i0, f0, i1, f1, i2, f2, hasArm);
+	FaceHelper(i0, f0, i2, f2, i1, !f1, hasArm);
+	FaceHelper(i0, f0, i2, !f2, i1, f1, hasArm);
+	FaceHelper(i0, f0, i1, !f1, i2, !f2, hasArm);
 
-	std::vector<float> norm(3);
-	norm[i0] = 0; norm[i1] = f1 ? -1 : 1; norm[i2] = f2 ? -1 : 1;
-
-	std::vector<float> coords(3);
-	int idx = vertices.size();
-	float thisX, nextX, y, z;
-	for (int xi = 1; xi < panels - 1; xi++)
+	if (hasArm)
 	{
-		thisX = -(0.5 - padding) + panelWidth*xi;
-		nextX = thisX + panelWidth;
-		// fprintf(stdout, "x = %f", x);
-
-		//--- For now, make diagonal quads ---
-
-		// Bottom left
-		y = (0.5 - padding) - panelWidth; z = (0.5 - padding);
-		coords[i0] = f0 ? -thisX : thisX;
-		coords[i1] = f1 ? -y : y;
-		coords[i2] = f2 ? -z : z;
-		vertices.push_back(coords);
-		// fprintf(stdout, "Adding vertex (%f, %f, %f)\n", coords[0], coords[1], coords[2]);
-		// Bottom right
-		coords[i0] = f0 ? -nextX : nextX;
-		vertices.push_back(coords);
-		// fprintf(stdout, "Adding vertex (%f, %f, %f)\n", coords[0], coords[1], coords[2]);
-		// Top right
-		y = (0.5 - padding); z = (0.5 - padding) - panelWidth;
-		coords[i1] = f1 ? -y : y;
-		coords[i2] = f2 ? -z : z;
-		vertices.push_back(coords);
-		// fprintf(stdout, "Adding vertex (%f, %f, %f)\n", coords[0], coords[1], coords[2]);
-		// Top left
-		coords[i0] = f0 ? -thisX : thisX;
-		vertices.push_back(coords);
-		// fprintf(stdout, "Adding vertex (%f, %f, %f)\n", coords[0], coords[1], coords[2]);
-
-		for (int i = 0; i < 4; i++)
-		{
-			normals.push_back(norm);
-			indices.push_back(idx);
-			idx++;
-		}
+		CreateArm(i0, f0, i1, f1, i2, f2);
 	}
-	// fprintf(stdout, "End CreateEdge, %d vertices\n", vertices.size());
-}
-void Chamber::CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2)
-{
-	// fprintf(stdout, "Start CreateFace, %d vertices\n", vertices.size());
-
-	std::vector<float> norm(3);
-	norm[i0] = 0; norm[i1] = 0; norm[i2] = f2 ? -1 : 1;
-
-	std::vector<float> coords(3);
-	int idx = vertices.size();
-	float x, y, z = f2 ? -(0.5 - padding) : (0.5 - padding);
-	coords[i2] = z;
-	for (int xi = 1; xi < panels - 1; xi++)
-	{
-		x = -(0.5 - padding) + panelWidth*xi;
-		// fprintf(stdout, "x = %f", x);
-		for (int yi = 1; yi < panels - 1; yi++)
-		{
-			y = -(0.5 - padding) + panelWidth*yi;
-			// fprintf(stdout, "y = %f", y);
-
-			// Bottom left
-			coords[i0] = f0 ? -x : x; coords[i1] = f1 ? -y : y;
-			vertices.push_back(coords);
-			// fprintf(stdout, "Adding vertex (%f, %f, %f)\n", coords[0], coords[1], coords[2]);
-			// Bottom right
-			coords[i0] = (f0 ? -1 : 1) * (x + panelWidth);
-			vertices.push_back(coords);
-			// fprintf(stdout, "Adding vertex (%f, %f, %f)\n", coords[0], coords[1], coords[2]);
-			// Top right
-			coords[i1] = (f1 ? -1 : 1) * (y + panelWidth);
-			vertices.push_back(coords);
-			// fprintf(stdout, "Adding vertex (%f, %f, %f)\n", coords[0], coords[1], coords[2]);
-			// Top left
-			coords[i0] = f0 ? -x : x;
-			vertices.push_back(coords);
-			// fprintf(stdout, "Adding vertex (%f, %f, %f)\n", coords[0], coords[1], coords[2]);
-
-			for (int i = 0; i < 4; i++)
-			{
-				normals.push_back(norm);
-				indices.push_back(idx);
-				idx++;
-			}
-		}
-	}
-	// fprintf(stdout, "End CreateFace, %d vertices\n", vertices.size());
 }
 void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 {
@@ -230,58 +160,12 @@ void Chamber::Create()
 	// Faces
 	if (true)
 	{
-		CreateFace(0, false, 1, false, 2, false); // Front
-		CreateFace(1, false, 2, false, 0, false); // Right
-		CreateFace(2, false, 0, false, 1, false); // Top
-		CreateFace(0,  true, 1, false, 2,  true); // Back
-		CreateFace(1,  true, 2, false, 0,  true); // Left
-		CreateFace(2,  true, 0, false, 1,  true); // Bottom
-	}
-
-	// Edges
-	if (true)
-	{
-		// X-major
-		CreateEdge(0, false, 1, false, 2, false); // Top Front
-		CreateEdge(0,  true, 1,  true, 2, false); // Bottom Front
-		CreateEdge(0, false, 2,  true, 1, false); // Top Back
-		CreateEdge(0,  true, 2,  true, 1,  true); // Bottom Back
-
-		// Y-major
-		CreateEdge(1,  true, 0, false, 2, false);
-		CreateEdge(1, false, 0,  true, 2, false);
-		CreateEdge(1,  true, 2,  true, 0, false);
-		CreateEdge(1, false, 2,  true, 0,  true);
-
-		// Z-major
-		CreateEdge(2, false, 0, false, 1, false);
-		CreateEdge(2,  true, 0,  true, 1, false);
-		CreateEdge(2, false, 1,  true, 0, false);
-		CreateEdge(2,  true, 1,  true, 0,  true);
-	}
-
-	// Corners
-	if (true)
-	{
-		CreateCorner(0, false, 1, false, 2, false); // Right Top Front
-		CreateCorner(1, false, 0, false, 2,  true); // Right Top Back
-		CreateCorner(0, false, 1,  true, 2,  true); // Right Bottom Back
-		CreateCorner(2, false, 1,  true, 0, false); // Right Bottom Front
-		CreateCorner(0,  true, 1, false, 2,  true); // Left Top Back
-		CreateCorner(0,  true, 2, false, 1, false); // Left Top Front
-		CreateCorner(0,  true, 1,  true, 2, false); // Left Bottom Front
-		CreateCorner(0,  true, 2,  true, 1,  true); // Left Bottom Back
-	}
-
-	// Connections to neighbors
-	if (true)
-	{
-		if (forward) CreateArm(2, false, 0, false, 1, false);
-		if (right) CreateArm(0, false, 1, false, 2, false);
-		if (top) CreateArm(1, false, 2, false, 0, false);
-		if (back) CreateArm(2,  true, 0, false, 1,  true);
-		if (left) CreateArm(0,  true, 1, false, 2,  true);
-		if (bottom) CreateArm(1,  true, 2, false, 0,  true);
+		CreateFace(0, false, 1, false, 2, false, right);
+		CreateFace(1, false, 2, false, 0, false, top);
+		CreateFace(2, false, 0, false, 1, false, forward);
+		CreateFace(0,  true, 1, false, 2,  true, left);
+		CreateFace(1,  true, 2, false, 0,  true, bottom);
+		CreateFace(2,  true, 0, false, 1,  true, back);
 	}
 
 	ErrCheck("Chamber::Create\n");
