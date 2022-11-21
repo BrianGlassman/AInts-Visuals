@@ -157,8 +157,8 @@ void special(int k, int x, int y)
  */
 void mouseMovement(int x, int y)
 {
-	mouse_x = (float)x / windowWidth - 0.5;
-	mouse_y = (float)y / windowHeight - 0.5;
+	Globals::mouse_x = (float)x / windowWidth - 0.5;
+	Globals::mouse_y = (float)y / windowHeight - 0.5;
 
 	// DEBUG fprintf(stdout, "(%f, %f) = %d / %d - 0.5, %d / %d - 0.5\n", mouse_x, mouse_y, x, windowWidth, y, windowHeight);
 }
@@ -175,19 +175,19 @@ void mouseAction(int button, int state, int x, int y)
 	switch(button)
 	{
 	case 3: // Wheel down - zoom out
-		mouse_zoom -= zoomSpeed;
+		Globals::mouse_zoom -= zoomSpeed;
 		break;
 	case 4: // Wheel up - zoom in
-		mouse_zoom += zoomSpeed;
+		Globals::mouse_zoom += zoomSpeed;
 		break;
 	default:
 		return;
 	}
 
 	// FIXME
-	if (mouse_zoom < 0.1)
+	if (Globals::mouse_zoom < 0.1)
 	{
-		mouse_zoom = 0.1;
+		Globals::mouse_zoom = 0.1;
 	}
 
 	Project();

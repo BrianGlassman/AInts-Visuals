@@ -11,9 +11,9 @@ bool Toggles::Noise::showPVectors = false;
 //-------------------
 // Input --> Display
 //-------------------
-float mouse_x = 0.5f;
-float mouse_y = 0.5f;
-float mouse_zoom = 1;
+float Globals::mouse_x = 0.5f;
+float Globals::mouse_y = 0.5f;
+float Globals::mouse_zoom = 1;
 
 //-------------------------
 // Main, Input --> Display

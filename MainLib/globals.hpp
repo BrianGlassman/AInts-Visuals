@@ -9,16 +9,19 @@ namespace Toggles
     namespace Noise
     {
         extern bool showPVectors;
-    } // namespace Noise
-} // namespace Toggles
+    }
+}
 
 
 //-------------------
 // Input --> Display
 //-------------------
-extern float mouse_x;
-extern float mouse_y;
-extern float mouse_zoom;
+namespace Globals
+{
+    extern float mouse_x;
+    extern float mouse_y;
+    extern float mouse_zoom;
+}
 
 //-------------------------
 // Main, Input --> Display

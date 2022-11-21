@@ -8,8 +8,8 @@ static float view_rotx, view_roty, view_rotz;
 void HandleMousePosition()
 {
 	// Create a deadzone in the middle
-	if (mouse_x > -0.1 && mouse_x < 0.1) mouse_x = 0;
-	if (mouse_y > -0.1 && mouse_y < 0.1) mouse_y = 0;
+	if (Globals::mouse_x > -0.1 && Globals::mouse_x < 0.1) Globals::mouse_x = 0;
+	if (Globals::mouse_y > -0.1 && Globals::mouse_y < 0.1) Globals::mouse_y = 0;
 	
 	/*
 	if (viewMode == VIEW_FIRST)
@@ -30,8 +30,8 @@ void HandleMousePosition()
 	*/
 	{
 	
-		view_roty += 10 * mouse_x * fabs(mouse_x);
-		view_rotx += 10 * mouse_y * fabs(mouse_y);
+		view_roty += 10 * Globals::mouse_x * fabs(Globals::mouse_x);
+		view_rotx += 10 * Globals::mouse_y * fabs(Globals::mouse_y);
 		
 		// Wrap-around
 		view_roty = fmodf(view_roty, 360.0);
