@@ -20,26 +20,19 @@ void Cleanup(void)
 
 void Project()
 {
-	int viewMode;
-	/* Reference: In-class Ex 9
-	 * Adapted to my version of mode-setting and window sizing
-	 */
+
+	// Reference: CSCI 5229 Ex 9
 	//  Tell OpenGL we want to manipulate the projection matrix
 	glMatrixMode(GL_PROJECTION);
 	//  Undo previous transformations
 	glLoadIdentity();
-	switch (viewMode)
+	switch (Globals::viewMode)
 	{
-	/*
-	case VIEW_PERSP:
-		gluPerspective(60, _width / _height, maxMag*0.4, maxMag*10);
+	case ViewMode::INTERIOR:
+		gluPerspective(60, windowWidth / windowHeight, 0.1, 10);
 		break;
-	case VIEW_FIRST:
-		gluPerspective(60, _width / _height, maxMag*0.1, maxMag*10);
-		break;
-	case VIEW_ORTHO:
-	*/
-	default: // default to orthographic
+	case ViewMode::EXTERIOR:
+	default: // default to exterior (orthographic)
 		//  Orthogonal projection box adjusted for the aspect ratio of the window
 		{
 			// TODO scale based on the smaller of width/height rather than always using height

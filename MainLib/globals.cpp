@@ -56,4 +56,16 @@ float baseMag = 4;
 int windowWidth = 900;
 int windowHeight = 900;
 
-
+//--------------------
+// Dispaly --> Window
+//--------------------
+ViewMode Globals::viewMode = ViewMode::INTERIOR;
+namespace Globals {
+  namespace InteriorView {
+    float up[3] = {0, 0, 1.0f};
+    float rotH = 0;
+    float rotV = 0;
+    float lookPos[3] = {0, 0, 0};
+    float eyePos[3] = {1, 0, 0};
+  }
+}

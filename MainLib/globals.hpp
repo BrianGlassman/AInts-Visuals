@@ -42,3 +42,18 @@ extern float baseMag;
 extern float baseMag;
 extern int windowWidth;
 extern int windowHeight;
+
+//--------------------
+// Dispaly --> Window
+//--------------------
+enum class ViewMode { INTERIOR, EXTERIOR };
+namespace Globals
+{
+    extern ViewMode viewMode;
+    namespace InteriorView {
+        extern float up[3];
+        extern float rotH, rotV;
+        extern float lookPos[3];
+        extern float eyePos[3];
+    }
+}

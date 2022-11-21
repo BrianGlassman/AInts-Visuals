@@ -2,6 +2,7 @@
 #include "display.hpp"
 #include "Menus.hpp"
 #include "globals.hpp"
+#include "window.hpp"
 
 using namespace Menus;
 
@@ -84,10 +85,12 @@ namespace Callbacks{ void View(int val)
     switch(val)
     {
     case 0:
-        // FIXME Exterior
+        Globals::viewMode = ViewMode::EXTERIOR;
+        Project();
         break;
     case 1:
-        // FIXME Interior
+        Globals::viewMode = ViewMode::INTERIOR;
+        Project();
         break;
     default:
         Fatal(999, "Unknown val %d to View callback\n", val);

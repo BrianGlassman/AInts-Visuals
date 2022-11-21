@@ -6,58 +6,45 @@
 /*
  * Process standard keys
  */
-// float speed = 0.5;
+float speed = 0.05;
+void fpsKey(unsigned char k)
+{
+	namespace iv = Globals::InteriorView;
+
+	switch (k) {
+	// Movement
+	case 'w':
+	case 'W':
+		{
+			// Move along the line from eye to center
+			iv::eyePos[0] += speed * (iv::lookPos[0] - iv::eyePos[0]);
+			iv::eyePos[1] += speed * (iv::lookPos[1] - iv::eyePos[1]);
+			iv::eyePos[2] += speed * (iv::lookPos[2] - iv::eyePos[2]);
+		}
+		break;
+	// case 'a':
+	// case 'A':
+	// 	// FIXME strafe
+	// 	break;
+	case 's':
+	case 'S':
+		{
+			// Move opposite the line from eye to center
+			iv::eyePos[0] -= speed * (iv::lookPos[0] - iv::eyePos[0]);
+			iv::eyePos[1] -= speed * (iv::lookPos[1] - iv::eyePos[1]);
+			iv::eyePos[2] -= speed * (iv::lookPos[2] - iv::eyePos[2]);
+		}
+		break;
+	// case 'd':
+	// case 'D':
+	// 	// FIXME strafe
+	// 	break;
+	}
+}
 void key(unsigned char k, int x, int y)
 {
 	switch (k) {
 	/*
-	// Movement
-	case 'w':
-	case 'W':
-		if (viewMode == VIEW_FIRST)
-		{
-			// Move along the line from eye to center
-			fp_eyeX += speed * (fp_centX - fp_eyeX);
-			fp_eyeY += speed * (fp_centY - fp_eyeY);
-			fp_eyeZ += speed * (fp_centZ - fp_eyeZ);
-		}
-		else if (lightMode == LIGHTMODE_MANU)
-		{
-			// Move the light up
-			lightPhi += 3*lightSpeed;
-		}
-		break;
-	case 'a':
-	case 'A':
-		if (viewMode != VIEW_FIRST && lightMode == LIGHTMODE_MANU)
-		{
-			// Move the light clockwise
-			lightTheta += 3*lightSpeed;
-		}
-		break;
-	case 's':
-	case 'S':
-		if (viewMode == VIEW_FIRST)
-		{
-			// Move opposite the line from eye to center
-			fp_eyeX -= speed * (fp_centX - fp_eyeX);
-			fp_eyeY -= speed * (fp_centY - fp_eyeY);
-			fp_eyeZ -= speed * (fp_centZ - fp_eyeZ);
-		}
-		else if (lightMode == LIGHTMODE_MANU)
-		{
-			// Move the light down
-			lightPhi -= 3*lightSpeed;
-		}
-		break;
-	case 'd':
-	case 'D':
-		if (viewMode != VIEW_FIRST && lightMode == LIGHTMODE_MANU)
-		{
-			// Move the light counterclockwise
-			lightTheta -= 3*lightSpeed;
-		}
-		break;
 	
 	// Meta keys
 	case 'm':
@@ -102,17 +89,11 @@ void key(unsigned char k, int x, int y)
 		}
 		break;
 	*/
-	default:
-		return;
 	}
+
+	fpsKey(k);
 	
 	/*
-	// Clamp view mode
-	if (viewMode > VIEW_FIRST) viewMode = VIEW_ORTHO;
-	
-	// Clamp scene mode
-	if (sceneMode > SCENE_MAX && sceneMode != SCENE_CUBE) sceneMode = SCENE_MAIN;
-	
 	// Clamp light position
 	if (lightPhi > 89) lightPhi = 89;
 	if (lightPhi < -89) lightPhi = -89;
@@ -172,6 +153,9 @@ void mouseMovement(int x, int y)
 float zoomSpeed = 0.05;
 void mouseAction(int button, int state, int x, int y)
 {
+	// Ignore mouse wheel in interior view
+	// if (Globals::viewMode == ViewMode::INTERIOR) return;
+
 	switch(button)
 	{
 	case 3: // Wheel down - zoom out

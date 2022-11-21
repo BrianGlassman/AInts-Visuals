@@ -5,6 +5,10 @@
 
 static float view_rotx, view_roty, view_rotz;
 
+namespace InteriorView {
+	static GLfloat fp_up[] = {0.0, 1.0, 0.0};
+}
+
 void HandleMousePosition()
 {
 	// Create a deadzone in the middle
@@ -54,7 +58,27 @@ void preDisplay()
 	glLoadIdentity();
 
 	HandleMousePosition();
-	RotateView();
+
+	switch (Globals::viewMode)
+	{
+	case ViewMode::EXTERIOR:
+		RotateView();
+		break;
+	case ViewMode::INTERIOR:
+		gluLookAt(
+			Globals::InteriorView::eyePos[0],
+			Globals::InteriorView::eyePos[1],
+			Globals::InteriorView::eyePos[2],
+			Globals::InteriorView::lookPos[0],
+			Globals::InteriorView::lookPos[1],
+			Globals::InteriorView::lookPos[2],
+			Globals::InteriorView::up[0],
+			Globals::InteriorView::up[1],
+			Globals::InteriorView::up[2]);
+		break;
+	default:
+		FatalDef();
+	}
 }
 
 void postDisplay(float scale)
