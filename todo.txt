@@ -20,6 +20,9 @@ can I use a shader with OpenGL 2 and still use the rest of the fixed pipeline?
 
 probably going to have to do perturbations at the same time as vertex-generation to get the normals right
 
+would like to have better 3D navigation for interior view, but the vector math gets nasty
+	current version has "up" locked to Y axis, so turning is always around that axis instead of relative to view
+
 something's wrong with the lighting in some cases
 	triple-tunnel, the core and the arms aren't being lit the same
 	probably going to have to stop sharing vertices between arms, since each face needs a different normal

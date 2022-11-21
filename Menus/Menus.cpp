@@ -86,10 +86,12 @@ namespace Callbacks{ void View(int val)
     {
     case 0:
         Globals::viewMode = ViewMode::EXTERIOR;
+        glCullFace(GL_BACK);
         Project();
         break;
     case 1:
         Globals::viewMode = ViewMode::INTERIOR;
+        glCullFace(GL_FRONT);
         Project();
         break;
     default:

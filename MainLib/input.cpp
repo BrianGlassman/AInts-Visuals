@@ -91,7 +91,7 @@ void key(unsigned char k, int x, int y)
 	*/
 	}
 
-	fpsKey(k);
+	if (Globals::viewMode == ViewMode::INTERIOR) fpsKey(k);
 	
 	/*
 	// Clamp light position

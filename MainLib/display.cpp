@@ -23,16 +23,16 @@ void HandleMousePosition()
 		if (iv::rotH < 0) iv::rotH = 360 + iv::rotH;
 		// printf("rotH = %f\n", iv::rotH);
 
-		// Wrap-around vertical
-		iv::rotV = fmodf(iv::rotV, 360.0);
-		if (iv::rotV < 0) iv::rotV = 360 + iv::rotV;
-		// printf("rotH = %f\n", iv::rotH);
+		// Clamp vertical
+		if (iv::rotV > 89.9) iv::rotV = 89.9;
+		if (iv::rotV < -89.9) iv::rotV = -89.9;
+		// printf("rotV = %f\n", iv::rotV);
 
 		// Update view vector
 		iv::lookDir[0] =  Sin(iv::rotH)*Cos(iv::rotV);
-		iv::lookDir[1] =  Sin(iv::rotV);
+		iv::lookDir[1] = -Sin(iv::rotV);
 		iv::lookDir[2] = -Cos(iv::rotH)*Cos(iv::rotV);
-		printf("lookDir (%f, %f, %f)\n", iv::lookDir[0], iv::lookDir[1], iv::lookDir[2]);
+		// printf("lookDir (%f, %f, %f)\n", iv::lookDir[0], iv::lookDir[1], iv::lookDir[2]);
 	}
 	else
 	{

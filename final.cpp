@@ -65,6 +65,10 @@ static void init(int argc, char* argv[])
 
 	// Face culling and Z-buffering
 	glEnable(GL_CULL_FACE);
+	if (Globals::viewMode == ViewMode::EXTERIOR)
+		glCullFace(GL_BACK);
+	else
+		glCullFace(GL_FRONT);
 	glEnable(GL_DEPTH_TEST);
 
 	ErrCheck("init");

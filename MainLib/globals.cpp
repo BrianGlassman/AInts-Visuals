@@ -2,6 +2,8 @@
 
 #include "globals.hpp"
 
+#include "CSCIx229.h"
+
 //---------
 // Toggles
 //---------
@@ -62,10 +64,13 @@ int windowHeight = 900;
 ViewMode Globals::viewMode = ViewMode::INTERIOR;
 namespace Globals {
   namespace InteriorView {
-    float up[3] = {0, 0, 1};
-    float rotH = 0;
-    float rotV = -89.9;
-    float eyePos[3] = {-1, 3, 0};
-    float lookDir[3] = {0, -1, 0};
+    float up[3] = {0, 1, 0};
+    float rotH = 180;
+    float rotV = 0;
+    float eyePos[3] = {1, -1, 0};
+    float lookDir[3] = {
+         Sin(rotH)*Cos(rotV),
+        -Sin(rotV),
+        -Cos(rotH)*Cos(rotV)};
   }
 }
