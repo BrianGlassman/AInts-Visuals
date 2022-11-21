@@ -54,6 +54,7 @@ float lerp(float fraction, float low, float high)
 }
 Vector3 lerp(float fraction, Vector3 low, Vector3 high)
 {
+    // Need fade, otherwise there's sharp angles at cell borders
     auto x = lerp(fade(fraction), low.x, high.x);
     auto y = lerp(fade(fraction), low.y, high.y);
     auto z = lerp(fade(fraction), low.z, high.z);

@@ -4,7 +4,7 @@
 float padding = 0.1; // Padding between edge of chamber and edge of cell
 
 // FIXME these should be linked, not hard-coded
-float tunnelNoiseScale = 0.07;
+float tunnelNoiseScale = 0.3;
 int tunnelN = 8;
 int armPanels = 1; // Shouldn't be the same as the tunnel value, but should be related
 float tunnelRadius = 0.1f;
