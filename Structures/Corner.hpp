@@ -24,7 +24,7 @@ public:
     Corner();
 
 	// Transformation to put the corner in the right spot
-	float baseScale[3] = {1, 1, 1};
+	Vector3 baseScale = {1, 1, 1};
 
 	// FIXME make public once auto-generation is implemented
     Surroundings surroundings;
@@ -38,8 +38,8 @@ public:
     void Draw();
 private:
 	// Transformation to align the mesh properly
-	float meshRotate[3] = {0, 0, 0};
-	float meshScale[3] = {1, 1, 1};
+	Vector3 meshRotate = {0, 0, 0};
+	Vector3 meshScale = {1, 1, 1};
 
 	// Flag to get vertex winding correct
 	bool windCW = false;

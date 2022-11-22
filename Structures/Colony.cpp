@@ -30,18 +30,18 @@ void Colony::Draw()
     } glPopMatrix();
 }
 
-void Colony::AddModel(std::shared_ptr<Model> modelPtr, float center[3])
+void Colony::AddModel(std::shared_ptr<Model> modelPtr, Vector3 center)
 {
     modelPtr->center = center;
     children.push_back(modelPtr);
 }
 
-void Colony::AddTunnel(float center[3])
+void Colony::AddTunnel(Vector3 center)
 {
     std::shared_ptr<Model> ptr = std::make_shared<Tunnel>();
     AddModel(ptr, center);
 }
-void Colony::AddTunnel(float center[3], unsigned char sides)
+void Colony::AddTunnel(Vector3 center, unsigned char sides)
 {
     std::shared_ptr<Model> ptr = std::make_shared<Tunnel>(sides);
     AddModel(ptr, center);
@@ -58,12 +58,12 @@ void Colony::AddTunnel(float x, float y, float z, unsigned char sides)
     AddModel(ptr, center);
 }
 
-void Colony::AddChamber(float center[3])
+void Colony::AddChamber(Vector3 center)
 {
     std::shared_ptr<Model> ptr = std::make_shared<Chamber>();
     AddModel(ptr, center);
 }
-void Colony::AddChamber(float center[3], unsigned char sides)
+void Colony::AddChamber(Vector3 center, unsigned char sides)
 {
     std::shared_ptr<Model> ptr = std::make_shared<Chamber>(sides);
     AddModel(ptr, center);
@@ -80,7 +80,7 @@ void Colony::AddChamber(float x, float y, float z, unsigned char sides)
     AddModel(ptr, center);
 }
 
-void Colony::AddHill(float center[3])
+void Colony::AddHill(Vector3 center)
 {
     std::shared_ptr<Model> ptr = std::make_shared<Hill>();
     AddModel(ptr, center);

@@ -64,11 +64,11 @@ int windowHeight = 900;
 ViewMode Globals::viewMode = ViewMode::EXTERIOR;
 namespace Globals {
   namespace InteriorView {
-    float up[3] = {0, 1, 0};
+    Vector3 up = {0, 1, 0};
     float rotH = 180;
     float rotV = 0;
-    float eyePos[3] = {1, -1, 0};
-    float lookDir[3] = {
+    Vector3 eyePos = {1, -1, 0};
+    Vector3 lookDir = {
          Sin(rotH)*Cos(rotV),
         -Sin(rotV),
         -Cos(rotH)*Cos(rotV)};

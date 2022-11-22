@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vector.hpp"
+
 //---------
 // Toggles
 //---------
@@ -51,9 +53,9 @@ namespace Globals
 {
     extern ViewMode viewMode;
     namespace InteriorView {
-        extern float up[3];
+        extern Vector3 up;
         extern float rotH, rotV;
-        extern float eyePos[3];
-        extern float lookDir[3];
+        extern Vector3 eyePos;
+        extern Vector3 lookDir;
     }
 }
