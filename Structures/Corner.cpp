@@ -1,4 +1,5 @@
 #include "Corner.hpp"
+#include "globals.hpp"
 #include "Structure.hpp"
 
 Corner::Corner()
@@ -175,6 +176,7 @@ void Corner::CreateArm(int i0, int i1, int i2)
 			vertices.push_back(coords);
 
 			// Inner edge
+			coords[i0] = 0;
 			indices.push_back(vertices.size());
 			normals.push_back(coords);
 			// FIXME texture
@@ -187,9 +189,6 @@ void Corner::CreateArm(int i0, int i1, int i2)
 }
 void Corner::XTunnel(bool makeY, bool makeZ)
 {
-	yInner.clear();
-	zInner.clear();
-
 	float x, y, z;
 	for (float theta = 90; theta <= 180; theta += (360 / n))
 	{
@@ -202,39 +201,30 @@ void Corner::XTunnel(bool makeY, bool makeZ)
 
 		// Inner point
 		indices.push_back(vertices.size());
-		normals.push_back({0, y, z});
 		// FIXME texture
 		if (makeY)
 		{
 			if (makeZ)
 			{ // X, Y, and Z tunnels - stop at X = Y or X = Z
-				if (y > z)
+				if (y >= z)
 				{
 					x = y;
-					yInner.push_back(vertices.size());
-				}
-				else if (y == z)
-				{
-					x = y;
-					yInner.push_back(vertices.size());
-					zInner.push_back(vertices.size());
 				}
 				else
 				{
 					x = z;
-					zInner.push_back(vertices.size());
 				}
 			}
 			else
 			{ // X and Y tunnels - stop at X = Y
 				x = y;
-				yInner.push_back(vertices.size());
 			}
 		}
 		else
 		{ // Only X tunnel - Stop at X = 0
 			x = 0;
 		}
+		normals.push_back({0, y, z});
 		vertices.push_back({x, y, z});
 	}
 
@@ -244,7 +234,6 @@ void Corner::YTunnel(bool makeZ)
 {
 	indexBounds.push_back(indices.size());
 	
-	int yInnerIdx = 0;
 	float x, z;
 	for (int theta = 270; theta >= 180; theta -= (360 / n))
 	{
@@ -254,23 +243,20 @@ void Corner::YTunnel(bool makeZ)
 
 		// Inner point
 		if (makeZ && x < z)
-		{ // Create a new point on Y = Z
+		{ // Y = Z
 			float y = z;
 			indices.push_back(vertices.size());
-			zInner.insert(zInner.begin(), vertices.size());
 			normals.push_back({x, 0, z});
 			// FIXME texture
 			vertices.push_back({x, y, z});
-			// fprintf(stdout, "new %f, %f, %f\n", x, y, z);
 		}
 		else
-		{ // Re-use from XTunnel
-			indices.push_back(yInner[yInnerIdx]);
-			// fprintf(stdout, "reu %f, %f, %f\n", 
-			// 	vertices[yInner[yInnerIdx]][0],
-			// 	vertices[yInner[yInnerIdx]][1],
-			// 	vertices[yInner[yInnerIdx]][2]);
-			yInnerIdx++;
+		{ // Y = X
+			float y = x;
+			indices.push_back(vertices.size());
+			normals.push_back({x, 0, z});
+			// FIXME texture
+			vertices.push_back({x, y, z});
 		}
 
 		// Outer point
@@ -283,28 +269,58 @@ void Corner::ZTunnel()
 {
 	indexBounds.push_back(indices.size());
 
-	// for (int i = 0; i < yInner.size(); i++)
-	// {
-	// 	fprintf(stdout, "%d (%f, %f, %f), ", yInner[i], vertices[yInner[i]][0], vertices[yInner[i]][1], vertices[yInner[i]][2]);
-	// }
-	// fprintf(stdout, "\n");
-
-	int zInnerIdx = 0;
-	float x, y;
+	float x, y, z;
 	for (int theta = 90; theta >= 0; theta -= (360 / n))
 	{
 		// Top-right quadrant when viewed from +Z, moving Clockwise
 		Polar2Cart(radius, theta, &x, &y);
 
-		// Inner point, re-use from Z=X or Z=Y
-		indices.push_back(zInner[zInnerIdx]);
-		zInnerIdx++;
+		// Inner point Z=X or Z=Y
+		z = (x >= y) ? x : y;
+		indices.push_back(vertices.size());
+		normals.push_back({x, y, 0});
+		vertices.push_back({x, y, z});
 
 		// Outer point(s)
 		CreateCoreOuter(2, 0, x, 1, y);
 	}
 
-	CreateArm(2, 0, 1);
+	// CreateArm(2, 0, 1);
+	{
+		int i0 = 2, i1 = 0, i2 = 1;
+		float d = (0.5 - radius) / panels;
+
+		Vector3 coords;
+		float x = radius, y, z;
+		for (int i = 0; i < panels; i++)
+		{
+			indexBounds.push_back(indices.size());
+			for (float theta = 90; theta <= 180; theta += (360 / n))
+			{
+				// Top-left quadrant, moving CCW
+				Polar2Cart(radius, theta, &z, &y);
+				z = -z;
+				coords[i0] = 0; coords[i1] = y; coords[i2] = z;
+
+				// Outer edge
+				indices.push_back(vertices.size());
+				normals.push_back(coords);
+				// FIXME texture
+				coords[i0] = x + d;
+				vertices.push_back(coords);
+
+				// Inner edge
+				coords[i0] = 0;
+				indices.push_back(vertices.size());
+				normals.push_back(coords);
+				// FIXME texture
+				coords[i0] = x;
+				vertices.push_back(coords);
+			}
+
+			x += d;
+		}
+	}
 }
 
 void Corner::Create()
@@ -329,8 +345,8 @@ void Corner::Create()
 		YTunnel(false);
 		break;
 	case 3:
-		XTunnel(true, true);
-		YTunnel(true);
+		// XTunnel(true, true);
+		// YTunnel(true);
 		ZTunnel();
 		break;
 	// TODO handle chambers, too
@@ -366,6 +382,18 @@ void Corner::Create()
 		// fprintf(stdout, "Post scale (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]);
 	}
 
+	// Apply scaling and rotation to the created normals
+	for (auto&& normal : normals)
+	{
+		normal.RotateZ(meshRotate[2]);
+		normal.RotateY(meshRotate[1]);
+		normal.RotateX(meshRotate[0]);
+
+		normal[0] *= baseScale[0] * meshScale[0];
+		normal[1] *= baseScale[1] * meshScale[1];
+		normal[2] *= baseScale[2] * meshScale[2];
+	}
+
 	indexBounds.push_back(indices.size());
 	PostCreate();
 }
@@ -391,6 +419,8 @@ void Corner::UpdateConnections()
 
 void Corner::Draw()
 {
+	if (Toggles::showNormals) DrawNormals(0.25);
+
 	glPushMatrix(); {
 		glTranslatef(center[0], center[1], center[2]);
 
