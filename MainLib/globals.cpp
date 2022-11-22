@@ -7,9 +7,10 @@
 //---------
 // Toggles
 //---------
-bool Toggles::lightOrbiting = true;
+bool Toggles::Light::lightOrbiting = true;
+bool Toggles::Light::smooth = true;
 bool Toggles::Noise::showPVectors = false;
-bool Toggles::showNormals = false;
+bool Toggles::showNormals = true;
 
 //-------------------
 // Input --> Display

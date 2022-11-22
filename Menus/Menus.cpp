@@ -146,7 +146,11 @@ namespace Callbacks{ void Light(int val)
         // FIXME toggle direct
         break;
     case 2:
-        Toggles::lightOrbiting = !Toggles::lightOrbiting;
+        Toggles::Light::lightOrbiting = !Toggles::Light::lightOrbiting;
+        break;
+    case 3:
+        Toggles::Light::smooth = !Toggles::Light::smooth;
+        glShadeModel(Toggles::Light::smooth ? GL_SMOOTH : GL_FLAT);
         break;
     default:
         Fatal(999, "Unknown val %d to Light callback\n");
@@ -155,7 +159,7 @@ namespace Callbacks{ void Light(int val)
 LightMenu::LightMenu()
 {
     name = "Lighting";
-    buttons = { "Toggle ambient light", "Toggle directed light", "Toggle auto/manual orbit" };
+    buttons = { "Toggle ambient light", "Toggle directed light", "Toggle auto/manual orbit", "Toggle Smooth/Flat" };
     callback = Callbacks::Light;
 };
 

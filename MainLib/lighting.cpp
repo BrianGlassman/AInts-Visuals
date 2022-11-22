@@ -20,8 +20,7 @@ void initLighting()
 	// Setup for Lighting, based on Ex. 13
 	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
-	// glShadeModel(GL_SMOOTH);
-	glShadeModel(GL_FLAT); // FIXME using flat to debug
+	glShadeModel(Toggles::Light::smooth ? GL_SMOOTH : GL_FLAT);
 
 	glEnable(GL_NORMALIZE);
 
@@ -80,7 +79,7 @@ OrbitLight::OrbitLight(float ambient, float diffuse, float specular) : Light(amb
 void OrbitLight::UpdatePosition()
 {
 	// FIXME HACK
-	mode = Toggles::lightOrbiting ? OrbitMode::orbiting : OrbitMode::manual;
+	mode = Toggles::Light::lightOrbiting ? OrbitMode::orbiting : OrbitMode::manual;
 
 	// Position is set relative to the eye, so have to update whenever the eye point moves
 	if (mode == OrbitMode::orbiting) azimuth -= speed;

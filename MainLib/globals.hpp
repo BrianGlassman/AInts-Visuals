@@ -7,7 +7,11 @@
 //---------
 namespace Toggles
 {
-    extern bool lightOrbiting;
+    namespace Light
+    {
+        extern bool lightOrbiting;
+        extern bool smooth;
+    }
     namespace Noise
     {
         extern bool showPVectors;
