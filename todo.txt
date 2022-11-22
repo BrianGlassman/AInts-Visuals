@@ -2,8 +2,6 @@ Noise menu:
 	turn off noise entirely
 	show unperturbed geometry somehow
 	
-cutout in chamber face where the connecting tunnel is
-
 chamber arm lighting is wrong. Seems to be using the normal of the face?
 
 chamber face lighting is very wrong
@@ -46,6 +44,7 @@ prevent neighboring vertices from overlapping
 use VBOs (ref Ex. 8) for performance improvement
 
 make orbiting lights based on fixed speed, not display speed
+	the Thunderbirds example probably has this capability
 
 May be better to use a pixel shader?
 Marching cubes? Some other isosurface algorithm?
