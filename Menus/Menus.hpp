@@ -32,7 +32,7 @@ protected:
 
 class MainMenu : public Menu { public: MainMenu(); };
 
-class idkMenu : public Menu { public: idkMenu(); };
+class GizmosMenu : public Menu { public: GizmosMenu(); };
 
 class LightMenu : public Menu { public: LightMenu(); };
 

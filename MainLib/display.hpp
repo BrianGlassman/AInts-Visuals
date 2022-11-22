@@ -13,3 +13,6 @@ void visible(int vis);
 
 void ToggleWireframe();
 void SetWireframe(bool useWire);
+
+void ToggleAxes();
+void SetAxes(bool useAxes);

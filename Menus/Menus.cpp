@@ -38,9 +38,9 @@ void Menus::CreateMenus()
     NoiseMenu noise; noise.Create();
     mainMenu.AddSubMenu(&noise);
 
-    // idk
-    idkMenu idk; idk.Create();
-    mainMenu.AddSubMenu(&idk);
+    // Gizmos
+    GizmosMenu gizmos; gizmos.Create();
+    mainMenu.AddSubMenu(&gizmos);
 }
 
 Menu::Menu() { name = "UNSET"; callback = Callbacks::printCallback; }
@@ -105,25 +105,28 @@ ViewMenu::ViewMenu()
     callback = Callbacks::View;
 }
 
-//-----
-// IDK
-//-----
-namespace Callbacks{ void idk(int val)
+//--------
+// Gizmos
+//--------
+namespace Callbacks{ void Gizmos(int val)
 {
     switch(val)
     {
     case 0:
         ToggleWireframe();
         break;
+    case 1:
+        ToggleAxes();
+        break;
     default:
-        Fatal(999, "Unknown val %d to idk callback\n", val);
+        Fatal(999, "Unknown val %d to Gizmos callback\n", val);
     }
 }}
-idkMenu::idkMenu()
+GizmosMenu::GizmosMenu()
 {
-    name = "idk";
-    buttons = { "Toggle Wireframe" };
-    callback = Callbacks::idk;
+    name = "Gizmos";
+    buttons = { "Toggle Wireframe", "Toggle Axes" };
+    callback = Callbacks::Gizmos;
 };
 
 //-------
