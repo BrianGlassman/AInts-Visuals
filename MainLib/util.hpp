@@ -31,6 +31,7 @@ public:
 	void PreCreate();
     virtual void Create();
 	void PostCreate();
+	void DrawNormals(float scale = 1);
 	virtual void Draw();
 
     virtual void ApplyNoise(Noise* noise, float offset[]);

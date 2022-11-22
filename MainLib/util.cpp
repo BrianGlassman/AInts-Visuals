@@ -146,6 +146,27 @@ void Model::ApplyNoise(Noise* noise, float offset[])
     }
 }
 
+void Model::DrawNormals(float scale)
+{
+	glPushAttrib(GL_CURRENT_BIT); glColor3f(1, 0, 0);
+	glPushAttrib(GL_ENABLE_BIT); glDisable(GL_LIGHTING); glDisable(GL_TEXTURE_2D);
+	
+	glPushMatrix(); {
+		glTranslatef(center[0], center[1], center[2]);
+		
+		glBegin(GL_LINES);
+		for (auto&& i : indices)
+		{
+			auto&& vertex = vertices[i];
+			auto&& normal = normals[i];
+			glVertex3f(vertex.x, vertex.y, vertex.z);
+			glVertex3f(scale * normal.x + vertex.x, scale * normal.y + vertex.y, scale * normal.z + vertex.z);
+		}
+		glEnd();
+	} glPopMatrix();
+	glPopAttrib(); glPopAttrib();
+}
+
 void Model::Draw()
 {
 	fprintf(stdout, "WARNING base draw\n");

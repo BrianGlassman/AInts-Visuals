@@ -118,6 +118,9 @@ namespace Callbacks{ void Gizmos(int val)
     case 1:
         ToggleAxes();
         break;
+    case 2:
+        Toggles::showNormals = !Toggles::showNormals;
+        break;
     default:
         Fatal(999, "Unknown val %d to Gizmos callback\n", val);
     }
@@ -125,7 +128,7 @@ namespace Callbacks{ void Gizmos(int val)
 GizmosMenu::GizmosMenu()
 {
     name = "Gizmos";
-    buttons = { "Toggle Wireframe", "Toggle Axes" };
+    buttons = { "Toggle Wireframe", "Toggle Axes", "Toggle Normals" };
     callback = Callbacks::Gizmos;
 };
 

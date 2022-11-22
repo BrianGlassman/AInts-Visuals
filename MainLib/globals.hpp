@@ -12,6 +12,8 @@ namespace Toggles
     {
         extern bool showPVectors;
     }
+
+    extern bool showNormals;
 }
 
 

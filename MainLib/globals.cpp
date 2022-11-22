@@ -9,6 +9,7 @@
 //---------
 bool Toggles::lightOrbiting = true;
 bool Toggles::Noise::showPVectors = false;
+bool Toggles::showNormals = false;
 
 //-------------------
 // Input --> Display
