@@ -24,9 +24,9 @@ Chamber::Chamber(unsigned char sides)
 	Create();
 }
 
-std::vector<float> SetCoords(const float v0, const float v1, const float v2, int i0, bool f0, int i1, bool f1, int i2, bool f2)
+Vector3 SetCoords(const float v0, const float v1, const float v2, int i0, bool f0, int i1, bool f1, int i2, bool f2)
 {
-	std::vector<float> coords(3);
+	Vector3 coords;
 	coords[i0] = (f0 ? -1 : 1) * v0;
 	coords[i1] = (f1 ? -1 : 1) * v1;
 	coords[i2] = (f2 ? -1 : 1) * v2;
@@ -34,7 +34,7 @@ std::vector<float> SetCoords(const float v0, const float v1, const float v2, int
 }
 void Chamber::FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm)
 {
-	std::vector<float> coords(3);
+	Vector3 coords;
 	int idx = vertices.size();
 
 	float useTR;
@@ -93,7 +93,7 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 	float d = padding / armPanels;
 	float thetaD = 360 / tunnelN;
 
-	std::vector<float> coords(3);
+	Vector3 coords;
 	float x = (0.5 - padding), y, z;
 	for (int i = 0; i < armPanels; i++)
 	{

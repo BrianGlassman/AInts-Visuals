@@ -303,7 +303,7 @@ int main(int argc, char* argv[])
 		//  bottom : 8
 		//   right : 16
 		//    left : 32
-		tunnel.AddTunnel(0, 0, 0, 21);
+		tunnel.AddTunnel(0, 0, 0, 0);
 		displayModelPtr = &tunnel;
 		break;
 	}

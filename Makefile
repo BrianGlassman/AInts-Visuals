@@ -57,6 +57,7 @@ loadobj.o: $(CLIBDIR)/loadobj.c $(CLIBDIR)/CSCIx229.h
 
 #--- MainLib ---
 globals.o: $(MLIBDIR)/globals.cpp $(MLIBDIR)/globals.hpp
+Vector.o: $(MLIBDIR)/Vector.cpp $(MLIBDIR)/Vector.hpp
 # Everything else depends on globals (and display depends on util)
 display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp $(MLIBDIR)/globals.hpp $(MLIBDIR)/util.hpp
 input.o: $(MLIBDIR)/input.cpp $(MLIBDIR)/input.hpp $(MLIBDIR)/globals.hpp
@@ -88,7 +89,7 @@ Menus.o: $(MENUDIR)/Menus.cpp $(MENUDIR)/Menus.hpp
 #----------------
 CSCIx229.a: fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
-MainLib.a: globals.o display.o lighting.o input.o textures.o util.o window.o
+MainLib.a: globals.o display.o lighting.o input.o textures.o util.o Vector.o window.o
 	ar -rcs $@ $^
 Structures.a: Structure.o Corner.o Chamber.o Hill.o Tunnel.o Colony.o
 	ar -rcs $@ $^

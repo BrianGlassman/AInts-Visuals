@@ -143,7 +143,7 @@ void Corner::CreateClosed()
 /// @param c2 tertiary coordinate
 void Corner::CreateCoreOuter(int i0, int i1, float c1, int i2, float c2)
 {
-	std::vector<float> coords(3);
+	Vector3 coords;
 	coords[i0] = 0; coords[i1] = c1; coords[i2] = c2;
 	indices.push_back(vertices.size());
 	normals.push_back(coords);
@@ -155,7 +155,7 @@ void Corner::CreateArm(int i0, int i1, int i2)
 {
 	float d = (0.5 - radius) / panels;
 
-	std::vector<float> coords(3);
+	Vector3 coords;
 	float x = radius, y, z;
 	for (int i = 0; i < panels; i++)
 	{

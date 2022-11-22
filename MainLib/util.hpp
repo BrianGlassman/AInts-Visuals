@@ -4,7 +4,8 @@
 
 #include "CSCIx229.h"
 
-#include "Noise.hpp"
+#include "Noise.hpp" // Noise class for ApplyNoise
+#include "Vector.hpp"
 
 #define ORIGIN 0.0, 0.0, 0.0
 #define X_AXIS 1.0, 0.0, 0.0
@@ -42,9 +43,9 @@ protected:
 	// Scaling factor applied to the noise effect
 	float noiseScale = 0.07;
 
-    std::vector<std::vector<float>> vertices;
-	std::vector<std::vector<float>> baseVertices;
-	std::vector<std::vector<float>> normals;
+    std::vector<Vector3> vertices;
+	std::vector<Vector3> baseVertices;
+	std::vector<Vector3> normals;
 	std::vector<std::vector<float>> texCoords;
 	std::vector<int> indices;
 };

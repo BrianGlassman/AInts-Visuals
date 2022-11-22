@@ -321,6 +321,4 @@ void Sphere::Draw()
 			glEnd();
 		}
 	} glPopMatrix();
-
-	// FatalDef();
 }

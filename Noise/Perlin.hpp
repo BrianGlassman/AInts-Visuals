@@ -1,18 +1,7 @@
 #pragma once
 
 #include "Noise.hpp"
-
-struct Vector3Int {
-    int x;
-    int y;
-    int z;
-};
-
-struct Vector3 {
-    float x;
-    float y;
-    float z;
-};
+#include "Vector.hpp"
 
 class Perlin : public Noise
 {
