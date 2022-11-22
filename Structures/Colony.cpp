@@ -32,7 +32,7 @@ void Colony::Draw()
 
 void Colony::AddModel(std::shared_ptr<Model> modelPtr, float center[3])
 {
-    memcpy(modelPtr->center, center, 3*sizeof(float));
+    modelPtr->center = center;
     children.push_back(modelPtr);
 }
 

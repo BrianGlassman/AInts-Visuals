@@ -26,7 +26,7 @@ public:
 	virtual ~Model(); // Need a virtual destructor for polymorphics
 	int type;
 	
-	float center[3] = {0.0f, 0.0f, 0.0f};
+	Vector3 center = {0.0f, 0.0f, 0.0f};
 
 	void PreCreate();
     virtual void Create();

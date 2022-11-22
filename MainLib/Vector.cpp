@@ -2,6 +2,28 @@
 
 #include "Vector.hpp"
 
+Vector3::Vector3()
+{
+    x = 0; y = 0; z = 0;
+}
+
+Vector3::Vector3(std::initializer_list<float> coords)
+{
+    auto it = coords.begin();
+    x = *it;
+    it++;
+    y = *it;
+    it++;
+    z = *it;
+}
+
+Vector3::Vector3(float coords[])
+{
+    x = coords[0];
+    y = coords[1];
+    z = coords[2];
+}
+
 float& Vector3::operator[](int index)
 {
     switch(index)
