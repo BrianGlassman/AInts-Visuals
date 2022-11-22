@@ -338,38 +338,24 @@ void Corner::Create()
 		Fatal(999, "Unknown connection %d\n", surroundings.sqrMagnitude());
 	}
 
-	// Apply scaling and rotation to the created vertices and normals
+	// Apply scaling and rotation to the created vertices
 	for (auto&& vertex : vertices)
 	{
-		float x = vertex[0], y = vertex[1], z = vertex[2];
-
 		// fprintf(stdout, "Pre (%f, %f, %f) rot (%f, %f, %f) * (%f, %f, %f)\n", 
 		// 	vertex[0], vertex[1], vertex[2],
 		// 	meshRotate[0], meshRotate[1], meshRotate[2],
 		// 	meshScale[0], meshScale[1], meshScale[2]);
 
 		// Rotate around Z axis
-		vertex[0] =  Cos(meshRotate[2])*x - Sin(meshRotate[2])*y;
-		vertex[1] =  Sin(meshRotate[2])*x + Cos(meshRotate[2])*y;
-		vertex[2] =  z;
-		x = vertex[0]; y = vertex[1]; z = vertex[2];
-
+		vertex.RotateZ(meshRotate[2]);
 		// fprintf(stdout, "Post Z (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]);
 
 		// Rotate around Y axis
-		vertex[0] =  Cos(meshRotate[1])*x + Sin(meshRotate[1])*z;
-		vertex[1] =  y;
-		vertex[2] = -Sin(meshRotate[1])*x + Cos(meshRotate[1])*z;
-		x = vertex[0]; y = vertex[1]; z = vertex[2];
-
+		vertex.RotateY(meshRotate[1]);
 		// fprintf(stdout, "Post Y (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]);
 
 		// Rotate around X axis
-		vertex[0] =  x;
-		vertex[1] =  Cos(meshRotate[0])*y - Sin(meshRotate[0])*z;
-		vertex[2] =  Sin(meshRotate[0])*y + Cos(meshRotate[0])*z;
-		x = vertex[0]; y = vertex[1]; z = vertex[2];
-
+		vertex.RotateX(meshRotate[0]);
 		// fprintf(stdout, "Post X (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]);
 
 		// Scale

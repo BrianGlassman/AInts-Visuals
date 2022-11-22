@@ -18,6 +18,10 @@ public:
 
     std::vector<float> asStdVec();
 
+    void RotateX(float theta);
+    void RotateY(float theta);
+    void RotateZ(float theta);
+
     // Operators
     float& operator[](int index);
 private:

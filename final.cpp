@@ -281,7 +281,7 @@ int main(int argc, char* argv[])
 	noisePtr = &noise;
 
 	// Create the scene to be displayed
-	Scene sceneChoice = Scene::colony;
+	Scene sceneChoice = Scene::tunnel;
 	Colony colony;
 	Colony tunnel;
 	Colony chamber;
@@ -303,14 +303,14 @@ int main(int argc, char* argv[])
 		//  bottom : 8
 		//   right : 16
 		//    left : 32
-		tunnel.AddTunnel(0, 0, 0, 0);
+		tunnel.AddTunnel(0, 0, 0, 21); // Tunnel
 		displayModelPtr = &tunnel;
 		break;
 	}
 	case Scene::chamber:
 	{
 		baseMag = 2;
-		chamber.AddChamber(0, 0, 0, 21);
+		chamber.AddChamber(0, 0, 0, 21); // Chamber
 		displayModelPtr = &chamber;
 		break;
 	}
@@ -324,7 +324,7 @@ int main(int argc, char* argv[])
 	default:
 		Fatal(999, "Unknown scene\n");
 	}
-	displayModelPtr->ApplyNoise(noisePtr);
+	// displayModelPtr->ApplyNoise(noisePtr);
 
 	init(argc, argv);
 

@@ -42,6 +42,28 @@ std::vector<float> Vector3::asStdVec()
     return std::vector<float> ({x, y, z});
 }
 
+void Vector3::RotateX(float theta)
+{
+    float oldX = x, oldY = y, oldZ = z;
+    x =  oldX;
+    y =  Cos(theta)*oldY - Sin(theta)*oldZ;
+    z =  Sin(theta)*oldY + Cos(theta)*oldZ;
+}
+void Vector3::RotateY(float theta)
+{
+    float oldX = x, oldY = y, oldZ = z;
+    x =  Cos(theta)*oldX + Sin(theta)*oldZ;
+    y =  oldY;
+    z = -Sin(theta)*oldX + Cos(theta)*oldZ;
+}
+void Vector3::RotateZ(float theta)
+{
+    float oldX = x, oldY = y, oldZ = z;
+    x =  Cos(theta)*oldX - Sin(theta)*oldY;
+    y =  Sin(theta)*oldX + Cos(theta)*oldY;
+    z =  oldZ;
+}
+
 std::vector<int> Vector3Int::asStdVec()
 {
     return std::vector<int> ({x, y, z});
