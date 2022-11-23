@@ -1,6 +1,7 @@
 #include <functional>
 
 #include "Chamber.hpp"
+#include "globals.hpp"
 
 // FIXME should be able to combine padding into radius
 float padding = 0.1; // Padding between edge of chamber and edge of cell
@@ -32,48 +33,65 @@ Vector3 SetCoords(const float v0, const float v1, const float v2, int i0, bool f
 	coords[i2] = (f2 ? -1 : 1) * v2;
 	return coords;
 }
+void Chamber::FacePointHelper(std::function<Vector3(const float, const float, const float)> BoundSetCoords,
+	const float v0, const float v1, const float v2)
+{
+	auto coords = BoundSetCoords(v0, v1, v2);
+	indices.push_back(vertices.size()); triIndices.push_back(vertices.size());
+	vertices.push_back(coords);
+	normals.push_back(coords);
+}
 void Chamber::FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm)
 {
 	Vector3 coords;
-	int idx = vertices.size();
-
-	float useTR;
-	if (hasArm)
-	{
-		// Make an opening for the arm
-		useTR = tunnelRadius;
-	}
-	else
-	{
-		// Use degenerate quads to close the face
-		useTR = 0;
-	}
 
 	// FIXME generalize for n != 8
 
 	// Ref https://en.cppreference.com/w/cpp/utility/functional/bind
-	auto coordSetter = std::bind(SetCoords, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, i0, f0, i1, f1, i2, f2);
+	auto boundSetCoords = std::bind(SetCoords, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, i0, f0, i1, f1, i2, f2);
 
-	{ // Top cap-to-center
-		coords = coordSetter(0.5 * padScale, useTR*sqrt(2)/2, useTR*sqrt(2)/2); // Bottom left
-		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
-		coords = coordSetter(0.5 * padScale, useTR, 0); // Bottom right
-		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
-		coords = coordSetter(sqrt(2) / 4 * padScale, sqrt(2) / 4 * padScale, 0); // Top right
-		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
-		coords = coordSetter(sqrt(3) / 6 * padScale, sqrt(3) / 6 * padScale, sqrt(3) / 6 * padScale); // Top left
-		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
+	// Pre-compute for readability
+	float r = 0.5 * padScale;
+	float xAtTunnel = sqrt(r*r - tunnelRadius*tunnelRadius);
+	float tunnelCorner = sqrt(2)/2 * tunnelRadius;
+	float planeCorner = sqrt(2)/2 * padScale * 0.5;
+	float tripleCorner = sqrt(3)/3 * padScale * 0.5;
+
+	// Face outside the arm - Start at 90 degrees viewed from +X, move CCW
+	if (true) { // 1
+		FacePointHelper(boundSetCoords, xAtTunnel, tunnelRadius, 0); // Bottom right
+		FacePointHelper(boundSetCoords, planeCorner, planeCorner, 0); // Top point
+		FacePointHelper(boundSetCoords, xAtTunnel, tunnelCorner, tunnelCorner); // Bottom left
+	}
+	if (true) { // 2
+		FacePointHelper(boundSetCoords, tripleCorner, tripleCorner, tripleCorner); // Top left
+		FacePointHelper(boundSetCoords, xAtTunnel, tunnelCorner, tunnelCorner); // Bottom point - coincident with 1's Bottom left
+		FacePointHelper(boundSetCoords, planeCorner, planeCorner, 0); // Top right - coincident with 1's Top point
+	}
+	if (true) { // 3 - like 2 with Y <--> Z
+		FacePointHelper(boundSetCoords, xAtTunnel, tunnelCorner, tunnelCorner); // Bottom point - coincident with 2's Bottom point
+		FacePointHelper(boundSetCoords, tripleCorner, tripleCorner, tripleCorner); // Top right - coincident with 2's Top left
+		FacePointHelper(boundSetCoords, planeCorner, 0, planeCorner); // Top left - mirror to 2's Top right
+	}
+	if (true) { // 4 - like 1 with Y <--> Z
+		FacePointHelper(boundSetCoords, xAtTunnel, tunnelCorner, tunnelCorner); // Bottom right - coincident with 3's Bottom point
+		FacePointHelper(boundSetCoords, planeCorner, 0, planeCorner); // Top point - coincident with 3's Top left
+		FacePointHelper(boundSetCoords, xAtTunnel, 0, tunnelRadius); // Bottom left - mirror to 1's Bottom right
 	}
 
-	{ // Bottom cap-to-center
-		coords = coordSetter(sqrt(3) / 6 * padScale, sqrt(3) / 6 * padScale, sqrt(3) / 6 * padScale); // Triple center
-		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
-		coords = coordSetter(sqrt(2) / 4 * padScale, 0, sqrt(2) / 4 * padScale); // Bottom edge, center
-		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
-		coords = coordSetter(0.5 * padScale, 0, useTR); // Bottom edge, arm
-		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
-		coords = coordSetter(0.5 * padScale, useTR*sqrt(2)/2, useTR*sqrt(2)/2); // Arm center
-		indices.push_back(vertices.size()); vertices.push_back(coords); normals.push_back(coords);
+	// Face inside the arm, if applicable
+	if (!hasArm)
+	{ // Start at 90 degrees viewed from +X, move CCW
+		if (true) { // A
+			FacePointHelper(boundSetCoords, r, 0, 0); // Bottom point
+			FacePointHelper(boundSetCoords, xAtTunnel, tunnelRadius, 0); // Top right - coincident with 1's Bottom right
+			FacePointHelper(boundSetCoords, xAtTunnel, tunnelCorner, tunnelCorner); // Top left - coincident with 1's Bottom left
+		}
+		if (true) { // B
+			FacePointHelper(boundSetCoords, xAtTunnel, 0, tunnelRadius); // Top left - coincident with 4's Bottom left
+			FacePointHelper(boundSetCoords, r, 0, 0); // Bottom point - coincident with A's Bottom point
+			FacePointHelper(boundSetCoords, xAtTunnel, tunnelCorner, tunnelCorner); // Top right - coincident with A's Top left
+		}
 	}
 }
 void Chamber::CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm)
@@ -93,8 +111,11 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 	float d = padding / armPanels;
 	float thetaD = 360 / tunnelN;
 
+	float r = 0.5 * padScale;
+	float xAtTunnel = sqrt(r*r - tunnelRadius*tunnelRadius);
+
 	Vector3 coords;
-	float x = (0.5 - padding), y, z;
+	float x = xAtTunnel, y, z;
 	for (int i = 0; i < armPanels; i++)
 	{
 		for (float theta = 0; theta < 360; theta += thetaD)
@@ -108,7 +129,7 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 				coords[i2] = f2 ? -z : z;
 
 				// Outer edge
-				indices.push_back(vertices.size());
+				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				armIndices.insert(vertices.size());
 				normals.push_back(coords);
 				// FIXME texture
@@ -116,7 +137,8 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 				vertices.push_back(coords);
 
 				// Inner edge
-				indices.push_back(vertices.size());
+				coords[i0] = 0;
+				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				normals.push_back(coords);
 				// FIXME texture
 				coords[i0] = f0 ? -x : x;
@@ -129,14 +151,16 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 				coords[i1] = f1 ? -y : y;
 				coords[i2] = f2 ? -z : z;
 				// Inner edge
-				indices.push_back(vertices.size());
+				coords[i0] = 0;
+				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				normals.push_back(coords);
 				// FIXME texture
 				coords[i0] = f0 ? -x : x;
 				vertices.push_back(coords);
 
 				// Outer edge
-				indices.push_back(vertices.size());
+				coords[i0] = 0;
+				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				armIndices.insert(vertices.size());
 				normals.push_back(coords);
 				// FIXME texture
@@ -209,6 +233,8 @@ void Chamber::ApplyNoise(Noise* noise, float offset[])
 
 void Chamber::Draw()
 {
+	if (Toggles::showNormals) DrawNormals(0.2);
+
 	glPushMatrix(); {
 		glTranslatef(center[0], center[1], center[2]);
 
@@ -231,17 +257,35 @@ void Chamber::Draw()
 				normalArray[i*3 + 2] = normals[i][2];
 			}
 
-			unsigned int indexArray[indices.size()];
-			for (unsigned int i = 0; i < indices.size(); i++)
-			{
-				indexArray[i] = indices[i];
-				// fprintf(stdout, "%d\n", indexArray[i]);
-			}
-			// fprintf(stdout, "%d: %d\n", indices.size()-1, indexArray[indices.size()-1]); // Check for overflow
+			if (triIndices.size() > 0)
+			{ // Draw with GL_TRIANGLES
+				unsigned int triIndexArray[triIndices.size()];
+				for (unsigned int i = 0; i < triIndices.size(); i++)
+				{
+					triIndexArray[i] = triIndices[i];
+					// fprintf(stdout, "%d\n", triIndexArray[i]);
+				}
+				// fprintf(stdout, "%d: %d\n", triIndices.size()-1, triIndexArray[triIndices.size()-1]); // Check for overflow
 
-			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
-			glNormalPointer(GL_FLOAT, 0, normalArray);
-			glDrawElements(GL_QUADS, indices.size(), GL_UNSIGNED_INT, indexArray);
+				glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+				glNormalPointer(GL_FLOAT, 0, normalArray);
+				glDrawElements(GL_TRIANGLES, triIndices.size(), GL_UNSIGNED_INT, triIndexArray);
+			}
+
+			if (quadIndices.size() > 0)
+			{ // Draw with GL_QUADS
+				unsigned int quadIndexArray[quadIndices.size()];
+				for (unsigned int i = 0; i < quadIndices.size(); i++)
+				{
+					quadIndexArray[i] = quadIndices[i];
+					// fprintf(stdout, "%d\n", quadIndexArray[i]);
+				}
+				// fprintf(stdout, "%d: %d\n", quadIndices.size()-1, quadIndexArray[quadIndices.size()-1]); // Check for overflow
+
+				glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+				glNormalPointer(GL_FLOAT, 0, normalArray);
+				glDrawElements(GL_QUADS, quadIndices.size(), GL_UNSIGNED_INT, quadIndexArray);
+			}
 		} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 	} glPopMatrix();
 }
