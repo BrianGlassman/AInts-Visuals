@@ -154,7 +154,7 @@ void Model::ApplyNoise(Noise* noise, float offset[])
 
 void Model::DrawNormals(float scale)
 {
-	glPushAttrib(GL_CURRENT_BIT); glColor3f(1, 0, 0);
+	glColor3f(1, 0, 0);
 	glPushAttrib(GL_ENABLE_BIT); glDisable(GL_LIGHTING); glDisable(GL_TEXTURE_2D);
 	
 	glPushMatrix(); {
@@ -170,7 +170,8 @@ void Model::DrawNormals(float scale)
 		}
 		glEnd();
 	} glPopMatrix();
-	glPopAttrib(); glPopAttrib();
+	glPopAttrib();
+	glColor3f(1, 1, 1);
 }
 
 void Model::Draw()
