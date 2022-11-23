@@ -390,7 +390,7 @@ void Corner::Draw()
 		glTranslatef(center[0], center[1], center[2]);
 
 		glDisable(GL_TEXTURE_2D);
-        glColor4f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25, 0.5);
+        glColor3f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25);
 		glFrontFace(windMode);
 
 		// FIXME array-ification can happen in Create, doesn't need to be in Draw
@@ -430,6 +430,6 @@ void Corner::Draw()
 
 		glFrontFace(GL_CCW);
 		glEnable(GL_TEXTURE_2D);
-        glColor4f(1, 1, 1, 1);
+        glColor3f(1, 1, 1);
     } glPopMatrix();
 }
