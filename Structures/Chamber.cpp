@@ -108,11 +108,11 @@ void Chamber::CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool
 }
 void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 {
-	float d = padding / armPanels;
-	float thetaD = 360 / tunnelN;
-
 	float r = 0.5 * padScale;
 	float xAtTunnel = sqrt(r*r - tunnelRadius*tunnelRadius);
+
+	float d = (0.5 - xAtTunnel) / armPanels;
+	float thetaD = 360 / tunnelN;
 
 	Vector3 coords;
 	float x = xAtTunnel, y, z;
