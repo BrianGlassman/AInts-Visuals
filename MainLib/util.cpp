@@ -114,9 +114,15 @@ void Model::Create()
 void Model::PostCreate()
 {
 	// Copy vertices to baseVertices
-	for (auto vertex : vertices)
+	for (auto&& vertex : vertices)
 	{
 		baseVertices.push_back(vertex);
+	}
+
+	// Normalize normalizes
+	for (auto&& normal : normals)
+	{
+		normal.Normalize();
 	}
 }
 

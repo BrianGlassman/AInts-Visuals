@@ -64,6 +64,14 @@ void Vector3::RotateZ(float theta)
     z =  oldZ;
 }
 
+void Vector3::Normalize()
+{
+    float mag = sqrt(x*x + y*y + z*z);
+    x /= mag;
+    y /= mag;
+    z /= mag;
+}
+
 std::vector<int> Vector3Int::asStdVec()
 {
     return std::vector<int> ({x, y, z});

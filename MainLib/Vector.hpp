@@ -22,6 +22,8 @@ public:
     void RotateY(float theta);
     void RotateZ(float theta);
 
+    void Normalize();
+
     // Operators
     float& operator[](int index);
 private:
