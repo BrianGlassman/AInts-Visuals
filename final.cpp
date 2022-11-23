@@ -281,7 +281,7 @@ int main(int argc, char* argv[])
 	noisePtr = &noise;
 
 	// Create the scene to be displayed
-	Scene sceneChoice = Scene::tunnel;
+	Scene sceneChoice = Scene::colony;
 	Colony colony;
 	Colony tunnel;
 	Colony chamber;
@@ -324,7 +324,7 @@ int main(int argc, char* argv[])
 	default:
 		Fatal(999, "Unknown scene\n");
 	}
-	// displayModelPtr->ApplyNoise(noisePtr);
+	displayModelPtr->ApplyNoise(noisePtr);
 
 	init(argc, argv);
 
