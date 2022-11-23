@@ -152,7 +152,7 @@ void Corner::CreateCoreOuter(int i0, int i1, float c1, int i2, float c2)
 	coords[i0] = radius;
 	vertices.push_back(coords);
 }
-void Corner::CreateArm(int i0, int i1, int i2)
+void Corner::CreateArm(int i0, int i1, int i2, bool reverse)
 {
 	float d = (0.5 - radius) / panels;
 
@@ -168,19 +168,19 @@ void Corner::CreateArm(int i0, int i1, int i2)
 			z = -z;
 			coords[i0] = 0; coords[i1] = y; coords[i2] = z;
 
-			// Outer edge
+			// Outer edge (Inner if reversed)
 			indices.push_back(vertices.size());
 			normals.push_back(coords);
 			// FIXME texture
-			coords[i0] = x + d;
+			coords[i0] = reverse ? x : x + d;
 			vertices.push_back(coords);
 
-			// Inner edge
+			// Inner edge (Outer if reversed)
 			coords[i0] = 0;
 			indices.push_back(vertices.size());
 			normals.push_back(coords);
 			// FIXME texture
-			coords[i0] = x;
+			coords[i0] = reverse ? x + d : x;
 			vertices.push_back(coords);
 		}
 
@@ -228,7 +228,7 @@ void Corner::XTunnel(bool makeY, bool makeZ)
 		vertices.push_back({x, y, z});
 	}
 
-	CreateArm(0, 1, 2);
+	CreateArm(0, 1, 2, false);
 }
 void Corner::YTunnel(bool makeZ)
 {
@@ -263,7 +263,7 @@ void Corner::YTunnel(bool makeZ)
 		CreateCoreOuter(1, 0, x, 2, z);
 	}
 
-	CreateArm(1, 2, 0);
+	CreateArm(1, 0, 2, true);
 }
 void Corner::ZTunnel()
 {
@@ -285,42 +285,7 @@ void Corner::ZTunnel()
 		CreateCoreOuter(2, 0, x, 1, y);
 	}
 
-	// CreateArm(2, 0, 1);
-	{
-		int i0 = 2, i1 = 1, i2 = 0;
-		float d = (0.5 - radius) / panels;
-
-		Vector3 coords;
-		float x = radius, y, z;
-		for (int i = 0; i < panels; i++)
-		{
-			indexBounds.push_back(indices.size());
-			for (float theta = 90; theta <= 180; theta += (360 / n))
-			{
-				// Top-left quadrant, moving CCW
-				Polar2Cart(radius, theta, &z, &y);
-				z = -z;
-				coords[i0] = 0; coords[i1] = y; coords[i2] = z;
-
-				// Outer edge
-				indices.push_back(vertices.size());
-				normals.push_back(coords);
-				// FIXME texture
-				coords[i0] = x + d;
-				vertices.push_back(coords);
-
-				// Inner edge
-				coords[i0] = 0;
-				indices.push_back(vertices.size());
-				normals.push_back(coords);
-				// FIXME texture
-				coords[i0] = x;
-				vertices.push_back(coords);
-			}
-
-			x += d;
-		}
-	}
+	CreateArm(2, 1, 0, true);
 }
 
 void Corner::Create()
@@ -345,8 +310,8 @@ void Corner::Create()
 		YTunnel(false);
 		break;
 	case 3:
-		// XTunnel(true, true);
-		// YTunnel(true);
+		XTunnel(true, true);
+		YTunnel(true);
 		ZTunnel();
 		break;
 	// TODO handle chambers, too

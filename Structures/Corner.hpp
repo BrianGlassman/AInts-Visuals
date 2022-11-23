@@ -53,7 +53,7 @@ private:
 
 	void CreateClosed();
 	void CreateCoreOuter(int i0, int i1, float c1, int i2, float c2);
-	void CreateArm(int i0, int i1, int i2);
+	void CreateArm(int i0, int i1, int i2, bool reverse);
 	void XTunnel(bool makeY, bool makeZ);
 	void YTunnel(bool makeZ);
 	void ZTunnel();
