@@ -287,7 +287,7 @@ void Corner::ZTunnel()
 
 	// CreateArm(2, 0, 1);
 	{
-		int i0 = 2, i1 = 0, i2 = 1;
+		int i0 = 2, i1 = 1, i2 = 0;
 		float d = (0.5 - radius) / panels;
 
 		Vector3 coords;
