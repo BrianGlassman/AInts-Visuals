@@ -64,9 +64,9 @@ static void init(int argc, char* argv[])
 
 	// Lighting
 	initLighting();
-	Light ambient(0.1, 0, 0);
+	Light ambient(0.3, 0, 0);
 	// OrbitLight orbiter(0, 0.45, 0.7);
-	OrbitLight orbiter(0, 0.4, 0);
+	OrbitLight orbiter(0, 0.8, 0);
 	orbiter.radius = baseMag * 1.2;
 	orbiterPtr = &orbiter;
 
