@@ -38,6 +38,8 @@ OrbitLight* orbiterPtr;
 Structure* currentStructure;
 int currentCLidx;
 
+int shader;
+
 static void init(int argc, char* argv[])
 {
 	// Do all the OpenGL setup
@@ -269,6 +271,82 @@ void PopulateTunnels(Colony& colony)
 	}
 }
 
+
+/*
+ *  Draw a cube
+ *     at (x,y,z)
+ *     dimensions (dx,dy,dz)
+ *     rotated th about the y axis
+ */
+static void Cube(double x,double y,double z,
+                 double dx,double dy,double dz,
+                 double th)
+{
+   //  Save transformation
+   glPushMatrix();
+   //  Offset
+   glTranslated(x,y,z);
+   glRotated(th,0,1,0);
+   glScaled(dx,dy,dz);
+   //  Cube
+   //  Front
+   glColor3f(1,0,0);
+   glBegin(GL_QUADS);
+   glNormal3f( 0, 0,+1);
+   glTexCoord2f(0,0); glVertex3f(-1,-1,+1);
+   glTexCoord2f(1,0); glVertex3f(+1,-1,+1);
+   glTexCoord2f(1,1); glVertex3f(+1,+1,+1);
+   glTexCoord2f(0,1); glVertex3f(-1,+1,+1);
+   glEnd();
+   //  Back
+   glColor3f(0,0,1);
+   glBegin(GL_QUADS);
+   glNormal3f( 0, 0,-1);
+   glTexCoord2f(0,0); glVertex3f(+1,-1,-1);
+   glTexCoord2f(1,0); glVertex3f(-1,-1,-1);
+   glTexCoord2f(1,1); glVertex3f(-1,+1,-1);
+   glTexCoord2f(0,1); glVertex3f(+1,+1,-1);
+   glEnd();
+   //  Right
+   glColor3f(1,1,0);
+   glBegin(GL_QUADS);
+   glNormal3f(+1, 0, 0);
+   glTexCoord2f(0,0); glVertex3f(+1,-1,+1);
+   glTexCoord2f(1,0); glVertex3f(+1,-1,-1);
+   glTexCoord2f(1,1); glVertex3f(+1,+1,-1);
+   glTexCoord2f(0,1); glVertex3f(+1,+1,+1);
+   glEnd();
+   //  Left
+   glColor3f(0,1,0);
+   glBegin(GL_QUADS);
+   glNormal3f(-1, 0, 0);
+   glTexCoord2f(0,0); glVertex3f(-1,-1,-1);
+   glTexCoord2f(1,0); glVertex3f(-1,-1,+1);
+   glTexCoord2f(1,1); glVertex3f(-1,+1,+1);
+   glTexCoord2f(0,1); glVertex3f(-1,+1,-1);
+   glEnd();
+   //  Top
+   glColor3f(0,1,1);
+   glBegin(GL_QUADS);
+   glNormal3f( 0,+1, 0);
+   glTexCoord2f(0,0); glVertex3f(-1,+1,+1);
+   glTexCoord2f(1,0); glVertex3f(+1,+1,+1);
+   glTexCoord2f(1,1); glVertex3f(+1,+1,-1);
+   glTexCoord2f(0,1); glVertex3f(-1,+1,-1);
+   glEnd();
+   //  Bottom
+   glColor3f(1,0,1);
+   glBegin(GL_QUADS);
+   glNormal3f( 0,-1, 0);
+   glTexCoord2f(0,0); glVertex3f(-1,-1,-1);
+   glTexCoord2f(1,0); glVertex3f(+1,-1,-1);
+   glTexCoord2f(1,1); glVertex3f(+1,-1,+1);
+   glTexCoord2f(0,1); glVertex3f(-1,-1,+1);
+   glEnd();
+   //  Undo transofrmations
+   glPopMatrix();
+}
+
 void display()
 {
 	preDisplay();
@@ -307,11 +385,137 @@ void display()
 	orbiterPtr->UpdatePosition();
 	orbiterPtr->Draw();
 
-	displayModelPtr->Draw();
+	glUseProgram(shader);
+
+	//  For brick shader set "uniform" variables
+	{
+		// float X = 0.5, Y = 0, Z = 0;
+		float time = 0.001*glutGet(GLUT_ELAPSED_TIME);
+		int id = glGetUniformLocation(shader,"Xcenter");
+		// glUniform1f(id,X);
+		id = glGetUniformLocation(shader,"Ycenter");
+		// glUniform1f(id,Y);
+		id = glGetUniformLocation(shader,"Zoom");
+		// glUniform1f(id,Z);
+		id = glGetUniformLocation(shader,"time");
+		glUniform1f(id,time);
+	}
+
+	// displayModelPtr->Draw();
+	Cube(0,0,0,1,1,1,0);
+
+	//  Revert to fixed pipeline
+	glUseProgram(0);
 
 	if (Toggles::Noise::showPVectors) noisePtr->DrawNoise();
 
 	postDisplay();
+}
+
+/*
+ *  Read text file
+ */
+char* ReadText(const char *file)
+{
+   char* buffer;
+   //  Open file
+   FILE* f = fopen(file,"rt");
+   if (!f) Fatal(999, "Cannot open text file %s\n",file);
+   //  Seek to end to determine size, then rewind
+   fseek(f,0,SEEK_END);
+   int n = ftell(f);
+   rewind(f);
+   //  Allocate memory for the whole file
+   buffer = (char*)malloc(n+1);
+   if (!buffer) Fatal(999, "Cannot allocate %d bytes for text file %s\n",n+1,file);
+   //  Snarf the file
+   if (fread(buffer,n,1,f)!=1) Fatal(999, "Cannot read %d bytes for text file %s\n",n,file);
+   buffer[n] = 0;
+   //  Close and return
+   fclose(f);
+   return buffer;
+}
+
+/*
+ *  Print Shader Log
+ */
+void PrintShaderLog(int obj, const char* file)
+{
+   int len=0;
+   glGetShaderiv(obj,GL_INFO_LOG_LENGTH,&len);
+   if (len>1)
+   {
+      int n=0;
+      char* buffer = (char *)malloc(len);
+      if (!buffer) Fatal(999, "Cannot allocate %d bytes of text for shader log\n",len);
+      glGetShaderInfoLog(obj,len,&n,buffer);
+      fprintf(stderr,"%s:\n%s\n",file,buffer);
+      free(buffer);
+   }
+   glGetShaderiv(obj,GL_COMPILE_STATUS,&len);
+   if (!len) Fatal(999, "Error compiling %s\n",file);
+}
+
+/*
+ *  Print Program Log
+ */
+void PrintProgramLog(int obj)
+{
+   int len=0;
+   glGetProgramiv(obj,GL_INFO_LOG_LENGTH,&len);
+   if (len>1)
+   {
+      int n=0;
+      char* buffer = (char *)malloc(len);
+      if (!buffer) Fatal(999, "Cannot allocate %d bytes of text for program log\n",len);
+      glGetProgramInfoLog(obj,len,&n,buffer);
+      fprintf(stderr,"%s\n",buffer);
+   }
+   glGetProgramiv(obj,GL_LINK_STATUS,&len);
+   if (!len) Fatal(999, "Error linking program\n");
+}
+
+/*
+ *  Create Shader
+ */
+int CreateShader(GLenum type, const char* file)
+{
+   //  Create the shader
+   int shader = glCreateShader(type);
+   //  Load source code from file
+   char* source = ReadText(file);
+   glShaderSource(shader,1,(const char**)&source,NULL);
+   free(source);
+   //  Compile the shader
+   fprintf(stderr,"Compile %s\n",file);
+   glCompileShader(shader);
+   //  Check for errors
+   PrintShaderLog(shader,file);
+   //  Return name
+   return shader;
+}
+
+/*
+ *  Create Shader Program
+ */
+int CreateShaderProg(const char* VertFile, const char* FragFile)
+{
+   //  Create program
+   int prog = glCreateProgram();
+   //  Create and compile vertex shader
+   int vert = CreateShader(GL_VERTEX_SHADER,VertFile);
+   //  Create and compile fragment shader
+   int frag = CreateShader(GL_FRAGMENT_SHADER,FragFile);
+   //  Attach vertex shader
+   glAttachShader(prog,vert);
+   //  Attach fragment shader
+   glAttachShader(prog,frag);
+   //  Link program
+   glLinkProgram(prog);
+   //  Check for errors
+   PrintProgramLog(prog);
+   //  Return name
+   return prog;
 }
 
 int main(int argc, char* argv[])
