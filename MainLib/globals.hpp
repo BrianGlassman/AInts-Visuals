@@ -18,6 +18,8 @@ namespace Toggles
     }
 
     extern bool showNormals;
+
+    extern bool debug;
 }
 
 

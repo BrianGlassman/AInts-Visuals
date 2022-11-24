@@ -113,12 +113,15 @@ namespace Callbacks{ void Gizmos(int val)
     switch(val)
     {
     case 0:
-        ToggleWireframe();
+        Toggles::debug = !Toggles::debug;
         break;
     case 1:
-        ToggleAxes();
+        ToggleWireframe();
         break;
     case 2:
+        ToggleAxes();
+        break;
+    case 3:
         Toggles::showNormals = !Toggles::showNormals;
         break;
     default:
@@ -128,7 +131,7 @@ namespace Callbacks{ void Gizmos(int val)
 GizmosMenu::GizmosMenu()
 {
     name = "Gizmos";
-    buttons = { "Toggle Wireframe", "Toggle Axes", "Toggle Normals" };
+    buttons = { "Toggle Debug", "Toggle Wireframe", "Toggle Axes", "Toggle Normals" };
     callback = Callbacks::Gizmos;
 };
 

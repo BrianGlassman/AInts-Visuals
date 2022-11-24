@@ -389,8 +389,11 @@ void Corner::Draw()
 	glPushMatrix(); {
 		glTranslatef(center[0], center[1], center[2]);
 
-		glDisable(GL_TEXTURE_2D);
-        glColor3f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25);
+		if (Toggles::debug)
+		{
+			glDisable(GL_TEXTURE_2D);
+			glColor3f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25);
+		}
 		glFrontFace(windMode);
 
 		// FIXME array-ification can happen in Create, doesn't need to be in Draw
