@@ -386,13 +386,7 @@ void display()
 		//  For brick shader set "uniform" variables
 
 		float time = 0.001*glutGet(GLUT_ELAPSED_TIME);
-		int id = glGetUniformLocation(shader,"Xcenter");
-		glUniform1f(id,0);
-		id = glGetUniformLocation(shader,"Ycenter");
-		glUniform1f(id,0);
-		id = glGetUniformLocation(shader,"Zcenter");
-		glUniform1f(id,0);
-		id = glGetUniformLocation(shader,"time");
+		int id = glGetUniformLocation(shader,"time");
 		glUniform1f(id,time);
 		id = glGetUniformLocation(shader,"ambientLight");
 		glUniform1i(id,0); // FIXME don't hardcode

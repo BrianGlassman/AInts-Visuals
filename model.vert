@@ -1,4 +1,4 @@
-// Vertex shader for brick and mandelbrot shaders
+// Vertex shader for brick shader
 // Derived from Orange Book Chapter 6
 #version 120
 
@@ -9,11 +9,6 @@ uniform int directedLight;
 //  Light intensity and model position required by fragment shader
 varying float LightIntensity;
 varying vec3  ModelPos;
-
-// Center
-uniform float Xcenter;
-uniform float Ycenter;
-uniform float Zcenter;
 
 //  Phong lighting intensity only
 float phong()
@@ -52,7 +47,7 @@ void main()
    LightIntensity = phong();
 
    //  Save model coordinates (for fragment shader)
-   ModelPos = gl_Vertex.xyz - vec3(Xcenter,Ycenter,Zcenter);
+   ModelPos = gl_Vertex.xyz;
 
    //  Return fixed transform coordinates for this vertex
    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
