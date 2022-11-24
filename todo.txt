@@ -12,8 +12,6 @@ add something to exterior view that shows where the interior view is located
 
 chamber uses a different noiseScale than tunnel, so there's a chance for cross-over
 
-can I use a shader with OpenGL 2 and still use the rest of the fixed pipeline?
-
 probably going to have to do perturbations at the same time as vertex-generation to get the normals right
 
 would like to have better 3D navigation for interior view, but the vector math gets nasty
