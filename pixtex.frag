@@ -4,7 +4,8 @@
 varying vec3 View;
 varying vec3 Light;
 varying vec3 Normal;
-uniform sampler2D tex;
+uniform sampler2D tex0;
+uniform sampler2D tex1;
 
 void main()
 {
@@ -28,6 +29,15 @@ void main()
               + Id*gl_FrontLightProduct[1].diffuse
               + Is*gl_FrontLightProduct[1].specular;
 
+   // Blend two textures (ref https://distrustsimplicity.net/articles/texture-blending-in-glsl/)
+   vec4 t0 = texture2D(tex0, gl_TexCoord[0].xy);
+   vec4 t1 = texture2D(tex1, gl_TexCoord[0].xy);
+
+   // Use a triangle wave
+   float p = 0.1;
+   float a = 2*abs(gl_TexCoord[0].z / p - floor(gl_TexCoord[0].z / p + 0.5));
+
    //  Apply texture
-   gl_FragColor = color * texture2D(tex,gl_TexCoord[0].xy);
+   // gl_FragColor = color * mix(t0, t1, gl_TexCoord[0].z);
+   gl_FragColor = color * mix(t0, t1, a);
 }

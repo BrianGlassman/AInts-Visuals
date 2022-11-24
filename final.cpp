@@ -64,9 +64,9 @@ static void init(int argc, char* argv[])
 
 	// Lighting
 	initLighting();
-	Light ambient(0.3, 0, 0);
+	Light ambient(0.9, 0, 0);
 	// OrbitLight orbiter(0, 0.45, 0.7);
-	OrbitLight orbiter(0, 0.8, 0);
+	OrbitLight orbiter(0, 0.0, 0);
 	orbiter.radius = baseMag * 1.2;
 	orbiterPtr = &orbiter;
 
@@ -382,19 +382,27 @@ void display()
 	if (true)
 	{
 		glUseProgram(shader);
+		int id;
 
-		//  For brick shader set "uniform" variables
-
-		float time = 0.001*glutGet(GLUT_ELAPSED_TIME);
-		int id = glGetUniformLocation(shader,"time");
-		glUniform1f(id,time);
+		// Set lights
 		id = glGetUniformLocation(shader,"ambientLight");
-		glUniform1i(id,0); // FIXME don't hardcode
+		glUniform1i(id, 0); // FIXME don't hardcode
 		id = glGetUniformLocation(shader,"directedLight");
-		glUniform1i(id,1); // FIXME don't hardcode
+		glUniform1i(id, 1); // FIXME don't hardcode
+
+		// Set textures (ref https://stackoverflow.com/a/25252981)
+		id = glGetUniformLocation(shader, "tex0");
+		glUniform1i(id, 0);
+		glActiveTexture(GL_TEXTURE0);
+		BindTexture("dirt");
+		//---
+		id = glGetUniformLocation(shader, "tex1");
+		glUniform1i(id, 1);
+		glActiveTexture(GL_TEXTURE1);
+		BindTexture("dirtF");
 	}
 
-	if (true)
+	if (false)
 		displayModelPtr->Draw();
 	else
 		Cube(0,0,0,1,1,1,0);

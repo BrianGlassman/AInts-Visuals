@@ -18,6 +18,8 @@ void InitTextures()
 
 	// Load textures
 	LoadTexture("dirt", "dirtGroundTileable.bmp");
+	LoadTexture("dirtF", "dirtGroundTileableFlipped.bmp");
+	// LoadTexture("dirtF", "default.bmp");
 }
 
 void BindTexture(std::string key)
