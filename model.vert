@@ -4,12 +4,12 @@
 
 //  Light intensity and model position required by fragment shader
 varying float LightIntensity;
-varying vec2  ModelPos;
+varying vec3  ModelPos;
 
 // Center and zoom (for Mandelbrot set)
-uniform float Zoom;
 uniform float Xcenter;
 uniform float Ycenter;
+uniform float Zcenter;
 
 //  Phong lighting intensity only
 float phong()
@@ -19,7 +19,7 @@ float phong()
    //  N is the object normal at P
    vec3 N = normalize(gl_NormalMatrix * gl_Normal);
    //  Light Position for light 0
-   vec3 LightPos = vec3(gl_LightSource[0].position);
+   vec3 LightPos = vec3(gl_LightSource[1].position);
    //  L is the light vector
    vec3 L = normalize(LightPos - P);
    //  R is the reflected light vector R = 2(L.N)N - L
@@ -47,7 +47,7 @@ void main()
    LightIntensity = phong();
 
    //  Save model coordinates (for fragment shader)
-   ModelPos = gl_Vertex.xy - vec2(Xcenter,Ycenter);
+   ModelPos = gl_Vertex.xyz - vec3(Xcenter,Ycenter,Zcenter);
 
    //  Return fixed transform coordinates for this vertex
    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;

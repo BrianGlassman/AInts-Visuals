@@ -385,18 +385,19 @@ void display()
 	orbiterPtr->UpdatePosition();
 	orbiterPtr->Draw();
 
-	glUseProgram(shader);
-
-	//  For brick shader set "uniform" variables
+	if (true)
 	{
-		// float X = 0.5, Y = 0, Z = 0;
+		glUseProgram(shader);
+
+		//  For brick shader set "uniform" variables
+
 		float time = 0.001*glutGet(GLUT_ELAPSED_TIME);
 		int id = glGetUniformLocation(shader,"Xcenter");
-		// glUniform1f(id,X);
+		glUniform1f(id,0);
 		id = glGetUniformLocation(shader,"Ycenter");
-		// glUniform1f(id,Y);
-		id = glGetUniformLocation(shader,"Zoom");
-		// glUniform1f(id,Z);
+		glUniform1f(id,0);
+		id = glGetUniformLocation(shader,"Zcenter");
+		glUniform1f(id,0);
 		id = glGetUniformLocation(shader,"time");
 		glUniform1f(id,time);
 	}
