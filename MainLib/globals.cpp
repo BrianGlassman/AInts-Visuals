@@ -52,7 +52,7 @@ Scene operator--(Scene &val, int ) {
   return result;
 }
 
-Scene sceneChoice;
+Scene Globals::sceneChoice;
 
 //------------------------
 // Main, Input --> Window

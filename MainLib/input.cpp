@@ -58,10 +58,10 @@ void key(unsigned char k, int x, int y)
 	*/
 	// FIXME no way to update the displayModelPtr, so scene doesn't actually change
 	case '[':
-		sceneChoice--;
+		Globals::sceneChoice--;
 		break;
 	case ']':
-		sceneChoice++;
+		Globals::sceneChoice++;
 		break;
 	/*
 	case '\\':

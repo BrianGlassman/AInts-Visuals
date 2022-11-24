@@ -42,7 +42,10 @@ Scene& operator++(Scene &val );
 Scene operator++(Scene &val, int );
 Scene& operator--(Scene &val );
 Scene operator--(Scene &val, int );
-extern Scene sceneChoice;
+namespace Globals
+{
+    extern Scene sceneChoice;
+}
 
 extern float baseMag;
 

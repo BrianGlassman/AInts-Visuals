@@ -24,6 +24,10 @@
 #include "Menus.hpp"
 
 Model* displayModelPtr;
+Colony colony;
+Colony tunnel;
+Colony chamber;
+Colony allTunnels;
 
 OrbitLight* orbiterPtr;
 
@@ -264,6 +268,36 @@ void display()
 {
 	preDisplay();
 
+	switch(Globals::sceneChoice)
+	{
+	case Scene::colony:
+	{
+		baseMag = 4;
+		displayModelPtr = &colony;
+		break;
+	}
+	case Scene::tunnel:
+	{
+		baseMag = 1;
+		displayModelPtr = &tunnel;
+		break;
+	}
+	case Scene::chamber:
+	{
+		baseMag = 2;
+		displayModelPtr = &chamber;
+		break;
+	}
+	case Scene::allTunnels:
+	{
+		baseMag = 4;
+		displayModelPtr = &allTunnels;
+		break;
+	}
+	default:
+		Fatal(999, "Unknown scene %d\n", Globals::sceneChoice);
+	}
+
 	// FIXME this should probably not be in display
 	orbiterPtr->UpdatePosition();
 	orbiterPtr->Draw();
@@ -280,51 +314,29 @@ int main(int argc, char* argv[])
 	Perlin noise;
 	noisePtr = &noise;
 
+	bool useNoise = true;
+	float zero[] = {0, 0, 0}; // FIXME not sure why the 1-param ApplyNoise isn't getting inherited
+
 	// Create the scene to be displayed
-	Scene sceneChoice = Scene::colony;
-	Colony colony;
-	Colony tunnel;
-	Colony chamber;
-	switch(sceneChoice)
-	{
-	case Scene::colony:
-	{
-		baseMag = 4;
-		PopulateColony(colony);
-		displayModelPtr = &colony;
-		break;
-	}
-	case Scene::tunnel:
-	{
-		baseMag = 1;
-		// forward : 1
-		//    back : 2
-		//     top : 4
-		//  bottom : 8
-		//   right : 16
-		//    left : 32
-		tunnel.AddTunnel(0, 0, 0, 21); // Tunnel
-		displayModelPtr = &tunnel;
-		break;
-	}
-	case Scene::chamber:
-	{
-		baseMag = 2;
-		chamber.AddChamber(0, 0, 0, 21); // Chamber
-		displayModelPtr = &chamber;
-		break;
-	}
-	case Scene::allTunnels:
-	{
-		baseMag = 4;
-		PopulateTunnels(tunnel);
-		displayModelPtr = &tunnel;
-		break;
-	}
-	default:
-		Fatal(999, "Unknown scene\n");
-	}
-	displayModelPtr->ApplyNoise(noisePtr);
+	Globals::sceneChoice = Scene::colony;
+
+	PopulateColony(colony);
+	if (useNoise) colony.ApplyNoise(noisePtr, zero);
+
+	// forward : 1
+	//    back : 2
+	//     top : 4
+	//  bottom : 8
+	//   right : 16
+	//    left : 32
+	tunnel.AddTunnel(0, 0, 0, 21); // Tunnel
+	if (useNoise) tunnel.ApplyNoise(noisePtr, zero);
+
+	chamber.AddChamber(0, 0, 0, 21); // Chamber
+	if (useNoise) chamber.ApplyNoise(noisePtr, zero);
+
+	PopulateTunnels(allTunnels);
+	if (useNoise) allTunnels.ApplyNoise(noisePtr, zero);
 
 	init(argc, argv);
 
