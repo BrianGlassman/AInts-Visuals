@@ -22,6 +22,9 @@ void initLighting()
 	glEnable(GL_COLOR_MATERIAL);
 	glShadeModel(Toggles::Light::smooth ? GL_SMOOTH : GL_FLAT);
 
+	// Turn off the default ambient light
+	glLightModeli(GL_LIGHT_MODEL_AMBIENT, 0);
+
 	glEnable(GL_NORMALIZE);
 
 	// Use eye point for specular reflection
