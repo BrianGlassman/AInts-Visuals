@@ -2,11 +2,15 @@
 // Derived from Orange Book Chapter 6
 #version 120
 
+// Light indices
+uniform int ambientLight;
+uniform int directedLight;
+
 //  Light intensity and model position required by fragment shader
 varying float LightIntensity;
 varying vec3  ModelPos;
 
-// Center and zoom (for Mandelbrot set)
+// Center
 uniform float Xcenter;
 uniform float Ycenter;
 uniform float Zcenter;
@@ -19,7 +23,7 @@ float phong()
    //  N is the object normal at P
    vec3 N = normalize(gl_NormalMatrix * gl_Normal);
    //  Light Position for light 0
-   vec3 LightPos = vec3(gl_LightSource[1].position);
+   vec3 LightPos = vec3(gl_LightSource[directedLight].position);
    //  L is the light vector
    vec3 L = normalize(LightPos - P);
    //  R is the reflected light vector R = 2(L.N)N - L
@@ -33,9 +37,10 @@ float phong()
    float Is = (Id>0.0) ? pow(max(dot(R,V) , 0.0) , gl_FrontMaterial.shininess) : 0.0;
 
    //  Vertex color
-   vec3 color = gl_FrontLightProduct[0].ambient.rgb
-           + Id*gl_FrontLightProduct[0].diffuse.rgb
-           + Is*gl_FrontLightProduct[0].specular.rgb;
+   vec3 color = gl_FrontLightProduct[ambientLight].ambient.rgb
+           +    gl_FrontLightProduct[directedLight].ambient.rgb
+           + Id*gl_FrontLightProduct[directedLight].diffuse.rgb
+           + Is*gl_FrontLightProduct[directedLight].specular.rgb;
 
    //  Vertex intensity
    return length(color);

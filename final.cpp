@@ -64,7 +64,7 @@ static void init(int argc, char* argv[])
 
 	// Lighting
 	initLighting();
-	Light ambient(0.5, 0, 0);
+	Light ambient(0.1, 0, 0);
 	// OrbitLight orbiter(0, 0.45, 0.7);
 	OrbitLight orbiter(0, 0.4, 0);
 	orbiter.radius = baseMag * 1.2;
@@ -394,15 +394,23 @@ void display()
 		glUniform1f(id,0);
 		id = glGetUniformLocation(shader,"time");
 		glUniform1f(id,time);
+		id = glGetUniformLocation(shader,"ambientLight");
+		glUniform1i(id,0); // FIXME don't hardcode
+		id = glGetUniformLocation(shader,"directedLight");
+		glUniform1i(id,1); // FIXME don't hardcode
 	}
 
-	// displayModelPtr->Draw();
-	Cube(0,0,0,1,1,1,0);
+	if (true)
+		displayModelPtr->Draw();
+	else
+		Cube(0,0,0,1,1,1,0);
 
 	//  Revert to fixed pipeline
 	glUseProgram(0);
 
 	if (Toggles::Noise::showPVectors) noisePtr->DrawNoise();
+
+	ErrCheck("display");
 
 	postDisplay();
 }
