@@ -382,57 +382,86 @@ void Corner::UpdateConnections()
 	SetRotateAndScale();
 }
 
+void Corner::DrawHelper(std::vector<Vector3> drawVertices)
+{
+	// FIXME array-ification can happen in Create, doesn't need to be in Draw
+	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
+		// Convert vector of vectors to flat array
+		float vertexArray[drawVertices.size() * 3];
+		for (unsigned int i = 0; i < drawVertices.size(); i++)
+		{
+			vertexArray[i*3 + 0] = drawVertices[i][0];
+			vertexArray[i*3 + 1] = drawVertices[i][1];
+			vertexArray[i*3 + 2] = drawVertices[i][2];
+			// fprintf(stdout, "%d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]);
+		}
+		float normalArray[normals.size() * 3];
+		for (unsigned int i = 0; i < normals.size(); i++)
+		{
+			normalArray[i*3 + 0] = normals[i][0];
+			normalArray[i*3 + 1] = normals[i][1];
+			normalArray[i*3 + 2] = normals[i][2];
+		}
+
+		unsigned int indexArray[indices.size()];
+		for (unsigned int i = 0; i < indices.size(); i++)
+		{
+			indexArray[i] = indices[i];
+			// fprintf(stdout, "%d\n", indices[i]);
+		}
+
+		glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+		glNormalPointer(GL_FLOAT, 0, normalArray);
+		for (unsigned int i = 0; i < indexBounds.size() - 1; i++)
+		{
+			int count = indexBounds[i+1] - indexBounds[i];
+			glDrawElements(GL_QUAD_STRIP, count, GL_UNSIGNED_INT, indexArray + indexBounds[i] * sizeof(unsigned char));
+		}
+	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
+}
 void Corner::Draw()
 {
 	if (Toggles::showNormals) DrawNormals(0.25);
 
+	if (Toggles::debug)
+	{
+		glPushAttrib(GL_ENABLE_BIT); glDisable(GL_TEXTURE_2D);
+		glColor3f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25);
+	}
+
+	glFrontFace(windMode);
+
 	glPushMatrix(); {
 		glTranslatef(center[0], center[1], center[2]);
 
-		if (Toggles::debug)
+		// Perturbed geometry
+		if (Toggles::Noise::showPerturbed)
+			DrawHelper(vertices);
+
+		// Baseline geometry
+		if (Toggles::Noise::showBase)
 		{
-			glDisable(GL_TEXTURE_2D);
-			glColor3f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25);
+			if (Toggles::Noise::showPerturbed)
+			{ // Use white, transparent wireframe
+				glColor4f(1, 1, 1, 0.5);
+				glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
+				glDisable(GL_TEXTURE_2D);
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			} // else: Use colored, textured geometry
+			DrawHelper(baseVertices);
+			if (Toggles::Noise::showPerturbed)
+			{
+				glPopAttrib();
+				glColor4f(1, 1, 1, 1);
+			}
 		}
-		glFrontFace(windMode);
-
-		// FIXME array-ification can happen in Create, doesn't need to be in Draw
-		glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
-			// Convert vector of vectors to flat array
-			float vertexArray[vertices.size() * 3];
-			for (unsigned int i = 0; i < vertices.size(); i++)
-			{
-				vertexArray[i*3 + 0] = vertices[i][0];
-				vertexArray[i*3 + 1] = vertices[i][1];
-				vertexArray[i*3 + 2] = vertices[i][2];
-				// fprintf(stdout, "%d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]);
-			}
-			float normalArray[normals.size() * 3];
-			for (unsigned int i = 0; i < normals.size(); i++)
-			{
-				normalArray[i*3 + 0] = normals[i][0];
-				normalArray[i*3 + 1] = normals[i][1];
-				normalArray[i*3 + 2] = normals[i][2];
-			}
-
-			unsigned int indexArray[indices.size()];
-			for (unsigned int i = 0; i < indices.size(); i++)
-			{
-				indexArray[i] = indices[i];
-				// fprintf(stdout, "%d\n", indices[i]);
-			}
-
-			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
-			glNormalPointer(GL_FLOAT, 0, normalArray);
-			for (unsigned int i = 0; i < indexBounds.size() - 1; i++)
-			{
-				int count = indexBounds[i+1] - indexBounds[i];
-				glDrawElements(GL_QUAD_STRIP, count, GL_UNSIGNED_INT, indexArray + indexBounds[i] * sizeof(unsigned char));
-			}
-		} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
-
-		glFrontFace(GL_CCW);
-		glEnable(GL_TEXTURE_2D);
-        glColor3f(1, 1, 1);
     } glPopMatrix();
+
+	if (Toggles::debug)
+	{
+		glPopAttrib();
+		glColor3f(1, 1, 1);
+	}
+	
+	glFrontFace(GL_CCW);
 }

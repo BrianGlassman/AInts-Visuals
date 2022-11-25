@@ -57,4 +57,6 @@ private:
 	void XTunnel(bool makeY, bool makeZ);
 	void YTunnel(bool makeZ);
 	void ZTunnel();
+
+	void DrawHelper(std::vector<Vector3> drawVertices); // FIXME pass by reference
 };

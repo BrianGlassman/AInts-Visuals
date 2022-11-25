@@ -14,7 +14,9 @@ namespace Toggles
     }
     namespace Noise
     {
+        extern bool showPerturbed;
         extern bool showPVectors;
+        extern bool showBase;
     }
 
     extern bool showNormals;

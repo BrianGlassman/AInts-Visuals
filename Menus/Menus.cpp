@@ -174,13 +174,13 @@ namespace Callbacks{ void Noise(int val)
     switch(val)
     {
     case 0:
-        // FIXME toggle noise entirely
+        Toggles::Noise::showPerturbed = !Toggles::Noise::showPerturbed;
         break;
     case 1:
         Toggles::Noise::showPVectors = !Toggles::Noise::showPVectors;
         break;
     case 2:
-        // FIXME toggle showing base geometry
+        Toggles::Noise::showBase = !Toggles::Noise::showBase;
         break;
     default:
         Fatal(999, "Unknown val %d to Noise callback\n");

@@ -231,6 +231,59 @@ void Chamber::ApplyNoise(Noise* noise, float offset[])
     }
 }
 
+void Chamber::DrawHelper(std::vector<Vector3> drawVertices)
+{
+	// FIXME array-ification can happen in Create, doesn't need to be in Draw
+	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
+		// Convert vector of vectors to flat array
+		float vertexArray[drawVertices.size() * 3];
+		for (unsigned int i = 0; i < drawVertices.size(); i++)
+		{
+			vertexArray[i*3 + 0] = drawVertices[i][0];
+			vertexArray[i*3 + 1] = drawVertices[i][1];
+			vertexArray[i*3 + 2] = drawVertices[i][2];
+			// fprintf(stdout, "vertexArray %d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]);
+		}
+		float normalArray[normals.size() * 3];
+		for (unsigned int i = 0; i < normals.size(); i++)
+		{
+			normalArray[i*3 + 0] = normals[i][0];
+			normalArray[i*3 + 1] = normals[i][1];
+			normalArray[i*3 + 2] = normals[i][2];
+		}
+
+		if (triIndices.size() > 0)
+		{ // Draw with GL_TRIANGLES
+			unsigned int triIndexArray[triIndices.size()];
+			for (unsigned int i = 0; i < triIndices.size(); i++)
+			{
+				triIndexArray[i] = triIndices[i];
+				// fprintf(stdout, "%d\n", triIndexArray[i]);
+			}
+			// fprintf(stdout, "%d: %d\n", triIndices.size()-1, triIndexArray[triIndices.size()-1]); // Check for overflow
+
+			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+			glNormalPointer(GL_FLOAT, 0, normalArray);
+			glDrawElements(GL_TRIANGLES, triIndices.size(), GL_UNSIGNED_INT, triIndexArray);
+		}
+
+		if (quadIndices.size() > 0)
+		{ // Draw with GL_QUADS
+			unsigned int quadIndexArray[quadIndices.size()];
+			for (unsigned int i = 0; i < quadIndices.size(); i++)
+			{
+				quadIndexArray[i] = quadIndices[i];
+				// fprintf(stdout, "%d\n", quadIndexArray[i]);
+			}
+			// fprintf(stdout, "%d: %d\n", quadIndices.size()-1, quadIndexArray[quadIndices.size()-1]); // Check for overflow
+
+			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+			glNormalPointer(GL_FLOAT, 0, normalArray);
+			glDrawElements(GL_QUADS, quadIndices.size(), GL_UNSIGNED_INT, quadIndexArray);
+		}
+	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
+}
+
 void Chamber::Draw()
 {
 	if (Toggles::showNormals) DrawNormals(0.2);
@@ -244,55 +297,27 @@ void Chamber::Draw()
 	glPushMatrix(); {
 		glTranslatef(center[0], center[1], center[2]);
 
-		// FIXME array-ification can happen in Create, doesn't need to be in Draw
-		glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
-			// Convert vector of vectors to flat array
-			float vertexArray[vertices.size() * 3];
-			for (unsigned int i = 0; i < vertices.size(); i++)
+		// Perturbed geometry
+		if (Toggles::Noise::showPerturbed)
+			DrawHelper(vertices);
+
+		// Baseline geometry
+		if (Toggles::Noise::showBase)
+		{
+			if (Toggles::Noise::showPerturbed)
+			{ // Use white, transparent wireframe
+				glColor4f(1, 1, 1, 0.5);
+				glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
+				glDisable(GL_TEXTURE_2D);
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			} // else: Use colored, textured geometry
+			DrawHelper(baseVertices);
+			if (Toggles::Noise::showPerturbed)
 			{
-				vertexArray[i*3 + 0] = vertices[i][0];
-				vertexArray[i*3 + 1] = vertices[i][1];
-				vertexArray[i*3 + 2] = vertices[i][2];
-				// fprintf(stdout, "vertexArray %d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]);
+				glPopAttrib();
+				glColor4f(1, 1, 1, 1);
 			}
-			float normalArray[normals.size() * 3];
-			for (unsigned int i = 0; i < normals.size(); i++)
-			{
-				normalArray[i*3 + 0] = normals[i][0];
-				normalArray[i*3 + 1] = normals[i][1];
-				normalArray[i*3 + 2] = normals[i][2];
-			}
-
-			if (triIndices.size() > 0)
-			{ // Draw with GL_TRIANGLES
-				unsigned int triIndexArray[triIndices.size()];
-				for (unsigned int i = 0; i < triIndices.size(); i++)
-				{
-					triIndexArray[i] = triIndices[i];
-					// fprintf(stdout, "%d\n", triIndexArray[i]);
-				}
-				// fprintf(stdout, "%d: %d\n", triIndices.size()-1, triIndexArray[triIndices.size()-1]); // Check for overflow
-
-				glVertexPointer(3, GL_FLOAT, 0, vertexArray);
-				glNormalPointer(GL_FLOAT, 0, normalArray);
-				glDrawElements(GL_TRIANGLES, triIndices.size(), GL_UNSIGNED_INT, triIndexArray);
-			}
-
-			if (quadIndices.size() > 0)
-			{ // Draw with GL_QUADS
-				unsigned int quadIndexArray[quadIndices.size()];
-				for (unsigned int i = 0; i < quadIndices.size(); i++)
-				{
-					quadIndexArray[i] = quadIndices[i];
-					// fprintf(stdout, "%d\n", quadIndexArray[i]);
-				}
-				// fprintf(stdout, "%d: %d\n", quadIndices.size()-1, quadIndexArray[quadIndices.size()-1]); // Check for overflow
-
-				glVertexPointer(3, GL_FLOAT, 0, vertexArray);
-				glNormalPointer(GL_FLOAT, 0, normalArray);
-				glDrawElements(GL_QUADS, quadIndices.size(), GL_UNSIGNED_INT, quadIndexArray);
-			}
-		} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
+		}
 	} glPopMatrix();
 
 	if (Toggles::debug) glPopAttrib();

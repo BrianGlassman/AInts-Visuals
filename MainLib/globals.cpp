@@ -9,7 +9,9 @@
 //---------
 bool Toggles::Light::lightOrbiting = true;
 bool Toggles::Light::smooth = true;
+bool Toggles::Noise::showPerturbed = true;
 bool Toggles::Noise::showPVectors = false;
+bool Toggles::Noise::showBase = false;
 bool Toggles::showNormals = false;
 bool Toggles::debug = false;
 
