@@ -235,6 +235,12 @@ void Chamber::Draw()
 {
 	if (Toggles::showNormals) DrawNormals(0.2);
 
+	if (Toggles::debug)
+	{
+		glPushAttrib(GL_ENABLE_BIT);
+		glDisable(GL_TEXTURE_2D);
+	}
+
 	glPushMatrix(); {
 		glTranslatef(center[0], center[1], center[2]);
 
@@ -288,4 +294,6 @@ void Chamber::Draw()
 			}
 		} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 	} glPopMatrix();
+
+	if (Toggles::debug) glPopAttrib();
 }
