@@ -173,14 +173,22 @@ namespace Callbacks{ void Noise(int val)
 {
     switch(val)
     {
-    case 0:
+    case 0: // Toggle perturbed geometry
         Toggles::Noise::showPerturbed = !Toggles::Noise::showPerturbed;
+        if (! (Toggles::Noise::showPerturbed || Toggles::Noise::showBase))
+        { // All geometry turned off, turn base back on to make sure something is shown
+            Toggles::Noise::showBase = true;
+        }
         break;
     case 1:
         Toggles::Noise::showPVectors = !Toggles::Noise::showPVectors;
         break;
     case 2:
         Toggles::Noise::showBase = !Toggles::Noise::showBase;
+        if (! (Toggles::Noise::showPerturbed || Toggles::Noise::showBase))
+        { // All geometry turned off, turn noise back on to make sure something is shown
+            Toggles::Noise::showPerturbed = true;
+        }
         break;
     default:
         Fatal(999, "Unknown val %d to Noise callback\n");
@@ -189,6 +197,6 @@ namespace Callbacks{ void Noise(int val)
 NoiseMenu::NoiseMenu()
 {
     name = "Noise";
-    buttons = { "Toggle noise", "Toggle P Vectors", "Toggle base geometry" };
+    buttons = { "Toggle perturbed geometry", "Toggle P Vectors", "Toggle base geometry" };
     callback = Callbacks::Noise;
 }
