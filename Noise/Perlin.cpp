@@ -43,9 +43,47 @@ Vector3 Perlin::getPVector(int x, int y, int z)
     return getPVector(coords);
 }
 
-float fade(float t)
+float PerlinFade(float t)
 {
     return t * t * t * (t * (t * 6 - 15) + 10);
+}
+float _BezierY(float t)
+{ // Cubic Bezier curve
+    float t2 = t*t, t3 = t*t*t;
+    float it = 1 - t;
+    return 3*it*t2 + t3;
+}
+float _BezierX(float t)
+{ // Cubic Bezier curve
+    float P0 = 0;
+    float P1 = 0.25;
+    float P2 = 1 - P1;
+    float P3 = 1;
+    float t2 = t*t, t3 = t*t*t;
+    float it = 1 - t;
+    float it2 = it*it;
+    float it3 = it*it*it;
+    return it3*P0 + 3*it2*t*P1 + 3*it*t2*P2 + t3*P3;
+}
+float BezierFade(float x)
+{ // Iterate to find the right Y value for the given X
+    float t = x;
+    float xCalc;
+    int i = 0;
+    while (i < 100)
+    {
+        xCalc = _BezierX(t);
+        if (abs(xCalc - x) < 1e-6)
+            break;
+        t = t - (xCalc - x);
+        i++;
+    }
+    if (i == 100) Fatal(999, "Max iterations reached for x = %f\n", x);
+    return _BezierY(t);
+}
+float fade(float x)
+{
+    return BezierFade(x);
 }
 
 float lerp(float fraction, float low, float high)
