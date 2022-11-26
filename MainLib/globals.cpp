@@ -15,6 +15,12 @@ bool Toggles::Noise::showBase = false;
 bool Toggles::showNormals = false;
 bool Toggles::debug = false;
 
+//--------
+// Values
+//--------
+float Globals::tunnelNoiseScale =  0.3;
+float Globals::chamberNoiseScale = 0.3;
+
 //-------------------
 // Input --> Display
 //-------------------

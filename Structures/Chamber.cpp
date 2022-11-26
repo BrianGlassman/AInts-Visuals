@@ -8,7 +8,6 @@ float padding = 0.1; // Padding between edge of chamber and edge of cell
 float padScale = 1 - 2*padding; // Scale factor to account for padding
 
 // FIXME these should be linked, not hard-coded
-float tunnelNoiseScale = 0.3;
 int tunnelN = 8;
 int armPanels = 1; // Shouldn't be the same as the tunnel value, but should be related
 float tunnelRadius = 0.1f;
@@ -18,7 +17,7 @@ Chamber::Chamber(unsigned char sides)
 {
 	type = 3;
 	sideType = SideType::chamber;
-	noiseScale = 0.3;
+	noiseScale = Globals::chamberNoiseScale;
 
 	UnpackSides(sides);
 
@@ -209,7 +208,7 @@ void Chamber::ApplyNoise(Noise* noise, float offset[])
 		}
 		else
 		{
-			scale = tunnelNoiseScale;
+			scale = Globals::tunnelNoiseScale;
 		}
 
 		float x = baseVertices[i][0] + center[0] + offset[0];

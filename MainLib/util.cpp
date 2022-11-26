@@ -1,4 +1,5 @@
 #include "util.hpp"
+#include "globals.hpp"
 
 /*
  *  Convert polar to Cartesian coordinates
@@ -88,7 +89,7 @@ void DrawLitQuad(const float A[], const float B[], const float C[], const float 
 Model::Model()
 {
 	type = 1;
-	noiseScale = 0.3;
+	noiseScale = Globals::chamberNoiseScale;
 }
 
 Model::~Model() {}

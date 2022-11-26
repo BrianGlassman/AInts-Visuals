@@ -42,7 +42,7 @@ public:
 	}
 protected:
 	// Scaling factor applied to the noise effect
-	float noiseScale = 0.07;
+	float noiseScale;
 
     std::vector<Vector3> vertices;
 	std::vector<Vector3> baseVertices;

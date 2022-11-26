@@ -24,6 +24,14 @@ namespace Toggles
     extern bool debug;
 }
 
+//--------
+// Values
+//--------
+namespace Globals
+{
+    extern float tunnelNoiseScale;
+    extern float chamberNoiseScale;
+}
 
 //-------------------
 // Input --> Display
