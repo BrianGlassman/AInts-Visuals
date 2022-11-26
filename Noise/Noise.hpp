@@ -22,3 +22,5 @@ protected:
     static bool initialized;
     static unsigned int seed;
 };
+
+extern Noise* noisePtr;

@@ -34,11 +34,11 @@ public:
 	void DrawNormals(float scale = 1);
 	virtual void Draw();
 
-    virtual void ApplyNoise(Noise* noise, float offset[]);
-	void ApplyNoise(Noise* noise)
+    virtual void ApplyNoise(float offset[]);
+	void ApplyNoise()
 	{
 		float offset[] = {0, 0, 0};
-		ApplyNoise(noise, offset);
+		ApplyNoise(offset);
 	}
 protected:
 	// Scaling factor applied to the noise effect

@@ -29,9 +29,9 @@ Colony tunnel;
 Colony chamber;
 Colony allTunnels;
 
-OrbitLight* orbiterPtr;
-
 Noise* noisePtr;
+
+OrbitLight* orbiterPtr;
 
 static void init(int argc, char* argv[])
 {
@@ -321,7 +321,7 @@ int main(int argc, char* argv[])
 	Globals::sceneChoice = Scene::colony;
 
 	PopulateColony(colony);
-	if (useNoise) colony.ApplyNoise(noisePtr, zero);
+	if (useNoise) colony.ApplyNoise(zero);
 
 	// forward : 1
 	//    back : 2
@@ -330,13 +330,13 @@ int main(int argc, char* argv[])
 	//   right : 16
 	//    left : 32
 	tunnel.AddTunnel(0, 0, 0, 21); // Tunnel
-	if (useNoise) tunnel.ApplyNoise(noisePtr, zero);
+	if (useNoise) tunnel.ApplyNoise(zero);
 
 	chamber.AddChamber(0, 0, 0, 21); // Chamber
-	if (useNoise) chamber.ApplyNoise(noisePtr, zero);
+	if (useNoise) chamber.ApplyNoise(zero);
 
 	PopulateTunnels(allTunnels);
-	if (useNoise) allTunnels.ApplyNoise(noisePtr, zero);
+	if (useNoise) allTunnels.ApplyNoise(zero);
 
 	init(argc, argv);
 

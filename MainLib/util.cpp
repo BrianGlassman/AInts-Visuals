@@ -128,7 +128,7 @@ void Model::PostCreate()
 }
 
 // Must be called AFTER Create so that both vertex lists are populated
-void Model::ApplyNoise(Noise* noise, float offset[])
+void Model::ApplyNoise(float offset[])
 {
 	// fprintf(stdout, "Applying noise to type %d with %f scale\n", type, noiseScale);
 
@@ -138,7 +138,7 @@ void Model::ApplyNoise(Noise* noise, float offset[])
 		float y = baseVertices[i][1] + center[1] + offset[1];
 		float z = baseVertices[i][2] + center[2] + offset[2];
 
-        auto p = noise->getNoise(x, y, z);
+        auto p = noisePtr->getNoise(x, y, z);
         
 		vertices[i][0] = baseVertices[i][0] + p[0]*noiseScale;
         vertices[i][1] = baseVertices[i][1] + p[1]*noiseScale;

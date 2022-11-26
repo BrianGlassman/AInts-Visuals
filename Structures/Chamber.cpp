@@ -196,7 +196,7 @@ void Chamber::Create()
 	PostCreate();
 }
 
-void Chamber::ApplyNoise(Noise* noise, float offset[])
+void Chamber::ApplyNoise(float offset[])
 {
 	// Use different noise scaling for arm portion versus main chamber
 	float scale;
@@ -215,7 +215,7 @@ void Chamber::ApplyNoise(Noise* noise, float offset[])
 		float y = baseVertices[i][1] + center[1] + offset[1];
 		float z = baseVertices[i][2] + center[2] + offset[2];
 
-        auto p = noise->getNoise(x, y, z);
+        auto p = noisePtr->getNoise(x, y, z);
         
 		vertices[i][0] = baseVertices[i][0] + p[0]*scale;
         vertices[i][1] = baseVertices[i][1] + p[1]*scale;
