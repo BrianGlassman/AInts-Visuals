@@ -75,9 +75,8 @@ void Colony::AddChamber(float x, float y, float z)
 }
 void Colony::AddChamber(float x, float y, float z, unsigned char sides)
 {
-    std::shared_ptr<Model> ptr = std::make_shared<Chamber>(sides);
     float center[] = {x, y, z};
-    AddModel(ptr, center);
+    AddChamber(center, sides);
 }
 
 void Colony::AddHill(Vector3 center)
