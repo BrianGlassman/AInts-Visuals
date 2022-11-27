@@ -14,20 +14,23 @@ Tunnel::Tunnel(unsigned char sides)
 
 void Tunnel::CreateCenterline(int axis, bool flip)
 {
+	CLbreaks.push_back(centerline.size());
+
 	int panels = 4; // FIXME generalize
 	float d = (0.5 - radius) / panels;
 
-	std::vector<Vertex> centerline;
-	Vertex vert;
-	centerline.push_back(vert); // Center
+	Vertex* lastVert = &centerline[0];
 	float x = radius;
 	for (int i = 0; i <= panels; i++)
 	{
+		Vertex vert;
 		vert.coords[axis] = (flip ? -1 : 1) * x;
+		vert.AddNeighbor(lastVert);
 		centerline.push_back(vert);
+
 		x += d;
+		lastVert = &vert;
 	}
-	centerlines.push_back(centerline);
 }
 
 void Tunnel::Create()
@@ -35,69 +38,77 @@ void Tunnel::Create()
 	PreCreate();
 
 	Corner* corner;
-	// Right top front
-	corner = &corners[0];
-	// FIXME final version should not be offset
-	corner->baseScale[0] = 1; corner->baseScale[1] = 1; corner->baseScale[2] = 1;
-	corner->surroundings.x = (int)right;
-	corner->surroundings.y = (int)top;
-	corner->surroundings.z = (int)forward;
+	{ // Right top front
+		corner = &corners[0];
+		// FIXME final version should not be offset
+		corner->baseScale[0] = 1; corner->baseScale[1] = 1; corner->baseScale[2] = 1;
+		corner->surroundings.x = (int)right;
+		corner->surroundings.y = (int)top;
+		corner->surroundings.z = (int)forward;
+	}
 
-	// Right top back
-	corner = &corners[1];
-	// FIXME final version should not be offset
-	corner->baseScale[0] = 1; corner->baseScale[1] = 1; corner->baseScale[2] = -1;
-	corner->surroundings.x = (int)right;
-	corner->surroundings.y = (int)top;
-	corner->surroundings.z = (int)back;
+	{ // Right top back
+		corner = &corners[1];
+		// FIXME final version should not be offset
+		corner->baseScale[0] = 1; corner->baseScale[1] = 1; corner->baseScale[2] = -1;
+		corner->surroundings.x = (int)right;
+		corner->surroundings.y = (int)top;
+		corner->surroundings.z = (int)back;
+	}
 
-	// Right bottom front
-	corner = &corners[2];
-	// FIXME final version should not be offset
-	corner->baseScale[0] = 1; corner->baseScale[1] = -1; corner->baseScale[2] = 1;
-	corner->surroundings.x = (int)right;
-	corner->surroundings.y = (int)bottom;
-	corner->surroundings.z = (int)forward;
+	{ // Right bottom front
+		corner = &corners[2];
+		// FIXME final version should not be offset
+		corner->baseScale[0] = 1; corner->baseScale[1] = -1; corner->baseScale[2] = 1;
+		corner->surroundings.x = (int)right;
+		corner->surroundings.y = (int)bottom;
+		corner->surroundings.z = (int)forward;
+	}
 	
-	// Right bottom back
-	corner = &corners[3];
-	// FIXME final version should not be offset
-	corner->baseScale[0] = 1; corner->baseScale[1] = -1; corner->baseScale[2] = -1;
-	corner->surroundings.x = (int)right;
-	corner->surroundings.y = (int)bottom;
-	corner->surroundings.z = (int)back;
+	{ // Right bottom back
+		corner = &corners[3];
+		// FIXME final version should not be offset
+		corner->baseScale[0] = 1; corner->baseScale[1] = -1; corner->baseScale[2] = -1;
+		corner->surroundings.x = (int)right;
+		corner->surroundings.y = (int)bottom;
+		corner->surroundings.z = (int)back;
+	}
 	
-	// Left top front
-	corner = &corners[4];
-	// FIXME final version should not be offset
-	corner->baseScale[0] = -1; corner->baseScale[1] = 1; corner->baseScale[2] = 1;
-	corner->surroundings.x = (int)left;
-	corner->surroundings.y = (int)top;
-	corner->surroundings.z = (int)forward;
+	{ // Left top front
+		corner = &corners[4];
+		// FIXME final version should not be offset
+		corner->baseScale[0] = -1; corner->baseScale[1] = 1; corner->baseScale[2] = 1;
+		corner->surroundings.x = (int)left;
+		corner->surroundings.y = (int)top;
+		corner->surroundings.z = (int)forward;
+	}
 
-	// Left top back
-	corner = &corners[5];
-	// FIXME final version should not be offset
-	corner->baseScale[0] = -1; corner->baseScale[1] = 1; corner->baseScale[2] = -1;
-	corner->surroundings.x = (int)left;
-	corner->surroundings.y = (int)top;
-	corner->surroundings.z = (int)back;
+	{ // Left top back
+		corner = &corners[5];
+		// FIXME final version should not be offset
+		corner->baseScale[0] = -1; corner->baseScale[1] = 1; corner->baseScale[2] = -1;
+		corner->surroundings.x = (int)left;
+		corner->surroundings.y = (int)top;
+		corner->surroundings.z = (int)back;
+	}
 
-	// Left bottom front
-	corner = &corners[6];
-	// FIXME final version should not be offset
-	corner->baseScale[0] = -1; corner->baseScale[1] = -1; corner->baseScale[2] = 1;
-	corner->surroundings.x = (int)left;
-	corner->surroundings.y = (int)bottom;
-	corner->surroundings.z = (int)forward;
+	{ // Left bottom front
+		corner = &corners[6];
+		// FIXME final version should not be offset
+		corner->baseScale[0] = -1; corner->baseScale[1] = -1; corner->baseScale[2] = 1;
+		corner->surroundings.x = (int)left;
+		corner->surroundings.y = (int)bottom;
+		corner->surroundings.z = (int)forward;
+	}
 	
-	// Left bottom back
-	corner = &corners[7];
-	// FIXME final version should not be offset
-	corner->baseScale[0] = -1; corner->baseScale[1] = -1; corner->baseScale[2] = -1;
-	corner->surroundings.x = (int)left;
-	corner->surroundings.y = (int)bottom;
-	corner->surroundings.z = (int)back;
+	{ // Left bottom back
+		corner = &corners[7];
+		// FIXME final version should not be offset
+		corner->baseScale[0] = -1; corner->baseScale[1] = -1; corner->baseScale[2] = -1;
+		corner->surroundings.x = (int)left;
+		corner->surroundings.y = (int)bottom;
+		corner->surroundings.z = (int)back;
+	}
 
 	// FIXME temp override
 	// for (auto&& corner : corners)
@@ -116,6 +127,7 @@ void Tunnel::Create()
 	}
 
 	// Create centerlines
+	centerline.push_back(Vertex());
 	if (right)   CreateCenterline(0, false);
 	if (left)    CreateCenterline(0,  true);
 	if (top)     CreateCenterline(1, false);
@@ -138,21 +150,20 @@ void Tunnel::ApplyNoise(float offset[])
 	}
 
 	// Apply to the centerline
-	for (unsigned int i = 0; i < baseCenterlines.size(); i++)
+	for (unsigned int i = 0; i < baseCenterline.size(); i++)
 	{
-		for (unsigned int j = 0; j < baseCenterlines[i].size(); j++)
-		{
-			float x = baseCenterlines[i][j].x() + center.x + offset[0];
-			float y = baseCenterlines[i][j].y() + center.y + offset[1];
-			float z = baseCenterlines[i][j].z() + center.z + offset[2];
+		float x = baseCenterline[i].x() + center.x + offset[0];
+		float y = baseCenterline[i].y() + center.y + offset[1];
+		float z = baseCenterline[i].z() + center.z + offset[2];
 
-        	auto p = noisePtr->getNoise(x, y, z);
+		auto p = noisePtr->getNoise(x, y, z);
 
-			centerlines[i][j].coords.x = baseCenterlines[i][j].x() + p[0]*noiseScale;
-			centerlines[i][j].coords.y = baseCenterlines[i][j].y() + p[1]*noiseScale;
-			centerlines[i][j].coords.z = baseCenterlines[i][j].z() + p[2]*noiseScale;
-		}
+		centerline[i].coords.x = baseCenterline[i].x() + p[0]*noiseScale;
+		centerline[i].coords.y = baseCenterline[i].y() + p[1]*noiseScale;
+		centerline[i].coords.z = baseCenterline[i].z() + p[2]*noiseScale;
 	}
+
+	// printf("%f, %f, %f\n", centerline[0].coords.x, centerline[0].coords.y, centerline[0].coords.z);
 }
 
 void Tunnel::OldDraw()

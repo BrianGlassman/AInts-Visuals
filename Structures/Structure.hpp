@@ -23,11 +23,13 @@ public:
 	bool forward = true; // +Z
 	bool    back = true; // -Z
 protected:
-    std::vector<std::vector<Vertex>> baseCenterlines;
-    std::vector<std::vector<Vertex>> centerlines;
+    std::vector<Vertex> baseCenterline;
+    std::vector<Vertex> centerline;
+    std::vector<unsigned int> CLbreaks; // FIXME HACK need a better way to track CL breaks
 
     void UnpackSides(unsigned char sides);
     void PreCreate();
     void PostCreate();
+    void CLVertexHelper(GLenum mode, std::vector<Vertex> CLtoUse);
     void DrawCenterlines();
 };

@@ -171,22 +171,25 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 
 void Chamber::CreateCenterline(int axis, bool flip)
 {
+	CLbreaks.push_back(centerline.size());
+
 	// FIXME should match arm panelling exactly, then handle core differently
 
 	int panels = round(0.5 / tunnelRadius);
 	float d = (0.5) / panels;
 
-	std::vector<Vertex> centerline;
-	Vertex vert;
-	centerline.push_back(vert); // Center
+	Vertex* lastVert = &centerline[0];
 	float x = tunnelRadius;
-	for (int i = 0; i <= panels; i++)
+	for (int i = 0; i < panels; i++)
 	{
+		Vertex vert;
 		vert.coords[axis] = (flip ? -1 : 1) * x;
+		vert.AddNeighbor(lastVert);
 		centerline.push_back(vert);
+
 		x += d;
+		lastVert = &vert;
 	}
-	centerlines.push_back(centerline);
 }
 
 void Chamber::PreCreate()
@@ -215,6 +218,7 @@ void Chamber::Create()
 	}
 
 	// Create centerlines
+	centerline.push_back(Vertex());
 	if (right)   CreateCenterline(0, false);
 	if (left)    CreateCenterline(0,  true);
 	if (top)     CreateCenterline(1, false);
@@ -261,20 +265,17 @@ void Chamber::ApplyNoise(float offset[])
     }
 
 	// Apply to the centerline
-	for (unsigned int i = 0; i < baseCenterlines.size(); i++)
+	for (unsigned int i = 0; i < baseCenterline.size(); i++)
 	{
-		for (unsigned int j = 0; j < baseCenterlines[i].size(); j++)
-		{
-			float x = baseCenterlines[i][j].x() + center.x + offset[0];
-			float y = baseCenterlines[i][j].y() + center.y + offset[1];
-			float z = baseCenterlines[i][j].z() + center.z + offset[2];
+		float x = baseCenterline[i].x() + center.x + offset[0];
+		float y = baseCenterline[i].y() + center.y + offset[1];
+		float z = baseCenterline[i].z() + center.z + offset[2];
 
-        	auto p = noisePtr->getNoise(x, y, z);
+		auto p = noisePtr->getNoise(x, y, z);
 
-			centerlines[i][j].coords.x = baseCenterlines[i][j].x() + p[0]*noiseScale;
-			centerlines[i][j].coords.y = baseCenterlines[i][j].y() + p[1]*noiseScale;
-			centerlines[i][j].coords.z = baseCenterlines[i][j].z() + p[2]*noiseScale;
-		}
+		centerline[i].coords.x = baseCenterline[i].x() + p[0]*noiseScale;
+		centerline[i].coords.y = baseCenterline[i].y() + p[1]*noiseScale;
+		centerline[i].coords.z = baseCenterline[i].z() + p[2]*noiseScale;
 	}
 }
 

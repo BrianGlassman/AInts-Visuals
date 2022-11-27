@@ -1,3 +1,9 @@
+movement in interior view should follow centerlines
+
+
+
+
+
 add something to exterior view that shows where the interior view is located
 
 [thanksgiving] random noise perturbations
