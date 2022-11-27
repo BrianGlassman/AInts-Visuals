@@ -22,6 +22,8 @@ namespace Toggles
     extern bool showNormals;
 
     extern bool debug;
+
+    extern bool showCenterlines;
 }
 
 //--------

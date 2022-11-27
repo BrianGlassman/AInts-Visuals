@@ -1,5 +1,7 @@
 #include "Tunnel.hpp"
 
+#include "globals.hpp"
+
 Tunnel::Tunnel(unsigned char sides)
 {
 	type = 2;
@@ -229,6 +231,6 @@ void Tunnel::Draw()
 			corner.Draw();
 		}
 
-		DrawCenterlines();
+		if(Toggles::showCenterlines) DrawCenterlines();
 	} glPopMatrix();
 }

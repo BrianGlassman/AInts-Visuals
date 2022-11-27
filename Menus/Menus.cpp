@@ -124,6 +124,9 @@ namespace Callbacks{ void Gizmos(int val)
     case 3:
         Toggles::showNormals = !Toggles::showNormals;
         break;
+    case 4:
+        Toggles::showCenterlines = !Toggles::showCenterlines;
+        break;
     default:
         Fatal(999, "Unknown val %d to Gizmos callback\n", val);
     }
@@ -131,7 +134,8 @@ namespace Callbacks{ void Gizmos(int val)
 GizmosMenu::GizmosMenu()
 {
     name = "Gizmos";
-    buttons = { "Toggle Debug", "Toggle Wireframe", "Toggle Axes", "Toggle Normals" };
+    buttons = { "Toggle Debug", "Toggle Wireframe", "Toggle Axes", "Toggle Normals",
+                "Toggle Centerlines"};
     callback = Callbacks::Gizmos;
 };
 

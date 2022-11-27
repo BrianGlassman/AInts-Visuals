@@ -14,6 +14,7 @@ bool Toggles::Noise::showPVectors = false;
 bool Toggles::Noise::showBase = false;
 bool Toggles::showNormals = false;
 bool Toggles::debug = false;
+bool Toggles::showCenterlines = true;
 
 //--------
 // Values
