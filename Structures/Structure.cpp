@@ -11,6 +11,13 @@ void Structure::UnpackSides(unsigned char sides)
 	left = sides & 32;
 }
 
+void Structure::PreCreate()
+{
+	Model::PreCreate();
+	centerlines.clear();
+	baseCenterlines.clear();
+}
+
 void Structure::PostCreate()
 {
 	Model::PostCreate();

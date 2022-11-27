@@ -27,6 +27,7 @@ protected:
     std::vector<std::vector<Vertex>> centerlines;
 
     void UnpackSides(unsigned char sides);
+    void PreCreate();
     void PostCreate();
     void DrawCenterlines();
 };
