@@ -9,6 +9,7 @@ add something to exterior view that shows where the interior view is located
 chamber uses a different noiseScale than tunnel, so there's a chance for cross-over
 
 probably going to have to do perturbations at the same time as vertex-generation to get the normals right
+	using Bezier patches might help, since OpenGL can do auto-normals there?
 
 would like to have better 3D navigation for interior view, but the vector math gets nasty
 	current version has "up" locked to Y axis, so turning is always around that axis instead of relative to view
