@@ -22,5 +22,10 @@ public:
 	bool forward = true; // +Z
 	bool    back = true; // -Z
 protected:
+    std::vector<std::vector<Vector3>> baseCenterlines;
+    std::vector<std::vector<Vector3>> centerlines;
+
     void UnpackSides(unsigned char sides);
+    void PostCreate();
+    void DrawCenterlines();
 };

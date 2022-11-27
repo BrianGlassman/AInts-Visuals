@@ -21,5 +21,7 @@ public:
 private:
 	Corner corners[8];
 
+	void CreateCenterline(int axis, bool flip);
+
 	void OldDraw();
 };

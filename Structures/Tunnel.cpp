@@ -95,15 +95,59 @@ void Tunnel::Create()
 		corner.Create();
 	}
 
+	// Create centerlines
+	if (right)   CreateCenterline(0, false);
+	if (left)    CreateCenterline(0,  true);
+	if (top)     CreateCenterline(1, false);
+	if (bottom)  CreateCenterline(1,  true);
+	if (forward) CreateCenterline(2, false);
+	if (back)    CreateCenterline(2,  true);
+
 	PostCreate();
+}
+
+void Tunnel::CreateCenterline(int axis, bool flip)
+{
+	int panels = 4; // FIXME generalize
+	float d = (0.5 - radius) / panels;
+
+	std::vector<Vector3> centerline;
+	Vector3 coords;
+	centerline.push_back(coords); // Center
+	float x = radius;
+	for (int i = 0; i <= panels; i++)
+	{
+		coords[axis] = (flip ? -1 : 1) * x;
+		centerline.push_back(coords);
+		x += d;
+	}
+	centerlines.push_back(centerline);
 }
 
 void Tunnel::ApplyNoise(float offset[])
 {
+	// Apply to each corner
     float newOffset[] = {offset[0] + center[0], offset[1] + center[1], offset[2] + center[2]};
 	for (auto&& corner : corners)
 	{
 		corner.ApplyNoise(newOffset);
+	}
+
+	// Apply to the centerline
+	for (unsigned int i = 0; i < baseCenterlines.size(); i++)
+	{
+		for (unsigned int j = 0; j < baseCenterlines[i].size(); j++)
+		{
+			float x = baseCenterlines[i][j].x + center.x + offset[0];
+			float y = baseCenterlines[i][j].y + center.y + offset[1];
+			float z = baseCenterlines[i][j].z + center.z + offset[2];
+
+        	auto p = noisePtr->getNoise(x, y, z);
+
+			centerlines[i][j].x = baseCenterlines[i][j].x + p[0]*noiseScale;
+			centerlines[i][j].y = baseCenterlines[i][j].y + p[1]*noiseScale;
+			centerlines[i][j].z = baseCenterlines[i][j].z + p[2]*noiseScale;
+		}
 	}
 }
 
@@ -184,6 +228,7 @@ void Tunnel::Draw()
 		{
 			corner.Draw();
 		}
-		
+
+		DrawCenterlines();
 	} glPopMatrix();
 }
