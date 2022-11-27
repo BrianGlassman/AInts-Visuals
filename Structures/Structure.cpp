@@ -1,4 +1,5 @@
 #include "Structure.hpp"
+#include "globals.hpp"
 
 void Structure::UnpackSides(unsigned char sides)
 {
@@ -33,7 +34,8 @@ void Structure::DrawCenterlines()
 	glDisable(GL_TEXTURE_2D);
 	glPointSize(7);
 	glColor3f(0, 1, 1);
-	for (auto&& centerline : centerlines)
+	auto CLtoUse = (Toggles::Noise::showPerturbed) ? centerlines : baseCenterlines;
+	for (auto&& centerline : CLtoUse)
 	{
 		glBegin(GL_LINE_STRIP);
 		for (auto&& vertex : centerline)
