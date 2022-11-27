@@ -176,14 +176,14 @@ void Chamber::CreateCenterline(int axis, bool flip)
 	int panels = round(0.5 / tunnelRadius);
 	float d = (0.5) / panels;
 
-	std::vector<Vector3> centerline;
-	Vector3 coords;
-	centerline.push_back(coords); // Center
+	std::vector<Vertex> centerline;
+	Vertex vert;
+	centerline.push_back(vert); // Center
 	float x = tunnelRadius;
 	for (int i = 0; i <= panels; i++)
 	{
-		coords[axis] = (flip ? -1 : 1) * x;
-		centerline.push_back(coords);
+		vert.coords[axis] = (flip ? -1 : 1) * x;
+		centerline.push_back(vert);
 		x += d;
 	}
 	centerlines.push_back(centerline);
@@ -265,15 +265,15 @@ void Chamber::ApplyNoise(float offset[])
 	{
 		for (unsigned int j = 0; j < baseCenterlines[i].size(); j++)
 		{
-			float x = baseCenterlines[i][j].x + center.x + offset[0];
-			float y = baseCenterlines[i][j].y + center.y + offset[1];
-			float z = baseCenterlines[i][j].z + center.z + offset[2];
+			float x = baseCenterlines[i][j].x() + center.x + offset[0];
+			float y = baseCenterlines[i][j].y() + center.y + offset[1];
+			float z = baseCenterlines[i][j].z() + center.z + offset[2];
 
         	auto p = noisePtr->getNoise(x, y, z);
 
-			centerlines[i][j].x = baseCenterlines[i][j].x + p[0]*noiseScale;
-			centerlines[i][j].y = baseCenterlines[i][j].y + p[1]*noiseScale;
-			centerlines[i][j].z = baseCenterlines[i][j].z + p[2]*noiseScale;
+			centerlines[i][j].coords.x = baseCenterlines[i][j].x() + p[0]*noiseScale;
+			centerlines[i][j].coords.y = baseCenterlines[i][j].y() + p[1]*noiseScale;
+			centerlines[i][j].coords.z = baseCenterlines[i][j].z() + p[2]*noiseScale;
 		}
 	}
 }

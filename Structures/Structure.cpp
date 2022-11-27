@@ -18,7 +18,7 @@ void Structure::PostCreate()
 	// Copy centerlines to baseCenterlines
 	for (auto&& centerline : centerlines)
 	{
-		std::vector<Vector3> baseCenterline;
+		std::vector<Vertex> baseCenterline;
 		for (auto&& vertex : centerline)
 		{
 			baseCenterline.push_back(vertex);
@@ -40,14 +40,14 @@ void Structure::DrawCenterlines()
 		glBegin(GL_LINE_STRIP);
 		for (auto&& vertex : centerline)
 		{
-			glVertex3f(vertex.x, vertex.y, vertex.z);
+			glVertex3f(vertex.x(), vertex.y(), vertex.z());
 		}
 		glEnd();
 
 		glBegin(GL_POINTS);
 		for (auto&& vertex : centerline)
 		{
-			glVertex3f(vertex.x, vertex.y, vertex.z);
+			glVertex3f(vertex.x(), vertex.y(), vertex.z());
 		}
 		glEnd();
 		

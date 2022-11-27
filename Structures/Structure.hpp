@@ -1,6 +1,7 @@
 #pragma once
 
 #include "util.hpp" // Model class
+#include "Vertex.hpp"
 
 enum class SideType
 {
@@ -22,8 +23,8 @@ public:
 	bool forward = true; // +Z
 	bool    back = true; // -Z
 protected:
-    std::vector<std::vector<Vector3>> baseCenterlines;
-    std::vector<std::vector<Vector3>> centerlines;
+    std::vector<std::vector<Vertex>> baseCenterlines;
+    std::vector<std::vector<Vertex>> centerlines;
 
     void UnpackSides(unsigned char sides);
     void PostCreate();
