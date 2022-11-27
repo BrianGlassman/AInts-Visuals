@@ -59,7 +59,11 @@ void Mine::CreateInternal(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 				coords[i0] = 0;
 				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				normals.push_back(coords);
-				coords[i0] = f0 ? -x : x;
+                // FIXME generalize to n != 8
+                if (i == 0)
+                    coords[i0] = (f0 ? -1 : 1) * ((abs(y) >= abs(z)) ? abs(y) : abs(z));
+                else
+				    coords[i0] = f0 ? -x : x;
 				vertices.push_back(coords);
 			}
 			{ // Next row
@@ -72,7 +76,11 @@ void Mine::CreateInternal(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 				coords[i0] = 0;
 				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				normals.push_back(coords);
-				coords[i0] = f0 ? -x : x;
+                // FIXME generalize to n != 8
+                if (i == 0)
+                    coords[i0] = (f0 ? -1 : 1) * ((abs(y) >= abs(z)) ? abs(y) : abs(z));
+                else
+				    coords[i0] = f0 ? -x : x;
 				vertices.push_back(coords);
 
 				// Outer edge
