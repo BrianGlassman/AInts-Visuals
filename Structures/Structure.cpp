@@ -31,7 +31,7 @@ void Structure::PostCreate()
 	}
 }
 
-void Structure::CLVertexHelper(GLenum mode, std::vector<Vertex> CLtoUse)
+void Structure::DrawCLHelper(GLenum mode, std::vector<Vertex> CLtoUse)
 {
 	for (unsigned int breakIdx = 0; breakIdx < CLbreaks.size() - 1; breakIdx++)
 	{
@@ -56,8 +56,8 @@ void Structure::DrawCenterlines()
 	glColor3f(0, 1, 1);
 
 	auto CLtoUse = (Toggles::Noise::showPerturbed) ? centerline : baseCenterline;
-	CLVertexHelper(GL_LINE_STRIP, CLtoUse);
-	CLVertexHelper(GL_POINTS, CLtoUse);
+	DrawCLHelper(GL_LINE_STRIP, CLtoUse);
+	DrawCLHelper(GL_POINTS, CLtoUse);
 	
 	glColor3f(1, 1, 1);
 	glPopAttrib();

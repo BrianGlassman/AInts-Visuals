@@ -30,6 +30,6 @@ protected:
     void UnpackSides(unsigned char sides);
     void PreCreate();
     void PostCreate();
-    void CLVertexHelper(GLenum mode, std::vector<Vertex> CLtoUse);
+    void DrawCLHelper(GLenum mode, std::vector<Vertex> CLtoUse);
     void DrawCenterlines();
 };
