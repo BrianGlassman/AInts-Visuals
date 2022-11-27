@@ -28,9 +28,9 @@ public:
 	
 	Vector3 center = {0.0f, 0.0f, 0.0f};
 
-	void PreCreate();
+	virtual void PreCreate();
     virtual void Create();
-	void PostCreate();
+	virtual void PostCreate();
 	void DrawNormals(float scale = 1);
 	virtual void Draw();
 

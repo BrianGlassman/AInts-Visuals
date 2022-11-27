@@ -74,10 +74,10 @@ Corner.o: $(STCRDIR)/Corner.cpp $(STCRDIR)/Corner.hpp util.o Structure.o
 Chamber.o: $(STCRDIR)/Chamber.cpp $(STCRDIR)/Chamber.hpp util.o
 Hill.o: $(STCRDIR)/Hill.cpp $(STCRDIR)/Hill.hpp util.o
 Tunnel.o: $(STCRDIR)/Tunnel.cpp $(STCRDIR)/Tunnel.hpp util.o Corner.o
-# Colony needs to depend on all the other Structures
-Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp Chamber.o Hill.o Tunnel.o MainLib.a
 # Buildings
 Mine.o: $(STCRDIR)/Mine.cpp $(STCRDIR)/Mine.hpp Chamber.o
+# Colony needs to depend on all the other Structures
+Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp Chamber.o Hill.o Tunnel.o Mine.o MainLib.a
 
 #--- Noise ---
 Noise.o: $(NOISDIR)/Noise.cpp $(NOISDIR)/Noise.hpp

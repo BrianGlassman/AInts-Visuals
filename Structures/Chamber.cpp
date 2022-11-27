@@ -3,28 +3,24 @@
 #include "Chamber.hpp"
 #include "globals.hpp"
 
-// FIXME should be able to combine padding into radius
-float padding = 0.1; // Padding between edge of chamber and edge of cell
-float padScale = 1 - 2*padding; // Scale factor to account for padding
-
-// FIXME these should be linked, not hard-coded
-int tunnelN = 8;
-int armPanels = 1; // Shouldn't be the same as the tunnel value, but should be related
-float tunnelRadius = 0.1f;
-// endFixme
-
 Chamber::Chamber(unsigned char sides)
 {
 	type = 3;
 	sideType = SideType::chamber;
 	noiseScale = Globals::chamberNoiseScale;
 
+	padding = 0.1;
+	radius = 0.5 - padding;
+	padScale = 1 - 2*padding;
+
+	panelWidth = 1.0*padScale / panels;
+
 	UnpackSides(sides);
 
 	Create();
 }
 
-Vector3 SetCoords(const float v0, const float v1, const float v2, int i0, bool f0, int i1, bool f1, int i2, bool f2)
+Vector3 Chamber::SetCoords(const float v0, const float v1, const float v2, int i0, bool f0, int i1, bool f1, int i2, bool f2)
 {
 	Vector3 coords;
 	coords[i0] = (f0 ? -1 : 1) * v0;
@@ -40,6 +36,7 @@ void Chamber::FacePointHelper(std::function<Vector3(const float, const float, co
 	vertices.push_back(coords);
 	normals.push_back(coords);
 }
+/// @brief Create 1/4 of a face 
 void Chamber::FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm)
 {
 	Vector3 coords;
@@ -171,11 +168,16 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 		x += d;
 	}
 }
+void Chamber::PreCreate()
+{
+	Structure::PreCreate();
+	triIndices.clear();
+	quadIndices.clear();
+}
 void Chamber::Create()
 {
 	PreCreate();
 
-	panelWidth = (1.0 - 2 * padding) / panels;
 	// fprintf(stdout, "panelWidth = %f\n", panelWidth);
 
 	// Note: flip i0 to change winding direction
