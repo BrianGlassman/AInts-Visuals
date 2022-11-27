@@ -315,6 +315,8 @@ int main(int argc, char* argv[])
 	noisePtr = &noise;
 
 	bool useNoise = true;
+	Toggles::Noise::showPerturbed = useNoise;
+	Toggles::Noise::showBase = !useNoise;
 	float zero[] = {0, 0, 0}; // FIXME not sure why the 1-param ApplyNoise isn't getting inherited
 
 	// Create the scene to be displayed
