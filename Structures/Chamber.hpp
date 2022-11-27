@@ -14,13 +14,13 @@ public:
     Chamber(unsigned char sides);
 
     void Create();
-    void ApplyNoise(float offset[]);
+    virtual void ApplyNoise(float offset[]);
     void Draw();
 
     float radius = 0.5f;
     // Number of panels per side (each side is N x N panels). Must be at least 3 (2 edges + >=1 face)
     int panels = 5;
-private:
+protected:
     float panelWidth;
     std::unordered_set<int> armIndices;
 

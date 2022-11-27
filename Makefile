@@ -76,6 +76,8 @@ Hill.o: $(STCRDIR)/Hill.cpp $(STCRDIR)/Hill.hpp util.o
 Tunnel.o: $(STCRDIR)/Tunnel.cpp $(STCRDIR)/Tunnel.hpp util.o Corner.o
 # Colony needs to depend on all the other Structures
 Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp Chamber.o Hill.o Tunnel.o MainLib.a
+# Buildings
+Mine.o: $(STCRDIR)/Mine.cpp $(STCRDIR)/Mine.hpp Chamber.o
 
 #--- Noise ---
 Noise.o: $(NOISDIR)/Noise.cpp $(NOISDIR)/Noise.hpp
@@ -91,7 +93,7 @@ CSCIx229.a: fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
 MainLib.a: globals.o display.o lighting.o input.o textures.o util.o Vector.o window.o
 	ar -rcs $@ $^
-Structures.a: Structure.o Corner.o Chamber.o Hill.o Tunnel.o Colony.o
+Structures.a: Structure.o Corner.o Chamber.o Hill.o Tunnel.o Colony.o Mine.o
 	ar -rcs $@ $^
 Noise.a: Noise.o Perlin.o
 	ar -rcs $@ $^
