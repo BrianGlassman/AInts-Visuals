@@ -168,6 +168,27 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 		x += d;
 	}
 }
+
+void Chamber::CreateCenterline(int axis, bool flip)
+{
+	// FIXME should match arm panelling exactly, then handle core differently
+
+	int panels = round(0.5 / tunnelRadius);
+	float d = (0.5) / panels;
+
+	std::vector<Vector3> centerline;
+	Vector3 coords;
+	centerline.push_back(coords); // Center
+	float x = tunnelRadius;
+	for (int i = 0; i <= panels; i++)
+	{
+		coords[axis] = (flip ? -1 : 1) * x;
+		centerline.push_back(coords);
+		x += d;
+	}
+	centerlines.push_back(centerline);
+}
+
 void Chamber::PreCreate()
 {
 	Structure::PreCreate();
@@ -192,6 +213,14 @@ void Chamber::Create()
 		CreateFace(1,  true, 2, false, 0,  true, bottom);
 		CreateFace(2,  true, 0, false, 1,  true, back);
 	}
+
+	// Create centerlines
+	if (right)   CreateCenterline(0, false);
+	if (left)    CreateCenterline(0,  true);
+	if (top)     CreateCenterline(1, false);
+	if (bottom)  CreateCenterline(1,  true);
+	if (forward) CreateCenterline(2, false);
+	if (back)    CreateCenterline(2,  true);
 
 	ErrCheck("Chamber::Create\n");
 
@@ -230,6 +259,23 @@ void Chamber::ApplyNoise(float offset[])
 			// 	p[0], p[1], p[2]);
 		}
     }
+
+	// Apply to the centerline
+	for (unsigned int i = 0; i < baseCenterlines.size(); i++)
+	{
+		for (unsigned int j = 0; j < baseCenterlines[i].size(); j++)
+		{
+			float x = baseCenterlines[i][j].x + center.x + offset[0];
+			float y = baseCenterlines[i][j].y + center.y + offset[1];
+			float z = baseCenterlines[i][j].z + center.z + offset[2];
+
+        	auto p = noisePtr->getNoise(x, y, z);
+
+			centerlines[i][j].x = baseCenterlines[i][j].x + p[0]*noiseScale;
+			centerlines[i][j].y = baseCenterlines[i][j].y + p[1]*noiseScale;
+			centerlines[i][j].z = baseCenterlines[i][j].z + p[2]*noiseScale;
+		}
+	}
 }
 
 void Chamber::DrawHelper(std::vector<Vector3> drawVertices)
@@ -319,6 +365,8 @@ void Chamber::Draw()
 				glColor4f(1, 1, 1, 1);
 			}
 		}
+
+		if(Toggles::showCenterlines) DrawCenterlines();
 	} glPopMatrix();
 
 	if (Toggles::debug) glPopAttrib();

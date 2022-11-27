@@ -12,6 +12,24 @@ Tunnel::Tunnel(unsigned char sides)
 	Create();
 }
 
+void Tunnel::CreateCenterline(int axis, bool flip)
+{
+	int panels = 4; // FIXME generalize
+	float d = (0.5 - radius) / panels;
+
+	std::vector<Vector3> centerline;
+	Vector3 coords;
+	centerline.push_back(coords); // Center
+	float x = radius;
+	for (int i = 0; i <= panels; i++)
+	{
+		coords[axis] = (flip ? -1 : 1) * x;
+		centerline.push_back(coords);
+		x += d;
+	}
+	centerlines.push_back(centerline);
+}
+
 void Tunnel::Create()
 {
 	PreCreate();
@@ -105,25 +123,9 @@ void Tunnel::Create()
 	if (forward) CreateCenterline(2, false);
 	if (back)    CreateCenterline(2,  true);
 
+	ErrCheck("Tunnel::Create\n");
+
 	PostCreate();
-}
-
-void Tunnel::CreateCenterline(int axis, bool flip)
-{
-	int panels = 4; // FIXME generalize
-	float d = (0.5 - radius) / panels;
-
-	std::vector<Vector3> centerline;
-	Vector3 coords;
-	centerline.push_back(coords); // Center
-	float x = radius;
-	for (int i = 0; i <= panels; i++)
-	{
-		coords[axis] = (flip ? -1 : 1) * x;
-		centerline.push_back(coords);
-		x += d;
-	}
-	centerlines.push_back(centerline);
 }
 
 void Tunnel::ApplyNoise(float offset[])
