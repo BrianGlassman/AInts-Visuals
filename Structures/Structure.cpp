@@ -1,3 +1,5 @@
+#include <unordered_set>
+
 #include "Structure.hpp"
 #include "globals.hpp"
 
@@ -16,37 +18,8 @@ void Structure::PreCreate()
 	Model::PreCreate();
 	centerline.clear();
 	baseCenterline.clear();
-	CLbreaks.clear(); CLbreaks.push_back(0);
 }
 
-void Structure::PostCreate()
-{
-	CLbreaks.push_back(centerline.size());
-	Model::PostCreate();
-
-	// Copy centerlines to baseCenterlines
-	for (auto&& vertex : centerline)
-	{
-		baseCenterline.push_back(vertex);
-	}
-}
-
-void Structure::DrawCLHelper(GLenum mode, std::vector<Vertex> CLtoUse)
-{
-	for (unsigned int breakIdx = 0; breakIdx < CLbreaks.size() - 1; breakIdx++)
-	{
-		glBegin(mode);
-		// FIXME assumes that all lines connect at first point
-		glVertex3f(CLtoUse[0].coords.x, CLtoUse[0].coords.y, CLtoUse[0].coords.z);
-		for (unsigned int i = CLbreaks[breakIdx]; i < CLbreaks[breakIdx+1]; i++)
-		{
-			glVertex3f(CLtoUse[i].coords.x, CLtoUse[i].coords.y, CLtoUse[i].coords.z);
-		}
-		glEnd();
-	}
-
-	ErrCheck("Structure::CLVertexHelper\n");
-}
 void Structure::DrawCenterlines()
 {
 	glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
@@ -56,9 +29,51 @@ void Structure::DrawCenterlines()
 	glColor3f(0, 1, 1);
 
 	auto CLtoUse = (Toggles::Noise::showPerturbed) ? centerline : baseCenterline;
-	DrawCLHelper(GL_LINE_STRIP, CLtoUse);
-	DrawCLHelper(GL_POINTS, CLtoUse);
+	if (CLtoUse.size() == 0)
+	{ // Exit early to prevent SegFault
+		Fatal(999, "Called DrawCenterLines with no elements\n");
+	}
+
+	std::unordered_set<int> closedSet;
+	std::unordered_set<int> frontier;
+	frontier.insert(0);
+	glBegin(GL_POINTS); glVertex3f(CLtoUse[0].x(), CLtoUse[0].y(), CLtoUse[0].z()); glEnd();
+
+	// Depth-first iteration
+	while (frontier.size() > 0)
+	{
+		// Pop the next point to look at
+		auto currentIdx = (frontier.extract(frontier.begin())).value();
+		auto current = CLtoUse[currentIdx];
+		// printf("Current has %lu neighbors\n", current.neighbors.size());
+
+		for (auto&& neighborIdx : current.neighbors)
+		{
+			auto&& neighbor = CLtoUse[neighborIdx];
+
+			// Draw line from this point to the neighbor
+			glBegin(GL_LINES);
+			glVertex3f( current.x(),  current.y(),  current.z());
+			// printf("current %f, %f, %f\n", current.x(),  current.y(),  current.z());
+			glVertex3f(neighbor.x(), neighbor.y(), neighbor.z());
+			// printf("neighbor %f, %f, %f\n", neighbor.x(),  neighbor.y(),  neighbor.z());
+			glEnd();
+
+			// Add the neighbor to the frontier (if not already in closedSet or frontier)
+			if (closedSet.find(neighborIdx) == closedSet.end() && frontier.find(neighborIdx) == frontier.end())
+			{
+				frontier.insert(neighborIdx);
+
+				// Draw a point
+				glBegin(GL_POINTS); glVertex3f(neighbor.x(), neighbor.y(), neighbor.z()); glEnd();
+			}
+
+		}
+		closedSet.insert(currentIdx);
+	}
 	
 	glColor3f(1, 1, 1);
 	glPopAttrib();
+
+	ErrCheck("Structure::DrawCenterlines\n");
 }

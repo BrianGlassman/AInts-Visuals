@@ -21,6 +21,7 @@ public:
 private:
 	Corner corners[8];
 
+	void CreateCLHelper(std::vector<Vertex> &CLtoUse, const int axis, const bool flip);
 	void CreateCenterline(int axis, bool flip);
 
 	void OldDraw();

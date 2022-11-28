@@ -43,6 +43,7 @@ protected:
     void FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm);
     void CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm);
     void CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2);
+    void CreateCLHelper(std::vector<Vertex> &CLtoUse, int axis, bool flip);
     void CreateCenterline(int axis, bool flip);
 
     void DrawHelper(std::vector<Vector3> drawVertices); // FIXME pass by reference

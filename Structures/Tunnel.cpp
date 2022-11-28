@@ -12,25 +12,34 @@ Tunnel::Tunnel(unsigned char sides)
 	Create();
 }
 
-void Tunnel::CreateCenterline(int axis, bool flip)
+void Tunnel::CreateCLHelper(std::vector<Vertex> &CLtoUse, const int axis, const bool flip)
 {
-	CLbreaks.push_back(centerline.size());
-
 	int panels = 4; // FIXME generalize
 	float d = (0.5 - radius) / panels;
 
-	Vertex* lastVert = &centerline[0];
+	int lastIdx = 0;
+	int currentIdx;
 	float x = radius;
 	for (int i = 0; i <= panels; i++)
 	{
-		Vertex vert;
+		// Create and insert
+		currentIdx = CLtoUse.size();
+		Vertex vert(currentIdx);
 		vert.coords[axis] = (flip ? -1 : 1) * x;
-		vert.AddNeighbor(lastVert);
-		centerline.push_back(vert);
+		CLtoUse.push_back(vert);
+
+		// Link
+		CLtoUse[lastIdx].AddNeighbor(currentIdx);
+		vert.AddNeighbor(lastIdx);
 
 		x += d;
-		lastVert = &vert;
+		lastIdx = currentIdx;
 	}
+}
+void Tunnel::CreateCenterline(int axis, bool flip)
+{
+	CreateCLHelper(centerline, axis, flip);
+	CreateCLHelper(baseCenterline, axis, flip);
 }
 
 void Tunnel::Create()
@@ -127,7 +136,8 @@ void Tunnel::Create()
 	}
 
 	// Create centerlines
-	centerline.push_back(Vertex());
+	centerline.push_back(Vertex(0));
+	baseCenterline.push_back(Vertex(0));
 	if (right)   CreateCenterline(0, false);
 	if (left)    CreateCenterline(0,  true);
 	if (top)     CreateCenterline(1, false);

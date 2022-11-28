@@ -7,18 +7,20 @@
 class Vertex
 {
 public:
+    Vertex(int idx) { this->idx = idx; }
+    Vertex(int idx, Vector3 coords) : Vertex(idx) { this->coords = coords; }
+
     Vector3 coords;
-    std::vector<Vertex*> neighbors;
+    int idx;
+    std::vector<int> neighbors;
 
     float x() { return coords.x; }
     float y() { return coords.y; }
     float z() { return coords.z; }
 
-    void AddNeighbor(Vertex* neighbor, bool reciprocal = true)
+    void AddNeighbor(int neighbor)
     {
-        // Add link to neighbor
         neighbors.push_back(neighbor);
-        // Link neighbor to self
-        // if (reciprocal) neighbor->AddNeighbor(this, false);
+        // printf("linking %d to %d\n", idx, neighbor);
     }
 };
