@@ -29,7 +29,7 @@ void Project()
 	switch (Globals::viewMode)
 	{
 	case ViewMode::INTERIOR:
-		gluPerspective(60, windowWidth / windowHeight, 0.1, 10);
+		gluPerspective(60, windowWidth / windowHeight, 0.01, 10);
 		break;
 	case ViewMode::EXTERIOR:
 	default: // default to exterior (orthographic)
