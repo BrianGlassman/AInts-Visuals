@@ -20,6 +20,14 @@ void Structure::PreCreate()
 	baseCenterline.clear();
 }
 
+std::vector<Vertex>* Structure::getCL()
+{
+	if (Toggles::Noise::showPerturbed)
+		return &centerline;
+	else
+		return &baseCenterline;
+}
+
 void Structure::DrawCenterlines()
 {
 	glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
@@ -28,7 +36,7 @@ void Structure::DrawCenterlines()
 	glPointSize(7);
 	glColor3f(0, 1, 1);
 
-	auto CLtoUse = (Toggles::Noise::showPerturbed) ? centerline : baseCenterline;
+	auto& CLtoUse = *getCL();
 	if (CLtoUse.size() == 0)
 	{ // Exit early to prevent SegFault
 		Fatal(999, "Called DrawCenterLines with no elements\n");

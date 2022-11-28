@@ -22,6 +22,8 @@ public:
 	bool  bottom = true; // -Y
 	bool forward = true; // +Z
 	bool    back = true; // -Z
+
+    std::vector<Vertex>* getCL();
 protected:
     std::vector<Vertex> baseCenterline;
     std::vector<Vertex> centerline;
