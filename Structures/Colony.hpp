@@ -5,6 +5,7 @@
 
 #include "CSCIx229.h"
 #include "util.hpp" // Model class
+#include "Structure.hpp"
 
 class Colony : public Model
 {
@@ -26,7 +27,9 @@ public:
     void AddChamber(float x, float y, float z, unsigned char sides);
     void AddHill(Vector3 center);
     void AddHill(float x, float y, float z);
+
+    Structure* getChild(int i) { return children[i].get(); }
 private:
-    std::vector<std::shared_ptr<Model>> children;
-    void AddModel(std::shared_ptr<Model> model, Vector3 center);
+    std::vector<std::shared_ptr<Structure>> children;
+    void AddStructure(std::shared_ptr<Structure> structPtr, Vector3 center);
 };

@@ -73,7 +73,7 @@ Structure.o: $(STCRDIR)/Structure.cpp $(STCRDIR)/Structure.hpp util.o Vertex.o
 Corner.o: $(STCRDIR)/Corner.cpp $(STCRDIR)/Corner.hpp util.o Structure.o
 # Composite structures
 Chamber.o: $(STCRDIR)/Chamber.cpp $(STCRDIR)/Chamber.hpp util.o Structure.o
-Hill.o: $(STCRDIR)/Hill.cpp $(STCRDIR)/Hill.hpp util.o Structure.o
+Hill.o: $(STCRDIR)/Hill.cpp $(STCRDIR)/Hill.hpp Structure.o
 Tunnel.o: $(STCRDIR)/Tunnel.cpp $(STCRDIR)/Tunnel.hpp util.o Corner.o
 # Buildings
 Mine.o: $(STCRDIR)/Mine.cpp $(STCRDIR)/Mine.hpp Chamber.o

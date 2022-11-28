@@ -1,9 +1,9 @@
 #pragma once
 
 #include "CSCIx229.h"
-#include "util.hpp" // Model class
+#include "Structure.hpp"
 
-class Hill : public Model
+class Hill : public Structure
 {
 public:
     void Draw();

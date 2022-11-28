@@ -30,21 +30,21 @@ void Colony::Draw()
     } glPopMatrix();
 }
 
-void Colony::AddModel(std::shared_ptr<Model> modelPtr, Vector3 center)
+void Colony::AddStructure(std::shared_ptr<Structure> structPtr, Vector3 center)
 {
-    modelPtr->center = center;
-    children.push_back(modelPtr);
+    structPtr->center = center;
+    children.push_back(structPtr);
 }
 
 void Colony::AddTunnel(Vector3 center)
 {
-    std::shared_ptr<Model> ptr = std::make_shared<Tunnel>();
-    AddModel(ptr, center);
+    std::shared_ptr<Structure> ptr = std::make_shared<Tunnel>();
+    AddStructure(ptr, center);
 }
 void Colony::AddTunnel(Vector3 center, unsigned char sides)
 {
-    std::shared_ptr<Model> ptr = std::make_shared<Tunnel>(sides);
-    AddModel(ptr, center);
+    std::shared_ptr<Structure> ptr = std::make_shared<Tunnel>(sides);
+    AddStructure(ptr, center);
 }
 void Colony::AddTunnel(float x, float y, float z)
 {
@@ -53,20 +53,20 @@ void Colony::AddTunnel(float x, float y, float z)
 }
 void Colony::AddTunnel(float x, float y, float z, unsigned char sides)
 {
-    std::shared_ptr<Model> ptr = std::make_shared<Tunnel>(sides);
+    std::shared_ptr<Structure> ptr = std::make_shared<Tunnel>(sides);
     float center[] = {x, y, z};
-    AddModel(ptr, center);
+    AddStructure(ptr, center);
 }
 
 void Colony::AddChamber(Vector3 center)
 {
-    std::shared_ptr<Model> ptr = std::make_shared<Chamber>();
-    AddModel(ptr, center);
+    std::shared_ptr<Structure> ptr = std::make_shared<Chamber>();
+    AddStructure(ptr, center);
 }
 void Colony::AddChamber(Vector3 center, unsigned char sides)
 {
-    std::shared_ptr<Model> ptr = std::make_shared<Chamber>(sides);
-    AddModel(ptr, center);
+    std::shared_ptr<Structure> ptr = std::make_shared<Chamber>(sides);
+    AddStructure(ptr, center);
 }
 void Colony::AddChamber(float x, float y, float z)
 {
@@ -81,8 +81,8 @@ void Colony::AddChamber(float x, float y, float z, unsigned char sides)
 
 void Colony::AddHill(Vector3 center)
 {
-    std::shared_ptr<Model> ptr = std::make_shared<Hill>();
-    AddModel(ptr, center);
+    std::shared_ptr<Structure> ptr = std::make_shared<Hill>();
+    AddStructure(ptr, center);
 }
 void Colony::AddHill(float x, float y, float z)
 {
