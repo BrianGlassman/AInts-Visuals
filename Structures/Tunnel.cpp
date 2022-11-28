@@ -22,15 +22,17 @@ void Tunnel::CreateCLHelper(std::vector<Vertex> &CLtoUse, const int axis, const 
 	float x = radius;
 	for (int i = 0; i <= panels; i++)
 	{
-		// Create and insert
+		// Create
 		currentIdx = CLtoUse.size();
 		Vertex vert(currentIdx);
 		vert.coords[axis] = (flip ? -1 : 1) * x;
-		CLtoUse.push_back(vert);
 
 		// Link
 		CLtoUse[lastIdx].AddNeighbor(currentIdx);
 		vert.AddNeighbor(lastIdx);
+
+		// Insert (MUST be after creation and linking)
+		CLtoUse.push_back(vert);
 
 		x += d;
 		lastIdx = currentIdx;

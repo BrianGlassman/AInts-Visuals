@@ -3,10 +3,70 @@
 #include "globals.hpp"
 #include "window.hpp"
 
-/*
- * Process standard keys
- */
-float speed = 0.05;
+
+float speed = 1.0; // FIXME for now speed is irrelevant because movement is vertex-to-vertex
+
+void PrintMoveOptions()
+{
+	printf("%d can move to ", currentCLidx);
+	for (int neighbor : (*currentStructure->getCL())[currentCLidx].neighbors)
+	{
+		printf("%d, ", neighbor);
+	}
+	printf("\n");
+}
+
+void fpsMove(Vector3 goalMotion)
+{
+	auto& current = (*currentStructure->getCL())[currentCLidx];
+
+	// Get all neighboring CL vertices
+	std::vector<Vertex> neighbors;
+	for (auto&& neighbor : current.neighbors)
+	{
+		neighbors.push_back((*currentStructure->getCL())[neighbor]);
+	}
+
+	// Get unit vectors pointing towards each neighbor
+	std::vector<Vector3> directions;
+	for (auto&& neighbor : neighbors)
+	{
+		Vector3 direction;
+		direction.x = neighbor.coords.x - current.coords.x;
+		direction.y = neighbor.coords.y - current.coords.y;
+		direction.z = neighbor.coords.z - current.coords.z;
+		direction.Normalize();
+		directions.push_back(direction);
+	}
+
+	// Pick whichever vertex is best aligned with goalMotion
+	int bestNew = currentCLidx;
+	float bestMag = 0.75; // Have to be pointing mostly that way to count
+	for (unsigned int i = 0; i < neighbors.size(); i++)
+	{
+		auto&& direction = directions[i];
+		auto&& neighbor = neighbors[i];
+
+		Vector3 motion; 
+		motion.x = direction.x * goalMotion.x;
+		motion.y = direction.y * goalMotion.y;
+		motion.z = direction.z * goalMotion.z;
+		float dotMag = motion.x + motion.y + motion.z;
+		// printf("%f towards %d, ", dotMag, neighbor.idx);
+		if (dotMag > bestMag)
+		{
+			bestMag = dotMag;
+			bestNew = neighbor.idx;
+		}
+	}
+	// printf("\n");
+
+	// Move to the chosen vertex
+	currentCLidx = bestNew;
+	Globals::InteriorView::eyePos = (*currentStructure->getCL())[bestNew].coords;
+
+	// PrintMoveOptions();
+}
 void fpsKey(unsigned char k)
 {
 	namespace iv = Globals::InteriorView;
@@ -17,9 +77,11 @@ void fpsKey(unsigned char k)
 	case 'W':
 		{
 			// Move along the line from eye to center
-			iv::eyePos[0] += speed * iv::lookDir[0];
-			iv::eyePos[1] += speed * iv::lookDir[1];
-			iv::eyePos[2] += speed * iv::lookDir[2];
+			Vector3 goalMotion;
+			goalMotion.x = speed * iv::lookDir[0];
+			goalMotion.y = speed * iv::lookDir[1];
+			goalMotion.z = speed * iv::lookDir[2];
+			fpsMove(goalMotion);
 		}
 		break;
 	// case 'a':
@@ -30,9 +92,11 @@ void fpsKey(unsigned char k)
 	case 'S':
 		{
 			// Move opposite the line from eye to center
-			iv::eyePos[0] -= speed * iv::lookDir[0];
-			iv::eyePos[1] -= speed * iv::lookDir[1];
-			iv::eyePos[2] -= speed * iv::lookDir[2];
+			Vector3 goalMotion;
+			goalMotion.x = -speed * iv::lookDir[0];
+			goalMotion.y = -speed * iv::lookDir[1];
+			goalMotion.z = -speed * iv::lookDir[2];
+			fpsMove(goalMotion);
 		}
 		break;
 	// case 'd':
@@ -41,6 +105,10 @@ void fpsKey(unsigned char k)
 	// 	break;
 	}
 }
+
+/*
+ * Process standard keys
+ */
 void key(unsigned char k, int x, int y)
 {
 	switch (k) {

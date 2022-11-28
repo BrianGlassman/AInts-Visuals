@@ -10,6 +10,7 @@
 // MainLib
 #include "final.hpp"
 #include "globals.hpp"
+#include "input.hpp"
 #include "lighting.hpp"
 #include "textures.hpp"
 
@@ -32,6 +33,10 @@ Colony allTunnels;
 Noise* noisePtr;
 
 OrbitLight* orbiterPtr;
+
+// FIXME temp hack
+Structure* currentStructure;
+int currentCLidx;
 
 static void init(int argc, char* argv[])
 {
@@ -320,9 +325,9 @@ int main(int argc, char* argv[])
 	float zero[] = {0, 0, 0}; // FIXME not sure why the 1-param ApplyNoise isn't getting inherited
 
 	// Create the scene to be displayed
-	Globals::sceneChoice = Scene::colony;
+	Globals::sceneChoice = Scene::tunnel;
 
-	PopulateColony(colony);
+	// PopulateColony(colony);
 	if (useNoise) colony.ApplyNoise(zero);
 
 	// forward : 1
@@ -334,10 +339,10 @@ int main(int argc, char* argv[])
 	tunnel.AddTunnel(0, 0, 0, 21); // Tunnel
 	if (useNoise) tunnel.ApplyNoise(zero);
 
-	chamber.AddChamber(0, 0, 0, 21); // Chamber
+	// chamber.AddChamber(0, 0, 0, 21); // Chamber
 	if (useNoise) chamber.ApplyNoise(zero);
 
-	PopulateTunnels(allTunnels);
+	// PopulateTunnels(allTunnels);
 	if (useNoise) allTunnels.ApplyNoise(zero);
 
 	init(argc, argv);
@@ -346,9 +351,16 @@ int main(int argc, char* argv[])
 
 	Menus::CreateMenus();
 
+	currentStructure = tunnel.getChild(0);
+	currentCLidx = 0;
+	auto& CL = *(currentStructure->getCL());
+	Globals::InteriorView::eyePos = CL[currentCLidx].coords;
+
 	// Run display and reshape to zoom to fit
 	display();
 	//reshape(windowWidth, windowHeight; FIXME
+
+	// PrintMoveOptions();
 
 	ErrCheck("main");
 	glutMainLoop();
