@@ -69,7 +69,7 @@ window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp $(MLIBDIR)/globals.hpp
 
 #--- Structures ---
 # Base structures
-Structure.o: $(STCRDIR)/Structure.cpp $(STCRDIR)/Structure.hpp util.o
+Structure.o: $(STCRDIR)/Structure.cpp $(STCRDIR)/Structure.hpp util.o Vertex.o
 Corner.o: $(STCRDIR)/Corner.cpp $(STCRDIR)/Corner.hpp util.o Structure.o
 # Composite structures
 Chamber.o: $(STCRDIR)/Chamber.cpp $(STCRDIR)/Chamber.hpp util.o Structure.o
