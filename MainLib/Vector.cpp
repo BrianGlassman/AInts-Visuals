@@ -64,9 +64,14 @@ void Vector3::RotateZ(float theta)
     z =  oldZ;
 }
 
+float Vector3::Magnitude()
+{
+    return sqrt(x*x + y*y + z*z);
+}
+
 void Vector3::Normalize()
 {
-    float mag = sqrt(x*x + y*y + z*z);
+    float mag = Magnitude();
     x /= mag;
     y /= mag;
     z /= mag;

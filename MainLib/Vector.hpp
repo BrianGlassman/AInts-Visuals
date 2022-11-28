@@ -22,6 +22,7 @@ public:
     void RotateY(float theta);
     void RotateZ(float theta);
 
+    float Magnitude();
     void Normalize();
 
     // Operators
