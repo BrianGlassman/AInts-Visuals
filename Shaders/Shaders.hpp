@@ -13,5 +13,7 @@ namespace Shader {
 
 void InitShaders();
 void UseShader(int shader);
+void PushShader(int shader); // Save the current shader to the stack and start using the chosen shader
+void PopShader(); // Start using the top-most shader from the stack
 
 int CreateShaderProg(std::string VertFile, std::string FragFile);

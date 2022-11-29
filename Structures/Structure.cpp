@@ -2,6 +2,7 @@
 
 #include "Structure.hpp"
 #include "globals.hpp"
+#include "Shaders.hpp"
 
 void Structure::UnpackSides(unsigned char sides)
 {
@@ -30,6 +31,7 @@ std::vector<Vertex>* Structure::getCL()
 
 void Structure::DrawCenterlines()
 {
+	PushShader(Shader::fixedPipeline);
 	glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
@@ -82,6 +84,7 @@ void Structure::DrawCenterlines()
 	
 	glColor3f(1, 1, 1);
 	glPopAttrib();
+	PopShader();
 
 	ErrCheck("Structure::DrawCenterlines\n");
 }

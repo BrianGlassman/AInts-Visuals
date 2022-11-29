@@ -1,9 +1,14 @@
+#include <vector>
+
 #include "Shaders.hpp"
 #include "textures.hpp"
 
 int Shader::fixedPipeline = 0;
 int Shader::brickShader;
 int Shader::threeDshader;
+
+std::vector<int> shaderStack;
+int currentShader;
 
 void InitShaders()
 {
@@ -13,6 +18,7 @@ void InitShaders()
 
 void UseShader(int shader)
 {
+   currentShader = shader;
    if (shader == Shader::fixedPipeline)
    {
       glUseProgram(0);
@@ -46,6 +52,19 @@ void UseShader(int shader)
    {
       Fatal(999, "Invalid shader %d\n", shader);
    }
+}
+
+void PushShader(int shader)
+{
+   shaderStack.push_back(currentShader);
+   UseShader(shader);
+}
+
+void PopShader()
+{
+   int shader = shaderStack.back();
+   shaderStack.pop_back();
+   UseShader(shader);
 }
 
 /************************************
