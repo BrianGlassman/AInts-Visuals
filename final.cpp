@@ -271,76 +271,6 @@ void PopulateTunnels(Colony& colony)
 	}
 }
 
-
-/*
- *  Draw a cube
- *     at (x,y,z)
- *     dimensions (dx,dy,dz)
- *     rotated th about the y axis
- */
-static void Cube(double x,double y,double z,
-                 double dx,double dy,double dz,
-                 double th)
-{
-   //  Save transformation
-   glPushMatrix();
-   //  Offset
-   glTranslated(x,y,z);
-   glRotated(th,0,1,0);
-   glScaled(dx,dy,dz);
-   //  Cube
-   //  Front
-   glBegin(GL_QUADS);
-   glNormal3f( 0, 0,+1);
-   glTexCoord2f(0,0); glVertex3f(-1,-1,+1);
-   glTexCoord2f(1,0); glVertex3f(+1,-1,+1);
-   glTexCoord2f(1,1); glVertex3f(+1,+1,+1);
-   glTexCoord2f(0,1); glVertex3f(-1,+1,+1);
-   glEnd();
-   //  Back
-   glBegin(GL_QUADS);
-   glNormal3f( 0, 0,-1);
-   glTexCoord2f(0,0); glVertex3f(+1,-1,-1);
-   glTexCoord2f(1,0); glVertex3f(-1,-1,-1);
-   glTexCoord2f(1,1); glVertex3f(-1,+1,-1);
-   glTexCoord2f(0,1); glVertex3f(+1,+1,-1);
-   glEnd();
-   //  Right
-   glBegin(GL_QUADS);
-   glNormal3f(+1, 0, 0);
-   glTexCoord2f(0,0); glVertex3f(+1,-1,+1);
-   glTexCoord2f(1,0); glVertex3f(+1,-1,-1);
-   glTexCoord2f(1,1); glVertex3f(+1,+1,-1);
-   glTexCoord2f(0,1); glVertex3f(+1,+1,+1);
-   glEnd();
-   //  Left
-   glBegin(GL_QUADS);
-   glNormal3f(-1, 0, 0);
-   glTexCoord2f(0,0); glVertex3f(-1,-1,-1);
-   glTexCoord2f(1,0); glVertex3f(-1,-1,+1);
-   glTexCoord2f(1,1); glVertex3f(-1,+1,+1);
-   glTexCoord2f(0,1); glVertex3f(-1,+1,-1);
-   glEnd();
-   //  Top
-   glBegin(GL_QUADS);
-   glNormal3f( 0,+1, 0);
-   glTexCoord2f(0,0); glVertex3f(-1,+1,+1);
-   glTexCoord2f(1,0); glVertex3f(+1,+1,+1);
-   glTexCoord2f(1,1); glVertex3f(+1,+1,-1);
-   glTexCoord2f(0,1); glVertex3f(-1,+1,-1);
-   glEnd();
-   //  Bottom
-   glBegin(GL_QUADS);
-   glNormal3f( 0,-1, 0);
-   glTexCoord2f(0,0); glVertex3f(-1,-1,-1);
-   glTexCoord2f(1,0); glVertex3f(+1,-1,-1);
-   glTexCoord2f(1,1); glVertex3f(+1,-1,+1);
-   glTexCoord2f(0,1); glVertex3f(-1,-1,+1);
-   glEnd();
-   //  Undo transofrmations
-   glPopMatrix();
-}
-
 void display()
 {
 	preDisplay();
@@ -405,10 +335,7 @@ void display()
 		glActiveTexture(GL_TEXTURE0);
 	}
 
-	if (true)
-		displayModelPtr->Draw();
-	else
-		Cube(0,0,0,1,1,1,0);
+	displayModelPtr->Draw();
 
 	//  Revert to fixed pipeline
 	glUseProgram(0);
