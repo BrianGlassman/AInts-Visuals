@@ -1,9 +1,3 @@
-the axes and light cross aren't drawing right. Either leftover texture or not back to fixed pipeline
-
-
-
-
-
 movement in interior view should follow centerlines
 	works for tunnels, still need to check and/or implement for chamber
 	BIG THING currently no way to move from one Structure to another

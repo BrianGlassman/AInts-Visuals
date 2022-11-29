@@ -390,7 +390,7 @@ void display()
 		id = glGetUniformLocation(shader,"directedLight");
 		glUniform1i(id, 1); // FIXME don't hardcode
 
-		// Set textures (ref https://stackoverflow.com/a/25252981)
+		// // Set textures (ref https://stackoverflow.com/a/25252981)
 		id = glGetUniformLocation(shader, "tex0");
 		glUniform1i(id, 0);
 		glActiveTexture(GL_TEXTURE0);
@@ -400,6 +400,9 @@ void display()
 		glUniform1i(id, 1);
 		glActiveTexture(GL_TEXTURE1);
 		BindTexture("dirtF");
+
+		// Reset active texture to 0 otherwise fixed pipeline stuff gets weird
+		glActiveTexture(GL_TEXTURE0);
 	}
 
 	if (true)
