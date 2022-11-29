@@ -5,8 +5,8 @@
 //  Hardwire brick dimensions and color
 const vec3 BrickColor  = vec3(1.0,0.3,0.2);
 const vec3 MortarColor = vec3(0.85,0.86,0.84);
-const vec3 BrickSize   = vec3(0.30,0.15,0.60);
-const vec3 BrickPct    = vec3(0.90,0.85,0.95);
+const vec3 BrickSize   = vec3(0.30,0.15,0.15);
+const vec3 BrickPct    = vec3(0.90,0.85,0.85);
 
 //  Model coordinates and light from vertex shader
 varying float LightIntensity;
