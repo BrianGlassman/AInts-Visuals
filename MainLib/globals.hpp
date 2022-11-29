@@ -77,6 +77,7 @@ namespace Globals
     extern ViewMode viewMode;
     namespace InteriorView {
         extern Vector3 up;
+        extern Vector3 right;
         extern float rotH, rotV;
         extern Vector3 eyePos;
         extern Vector3 lookDir;

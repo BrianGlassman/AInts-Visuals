@@ -84,5 +84,6 @@ namespace Globals {
          Sin(rotH)*Cos(rotV),
         -Sin(rotV),
         -Cos(rotH)*Cos(rotV)};
+    Vector3 right = (lookDir.Cross(up)).Normalized();
   }
 }

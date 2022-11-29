@@ -37,6 +37,10 @@ void HandleMousePosition()
 		iv::lookDir[1] = -Sin(iv::rotV);
 		iv::lookDir[2] = -Cos(iv::rotH)*Cos(iv::rotV);
 		// printf("lookDir (%f, %f, %f)\n", iv::lookDir[0], iv::lookDir[1], iv::lookDir[2]);
+
+		// Update Right to match new view vector
+		iv::right = iv::lookDir.Cross(iv::up);
+		iv::right.Normalize();
 	}
 	else
 	{

@@ -80,10 +80,17 @@ void fpsKey(unsigned char k)
 			fpsMove(goalMotion);
 		}
 		break;
-	// case 'a':
-	// case 'A':
-	// 	// FIXME strafe
-	// 	break;
+	case 'a':
+	case 'A':
+		{
+			// Move opposite Right vector
+			Vector3 goalMotion;
+			goalMotion.x = -speed * iv::right[0];
+			goalMotion.y = -speed * iv::right[1];
+			goalMotion.z = -speed * iv::right[2];
+			fpsMove(goalMotion);
+		}
+		break;
 	case 's':
 	case 'S':
 		{
@@ -95,10 +102,17 @@ void fpsKey(unsigned char k)
 			fpsMove(goalMotion);
 		}
 		break;
-	// case 'd':
-	// case 'D':
-	// 	// FIXME strafe
-	// 	break;
+	case 'd':
+	case 'D':
+		{
+			// Move along Right vector
+			Vector3 goalMotion;
+			goalMotion.x = speed * iv::right[0];
+			goalMotion.y = speed * iv::right[1];
+			goalMotion.z = speed * iv::right[2];
+			fpsMove(goalMotion);
+		}
+		break;
 	}
 }
 
