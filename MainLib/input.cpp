@@ -113,7 +113,6 @@ void key(unsigned char k, int x, int y)
 {
 	switch (k) {
 	/*
-	
 	// Meta keys
 	case 'm':
 	case 'M':
@@ -124,18 +123,15 @@ void key(unsigned char k, int x, int y)
 		lightMode = 1 - lightMode;
 		break;
 	*/
-	// FIXME no way to update the displayModelPtr, so scene doesn't actually change
 	case '[':
 		Globals::sceneChoice--;
 		break;
 	case ']':
 		Globals::sceneChoice++;
 		break;
-	/*
 	case '\\':
-		sceneMode = SCENE_MAIN;
+		Globals::sceneChoice = Scene::colony;
 		break;
-	*/
 	case 27: // Escape - exit
 		Cleanup();
 		fprintf(stdout, "User exit\n");
@@ -175,7 +171,6 @@ void key(unsigned char k, int x, int y)
 /*
  * Processes special keys
  */
-/*
 void special(int k, int x, int y)
 {
 	switch(k) {
@@ -195,9 +190,8 @@ void special(int k, int x, int y)
 		return;
 	}
 	
-	glutPostRedisplay();
+	// glutPostRedisplay();
 }
-*/
 
 
 /*
@@ -226,7 +220,7 @@ float zoomSpeed = 0.05;
 void mouseAction(int button, int state, int x, int y)
 {
 	// Ignore mouse wheel in interior view
-	// if (Globals::viewMode == ViewMode::INTERIOR) return;
+	if (Globals::viewMode == ViewMode::INTERIOR) return;
 
 	switch(button)
 	{
@@ -252,7 +246,7 @@ void mouseAction(int button, int state, int x, int y)
 void SetInputCallbacks()
 {
 	glutKeyboardFunc(key);
-	//glutSpecialFunc(special);
+	glutSpecialFunc(special);
 	glutPassiveMotionFunc(mouseMovement);
 	glutMouseFunc(mouseAction);
 }
