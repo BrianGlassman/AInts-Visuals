@@ -12,7 +12,8 @@ MLIBDIR=MainLib
 STCRDIR=Structures
 NOISDIR=Noise
 MENUDIR=Menus
-INCLUDE=-I $(CLIBDIR) -I $(MLIBDIR) -I $(STCRDIR) -I $(NOISDIR) -I $(MENUDIR)
+SHDEDIR=Shaders
+INCLUDE=-I $(CLIBDIR) -I $(MLIBDIR) -I $(STCRDIR) -I $(NOISDIR) -I $(MENUDIR) -I $(SHDEDIR)
 
 # Default target
 all: final
@@ -46,7 +47,7 @@ endif
 #--------------
 # Dependencies
 #--------------
-final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h MainLib.a Structures.a Noise.a
+final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h MainLib.a Structures.a Noise.a 
 
 #--- CSCIx229 ---
 fatal.o: $(CLIBDIR)/fatal.c $(CLIBDIR)/CSCIx229.h
@@ -87,6 +88,9 @@ Perlin.o: $(NOISDIR)/Perlin.cpp $(NOISDIR)/Perlin.hpp
 #--- Menus ---
 Menus.o: $(MENUDIR)/Menus.cpp $(MENUDIR)/Menus.hpp
 
+#--- Shaders ---
+Shaders.o: $(SHDEDIR)/Shaders.cpp $(SHDEDIR)/Shaders.hpp
+
 #----------------
 # Create archive
 #----------------
@@ -99,6 +103,8 @@ Structures.a: Structure.o Corner.o Chamber.o Hill.o Tunnel.o Colony.o Mine.o
 Noise.a: Noise.o Perlin.o
 	ar -rcs $@ $^
 Menus.a: Menus.o
+	ar -rcs $@ $^
+Shaders.a: Shaders.o
 	ar -rcs $@ $^
 
 #---------------
@@ -129,6 +135,11 @@ Menus.a: Menus.o
 %.o: $(MENUDIR)/%.cpp
 	g++ -c $(CFLAGS) $< $(INCLUDE)
 
+%.o: $(SHDEDIR)/%.c
+	gcc -c $(CFLAGS) $< $(INCLUDE)
+%.o: $(SHDEDIR)/%.cpp
+	g++ -c $(CFLAGS) $< $(INCLUDE)
+
 %.o: %.c
 	gcc -c $(CFLAGS) $< $(INCLUDE)
 %.o: %.cpp
@@ -138,7 +149,7 @@ Menus.a: Menus.o
 #  Targets
 #-----------
 # Link
-final: final.o CSCIx229.a MainLib.a Structures.a Noise.a Menus.a
+final: final.o CSCIx229.a MainLib.a Structures.a Noise.a Menus.a Shaders.a
 	g++ -o $@ $^ $(CFLAGS) $(LIBS) $(INCLUDE)
 
 noise: $(NOISDIR)/main.cpp Noise.a CSCIx229.a MainLib.a

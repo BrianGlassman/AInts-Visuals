@@ -18,6 +18,7 @@ dirtGroundTileable - https://www.deviantart.com/fabooguy/art/Dirt-Ground-Texture
 
 Code references:
 Class slides, examples, and library
+Shaders adapted from Ex. 25, with modification to apply texture based on vertex position
 Polymorphic list - https://stackoverflow.com/questions/17532076/whats-the-preferred-c-idiom-to-own-a-collection-of-polymorphic-objects
 GLUT menus	
 	http://www.cs.sjsu.edu/~bruce/fall_2016_cs_116a_lecture_creating_mouse_driven_menus.html
