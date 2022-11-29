@@ -44,6 +44,7 @@ Light::Light(float ambient, float diffuse, float specular)
 	// Assign an ID
 	if (nextID > 7) Fatal(999, "Ran out of lights\n");
 	id = IDs[nextID];
+	// printf("Creating light number %d, ID = %d\n", nextID, id);
 	nextID++;
 
 	// Setup the light

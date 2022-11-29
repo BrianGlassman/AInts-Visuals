@@ -64,9 +64,9 @@ static void init(int argc, char* argv[])
 
 	// Lighting
 	initLighting();
-	Light ambient(0.9, 0, 0);
+	Light ambient(0.2, 0, 0);
 	// OrbitLight orbiter(0, 0.45, 0.7);
-	OrbitLight orbiter(0, 0.0, 0);
+	OrbitLight orbiter(0, 0.4, 0);
 	orbiter.radius = baseMag * 1.2;
 	orbiterPtr = &orbiter;
 
@@ -402,7 +402,7 @@ void display()
 		BindTexture("dirtF");
 	}
 
-	if (false)
+	if (true)
 		displayModelPtr->Draw();
 	else
 		Cube(0,0,0,1,1,1,0);
@@ -534,9 +534,9 @@ int main(int argc, char* argv[])
 	float zero[] = {0, 0, 0}; // FIXME not sure why the 1-param ApplyNoise isn't getting inherited
 
 	// Create the scene to be displayed
-	Globals::sceneChoice = Scene::tunnel;
+	Globals::sceneChoice = Scene::colony;
 
-	// PopulateColony(colony);
+	PopulateColony(colony);
 	if (useNoise) colony.ApplyNoise(zero);
 
 	// forward : 1
@@ -548,10 +548,10 @@ int main(int argc, char* argv[])
 	tunnel.AddTunnel(0, 0, 0, 21); // Tunnel
 	if (useNoise) tunnel.ApplyNoise(zero);
 
-	// chamber.AddChamber(0, 0, 0, 21); // Chamber
+	chamber.AddChamber(0, 0, 0, 21); // Chamber
 	if (useNoise) chamber.ApplyNoise(zero);
 
-	// PopulateTunnels(allTunnels);
+	PopulateTunnels(allTunnels);
 	if (useNoise) allTunnels.ApplyNoise(zero);
 
 	init(argc, argv);
@@ -559,6 +559,9 @@ int main(int argc, char* argv[])
 	SetCallbacks();
 
 	Menus::CreateMenus();
+
+	// shader = CreateShaderProg("pixtex.vert", "pixtex.frag");
+	shader = CreateShaderProg("model.vert", "brick.frag");
 
 	currentStructure = tunnel.getChild(0);
 	currentCLidx = 0;
