@@ -563,8 +563,8 @@ int main(int argc, char* argv[])
 
 	Menus::CreateMenus();
 
-	// shader = CreateShaderProg("pixtex.vert", "pixtex.frag");
-	shader = CreateShaderProg("model.vert", "brick.frag");
+	shader = CreateShaderProg("pixtex.vert", "pixtex.frag");
+	// shader = CreateShaderProg("model.vert", "brick.frag");
 
 	currentStructure = tunnel.getChild(0);
 	currentCLidx = 0;
