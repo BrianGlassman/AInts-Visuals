@@ -23,7 +23,12 @@ public:
     void RotateZ(float theta);
 
     float Magnitude();
-    void Normalize();
+    void Normalize(); // Normalizes in-place
+    Vector3 Normalized(); // Returns the normalized version
+
+    Vector3 Hadamard(Vector3 right); // Element-wise product (i.e. dot product without summing)
+    float Dot(Vector3 right);
+    Vector3 Cross(Vector3 right);
 
     // Operators
     float& operator[](int index);

@@ -77,6 +77,36 @@ void Vector3::Normalize()
     z /= mag;
 }
 
+Vector3 Vector3::Normalized()
+{
+    Vector3 ans({x, y, z});
+    ans.Normalize();
+    return ans;
+}
+
+Vector3 Vector3::Hadamard(Vector3 right)
+{
+    Vector3 ans;
+    ans.x = x * right.x;
+    ans.y = y * right.y;
+    ans.z = z * right.z;
+    return ans;
+}
+float Vector3::Dot(Vector3 right)
+{
+    auto hadamard = Hadamard(right);
+    return hadamard.x + hadamard.y + hadamard.z;
+}
+
+Vector3 Vector3::Cross(Vector3 right)
+{
+    Vector3 ans;
+    ans.x = y * right.z - z * right.y;
+    ans.y = -(x * right.z - z * right.x);
+    ans.z = x * right.y - y * right.x;
+    return ans;
+}
+
 std::vector<int> Vector3Int::asStdVec()
 {
     return std::vector<int> ({x, y, z});

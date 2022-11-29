@@ -47,11 +47,7 @@ void fpsMove(Vector3 goalMotion)
 		auto&& direction = directions[i];
 		auto&& neighbor = neighbors[i];
 
-		Vector3 motion; 
-		motion.x = direction.x * goalMotion.x;
-		motion.y = direction.y * goalMotion.y;
-		motion.z = direction.z * goalMotion.z;
-		float dotMag = motion.x + motion.y + motion.z;
+		float dotMag = direction.Dot(goalMotion);
 		// printf("%f towards %d, ", dotMag, neighbor.idx);
 		if (dotMag > bestMag)
 		{
