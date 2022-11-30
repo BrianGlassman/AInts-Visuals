@@ -2,8 +2,9 @@
 
 #include "CSCIx229.h"
 #include "util.hpp" // Model class and DrawAxes
+#include "Colony.hpp"
 
-extern Model* displayModelPtr;
+extern Colony* displayModelPtr;
 
 void preDisplay();
 void postDisplay(float scale);

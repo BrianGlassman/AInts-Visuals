@@ -27,7 +27,7 @@
 // Shaders
 #include "Shaders.hpp"
 
-Model* displayModelPtr;
+Colony* displayModelPtr;
 Colony colony;
 Colony tunnel;
 Colony chamber;
@@ -37,8 +37,8 @@ Noise* noisePtr;
 
 OrbitLight* orbiterPtr;
 
-// FIXME temp hack
-Structure* currentStructure;
+// Tracks which vertex the interior view is at
+Colony* currentStructure;
 int currentCLidx;
 
 static void init(int argc, char* argv[])
@@ -383,9 +383,36 @@ int main(int argc, char* argv[])
 		allTunnels.Create();
 	}
 
+	// Initialize displayModelPtr
+	switch(Globals::sceneChoice)
+	{
+	case Scene::colony:
+	{
+		displayModelPtr = &colony;
+		break;
+	}
+	case Scene::tunnel:
+	{
+		displayModelPtr = &tunnel;
+		break;
+	}
+	case Scene::chamber:
+	{
+		displayModelPtr = &chamber;
+		break;
+	}
+	case Scene::allTunnels:
+	{
+		displayModelPtr = &allTunnels;
+		break;
+	}
+	default:
+		Fatal(999, "Unknown scene %d\n", Globals::sceneChoice);
+	}
+
 	init(argc, argv);
 
-	currentStructure = tunnel.getChild(0);
+	currentStructure = displayModelPtr;
 	currentCLidx = 0;
 	auto& CL = *(currentStructure->getCL());
 	Globals::InteriorView::eyePos = CL[currentCLidx].coords;

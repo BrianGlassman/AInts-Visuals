@@ -2,11 +2,12 @@
 
 #include "CSCIx229.h"
 
-#include "Structure.hpp" // FIXME for temp only
+#include "util.hpp" // FIXME for temp only
+#include "Colony.hpp"
 
 void SetInputCallbacks();
 
 // FIXME this is super temp and hacky
-extern Structure* currentStructure;
+extern Colony* currentStructure;
 extern int currentCLidx;
 void PrintMoveOptions();

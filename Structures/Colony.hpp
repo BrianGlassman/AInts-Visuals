@@ -31,18 +31,15 @@ public:
     void AddHill(Vector3 center);
     void AddHill(float x, float y, float z);
 
-    // FIXME part of temp motion model (colony-centric version)
+    // FIXME part of temp motion model
     std::vector<Vertex>* getCL();
-
-    // FIXME only needed for temp motion model (cell-centric version)
-    Structure* getChild(int i) { return children[i].get(); }
 
     // FIXME this should not be public, but was needed for setting SIdx of endpoints
     std::vector<std::shared_ptr<Structure>> children;
 private:
     void AddStructure(std::shared_ptr<Structure> structPtr, Vector3 center);
 
-    // FIXME part of temp motion model (colony-centric version)
+    // FIXME part of temp motion model
     std::vector<Vertex> baseCenterline;
     std::vector<Vertex> centerline;
 };

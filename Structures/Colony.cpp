@@ -21,7 +21,7 @@ std::vector<Vertex>* Colony::getCL()
 
 void Colony::Create()
 {
-    // FIXME this overload is only needed for temp motion model (colony-centric version)
+    // FIXME this overload is only needed for temp motion model
 
     PreCreate();
 

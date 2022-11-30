@@ -6,6 +6,7 @@
 
 #include "Noise.hpp" // Noise class for ApplyNoise
 #include "Vector.hpp"
+#include "Vertex.hpp" // FIXME only needed for temp things
 
 #define ORIGIN 0.0, 0.0, 0.0
 #define X_AXIS 1.0, 0.0, 0.0
@@ -27,6 +28,9 @@ public:
 	int type;
 	
 	Vector3 center = {0.0f, 0.0f, 0.0f};
+
+	// FIXME should find a way to get rid of this
+	std::vector<Vertex>* getCL() { Fatal(999, "Called Model's getCL\n"); return NULL; }
 
 	virtual void PreCreate();
     virtual void Create();
