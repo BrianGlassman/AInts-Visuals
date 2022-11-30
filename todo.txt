@@ -1,4 +1,4 @@
-COLONY CENTERLINE IS ONLY FOR PERTURBED GEOMETRY RIGHT NOW
+eye position doesn't follow when noise is toggled
 
 resizing the window in Interior view very much does not work
 

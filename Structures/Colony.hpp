@@ -40,6 +40,7 @@ private:
     void AddStructure(std::shared_ptr<Structure> structPtr, Vector3 center);
 
     // FIXME part of temp motion model
+    void CenterlineHelper(std::vector<Vertex>& dstCL, bool usePerturbed);
     std::vector<Vertex> baseCenterline;
     std::vector<Vertex> centerline;
     std::vector<int> offsets; // Offset value to convert from cell-local CL index to Colony CL index. Order matches children

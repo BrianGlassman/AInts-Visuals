@@ -52,10 +52,10 @@ void LinkEndpoints(std::vector<std::shared_ptr<Structure>>& children, std::vecto
     }
 }
 
-void MergeCoincident(std::vector<Vertex>& centerline, bool debug = false)
+void MergeCoincident(std::vector<Vertex>& dstCL, bool debug = false)
 {
     std::vector<int> coincident; // Coincident indices within CL
-    for (auto& v0 : centerline)
+    for (auto& v0 : dstCL)
     {
         auto& v0_CLidx = v0.idx;
         coincident.clear();
@@ -65,7 +65,7 @@ void MergeCoincident(std::vector<Vertex>& centerline, bool debug = false)
         {
             int v1_CLidx = v0.neighbors[v0_nIdx]; // The neighbor's index within the CL
             if (v1_CLidx < v0_CLidx) continue; // Skip lower-indexed neighbors, already processed
-            auto& v1 = centerline[v1_CLidx];
+            auto& v1 = dstCL[v1_CLidx];
             if (abs(v0.x() - v1.x()) < 1e-6 &&
                 abs(v0.y() - v1.y()) < 1e-6 &&
                 abs(v0.z() - v1.z()) < 1e-6)
@@ -82,12 +82,12 @@ void MergeCoincident(std::vector<Vertex>& centerline, bool debug = false)
             v0.RemoveNeighbor(v1_CLidx, debug);
 
             // ...relink all of v1's links to be v0's links
-            for (auto& v2_CLidx : centerline[v1_CLidx].neighbors)
+            for (auto& v2_CLidx : dstCL[v1_CLidx].neighbors)
             {
                 // Skip v0
                 if (v2_CLidx == v0_CLidx) continue;
 
-                auto& v2 = centerline[v2_CLidx];
+                auto& v2 = dstCL[v2_CLidx];
                 v0.AddNeighbor(v2_CLidx, debug);
                 v2.ReplaceNeighbor(v1_CLidx, v0_CLidx, debug);
             }
@@ -95,23 +95,29 @@ void MergeCoincident(std::vector<Vertex>& centerline, bool debug = false)
     }
 }
 
-void Colony::Create()
+void Colony::CenterlineHelper(std::vector<Vertex>& dstCL, bool usePerturbed)
 {
-    // FIXME this overload is only needed for temp motion model
-
-    PreCreate();
-
     // Copy child centerlines to self
     int idxOffset = 0;
     for (auto&& child : children)
     {
         offsets.push_back(idxOffset);
 
+        std::vector<Vertex>* srcCL;
+        if (usePerturbed)
+        {
+            srcCL = child->getPerturbedCL();
+        }
+        else
+        {
+            srcCL = child->getBaseCL();
+        }
+
         auto& center = child->center;
         // Create the points
-        for (auto&& src : *(child->getPerturbedCL()))
+        for (auto&& src : *(srcCL))
         {
-            int index = centerline.size();
+            int index = dstCL.size();
             Vertex dst(index);
             float worldX = src.x() + center.x;
             float worldY = src.y() + center.y;
@@ -122,32 +128,42 @@ void Colony::Create()
             dst.coords.z = worldZ;
             // printf("%d: %f, %f, %f\n", index, dst.x(), dst.y(), dst.z());
 
-            centerline.push_back(dst);
+            dstCL.push_back(dst);
         }
 
         // Link, once all points have been created
-        for (auto&& childVert : *(child->getPerturbedCL()))
+        for (auto&& childVert : *(srcCL))
         {
             int cIdx = childVert.idx + idxOffset;
             for (auto&& neighbor : childVert.neighbors)
             {
                 int nIdx = neighbor + idxOffset;
-                centerline[cIdx].AddNeighbor(nIdx);
+                dstCL[cIdx].AddNeighbor(nIdx);
                 // Don't need to do the reciprocal, will be caught when processing the neighbor vertex
             }
         }
 
-        idxOffset += child->getPerturbedCL()->size();
+        idxOffset += srcCL->size();
     }
 
     // Link endpoints from adjacent children
     for (int i = 0; i <= 5; i++)
     {
-        LinkEndpoints(children, offsets, centerline, i);
+        LinkEndpoints(children, offsets, dstCL, i);
     }
 
     // Merge coincident points now that all creation and linking is done
-    MergeCoincident(centerline);
+    MergeCoincident(dstCL);
+}
+
+void Colony::Create()
+{
+    // FIXME this overload is only needed for temp motion model
+
+    PreCreate();
+
+    CenterlineHelper(centerline, true);
+    CenterlineHelper(baseCenterline, false);
 
     PostCreate();
 }
