@@ -6,12 +6,15 @@
 #include "CSCIx229.h"
 #include "util.hpp" // Model class
 #include "Structure.hpp"
+#include "Vertex.hpp"
 
 class Colony : public Model
 {
 public:
     Colony();
+    virtual void Create();
     void ApplyNoise(float offset[]);
+    void DrawCenterlines();
     void Draw();
     void AddTunnel(Vector3 center);
     // FIXME temporary convenience until auto-generating is implemented
@@ -28,8 +31,16 @@ public:
     void AddHill(Vector3 center);
     void AddHill(float x, float y, float z);
 
+    // FIXME part of temp motion model (colony-centric version)
+    std::vector<Vertex>* getCL();
+
+    // FIXME only needed for temp motion model (cell-centric version)
     Structure* getChild(int i) { return children[i].get(); }
 private:
     std::vector<std::shared_ptr<Structure>> children;
     void AddStructure(std::shared_ptr<Structure> structPtr, Vector3 center);
+
+    // FIXME part of temp motion model (colony-centric version)
+    std::vector<Vertex> baseCenterline;
+    std::vector<Vertex> centerline;
 };

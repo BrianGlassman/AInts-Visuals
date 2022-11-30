@@ -5,6 +5,9 @@ movement in interior view should follow centerlines
 idea: implementing a dictionary in Colony would make jumping between neighboring cells easier
 
 
+something wrong with Makefile again. Was getting a bad_alloc that got fixed by clean-then-make
+
+
 
 
 

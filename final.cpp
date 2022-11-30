@@ -65,7 +65,7 @@ static void init(int argc, char* argv[])
 
 	// Lighting
 	initLighting();
-	Light ambient(0.2, 0, 0);
+	Light ambient(0.5, 0, 0);
 	// OrbitLight orbiter(0, 0.45, 0.7);
 	OrbitLight orbiter(0, 0.4, 0);
 	orbiter.radius = baseMag * 1.2;
@@ -344,10 +344,14 @@ int main(int argc, char* argv[])
 	float zero[] = {0, 0, 0}; // FIXME not sure why the 1-param ApplyNoise isn't getting inherited
 
 	// Create the scene to be displayed
-	Globals::sceneChoice = Scene::colony;
+	Globals::sceneChoice = Scene::tunnel;
 
-	PopulateColony(colony);
-	if (useNoise) colony.ApplyNoise(zero);
+	if (false)
+	{
+		PopulateColony(colony);
+		if (useNoise) colony.ApplyNoise(zero);
+		colony.Create();
+	}
 
 	// forward : 1
 	//    back : 2
@@ -355,14 +359,27 @@ int main(int argc, char* argv[])
 	//  bottom : 8
 	//   right : 16
 	//    left : 32
-	tunnel.AddTunnel(0, 0, 0, 21); // Tunnel
-	if (useNoise) tunnel.ApplyNoise(zero);
+	if (true)
+	{
+		tunnel.AddTunnel(0, 0, 0, 16); // Tunnel
+		tunnel.AddTunnel(1, 0, 0, 32);
+		if (useNoise) tunnel.ApplyNoise(zero);
+		tunnel.Create();
+	}
 
-	chamber.AddChamber(0, 0, 0, 21); // Chamber
-	if (useNoise) chamber.ApplyNoise(zero);
+	if (false)
+	{
+		chamber.AddChamber(0, 0, 0, 21); // Chamber
+		if (useNoise) chamber.ApplyNoise(zero);
+		chamber.Create();
+	}
 
-	PopulateTunnels(allTunnels);
-	if (useNoise) allTunnels.ApplyNoise(zero);
+	if (false)
+	{
+		PopulateTunnels(allTunnels);
+		if (useNoise) allTunnels.ApplyNoise(zero);
+		allTunnels.Create();
+	}
 
 	init(argc, argv);
 
