@@ -9,8 +9,6 @@ something wrong with Makefile again. Was getting a bad_alloc that got fixed by c
 
 
 
-add something to exterior view that shows where the interior view is located
-
 [thanksgiving] random noise perturbations
 
 [thanksgiving] buildings and other ants

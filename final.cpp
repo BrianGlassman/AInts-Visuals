@@ -355,6 +355,7 @@ void display()
 {
 	preDisplay();
 
+	// Change scenes if needed
 	switch(Globals::sceneChoice)
 	{
 	case Scene::colony:
@@ -385,8 +386,7 @@ void display()
 		Fatal(999, "Unknown scene %d\n", Globals::sceneChoice);
 	}
 
-	// FIXME this should probably not be in display
-	orbiterPtr->UpdatePosition();
+	orbiterPtr->UpdatePosition(); // FIXME this should probably not be in display
 	orbiterPtr->Draw();
 
 	if (true)
@@ -400,6 +400,25 @@ void display()
 	UseShader(Shader::fixedPipeline);
 
 	if (Toggles::Noise::showPVectors) noisePtr->DrawNoise();
+
+	// In exterior view, draw an indicator of where the interior view is
+	if (Globals::viewMode == ViewMode::EXTERIOR)
+	{
+		PushShader(0);
+		glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_LIGHTING);
+		glPointSize(20);
+		glColor3f(1, 0, 0);
+
+		auto& eyePos = Globals::InteriorView::eyePos;
+		glBegin(GL_POINTS); glVertex3f(eyePos.x, eyePos.y, eyePos.z); glEnd();
+
+		glColor3f(1, 1, 1);
+		glPopAttrib();
+		PopShader();
+	}
 
 	ErrCheck("display");
 
