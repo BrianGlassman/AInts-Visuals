@@ -23,6 +23,8 @@ public:
 	bool forward = true; // +Z
 	bool    back = true; // -Z
 
+    std::vector<Vertex>* getPerturbedCL();
+    std::vector<Vertex>* getBaseCL();
     std::vector<Vertex>* getCL();
 protected:
     std::vector<Vertex> baseCenterline;

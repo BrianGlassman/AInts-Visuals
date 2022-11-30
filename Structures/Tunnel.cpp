@@ -255,7 +255,5 @@ void Tunnel::Draw()
 		{
 			corner.Draw();
 		}
-
-		if(Toggles::showCenterlines) DrawCenterlines();
 	} glPopMatrix();
 }

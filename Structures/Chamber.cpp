@@ -377,8 +377,6 @@ void Chamber::Draw()
 				glColor4f(1, 1, 1, 1);
 			}
 		}
-
-		if(Toggles::showCenterlines) DrawCenterlines();
 	} glPopMatrix();
 
 	if (Toggles::debug) glPopAttrib();

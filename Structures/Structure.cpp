@@ -21,12 +21,20 @@ void Structure::PreCreate()
 	baseCenterline.clear();
 }
 
+std::vector<Vertex>* Structure::getPerturbedCL()
+{
+	return &centerline;
+}
+std::vector<Vertex>* Structure::getBaseCL()
+{
+	return &baseCenterline;
+}
 std::vector<Vertex>* Structure::getCL()
 {
 	if (Toggles::Noise::showPerturbed)
-		return &centerline;
+		return getPerturbedCL();
 	else
-		return &baseCenterline;
+		return getBaseCL();
 }
 
 void Structure::DrawCenterlines()
