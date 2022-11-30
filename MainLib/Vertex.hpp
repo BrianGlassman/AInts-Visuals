@@ -21,6 +21,33 @@ public:
     void AddNeighbor(int neighbor, bool debug = false)
     {
         neighbors.push_back(neighbor);
-        if (debug) printf("linking %d to %d\n", idx, neighbor);
+        // TODO check for duplicate links
+        // if (debug) printf("linking %d to %d\n", idx, neighbor);
+    }
+    void RemoveNeighbor(int neighborToRemove, bool debug = false)
+    {
+        for (unsigned int i = 0; i < neighbors.size(); i++)
+        {
+            if (neighbors[i] == neighborToRemove)
+            {
+                if (debug) printf("Removing %d\n", neighborToRemove);
+                neighbors.erase(neighbors.begin() + i);
+                return;
+            }
+        }
+        Fatal(999, "Trying to remove neighbor that doesn't exist\n");
+    }
+    void ReplaceNeighbor(int oldN, int newN, bool debug = false)
+    {
+        for (unsigned int i = 0; i < neighbors.size(); i++)
+        {
+            if (neighbors[i] == oldN)
+            {
+                if (debug) printf("Replacing %d with %d\n", oldN, newN);
+                neighbors[i] = newN;
+                return;
+            }
+        }
+        Fatal(999, "Trying to replace neighbor (%d) that doesn't exist\n", oldN);
     }
 };
