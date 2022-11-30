@@ -23,6 +23,14 @@ public:
 	bool forward = true; // +Z
 	bool    back = true; // -Z
 
+    // Index of the vertex that is the endpoint in that direction
+	int   endpointRight = -1; // +X
+	int    endpointLeft = -1; // -X
+	int     endpointTop = -1; // +Y
+	int  endpointBottom = -1; // -Y
+	int endpointForward = -1; // +Z
+	int    endpointBack = -1; // -Z
+
     std::vector<Vertex>* getPerturbedCL();
     std::vector<Vertex>* getBaseCL();
     std::vector<Vertex>* getCL();

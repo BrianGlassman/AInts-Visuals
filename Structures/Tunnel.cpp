@@ -140,12 +140,38 @@ void Tunnel::Create()
 	// Create centerlines
 	centerline.push_back(Vertex(0));
 	baseCenterline.push_back(Vertex(0));
-	if (right)   CreateCenterline(0, false);
-	if (left)    CreateCenterline(0,  true);
-	if (top)     CreateCenterline(1, false);
-	if (bottom)  CreateCenterline(1,  true);
-	if (forward) CreateCenterline(2, false);
-	if (back)    CreateCenterline(2,  true);
+	if (right)
+	{
+		CreateCenterline(0, false);
+		endpointRight = centerline.size() - 1;
+		printf("%d\n", endpointRight);
+	}
+	if (left)
+	{
+		CreateCenterline(0,  true);
+		endpointLeft = centerline.size() - 1;
+		printf("%d\n", endpointLeft);
+	}
+	if (top)
+	{
+		CreateCenterline(1, false);
+		endpointTop = centerline.size() - 1;
+	}
+	if (bottom)
+	{
+		CreateCenterline(1,  true);
+		endpointBottom = centerline.size() - 1;
+	}
+	if (forward)
+	{
+		CreateCenterline(2, false);
+		endpointForward = centerline.size() - 1;
+	}
+	if (back)
+	{
+		CreateCenterline(2,  true);
+		endpointBack = centerline.size() - 1;
+	}
 
 	ErrCheck("Tunnel::Create\n");
 
