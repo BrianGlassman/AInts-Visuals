@@ -43,7 +43,7 @@ void LinkEndpoints(std::vector<std::shared_ptr<Structure>>& children, std::vecto
         auto dstEnd = dstChild->GetEndpoint(dstEPidx);
         // printf("src Vidx %d, src SIdx %d, dst VIdx %d, dst SIdx %d\n", srcEnd[0], srcEnd[1], dstEnd[0], dstEnd[1]);
         if (dstEnd[0] == -1) continue;
-        if (dstEnd[1] == -1) Fatal(999, "Destination VIdx set but not SIdx\n");
+        if (dstEnd[1] == -1) Fatal(999, "Destination (%d) VIdx (%d) set but not SIdx. dstEPidx = %d\n", dstSIdx, dstEnd[0], dstEPidx);
         int dstIdx = dstEnd[0];
 
         int offset;

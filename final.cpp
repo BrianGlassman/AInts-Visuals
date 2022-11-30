@@ -96,16 +96,16 @@ void PopulateColony(Colony& colony)
 {
 	float tunnelCoords[][3] = {
 		// Base layer
-		{0, 0, 0},
-		{0, 0, 1},
-		{0, 0, 2},
-		{1, 0, 2},
+		{0, 0, 0}, // 0
+		{0, 0, 1}, // 1
+		{0, 0, 2}, // 2
+		{1, 0, 2}, // 3
 
 		// Up shaft
-		{0, 1, 0},
-		{0, 2, 0},
-		{0, 3, 0},
-		{-1, 3, 0},
+		{0, 1, 0}, // 4
+		{0, 2, 0}, // 5
+		{0, 3, 0}, // 6
+		{-1, 3, 0}, // 7
 	};
 
 	unsigned char f = 1;
@@ -124,33 +124,33 @@ void PopulateColony(Colony& colony)
 		u+d,
 		u+d+r,
 		d+l,
-		u+r,
+		r, // FIXME should be u+r,
 	};
 
 	float chamberCoords[][3] = {
 		// Individual chambers
-		{-1, 0, 0},
-		{1, 2, 0},
-		{0, -1, 2},
+		{-1, 0, 0}, // 8
+		{1, 2, 0},  // 9
+		{0, -1, 2}, // 10
 
 		// Grouped chambers
-		{1, 0, 0},
-		{2, 0, 0},
-		{1, 0, 1},
-		{2, 0, 1},
+		{1, 0, 0}, // 11
+		{2, 0, 0}, // 12
+		{1, 0, 1}, // 13
+		{2, 0, 1}, // 14
 	};
 
 	unsigned char chamberCon[] = {
 		// Individual chambers
-		r,
-		l,
-		u,
+		r, // 8
+		l, // 9
+		u, // 10
 
 		// Grouped chambers
-		r+l+f,
-		l+f,
-		r+l+f+b,
-		l+b,
+		r+l+f, // 11
+		l+f, // 12
+		r+l+f+b, // 13
+		l+b, // 14
 	};
 
 	for (int i = 0; i < 8; i++)
@@ -162,7 +162,77 @@ void PopulateColony(Colony& colony)
 		colony.AddChamber(chamberCoords[i], chamberCon[i]);
 	}
 
-	colony.AddHill(-1, 4, 0);
+
+	// FIXME don't do this manually
+	{// --- TUNNELS ---
+	// 0
+	colony.children[0]->endpointForward[1] = 1;
+	colony.children[0]->endpointRight[1] = 11;
+	colony.children[0]->endpointLeft[1] = 8;
+	colony.children[0]->endpointTop[1] = 4;
+
+	// 1
+	colony.children[1]->endpointForward[1] = 2;
+	colony.children[1]->endpointBack[1] = 0;
+	colony.children[1]->endpointRight[1] = 13;
+
+	// 2
+	colony.children[2]->endpointBack[1] = 1;
+	colony.children[2]->endpointRight[1] = 3;
+	colony.children[2]->endpointBottom[1] = 10;
+
+	// 3
+	colony.children[3]->endpointBack[1] = 13;
+	colony.children[3]->endpointLeft[1] = 2;
+
+	// 4
+	colony.children[4]->endpointTop[1] = 5;
+	colony.children[4]->endpointBottom[1] = 0;
+
+	// 5
+	colony.children[5]->endpointTop[1] = 6;
+	colony.children[5]->endpointBottom[1] = 4;
+	colony.children[5]->endpointRight[1] = 9;
+
+	// 6
+	colony.children[6]->endpointBottom[1] = 5;
+	colony.children[6]->endpointLeft[1] = 7;
+
+	// 7
+	// FIXME  colony.children[7]->endpointTop[1] = 15;
+	colony.children[7]->endpointRight[1] = 6;
+	}
+
+	// --- CHAMBERS ---
+	// 8
+	colony.children[8]->endpointRight[1] = 0;
+
+	// 9
+	colony.children[9]->endpointLeft[1] = 5;
+
+	// 10
+	colony.children[10]->endpointTop[1] = 2;
+
+	// 11
+	colony.children[11]->endpointRight[1] = 12;
+	colony.children[11]->endpointLeft[1] = 0;
+	colony.children[11]->endpointForward[1] = 13;
+
+	// 12
+	colony.children[12]->endpointLeft[1] = 11;
+	colony.children[12]->endpointForward[1] = 14;
+
+	// 13
+	colony.children[13]->endpointRight[1] = 14;
+	colony.children[13]->endpointLeft[1] = 1;
+	colony.children[13]->endpointForward[1] = 3;
+	colony.children[13]->endpointBack[1] = 11;
+
+	// 14
+	colony.children[14]->endpointLeft[1] = 13;
+	colony.children[14]->endpointBack[1] = 12;
+
+	// colony.AddHill(-1, 4, 0); // 15
 
 	colony.center[1] = -1;
 }
@@ -344,9 +414,9 @@ int main(int argc, char* argv[])
 	float zero[] = {0, 0, 0}; // FIXME not sure why the 1-param ApplyNoise isn't getting inherited
 
 	// Create the scene to be displayed
-	Globals::sceneChoice = Scene::chamber;
+	Globals::sceneChoice = Scene::colony;
 
-	if (false)
+	if (true)
 	{
 		PopulateColony(colony);
 		if (useNoise) colony.ApplyNoise(zero);
@@ -359,7 +429,7 @@ int main(int argc, char* argv[])
 	//  bottom : 8
 	//   right : 16
 	//    left : 32
-	if (false)
+	if (true)
 	{
 		tunnel.AddTunnel(0, 0, 0, 32); // Tunnel
 		tunnel.children[0]->endpointLeft[1] = 1;
@@ -379,7 +449,7 @@ int main(int argc, char* argv[])
 		chamber.Create();
 	}
 
-	if (false)
+	if (false) // FIXME CL breaks because the connections are wrong (i.e. forced)
 	{
 		PopulateTunnels(allTunnels);
 		if (useNoise) allTunnels.ApplyNoise(zero);
