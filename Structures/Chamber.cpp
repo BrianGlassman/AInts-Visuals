@@ -173,24 +173,25 @@ void Chamber::CreateCLHelper(std::vector<Vertex> &CLtoUse, int axis, bool flip)
 {
 	// FIXME should match arm panelling exactly, then handle core differently
 
-	int panels = round(0.5 / tunnelRadius);
-	float d = (0.5) / panels;
+	int panels = round(0.5 / tunnelRadius); // <-- different from Tunnel
+	float d = (0.5) / panels; // <-- different from Tunnel
 
 	int lastIdx = 0;
 	int currentIdx;
-	float x = tunnelRadius; // <-- only bit that's different from Tunnel
+	float x = tunnelRadius; // <-- different from Tunnel
 	for (int i = 0; i < panels; i++)
 	{
-		// Create and insert
+		// Create
 		currentIdx = CLtoUse.size();
 		Vertex vert(currentIdx);
 		vert.coords[axis] = (flip ? -1 : 1) * x;
-		CLtoUse.push_back(vert);
-		// printf("%d: %f, %f, %f\n", currentIdx, vert.x(), vert.y(), vert.z());
 
 		// Link
 		CLtoUse[lastIdx].AddNeighbor(currentIdx);
 		vert.AddNeighbor(lastIdx);
+
+		// Insert (MUST be after creation and linking)
+		CLtoUse.push_back(vert);
 
 		x += d;
 		lastIdx = currentIdx;
@@ -230,12 +231,36 @@ void Chamber::Create()
 	// Create centerlines
 	centerline.push_back(Vertex(0));
 	baseCenterline.push_back(Vertex(0));
-	if (right)   CreateCenterline(0, false);
-	if (left)    CreateCenterline(0,  true);
-	if (top)     CreateCenterline(1, false);
-	if (bottom)  CreateCenterline(1,  true);
-	if (forward) CreateCenterline(2, false);
-	if (back)    CreateCenterline(2,  true);
+	if (right)
+	{
+		CreateCenterline(0, false);
+		endpointRight[0] = centerline.size() - 1;
+	}
+	if (left)
+	{
+		CreateCenterline(0,  true);
+		endpointLeft[0] = centerline.size() - 1;
+	}
+	if (top)
+	{
+		CreateCenterline(1, false);
+		endpointTop[0] = centerline.size() - 1;
+	}
+	if (bottom)
+	{
+		CreateCenterline(1,  true);
+		endpointBottom[0] = centerline.size() - 1;
+	}
+	if (forward)
+	{
+		CreateCenterline(2, false);
+		endpointForward[0] = centerline.size() - 1;
+	}
+	if (back)
+	{
+		CreateCenterline(2,  true);
+		endpointBack[0] = centerline.size() - 1;
+	}
 
 	ErrCheck("Chamber::Create\n");
 

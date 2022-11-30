@@ -30,7 +30,7 @@ void LinkEndpoints(std::vector<std::shared_ptr<Structure>>& children, std::vecto
         auto& srcChild = children[srcSIdx];
         auto srcEnd = srcChild->GetEndpoint(srcEPidx);
         if (srcEnd[0] == -1) continue;
-        if (srcEnd[1] == -1) Fatal(999, "Source VIdx set but not SIdx\n");
+        if (srcEnd[1] == -1) Fatal(999, "Source (%d) VIdx (%d) set but not SIdx. srcEPidx = %d\n", srcSIdx, srcEnd[0], srcEPidx);
         int srcIdx = srcEnd[0];
 
         // Source/Destination endpoints are on opposing sides

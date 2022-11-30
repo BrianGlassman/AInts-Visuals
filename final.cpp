@@ -335,7 +335,7 @@ void display()
 
 int main(int argc, char* argv[])
 {
-	Perlin noise;
+	Perlin noise(1669792348);
 	noisePtr = &noise;
 
 	bool useNoise = true;
@@ -344,7 +344,7 @@ int main(int argc, char* argv[])
 	float zero[] = {0, 0, 0}; // FIXME not sure why the 1-param ApplyNoise isn't getting inherited
 
 	// Create the scene to be displayed
-	Globals::sceneChoice = Scene::tunnel;
+	Globals::sceneChoice = Scene::chamber;
 
 	if (false)
 	{
@@ -359,7 +359,7 @@ int main(int argc, char* argv[])
 	//  bottom : 8
 	//   right : 16
 	//    left : 32
-	if (true)
+	if (false)
 	{
 		tunnel.AddTunnel(0, 0, 0, 32); // Tunnel
 		tunnel.children[0]->endpointLeft[1] = 1;
@@ -369,9 +369,12 @@ int main(int argc, char* argv[])
 		tunnel.Create();
 	}
 
-	if (false)
+	if (true)
 	{
-		chamber.AddChamber(0, 0, 0, 21); // Chamber
+		chamber.AddChamber(0, 0, 0, 4); // Chamber
+		chamber.children[0]->endpointTop[1] = 1;
+		chamber.AddChamber(0, 1, 0, 8);
+		chamber.children[1]->endpointBottom[1] = 0;
 		if (useNoise) chamber.ApplyNoise(zero);
 		chamber.Create();
 	}
