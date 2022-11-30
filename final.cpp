@@ -386,6 +386,10 @@ void display()
 		Fatal(999, "Unknown scene %d\n", Globals::sceneChoice);
 	}
 
+	// Make sure that eyePos updates with any scene or geometry changes
+	auto& CL = *(currentStructure->getCL());
+	Globals::InteriorView::eyePos = CL[currentCLidx].coords;
+
 	orbiterPtr->UpdatePosition(); // FIXME this should probably not be in display
 	orbiterPtr->Draw();
 
@@ -509,8 +513,6 @@ int main(int argc, char* argv[])
 
 	currentStructure = displayModelPtr;
 	currentCLidx = 0;
-	auto& CL = *(currentStructure->getCL());
-	Globals::InteriorView::eyePos = CL[currentCLidx].coords;
 
 	// Run display and reshape to zoom to fit
 	display();

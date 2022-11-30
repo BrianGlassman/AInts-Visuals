@@ -1,5 +1,3 @@
-eye position doesn't follow when noise is toggled
-
 resizing the window in Interior view very much does not work
 
 track eye position separately for each scene
