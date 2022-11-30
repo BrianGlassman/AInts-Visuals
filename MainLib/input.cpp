@@ -122,12 +122,23 @@ void fpsKey(unsigned char k)
 void key(unsigned char k, int x, int y)
 {
 	switch (k) {
-	/*
 	// Meta keys
 	case 'm':
 	case 'M':
-		viewMode += 1;
+		if (Globals::viewMode == ViewMode::INTERIOR)
+		{ // Change to exterior
+			Globals::viewMode = ViewMode::EXTERIOR;
+			glCullFace(GL_BACK);
+			Project();
+		}
+		else
+		{ // Change to interior
+			Globals::viewMode = ViewMode::INTERIOR;
+			glCullFace(GL_FRONT);
+			Project();
+		}
 		break;
+	/*
 	case 'l':
 	case 'L':
 		lightMode = 1 - lightMode;

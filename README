@@ -11,6 +11,7 @@ CSCI 5229 (graduate)
 		 ii. Right clicking opens a menu to change the view and or access various debug options (detailed below)
 		iii. "[" and "]" will cycle through the available scenes: A full colony (the main, default scene), a pair of chambers, and a pair of tunnels
 		 iv. "\" will go back to the full colony scene
+		  v. "m" will cycle between interior and exterior views
 	B. Exterior view
 		  i. Moving the mouse towards the edges of the window will rotate the camera around the origin
 		 ii. The red square shows where the eye position for the interior view is located
@@ -31,7 +32,7 @@ CSCI 5229 (graduate)
 		 ii. Show/hide axes
 		iii. Show/hide normal vectors
 		 iv. Show/hide centerline nodes
-		iiv. Console printout to debug movement from interior view
+		  v. Console printout to debug movement from interior view
 
 TODO:
 	buildings and ants

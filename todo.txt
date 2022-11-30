@@ -5,6 +5,7 @@ track eye position separately for each scene
 
 
 
+perspective view looks weird, like it's fish-eyed or something
 
 something wrong with Makefile again. Was getting a bad_alloc that got fixed by clean-then-make
 
