@@ -22,7 +22,7 @@ public:
     {
         neighbors.push_back(neighbor);
         // TODO check for duplicate links
-        // if (debug) printf("linking %d to %d\n", idx, neighbor);
+        if (debug) printf("linking %d to %d\n", idx, neighbor);
     }
     void RemoveNeighbor(int neighborToRemove, bool debug = false)
     {
