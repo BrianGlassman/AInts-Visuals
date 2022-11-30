@@ -144,13 +144,11 @@ void Tunnel::Create()
 	{
 		CreateCenterline(0, false);
 		endpointRight[0] = centerline.size() - 1;
-		printf("%d\n", endpointRight[0]);
 	}
 	if (left)
 	{
 		CreateCenterline(0,  true);
 		endpointLeft[0] = centerline.size() - 1;
-		printf("%d\n", endpointLeft[0]);
 	}
 	if (top)
 	{
