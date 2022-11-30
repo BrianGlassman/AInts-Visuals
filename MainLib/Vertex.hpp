@@ -18,9 +18,9 @@ public:
     float y() { return coords.y; }
     float z() { return coords.z; }
 
-    void AddNeighbor(int neighbor)
+    void AddNeighbor(int neighbor, bool debug = false)
     {
         neighbors.push_back(neighbor);
-        // printf("linking %d to %d\n", idx, neighbor);
+        if (debug) printf("linking %d to %d\n", idx, neighbor);
     }
 };
