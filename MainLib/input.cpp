@@ -48,20 +48,20 @@ void fpsMove(Vector3 goalMotion)
 		auto&& neighbor = neighbors[i];
 
 		float dotMag = direction.Dot(goalMotion);
-		// printf("%f towards %d, ", dotMag, neighbor.idx);
+		if (Toggles::printMove) printf("%f towards %d, ", dotMag, neighbor.idx);
 		if (dotMag > bestMag)
 		{
 			bestMag = dotMag;
 			bestNew = neighbor.idx;
 		}
 	}
-	// printf("\n");
+	if (Toggles::printMove) printf("\n");
 
 	// Move to the chosen vertex
 	currentCLidx = bestNew;
 	Globals::InteriorView::eyePos = (*currentStructure->getCL())[bestNew].coords;
 
-	// PrintMoveOptions();
+	if (Toggles::printMove) PrintMoveOptions();
 }
 void fpsKey(unsigned char k)
 {

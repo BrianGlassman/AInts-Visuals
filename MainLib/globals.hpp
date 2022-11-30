@@ -24,6 +24,8 @@ namespace Toggles
     extern bool debug;
 
     extern bool showCenterlines;
+
+    extern bool printMove;
 }
 
 //--------

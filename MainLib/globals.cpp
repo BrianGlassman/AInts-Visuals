@@ -15,6 +15,7 @@ bool Toggles::Noise::showBase = false;
 bool Toggles::showNormals = false;
 bool Toggles::debug = false;
 bool Toggles::showCenterlines = true;
+bool Toggles::printMove = false;
 
 //--------
 // Values
