@@ -47,14 +47,14 @@ void Colony::Create()
             centerline.push_back(dst);
         }
         // Link, once all points have been created
-        for (auto&& src : *(child->getPerturbedCL()))
+        for (auto&& childVert : *(child->getPerturbedCL()))
         {
-            int index = src.idx + idxOffset;
-            auto& dst = centerline[index];
-            for (auto&& neighbor : src.neighbors)
+            int cIdx = childVert.idx + idxOffset;
+            for (auto&& neighbor : childVert.neighbors)
             {
-                dst.AddNeighbor(neighbor + idxOffset);
-                centerline[neighbor + idxOffset].AddNeighbor(index);
+                int nIdx = neighbor + idxOffset;
+                centerline[cIdx].AddNeighbor(nIdx);
+                // Don't need to do the reciprocal, will be caught when processing the neighbor vertex
             }
         }
 
@@ -62,7 +62,7 @@ void Colony::Create()
     }
 
     // Link endpoints from adjacent children
-    int srcOffset = 0, dstOffset = 5; // FIXME don't hard-code
+    int srcOffset = 0, dstOffset = 6; // FIXME don't hard-code
     for (unsigned int srcSIdx = 0; srcSIdx < children.size(); srcSIdx++)
     {
         auto& srcChild = children[srcSIdx];
