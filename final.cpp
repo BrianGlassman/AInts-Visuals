@@ -153,13 +153,18 @@ void PopulateColony(Colony& colony)
 		l+b, // 14
 	};
 
+	Vector3 coords;
 	for (int i = 0; i < 8; i++)
 	{
-		colony.AddTunnel(tunnelCoords[i], tunnelCon[i]);
+		coords = tunnelCoords[i];
+		coords.y -= 1;
+		colony.AddTunnel(coords, tunnelCon[i]);
 	}
 	for (int i = 0; i < 7; i++)
 	{
-		colony.AddChamber(chamberCoords[i], chamberCon[i]);
+		coords = chamberCoords[i];
+		coords.y -= 1;
+		colony.AddChamber(coords, chamberCon[i]);
 	}
 
 
@@ -233,8 +238,6 @@ void PopulateColony(Colony& colony)
 	colony.children[14]->endpointBack[1] = 12;
 
 	// colony.AddHill(-1, 4, 0); // 15
-
-	colony.center[1] = -1;
 }
 
 void PopulateTunnels(Colony& colony)
