@@ -34,19 +34,10 @@ CSCI 5229 (graduate)
 		 iv. Show/hide centerline nodes
 		  v. Console printout to debug movement from interior view
 
-TODO:
-	buildings and ants
-	shader menu
-	texture weird axis
-	refine texture/material/lighting
-	Interactivity to place and delete buildings
-	cutaways in exterior view
-	normals need to account for perturbations
-	
-	
-DISABLE FOR RELEASE
-	the lighting stuff that's not implemented right now
-	gizmos > debug
+4. Remaining work
+	A. Adding buildings and ants to the environment. I originally planned to allow a cutaway in the exterior view to see inside the chambers and buildings, but this is turning out to be very challenging. I will probably drop the cutaway to be able to implement buildings.
+	B. Refinements on the texture and lighting. The current texture method can't handle geometry that is mostly parallel to the Z axis. I also want to improve the lighting overall, particularly in the interior view.
+	C. A menu to allow deleting and placing tunnels, chambers, and buildings.
 
 
 
