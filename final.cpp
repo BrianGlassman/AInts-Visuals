@@ -362,7 +362,9 @@ int main(int argc, char* argv[])
 	if (true)
 	{
 		tunnel.AddTunnel(0, 0, 0, 16); // Tunnel
+		tunnel.children[0]->endpointRight[1] = 1;
 		tunnel.AddTunnel(1, 0, 0, 32);
+		tunnel.children[1]->endpointLeft[1] = 0;
 		if (useNoise) tunnel.ApplyNoise(zero);
 		tunnel.Create();
 	}

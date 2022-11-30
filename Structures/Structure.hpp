@@ -24,12 +24,13 @@ public:
 	bool    back = true; // -Z
 
     // Index of the vertex that is the endpoint in that direction
-	int   endpointRight = -1; // +X
-	int    endpointLeft = -1; // -X
-	int     endpointTop = -1; // +Y
-	int  endpointBottom = -1; // -Y
-	int endpointForward = -1; // +Z
-	int    endpointBack = -1; // -Z
+    // {vertex index within this Structure, index of neighboring Structure within the parent}
+	int   endpointRight[2] = {-1, -1}; // +X
+	int    endpointLeft[2] = {-1, -1}; // -X
+	int     endpointTop[2] = {-1, -1}; // +Y
+	int  endpointBottom[2] = {-1, -1}; // -Y
+	int endpointForward[2] = {-1, -1}; // +Z
+	int    endpointBack[2] = {-1, -1}; // -Z
 
     std::vector<Vertex>* getPerturbedCL();
     std::vector<Vertex>* getBaseCL();

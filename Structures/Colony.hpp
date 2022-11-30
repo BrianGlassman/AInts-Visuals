@@ -36,8 +36,10 @@ public:
 
     // FIXME only needed for temp motion model (cell-centric version)
     Structure* getChild(int i) { return children[i].get(); }
-private:
+
+    // FIXME this should not be public, but was needed for setting SIdx of endpoints
     std::vector<std::shared_ptr<Structure>> children;
+private:
     void AddStructure(std::shared_ptr<Structure> structPtr, Vector3 center);
 
     // FIXME part of temp motion model (colony-centric version)

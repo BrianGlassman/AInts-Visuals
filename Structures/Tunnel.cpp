@@ -143,34 +143,34 @@ void Tunnel::Create()
 	if (right)
 	{
 		CreateCenterline(0, false);
-		endpointRight = centerline.size() - 1;
-		printf("%d\n", endpointRight);
+		endpointRight[0] = centerline.size() - 1;
+		printf("%d\n", endpointRight[0]);
 	}
 	if (left)
 	{
 		CreateCenterline(0,  true);
-		endpointLeft = centerline.size() - 1;
-		printf("%d\n", endpointLeft);
+		endpointLeft[0] = centerline.size() - 1;
+		printf("%d\n", endpointLeft[0]);
 	}
 	if (top)
 	{
 		CreateCenterline(1, false);
-		endpointTop = centerline.size() - 1;
+		endpointTop[0] = centerline.size() - 1;
 	}
 	if (bottom)
 	{
 		CreateCenterline(1,  true);
-		endpointBottom = centerline.size() - 1;
+		endpointBottom[0] = centerline.size() - 1;
 	}
 	if (forward)
 	{
 		CreateCenterline(2, false);
-		endpointForward = centerline.size() - 1;
+		endpointForward[0] = centerline.size() - 1;
 	}
 	if (back)
 	{
 		CreateCenterline(2,  true);
-		endpointBack = centerline.size() - 1;
+		endpointBack[0] = centerline.size() - 1;
 	}
 
 	ErrCheck("Tunnel::Create\n");

@@ -62,16 +62,25 @@ void Colony::Create()
     }
 
     // Link endpoints from adjacent children
-    auto& srcChild = children[0];
-    auto& dstChild = children[1];
-    auto& src = srcChild->endpointRight;
-    auto& dst = dstChild->endpointLeft;
-    int offset = srcChild->getPerturbedCL()->size();
-    printf("%d, %d, %d\n", src, dst, offset);
-    centerline[src].AddNeighbor(dst+offset);
-    centerline[dst+offset].AddNeighbor(src);
+    int srcOffset = 0, dstOffset = 5; // FIXME don't hard-code
+    for (unsigned int srcSIdx = 0; srcSIdx < children.size(); srcSIdx++)
+    {
+        auto& srcChild = children[srcSIdx];
+        auto& srcEnd = srcChild->endpointRight;
+        if (srcEnd[0] == -1) continue;
+        if (srcEnd[1] == -1) Fatal(999, "Source VIdx set but not SIdx\n");
+        int srcIdx = srcEnd[0];
 
-    // printf("%lu, %lu\n", centerline.size(), baseCenterline.size());
+        auto& dstChild = children[srcEnd[1]];
+        auto& dstEnd = dstChild->endpointLeft;
+        if (dstEnd[0] == -1) continue;
+        if (dstEnd[1] == -1) Fatal(999, "Destination VIdx set but not SIdx\n");
+        int dstIdx = dstEnd[0];
+
+        int offset;
+        centerline[srcIdx + srcOffset].AddNeighbor(dstIdx + dstOffset);
+        centerline[dstIdx + dstOffset].AddNeighbor(srcIdx + srcOffset);
+    }
 
     PostCreate();
 }
