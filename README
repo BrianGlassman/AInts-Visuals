@@ -34,7 +34,13 @@ CSCI 5229 (graduate)
 		iiv. Console printout to debug movement from interior view
 
 TODO:
+	buildings and ants
 	shader menu
+	texture weird axis
+	refine texture/material/lighting
+	Interactivity to place and delete buildings
+	cutaways in exterior view
+	normals need to account for perturbations
 	
 	
 DISABLE FOR RELEASE
