@@ -106,8 +106,6 @@ void Colony::Create()
         // For each coincident point found...
         for (auto& v1_CLidx : coincident)
         {
-            printf("v1_CLidx = %d\n", v1_CLidx);
-
             // ...remove v0's link to it...
             v0.RemoveNeighbor(v1_CLidx);
 
@@ -117,8 +115,6 @@ void Colony::Create()
                 // Skip v0
                 if (v2_CLidx == v0_CLidx) continue;
 
-                printf("v2_CLidx = %d\n", v2_CLidx);
-                
                 auto& v2 = centerline[v2_CLidx];
                 v0.AddNeighbor(v2_CLidx);
                 v2.ReplaceNeighbor(v1_CLidx, v0_CLidx);
