@@ -1,4 +1,10 @@
+COLONY CENTERLINE IS ONLY FOR PERTURBED GEOMETRY RIGHT NOW
+
 resizing the window in Interior view very much does not work
+
+track eye position separately for each scene
+
+Normals are shown with the shader
 
 
 
