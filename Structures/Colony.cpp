@@ -82,6 +82,50 @@ void Colony::Create()
         centerline[dstIdx + dstOffset].AddNeighbor(srcIdx + srcOffset);
     }
 
+    // Merge coincident points now that all creation and linking is done
+    std::vector<int> coincident; // Coincident indices within CL
+    for (auto& v0 : centerline)
+    {
+        auto& v0_CLidx = v0.idx;
+        coincident.clear();
+
+        // Check the neighbors of v0
+        for (unsigned int v0_nIdx = 0; v0_nIdx < v0.neighbors.size(); v0_nIdx++)
+        {
+            int v1_CLidx = v0.neighbors[v0_nIdx]; // The neighbor's index within the CL
+            auto& v1 = centerline[v1_CLidx];
+            if (v0.x() == v1.x() &&
+                v0.y() == v1.y() &&
+                v0.z() == v1.z())
+            {
+                // Coincident point found
+                coincident.push_back(v1_CLidx);
+            }
+        }
+
+        // For each coincident point found...
+        for (auto& v1_CLidx : coincident)
+        {
+            printf("v1_CLidx = %d\n", v1_CLidx);
+
+            // ...remove v0's link to it...
+            v0.RemoveNeighbor(v1_CLidx);
+
+            // ...relink all of v1's links to be v0's links
+            for (auto& v2_CLidx : centerline[v1_CLidx].neighbors)
+            {
+                // Skip v0
+                if (v2_CLidx == v0_CLidx) continue;
+
+                printf("v2_CLidx = %d\n", v2_CLidx);
+                
+                auto& v2 = centerline[v2_CLidx];
+                v0.AddNeighbor(v2_CLidx);
+                v2.ReplaceNeighbor(v1_CLidx, v0_CLidx);
+            }
+        }
+    }
+
     PostCreate();
 }
 
