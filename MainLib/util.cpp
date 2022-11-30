@@ -1,5 +1,6 @@
 #include "util.hpp"
 #include "globals.hpp"
+#include "Shaders.hpp"
 
 /*
  *  Convert polar to Cartesian coordinates
@@ -156,6 +157,7 @@ void Model::ApplyNoise(float offset[])
 void Model::DrawNormals(float scale)
 {
 	glColor3f(1, 0, 0);
+	PushShader(0);
 	glPushAttrib(GL_ENABLE_BIT); glDisable(GL_LIGHTING); glDisable(GL_TEXTURE_2D);
 	
 	glPushMatrix(); {
@@ -173,6 +175,7 @@ void Model::DrawNormals(float scale)
 	} glPopMatrix();
 	glPopAttrib();
 	glColor3f(1, 1, 1);
+	PopShader();
 }
 
 void Model::Draw()
