@@ -22,7 +22,7 @@ public:
     {
         neighbors.push_back(neighbor);
         // TODO check for duplicate links
-        if (debug) printf("linking %d to %d\n", idx, neighbor);
+        if (debug) printf("Linking %d to %d\n", idx, neighbor);
     }
     void RemoveNeighbor(int neighborToRemove, bool debug = false)
     {
@@ -30,7 +30,7 @@ public:
         {
             if (neighbors[i] == neighborToRemove)
             {
-                if (debug) printf("Removing %d\n", neighborToRemove);
+                if (debug) printf("In %d: Removing %d\n", idx, neighborToRemove);
                 neighbors.erase(neighbors.begin() + i);
                 return;
             }
@@ -43,7 +43,7 @@ public:
         {
             if (neighbors[i] == oldN)
             {
-                if (debug) printf("Replacing %d with %d\n", oldN, newN);
+                if (debug) printf("In %d: Replacing %d with %d\n", idx, oldN, newN);
                 neighbors[i] = newN;
                 return;
             }
