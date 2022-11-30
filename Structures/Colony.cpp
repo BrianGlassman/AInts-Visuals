@@ -19,6 +19,82 @@ std::vector<Vertex>* Colony::getCL()
 		return &baseCenterline;
 }
 
+
+void LinkEndpoints(std::vector<std::shared_ptr<Structure>>& children, std::vector<int>& offsets, std::vector<Vertex>& dstCL, int srcEPidx)
+{
+    int srcOffset, dstOffset;
+
+    for (unsigned int srcSIdx = 0; srcSIdx < children.size(); srcSIdx++)
+    {
+        srcOffset = offsets[srcSIdx];
+        auto& srcChild = children[srcSIdx];
+        auto srcEnd = srcChild->GetEndpoint(srcEPidx);
+        if (srcEnd[0] == -1) continue;
+        if (srcEnd[1] == -1) Fatal(999, "Source VIdx set but not SIdx\n");
+        int srcIdx = srcEnd[0];
+
+        // Source/Destination endpoints are on opposing sides
+        int dstEPidx = (srcEPidx % 2 == 0) ? srcEPidx + 1 : srcEPidx - 1;
+        // printf("src side = %d, dst side = %d\n", srcEPidx, dstEPidx);
+
+        int dstSIdx = srcEnd[1];
+        dstOffset = offsets[dstSIdx];
+        auto& dstChild = children[dstSIdx];
+        auto dstEnd = dstChild->GetEndpoint(dstEPidx);
+        // printf("src Vidx %d, src SIdx %d, dst VIdx %d, dst SIdx %d\n", srcEnd[0], srcEnd[1], dstEnd[0], dstEnd[1]);
+        if (dstEnd[0] == -1) continue;
+        if (dstEnd[1] == -1) Fatal(999, "Destination VIdx set but not SIdx\n");
+        int dstIdx = dstEnd[0];
+
+        int offset;
+        dstCL[srcIdx + srcOffset].AddNeighbor(dstIdx + dstOffset);
+        // Don't need to do the reciprocal, will be caught when processing the opposite direction
+    }
+}
+
+void MergeCoincident(std::vector<Vertex>& centerline)
+{
+    std::vector<int> coincident; // Coincident indices within CL
+    for (auto& v0 : centerline)
+    {
+        auto& v0_CLidx = v0.idx;
+        coincident.clear();
+
+        // Check the neighbors of v0
+        for (unsigned int v0_nIdx = 0; v0_nIdx < v0.neighbors.size(); v0_nIdx++)
+        {
+            int v1_CLidx = v0.neighbors[v0_nIdx]; // The neighbor's index within the CL
+            if (v1_CLidx < v0_CLidx) continue; // Skip lower-indexed neighbors, already processed
+            auto& v1 = centerline[v1_CLidx];
+            if (v0.x() == v1.x() &&
+                v0.y() == v1.y() &&
+                v0.z() == v1.z())
+            {
+                // Coincident point found
+                coincident.push_back(v1_CLidx);
+            }
+        }
+
+        // For each coincident point found...
+        for (auto& v1_CLidx : coincident)
+        {
+            // ...remove v0's link to it... (will be replaced later)
+            v0.RemoveNeighbor(v1_CLidx, false);
+
+            // ...relink all of v1's links to be v0's links
+            for (auto& v2_CLidx : centerline[v1_CLidx].neighbors)
+            {
+                // Skip v0
+                if (v2_CLidx == v0_CLidx) continue;
+
+                auto& v2 = centerline[v2_CLidx];
+                v0.AddNeighbor(v2_CLidx, false);
+                v2.ReplaceNeighbor(v1_CLidx, v0_CLidx, false);
+            }
+        }
+    }
+}
+
 void Colony::Create()
 {
     // FIXME this overload is only needed for temp motion model
@@ -29,6 +105,8 @@ void Colony::Create()
     int idxOffset = 0;
     for (auto&& child : children)
     {
+        offsets.push_back(idxOffset);
+
         auto& center = child->center;
         // Create the points
         for (auto&& src : *(child->getPerturbedCL()))
@@ -46,6 +124,7 @@ void Colony::Create()
 
             centerline.push_back(dst);
         }
+
         // Link, once all points have been created
         for (auto&& childVert : *(child->getPerturbedCL()))
         {
@@ -62,65 +141,13 @@ void Colony::Create()
     }
 
     // Link endpoints from adjacent children
-    int srcOffset = 0, dstOffset = 6; // FIXME don't hard-code
-    for (unsigned int srcSIdx = 0; srcSIdx < children.size(); srcSIdx++)
+    for (int i = 0; i <= 5; i++)
     {
-        auto& srcChild = children[srcSIdx];
-        auto& srcEnd = srcChild->endpointRight;
-        if (srcEnd[0] == -1) continue;
-        if (srcEnd[1] == -1) Fatal(999, "Source VIdx set but not SIdx\n");
-        int srcIdx = srcEnd[0];
-
-        auto& dstChild = children[srcEnd[1]];
-        auto& dstEnd = dstChild->endpointLeft;
-        if (dstEnd[0] == -1) continue;
-        if (dstEnd[1] == -1) Fatal(999, "Destination VIdx set but not SIdx\n");
-        int dstIdx = dstEnd[0];
-
-        int offset;
-        centerline[srcIdx + srcOffset].AddNeighbor(dstIdx + dstOffset);
-        centerline[dstIdx + dstOffset].AddNeighbor(srcIdx + srcOffset);
+        LinkEndpoints(children, offsets, centerline, i);
     }
 
     // Merge coincident points now that all creation and linking is done
-    std::vector<int> coincident; // Coincident indices within CL
-    for (auto& v0 : centerline)
-    {
-        auto& v0_CLidx = v0.idx;
-        coincident.clear();
-
-        // Check the neighbors of v0
-        for (unsigned int v0_nIdx = 0; v0_nIdx < v0.neighbors.size(); v0_nIdx++)
-        {
-            int v1_CLidx = v0.neighbors[v0_nIdx]; // The neighbor's index within the CL
-            auto& v1 = centerline[v1_CLidx];
-            if (v0.x() == v1.x() &&
-                v0.y() == v1.y() &&
-                v0.z() == v1.z())
-            {
-                // Coincident point found
-                coincident.push_back(v1_CLidx);
-            }
-        }
-
-        // For each coincident point found...
-        for (auto& v1_CLidx : coincident)
-        {
-            // ...remove v0's link to it...
-            v0.RemoveNeighbor(v1_CLidx);
-
-            // ...relink all of v1's links to be v0's links
-            for (auto& v2_CLidx : centerline[v1_CLidx].neighbors)
-            {
-                // Skip v0
-                if (v2_CLidx == v0_CLidx) continue;
-
-                auto& v2 = centerline[v2_CLidx];
-                v0.AddNeighbor(v2_CLidx);
-                v2.ReplaceNeighbor(v1_CLidx, v0_CLidx);
-            }
-        }
-    }
+    MergeCoincident(centerline);
 
     PostCreate();
 }

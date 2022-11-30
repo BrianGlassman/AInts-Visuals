@@ -42,4 +42,5 @@ private:
     // FIXME part of temp motion model
     std::vector<Vertex> baseCenterline;
     std::vector<Vertex> centerline;
+    std::vector<int> offsets; // Offset value to convert from cell-local CL index to Colony CL index. Order matches children
 };

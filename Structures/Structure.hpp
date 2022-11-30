@@ -31,6 +31,27 @@ public:
 	int  endpointBottom[2] = {-1, -1}; // -Y
 	int endpointForward[2] = {-1, -1}; // +Z
 	int    endpointBack[2] = {-1, -1}; // -Z
+    int* GetEndpoint(int EPidx)
+    {
+        switch (EPidx)
+        {
+        case 0:
+            return endpointRight;
+        case 1:
+            return endpointLeft;
+        case 2:
+            return endpointTop;
+        case 3:
+            return endpointBottom;
+        case 4:
+            return endpointForward;
+        case 5:
+            return endpointBack;
+        default:
+            Fatal(999, "Invalid endpoint index %d\n", EPidx);
+            return NULL;
+        }
+    }
 
     std::vector<Vertex>* getPerturbedCL();
     std::vector<Vertex>* getBaseCL();
