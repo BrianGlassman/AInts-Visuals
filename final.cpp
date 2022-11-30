@@ -31,7 +31,7 @@ Colony* displayModelPtr;
 Colony colony;
 Colony tunnel;
 Colony chamber;
-Colony allTunnels;
+// Colony allTunnels;
 
 Noise* noisePtr;
 
@@ -376,12 +376,12 @@ void display()
 		displayModelPtr = &chamber;
 		break;
 	}
-	case Scene::allTunnels:
-	{
-		baseMag = 4;
-		displayModelPtr = &allTunnels;
-		break;
-	}
+	// case Scene::allTunnels:
+	// {
+	// 	baseMag = 4;
+	// 	displayModelPtr = &allTunnels;
+	// 	break;
+	// }
 	default:
 		Fatal(999, "Unknown scene %d\n", Globals::sceneChoice);
 	}
@@ -471,12 +471,12 @@ int main(int argc, char* argv[])
 		chamber.Create();
 	}
 
-	if (false) // FIXME CL breaks because the connections are wrong (i.e. forced)
-	{
-		PopulateTunnels(allTunnels);
-		if (useNoise) allTunnels.ApplyNoise(zero);
-		allTunnels.Create();
-	}
+	// if (false) // FIXME CL breaks because the connections are wrong (i.e. forced)
+	// {
+	// 	PopulateTunnels(allTunnels);
+	// 	if (useNoise) allTunnels.ApplyNoise(zero);
+	// 	allTunnels.Create();
+	// }
 
 	// Initialize displayModelPtr
 	switch(Globals::sceneChoice)
@@ -496,11 +496,11 @@ int main(int argc, char* argv[])
 		displayModelPtr = &chamber;
 		break;
 	}
-	case Scene::allTunnels:
-	{
-		displayModelPtr = &allTunnels;
-		break;
-	}
+	// case Scene::allTunnels:
+	// {
+	// 	displayModelPtr = &allTunnels;
+	// 	break;
+	// }
 	default:
 		Fatal(999, "Unknown scene %d\n", Globals::sceneChoice);
 	}
