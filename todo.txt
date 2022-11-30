@@ -1,5 +1,3 @@
-resizing the window in Interior view very much does not work
-
 track eye position separately for each scene
 
 
@@ -14,11 +12,8 @@ Normals don't account for perturbations
 
 
 
-[thanksgiving] random noise perturbations
 
 [thanksgiving] buildings and other ants
-
-[thanksgiving] exterior and interior views, with movement controls
 
 chamber uses a different noiseScale than tunnel, so there's a chance for cross-over
 
@@ -71,14 +66,20 @@ have a player option in exterior view for switching between back-cull (exterior)
 
 HOPEFULLY DONE
 ---------------
-Hopefully this has been fixed by using "float azimuth = 0, elevation = 0" instead of "float azimuth, elevation" but need to keep an eye on it
-					about 1/3 of the time the light doesn't show up at all. WTF????
-						in some scenes it's at the wrong Y value, may or may not be related
+about 1/3 of the time the light doesn't show up at all. WTF????
+	in some scenes it's at the wrong Y value, may or may not be related
+					Hopefully this has been fixed by using "float azimuth = 0, elevation = 0" instead of "float azimuth, elevation" but need to keep an eye on it
 						
 seed = 1669398889 the side-tunnel just below the Hill gets smushed
 					fixed by implementing a Bezier curve fade, although this is still a good condition to test with
+					
+resizing the window in Interior view very much does not work
+					Might have been fixed by resetting the eyePos to match the CL node in Display? Not sure
 
 DONE
 ----------------
 [initial] predefined layout
 [initial] placeholder textures and lighting
+
+[thanksgiving] exterior and interior views, with movement controls
+[thanksgiving] random noise perturbations
