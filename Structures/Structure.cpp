@@ -61,7 +61,8 @@ void Structure::DrawCenterlines()
 	while (frontier.size() > 0)
 	{
 		// Pop the next point to look at
-		auto currentIdx = (frontier.extract(frontier.begin())).value();
+		auto currentIdx = *frontier.begin();
+		frontier.erase(frontier.begin());
 		auto current = CLtoUse[currentIdx];
 		// printf("Current has %lu neighbors\n", current.neighbors.size());
 
