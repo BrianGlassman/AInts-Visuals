@@ -6,8 +6,6 @@ idea: implementing a dictionary in Colony would make jumping between neighboring
 
 resizing the window in Interior view very much does not work
 
-1669792348 gets stuck between the two chambers
-
 
 
 

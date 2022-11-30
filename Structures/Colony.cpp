@@ -52,7 +52,7 @@ void LinkEndpoints(std::vector<std::shared_ptr<Structure>>& children, std::vecto
     }
 }
 
-void MergeCoincident(std::vector<Vertex>& centerline)
+void MergeCoincident(std::vector<Vertex>& centerline, bool debug = false)
 {
     std::vector<int> coincident; // Coincident indices within CL
     for (auto& v0 : centerline)
@@ -66,9 +66,9 @@ void MergeCoincident(std::vector<Vertex>& centerline)
             int v1_CLidx = v0.neighbors[v0_nIdx]; // The neighbor's index within the CL
             if (v1_CLidx < v0_CLidx) continue; // Skip lower-indexed neighbors, already processed
             auto& v1 = centerline[v1_CLidx];
-            if (v0.x() == v1.x() &&
-                v0.y() == v1.y() &&
-                v0.z() == v1.z())
+            if (abs(v0.x() - v1.x()) < 1e-6 &&
+                abs(v0.y() - v1.y()) < 1e-6 &&
+                abs(v0.z() - v1.z()) < 1e-6)
             {
                 // Coincident point found
                 coincident.push_back(v1_CLidx);
@@ -79,7 +79,7 @@ void MergeCoincident(std::vector<Vertex>& centerline)
         for (auto& v1_CLidx : coincident)
         {
             // ...remove v0's link to it... (will be replaced later)
-            v0.RemoveNeighbor(v1_CLidx, false);
+            v0.RemoveNeighbor(v1_CLidx, debug);
 
             // ...relink all of v1's links to be v0's links
             for (auto& v2_CLidx : centerline[v1_CLidx].neighbors)
@@ -88,8 +88,8 @@ void MergeCoincident(std::vector<Vertex>& centerline)
                 if (v2_CLidx == v0_CLidx) continue;
 
                 auto& v2 = centerline[v2_CLidx];
-                v0.AddNeighbor(v2_CLidx, false);
-                v2.ReplaceNeighbor(v1_CLidx, v0_CLidx, false);
+                v0.AddNeighbor(v2_CLidx, debug);
+                v2.ReplaceNeighbor(v1_CLidx, v0_CLidx, debug);
             }
         }
     }
