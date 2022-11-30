@@ -113,21 +113,18 @@ namespace Callbacks{ void Gizmos(int val)
     switch(val)
     {
     case 0:
-        Toggles::debug = !Toggles::debug;
-        break;
-    case 1:
         ToggleWireframe();
         break;
-    case 2:
+    case 1:
         ToggleAxes();
         break;
-    case 3:
+    case 2:
         Toggles::showNormals = !Toggles::showNormals;
         break;
-    case 4:
+    case 3:
         Toggles::showCenterlines = !Toggles::showCenterlines;
         break;
-    case 5:
+    case 4:
         Toggles::printMove = !Toggles::printMove;
         break;
     default:
@@ -137,7 +134,7 @@ namespace Callbacks{ void Gizmos(int val)
 GizmosMenu::GizmosMenu()
 {
     name = "Gizmos";
-    buttons = { "Toggle Debug", "Toggle Wireframe", "Toggle Axes", "Toggle Normals",
+    buttons = { "Toggle Wireframe", "Toggle Axes", "Toggle Normals",
                 "Toggle Centerlines", "Toggle Movement Printout" };
     callback = Callbacks::Gizmos;
 };
@@ -150,17 +147,7 @@ namespace Callbacks{ void Light(int val)
     switch(val)
     {
     case 0:
-        // FIXME toggle ambient
-        break;
-    case 1:
-        // FIXME toggle direct
-        break;
-    case 2:
         Toggles::Light::lightOrbiting = !Toggles::Light::lightOrbiting;
-        break;
-    case 3:
-        Toggles::Light::smooth = !Toggles::Light::smooth;
-        glShadeModel(Toggles::Light::smooth ? GL_SMOOTH : GL_FLAT);
         break;
     default:
         Fatal(999, "Unknown val %d to Light callback\n");
@@ -169,7 +156,7 @@ namespace Callbacks{ void Light(int val)
 LightMenu::LightMenu()
 {
     name = "Lighting";
-    buttons = { "Toggle ambient light", "Toggle directed light", "Toggle auto/manual orbit", "Toggle Smooth/Flat" };
+    buttons = { "Toggle auto/manual orbit" };
     callback = Callbacks::Light;
 };
 
