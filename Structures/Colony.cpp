@@ -9,6 +9,8 @@
 Colony::Colony()
 {
     type = 4;
+
+    // Specifically do not call Create() so that it can be called after populating
 }
 
 std::vector<Vertex>* Colony::getCL()

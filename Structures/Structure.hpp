@@ -53,6 +53,8 @@ public:
         }
     }
 
+    virtual void ApplyNoise(float offset[]);
+
     std::vector<Vertex>* getPerturbedCL();
     std::vector<Vertex>* getBaseCL();
     std::vector<Vertex>* getCL();

@@ -21,6 +21,26 @@ void Structure::PreCreate()
 	baseCenterline.clear();
 }
 
+void Structure::ApplyNoise(float offset[])
+{
+	// Call parent version to apply to the vertices
+	Model::ApplyNoise(offset);
+
+	// Apply to the centerline
+	for (unsigned int i = 0; i < baseCenterline.size(); i++)
+	{
+		float x = baseCenterline[i].x() + center.x + offset[0];
+		float y = baseCenterline[i].y() + center.y + offset[1];
+		float z = baseCenterline[i].z() + center.z + offset[2];
+
+		auto p = noisePtr->getNoise(x, y, z);
+
+		centerline[i].coords.x = baseCenterline[i].x() + p[0]*noiseScale;
+		centerline[i].coords.y = baseCenterline[i].y() + p[1]*noiseScale;
+		centerline[i].coords.z = baseCenterline[i].z() + p[2]*noiseScale;
+	}
+}
+
 std::vector<Vertex>* Structure::getPerturbedCL()
 {
 	return &centerline;

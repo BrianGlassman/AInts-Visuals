@@ -1,5 +1,8 @@
 track eye position separately for each scene
 
+should add a check "glGetIntegervl(GL_MAX_TEXTURE_UNITS, n)" where n is however many textures I need to use
+	there's also a check for max texture size
+	basically just look at whatever example he's going through about 50 minutes into class on 12/1
 
 
 
@@ -19,6 +22,7 @@ Normals don't account for perturbations
 		IMPORTANT NOTE: stencil buffer is complicated, so should rewatch this lecture if I end up using stencil buffer
 	could maybe do something involving setting the stencil buffer per-chamber, and clear it at the start of the next chamber
 	also might be able to set VALUES in the stencil buffer. So only draw if the Z-buffer value is greater/less than the value stored in the stencil buffer
+	could also do some trick using textures? See example whatever-was-second-half-of-12/1
 
 chamber uses a different noiseScale than tunnel, so there's a chance for cross-over
 
