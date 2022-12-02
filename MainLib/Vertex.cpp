@@ -3,8 +3,13 @@
 
 void Vertex::AddNeighbor(int neighbor, bool debug)
 {
+    // Check for duplicate links
+    for (auto&& n : neighbors)
+    {
+        if (n == neighbor) Fatal(999, "Trying to add neighbor (%d) that already exists\n", neighbor);
+    }
+
     neighbors.push_back(neighbor);
-    // TODO check for duplicate links
     if (debug) printf("Linking %d to %d\n", idx, neighbor);
 }
 
