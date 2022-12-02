@@ -47,9 +47,13 @@ void HandleMousePosition()
 		view_roty += 10 * Globals::mouse_x * fabs(Globals::mouse_x);
 		view_rotx += 10 * Globals::mouse_y * fabs(Globals::mouse_y);
 		
-		// Wrap-around
+		// Wrap-around horizontal
 		view_roty = fmodf(view_roty, 360.0);
-		view_rotx = fmodf(view_rotx, 360.0);
+
+		// Clamp vertical
+		if (view_rotx > 89.9) view_rotx = 89.9;
+		if (view_rotx < -89.9) view_rotx = -89.9;
+		// printf("view_rotx = %f\n", view_rotx);
 	}
 }
 
