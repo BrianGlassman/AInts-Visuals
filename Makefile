@@ -47,7 +47,6 @@ endif
 #--------------
 # Dependencies
 #--------------
-final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h MainLib.a Structures.a Noise.a 
 
 #--- CSCIx229 ---
 fatal.o: $(CLIBDIR)/fatal.c $(CLIBDIR)/CSCIx229.h
@@ -148,8 +147,10 @@ Shaders.a: Shaders.o
 #-----------
 #  Targets
 #-----------
-# Link
-final: final.o CSCIx229.a MainLib.a Structures.a Noise.a Menus.a Shaders.a
+# Link (and final.o dependency to keep them together)
+final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h MainLib.a Structures.a Noise.a Menus.a Shaders.a
+# FIXME I have no clue why Vertex.o needs to be here, but apparently it does
+final:               final.o            CSCIx229.a MainLib.a Structures.a Noise.a Menus.a Shaders.a Vertex.o
 	g++ -o $@ $^ $(CFLAGS) $(LIBS) $(INCLUDE)
 
 noise: $(NOISDIR)/main.cpp Noise.a CSCIx229.a MainLib.a
