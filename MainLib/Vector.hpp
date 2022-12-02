@@ -2,6 +2,7 @@
 
 #include <initializer_list>
 #include <vector>
+#include <cmath>
 
 // Ref for using initializer list: https://en.cppreference.com/w/cpp/utility/initializer_list
 // Ref for [] overloading: https://www.geeksforgeeks.org/overloading-subscript-or-array-index-operator-in-c/
