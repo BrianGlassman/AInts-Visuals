@@ -7,35 +7,7 @@
 #include <stdarg.h>
 #include <math.h>
 
-// MainLib
 #include "final.hpp"
-#include "globals.hpp"
-#include "input.hpp"
-#include "lighting.hpp"
-#include "textures.hpp"
-
-// Structures
-#include "Colony.hpp"
-
-// Noise
-#include "Noise.hpp"
-#include "Perlin.hpp"
-
-// Menus
-#include "Menus.hpp"
-
-// Shaders
-#include "Shaders.hpp"
-
-Colony* displayModelPtr;
-Colony colony;
-Colony tunnel;
-Colony chamber;
-// Colony allTunnels;
-
-Noise* noisePtr;
-
-OrbitLight* orbiterPtr;
 
 // Tracks which vertex the interior view is at
 Colony* currentStructure;
@@ -97,30 +69,27 @@ void display()
 	preDisplay();
 
 	// Change scenes if needed
+	SetDisplayPtr();
 	switch(Globals::sceneChoice)
 	{
 	case Scene::colony:
 	{
 		baseMag = 4;
-		displayModelPtr = &colony;
 		break;
 	}
 	case Scene::tunnel:
 	{
 		baseMag = 1;
-		displayModelPtr = &tunnel;
 		break;
 	}
 	case Scene::chamber:
 	{
 		baseMag = 2;
-		displayModelPtr = &chamber;
 		break;
 	}
 	// case Scene::allTunnels:
 	// {
 	// 	baseMag = 4;
-	// 	displayModelPtr = &allTunnels;
 	// 	break;
 	// }
 	default:
@@ -224,31 +193,7 @@ int main(int argc, char* argv[])
 	// }
 
 	// Initialize displayModelPtr
-	switch(Globals::sceneChoice)
-	{
-	case Scene::colony:
-	{
-		displayModelPtr = &colony;
-		break;
-	}
-	case Scene::tunnel:
-	{
-		displayModelPtr = &tunnel;
-		break;
-	}
-	case Scene::chamber:
-	{
-		displayModelPtr = &chamber;
-		break;
-	}
-	// case Scene::allTunnels:
-	// {
-	// 	displayModelPtr = &allTunnels;
-	// 	break;
-	// }
-	default:
-		Fatal(999, "Unknown scene %d\n", Globals::sceneChoice);
-	}
+	SetDisplayPtr();
 
 	init(argc, argv);
 

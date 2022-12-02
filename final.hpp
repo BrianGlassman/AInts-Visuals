@@ -1,9 +1,37 @@
 #pragma once
 
 #include "CSCIx229.h"
+
+// MainLib
 #include "display.hpp"
+#include "globals.hpp"
 #include "input.hpp"
+#include "lighting.hpp"
+#include "textures.hpp"
 #include "window.hpp"
+
+// Structures
+#include "Colony.hpp"
+
+// Noise
+#include "Noise.hpp"
+#include "Perlin.hpp"
+
+// Menus
+#include "Menus.hpp"
+
+// Shaders
+#include "Shaders.hpp"
+
+Colony* displayModelPtr;
+Colony colony;
+Colony tunnel;
+Colony chamber;
+// Colony allTunnels;
+
+Noise* noisePtr;
+
+OrbitLight* orbiterPtr;
 
 //-----------------------
 // Function declarations
@@ -21,6 +49,35 @@ void SetCallbacks()
 	SetInputCallbacks();
 
 	ErrCheck("SetCallbacks");
+}
+
+void SetDisplayPtr()
+{
+	switch(Globals::sceneChoice)
+	{
+	case Scene::colony:
+	{
+		displayModelPtr = &colony;
+		break;
+	}
+	case Scene::tunnel:
+	{
+		displayModelPtr = &tunnel;
+		break;
+	}
+	case Scene::chamber:
+	{
+		displayModelPtr = &chamber;
+		break;
+	}
+	// case Scene::allTunnels:
+	// {
+	// 	displayModelPtr = &allTunnels;
+	// 	break;
+	// }
+	default:
+		Fatal(999, "Unknown scene %d\n", Globals::sceneChoice);
+	}
 }
 
 void PopulateColony(Colony& colony)
