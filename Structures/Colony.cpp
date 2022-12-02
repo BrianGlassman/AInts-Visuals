@@ -273,63 +273,48 @@ void Colony::Draw()
     } glPopMatrix();
 }
 
-void Colony::AddStructure(std::shared_ptr<Structure> structPtr, Vector3 center)
+void Colony::AddStructure(Vector3Int center, StructureType type)
 {
-    structPtr->center = center;
-    Vector3Int intCenter(center);
-    children.insert({intCenter, structPtr});
+    std::shared_ptr<Structure> ptr;
+    switch(type)
+    {
+    case StructureType::Tunnel:
+        ptr = std::make_shared<Tunnel>();
+        break;
+    case StructureType::Chamber:
+        ptr = std::make_shared<Chamber>();
+        break;
+    case StructureType::Hill:
+        ptr = std::make_shared<Hill>();
+        break;
+    default:
+        Fatal(999, "Unrecognized StructureType %d\n", type);
+    }
+    ptr->center = center;
+    children.insert({center, ptr});
 }
-
-void Colony::AddTunnel(Vector3 center)
+void Colony::AddStructure(int x, int y, int z, StructureType type)
 {
-    std::shared_ptr<Structure> ptr = std::make_shared<Tunnel>();
-    AddStructure(ptr, center);
+    AddStructure({x, y, z}, type);
 }
-void Colony::AddTunnel(Vector3 center, unsigned char sides)
+void Colony::AddStructure(Vector3Int center, StructureType type, unsigned char sides)
 {
-    std::shared_ptr<Structure> ptr = std::make_shared<Tunnel>(sides);
-    AddStructure(ptr, center);
+    std::shared_ptr<Structure> ptr;
+    switch(type)
+    {
+    case StructureType::Tunnel:
+        ptr = std::make_shared<Tunnel>(sides);
+        break;
+    case StructureType::Chamber:
+        ptr = std::make_shared<Chamber>(sides);
+        break;
+    default:
+        Fatal(999, "Unrecognized sided StructureType %d\n", type);
+    }
+    ptr->center = center;
+    children.insert({center, ptr});
 }
-void Colony::AddTunnel(float x, float y, float z)
+void Colony::AddStructure(int x, int y, int z, StructureType type, unsigned char sides)
 {
-    float center[] = {x, y, z};
-    AddTunnel(center);
-}
-void Colony::AddTunnel(float x, float y, float z, unsigned char sides)
-{
-    std::shared_ptr<Structure> ptr = std::make_shared<Tunnel>(sides);
-    float center[] = {x, y, z};
-    AddStructure(ptr, center);
-}
-
-void Colony::AddChamber(Vector3 center)
-{
-    std::shared_ptr<Structure> ptr = std::make_shared<Chamber>();
-    AddStructure(ptr, center);
-}
-void Colony::AddChamber(Vector3 center, unsigned char sides)
-{
-    std::shared_ptr<Structure> ptr = std::make_shared<Chamber>(sides);
-    AddStructure(ptr, center);
-}
-void Colony::AddChamber(float x, float y, float z)
-{
-    float center[] = {x, y, z};
-    AddChamber(center);
-}
-void Colony::AddChamber(float x, float y, float z, unsigned char sides)
-{
-    float center[] = {x, y, z};
-    AddChamber(center, sides);
-}
-
-void Colony::AddHill(Vector3 center)
-{
-    std::shared_ptr<Structure> ptr = std::make_shared<Hill>();
-    AddStructure(ptr, center);
-}
-void Colony::AddHill(float x, float y, float z)
-{
-    float center[] = {x, y, z};
-    AddHill(center);
+    AddStructure({x, y, z}, type, sides);
 }

@@ -88,7 +88,7 @@ void SetDisplayPtr()
 
 void PopulateColony(Colony& colony)
 {
-	float tunnelCoords[][3] = {
+	int tunnelCoords[][3] = {
 		// Base layer
 		{0, 0, 0}, // 0
 		{0, 0, 1}, // 1
@@ -121,7 +121,7 @@ void PopulateColony(Colony& colony)
 		u+r,
 	};
 
-	float chamberCoords[][3] = {
+	int chamberCoords[][3] = {
 		// Individual chambers
 		{-1, 0, 0}, // 8
 		{1, 2, 0},  // 9
@@ -147,7 +147,7 @@ void PopulateColony(Colony& colony)
 		l+b, // 14
 	};
 
-	Vector3 coords;
+	Vector3Int coords;
 	for (int i = 0; i < 8; i++)
 	{
 		coords = tunnelCoords[i];
@@ -165,7 +165,7 @@ void PopulateColony(Colony& colony)
 
 void PopulateTunnels(Colony& colony)
 {
-	float tunnelCoords[][3] = {
+	int tunnelCoords[][3] = {
 		// 0
 		{0, 0, 0},
 

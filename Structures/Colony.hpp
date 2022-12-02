@@ -17,27 +17,32 @@ public:
     void ApplyNoise(float offset[]);
     void DrawCenterlines();
     void Draw();
-    void AddTunnel(Vector3 center);
+
+    void AddTunnel(Vector3Int center) { AddStructure(center, StructureType::Tunnel); }
+    void AddTunnel(int x, int y, int z) { AddStructure({x, y, z}, StructureType::Tunnel); }
     // FIXME temporary convenience until auto-generating is implemented
-    void AddTunnel(Vector3 center, unsigned char sides);
-    void AddTunnel(float x, float y, float z);
+    void AddTunnel(Vector3Int center, unsigned char sides) { AddStructure(center, StructureType::Tunnel, sides); }
+    void AddTunnel(int x, int y, int z, unsigned char sides) { AddStructure({x, y, z}, StructureType::Tunnel, sides); }
+
+    void AddChamber(Vector3Int center) { AddStructure(center, StructureType::Chamber); }
+    void AddChamber(int x, int y, int z) { AddStructure({x, y, z}, StructureType::Chamber); }
     // FIXME temporary convenience until auto-generating is implemented
-    void AddTunnel(float x, float y, float z, unsigned char sides);
-    void AddChamber(Vector3 center);
-    // FIXME temporary convenience until auto-generating is implemented
-    void AddChamber(Vector3 center, unsigned char sides);
-    void AddChamber(float x, float y, float z);
-    // FIXME temporary convenience until auto-generating is implemented
-    void AddChamber(float x, float y, float z, unsigned char sides);
-    void AddHill(Vector3 center);
-    void AddHill(float x, float y, float z);
+    void AddChamber(Vector3Int center, unsigned char sides) { AddStructure(center, StructureType::Chamber, sides); }
+    void AddChamber(int x, int y, int z, unsigned char sides) { AddStructure({x, y, z}, StructureType::Chamber, sides); }
+
+    void AddHill(Vector3Int center) { AddStructure(center, StructureType::Hill); }
+    void AddHill(int x, int y, int z) { AddStructure({x, y, z}, StructureType::Hill); }
 
     // FIXME part of temp motion model
     std::vector<Vertex>* getCL();
 private:
+    std::unordered_map<Vector3Int, int> plannedChildren; // Gets filled before children, so that adjacency is known when creating Structures
     std::unordered_map<Vector3Int, std::shared_ptr<Structure>> children;
 
-    void AddStructure(std::shared_ptr<Structure> structPtr, Vector3 center);
+    void AddStructure(Vector3Int center, StructureType type);
+    void AddStructure(int x, int y, int z, StructureType type);
+    void AddStructure(Vector3Int center, StructureType type, unsigned char sides);
+    void AddStructure(int x, int y, int z, StructureType type, unsigned char sides);
 
     // FIXME part of temp motion model
     void CenterlineHelper(std::vector<Vertex>& dstCL, bool usePerturbed);
