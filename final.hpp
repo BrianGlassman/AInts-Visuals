@@ -162,81 +162,8 @@ void PopulateColony(Colony& colony)
 	}
 	colony.AddHill(-1, 4 - 1, 0);
 
-
-	// FIXME don't do this manually
-	{// --- TUNNELS ---
-	// 0
-	colony.children[0]->endpointForward[1] = 1;
-	colony.children[0]->endpointRight[1] = 11;
-	colony.children[0]->endpointLeft[1] = 8;
-	colony.children[0]->endpointTop[1] = 4;
-
-	// 1
-	colony.children[1]->endpointForward[1] = 2;
-	colony.children[1]->endpointBack[1] = 0;
-	colony.children[1]->endpointRight[1] = 13;
-
-	// 2
-	colony.children[2]->endpointBack[1] = 1;
-	colony.children[2]->endpointRight[1] = 3;
-	colony.children[2]->endpointBottom[1] = 10;
-
-	// 3
-	colony.children[3]->endpointBack[1] = 13;
-	colony.children[3]->endpointLeft[1] = 2;
-
-	// 4
-	colony.children[4]->endpointTop[1] = 5;
-	colony.children[4]->endpointBottom[1] = 0;
-
-	// 5
-	colony.children[5]->endpointTop[1] = 6;
-	colony.children[5]->endpointBottom[1] = 4;
-	colony.children[5]->endpointRight[1] = 9;
-
-	// 6
-	colony.children[6]->endpointBottom[1] = 5;
-	colony.children[6]->endpointLeft[1] = 7;
-
-	// 7
-	colony.children[7]->endpointTop[1] = 15;
-	colony.children[7]->endpointRight[1] = 6;
-	}
-
-	// --- CHAMBERS ---
-	// 8
-	colony.children[8]->endpointRight[1] = 0;
-
-	// 9
-	colony.children[9]->endpointLeft[1] = 5;
-
-	// 10
-	colony.children[10]->endpointTop[1] = 2;
-
-	// 11
-	colony.children[11]->endpointRight[1] = 12;
-	colony.children[11]->endpointLeft[1] = 0;
-	colony.children[11]->endpointForward[1] = 13;
-
-	// 12
-	colony.children[12]->endpointLeft[1] = 11;
-	colony.children[12]->endpointForward[1] = 14;
-
-	// 13
-	colony.children[13]->endpointRight[1] = 14;
-	colony.children[13]->endpointLeft[1] = 1;
-	colony.children[13]->endpointForward[1] = 3;
-	colony.children[13]->endpointBack[1] = 11;
-
-	// 14
-	colony.children[14]->endpointLeft[1] = 13;
-	colony.children[14]->endpointBack[1] = 12;
-
-	// --- Hill ---
-	// 15
-	colony.children[15]->endpointBottom[1] = 7;
 	// Special setting since Hill always draws the tunnel
-    colony.children[15]->endpointBottom[0] = colony.children[15]->getCL()->size() - 1;
+    colony.children[{-1, 4 - 1, 0}]->endpointBottom = colony.children[{-1, 4 - 1, 0}]->getCL()->size() - 1;
 }
 
 void PopulateTunnels(Colony& colony)

@@ -7,6 +7,9 @@
 #include "Tunnel.hpp"
 #include "Vector.hpp"
 
+using ChildMap = std::unordered_map<Vector3Int, std::shared_ptr<Structure>>;
+using OffsetsMap = std::unordered_map<Vector3Int, int>;
+
 Colony::Colony()
 {
     type = 4;
@@ -23,33 +26,34 @@ std::vector<Vertex>* Colony::getCL()
 }
 
 
-void LinkEndpoints(std::vector<std::shared_ptr<Structure>>& children, std::vector<int>& offsets, std::vector<Vertex>& dstCL, Vector3Int srcEPdir)
+void LinkEndpoints(ChildMap& children, OffsetsMap& offsets, std::vector<Vertex>& dstCL, Vector3Int srcEPdir)
 {
     int srcOffset, dstOffset;
 
-    for (unsigned int srcSIdx = 0; srcSIdx < children.size(); srcSIdx++)
+    for (auto& childPair : children)
     {
-        srcOffset = offsets[srcSIdx];
-        auto& srcChild = children[srcSIdx];
+        auto& srcCoords = childPair.first;
+        auto& srcChild = childPair.second;
+
+        srcOffset = offsets[srcCoords];
         auto srcEnd = srcChild->GetEndpoint(srcEPdir);
-        if (srcEnd[0] == -1) continue;
-        if (srcEnd[1] == -1) Fatal(999, "Source (%d) VIdx (%d) set but not SIdx. srcEP hash = %d\n", srcSIdx, srcEnd[0], srcEPdir.Hash());
-        int srcIdx = srcEnd[0];
+        if (srcEnd == -1) continue;
+
+        Vector3Int dstCoords({
+            srcCoords.x + srcEPdir.x,
+            srcCoords.y + srcEPdir.y,
+            srcCoords.z + srcEPdir.z});
+        dstOffset = offsets.at(dstCoords);
+        auto& dstChild = children.at(dstCoords);
 
         // Source/Destination endpoints are on opposing sides
         Vector3Int dstEPdir = srcEPdir.Reversed();
 
-        int dstSIdx = srcEnd[1];
-        dstOffset = offsets[dstSIdx];
-        auto& dstChild = children[dstSIdx];
         auto dstEnd = dstChild->GetEndpoint(dstEPdir);
-        // printf("src Vidx %d, src SIdx %d, dst VIdx %d, dst SIdx %d\n", srcEnd[0], srcEnd[1], dstEnd[0], dstEnd[1]);
-        if (dstEnd[0] == -1) continue;
-        if (dstEnd[1] == -1) Fatal(999, "Destination (%d) VIdx (%d) set but not SIdx. dstEP hash = %d\n", dstSIdx, dstEnd[0], dstEPdir.Hash());
-        int dstIdx = dstEnd[0];
+        if (dstEnd == -1) continue;
 
         int offset;
-        dstCL[srcIdx + srcOffset].AddNeighbor(dstIdx + dstOffset);
+        dstCL[srcEnd + srcOffset].AddNeighbor(dstEnd + dstOffset);
         // Don't need to do the reciprocal, will be caught when processing the opposite direction
     }
 }
@@ -100,10 +104,12 @@ void MergeCoincident(std::vector<Vertex>& dstCL, bool debug = false)
 void Colony::CenterlineHelper(std::vector<Vertex>& dstCL, bool usePerturbed)
 {
     // Copy child centerlines to self
-    int idxOffset = 0;
-    for (auto&& child : children)
+    int idxOffset;
+    for (auto&& childPair : children)
     {
-        offsets.push_back(idxOffset);
+        auto& coords = childPair.first;
+        auto& child = childPair.second;
+        idxOffset = offsets.at(coords);
 
         std::vector<Vertex>* srcCL;
         if (usePerturbed)
@@ -144,8 +150,6 @@ void Colony::CenterlineHelper(std::vector<Vertex>& dstCL, bool usePerturbed)
                 // Don't need to do the reciprocal, will be caught when processing the neighbor vertex
             }
         }
-
-        idxOffset += srcCL->size();
     }
 
     // Link endpoints from adjacent children
@@ -166,6 +170,18 @@ void Colony::Create()
 
     PreCreate();
 
+    // Create the offsets map
+    int idxOffset = 0;
+    for (auto&& childPair : children)
+    {
+        auto& coords = childPair.first;
+        auto& child = childPair.second;
+
+        offsets.insert({coords, idxOffset});
+
+        idxOffset += child->getCL()->size();
+    }
+
     CenterlineHelper(centerline, true);
     CenterlineHelper(baseCenterline, false);
 
@@ -177,7 +193,7 @@ void Colony::ApplyNoise(float offset[])
     float newOffset[] = {offset[0] + center[0], offset[1] + center[1], offset[2] + center[2]};
 	for (auto&& child : children)
 	{
-		child->ApplyNoise(newOffset);
+		child.second->ApplyNoise(newOffset);
 	}
 }
 
@@ -253,7 +269,7 @@ void Colony::Draw()
 
         for(auto& child : children)
         {
-            child->Draw();
+            child.second->Draw();
         }
 
         if(Toggles::showCenterlines) DrawCenterlines();
@@ -263,7 +279,8 @@ void Colony::Draw()
 void Colony::AddStructure(std::shared_ptr<Structure> structPtr, Vector3 center)
 {
     structPtr->center = center;
-    children.push_back(structPtr);
+    Vector3Int intCenter(center);
+    children.insert({intCenter, structPtr});
 }
 
 void Colony::AddTunnel(Vector3 center)

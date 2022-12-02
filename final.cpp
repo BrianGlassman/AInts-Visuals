@@ -169,9 +169,7 @@ int main(int argc, char* argv[])
 	if (true)
 	{
 		tunnel.AddTunnel(0, 0, 0, 32); // Tunnel
-		tunnel.children[0]->endpointLeft[1] = 1;
 		tunnel.AddTunnel(-1, 0, 0, 16);
-		tunnel.children[1]->endpointRight[1] = 0;
 		if (useNoise) tunnel.ApplyNoise(zero);
 		tunnel.Create();
 	}
@@ -179,9 +177,7 @@ int main(int argc, char* argv[])
 	if (true)
 	{
 		chamber.AddChamber(0, 0, 0, 4); // Chamber
-		chamber.children[0]->endpointTop[1] = 1;
 		chamber.AddChamber(0, 1, 0, 8);
-		chamber.children[1]->endpointBottom[1] = 0;
 		if (useNoise) chamber.ApplyNoise(zero);
 		chamber.Create();
 	}
@@ -190,10 +186,8 @@ int main(int argc, char* argv[])
 	{
 		hill.AddHill(0, 0, 0);
 		// Special setting since Hill always draws the tunnel
-		hill.children[0]->endpointBottom[0] = hill.children[0]->getCL()->size() - 1;
-		hill.children[0]->endpointBottom[1] = 1;
+		hill.children.at({0,0,0})->endpointBottom = hill.children.at({0, 0, 0})->getCL()->size() - 1;
 		hill.AddTunnel(0, -1, 0, 4);
-		hill.children[1]->endpointTop[1] = 0;
 		if (useNoise) hill.ApplyNoise(zero);
 		hill.Create();
 	}

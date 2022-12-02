@@ -233,32 +233,32 @@ void Chamber::Create()
 	if (right)
 	{
 		CreateCenterline(0, false);
-		endpointRight[0] = centerline.size() - 1;
+		endpointRight = centerline.size() - 1;
 	}
 	if (left)
 	{
 		CreateCenterline(0,  true);
-		endpointLeft[0] = centerline.size() - 1;
+		endpointLeft = centerline.size() - 1;
 	}
 	if (top)
 	{
 		CreateCenterline(1, false);
-		endpointTop[0] = centerline.size() - 1;
+		endpointTop = centerline.size() - 1;
 	}
 	if (bottom)
 	{
 		CreateCenterline(1,  true);
-		endpointBottom[0] = centerline.size() - 1;
+		endpointBottom = centerline.size() - 1;
 	}
 	if (forward)
 	{
 		CreateCenterline(2, false);
-		endpointForward[0] = centerline.size() - 1;
+		endpointForward = centerline.size() - 1;
 	}
 	if (back)
 	{
 		CreateCenterline(2,  true);
-		endpointBack[0] = centerline.size() - 1;
+		endpointBack = centerline.size() - 1;
 	}
 
 	ErrCheck("Chamber::Create\n");

@@ -26,13 +26,13 @@ public:
 
     // Index of the vertex that is the endpoint in that direction
     // {vertex index within this Structure, index of neighboring Structure within the parent}
-	int   endpointRight[2] = {-1, -1}; // +X
-	int    endpointLeft[2] = {-1, -1}; // -X
-	int     endpointTop[2] = {-1, -1}; // +Y
-	int  endpointBottom[2] = {-1, -1}; // -Y
-	int endpointForward[2] = {-1, -1}; // +Z
-	int    endpointBack[2] = {-1, -1}; // -Z
-    int* GetEndpoint(int EPidx)
+	int   endpointRight = -1; // +X
+	int    endpointLeft = -1; // -X
+	int     endpointTop = -1; // +Y
+	int  endpointBottom = -1; // -Y
+	int endpointForward = -1; // +Z
+	int    endpointBack = -1; // -Z
+    int GetEndpoint(int EPidx)
     {
         switch (EPidx)
         {
@@ -50,10 +50,10 @@ public:
             return endpointBack;
         default:
             Fatal(999, "Invalid endpoint index %d\n", EPidx);
-            return NULL;
+            return -1;
         }
     }
-    int* GetEndpoint(const Vector3Int direction)
+    int GetEndpoint(const Vector3Int direction)
     {
         auto hash = std::hash<Vector3Int>()(direction);
         switch(hash)
@@ -72,7 +72,7 @@ public:
                 return endpointBack;
             default:
                 Fatal(999, "Invalid endpoint direction hash %d (%d, %d, %d)\n", hash, direction.x, direction.y, direction.z);
-                return NULL;
+                return -1;
         }
     }
 

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <memory> // shared_ptr
+#include <unordered_map>
 
 #include "CSCIx229.h"
 #include "util.hpp" // Model class
@@ -35,7 +36,7 @@ public:
     std::vector<Vertex>* getCL();
 
     // FIXME this should not be public, but was needed for setting SIdx of endpoints
-    std::vector<std::shared_ptr<Structure>> children;
+    std::unordered_map<Vector3Int, std::shared_ptr<Structure>> children;
 private:
     void AddStructure(std::shared_ptr<Structure> structPtr, Vector3 center);
 
@@ -43,5 +44,5 @@ private:
     void CenterlineHelper(std::vector<Vertex>& dstCL, bool usePerturbed);
     std::vector<Vertex> baseCenterline;
     std::vector<Vertex> centerline;
-    std::vector<int> offsets; // Offset value to convert from cell-local CL index to Colony CL index. Order matches children
+    std::unordered_map<Vector3Int, int> offsets; // Offset value to convert from cell-local CL index to Colony CL index
 };
