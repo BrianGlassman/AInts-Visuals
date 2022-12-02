@@ -97,19 +97,19 @@ void display()
 		Fatal(999, "Unknown scene %d\n", Globals::sceneChoice);
 	}
 
-	// Make sure that eyePos updates with any scene or geometry changes
-	auto& CL = *(currentStructure->getCL());
-	Globals::InteriorView::eyePos = CL[currentCLidx].coords;
-
 	orbiterPtr->UpdatePosition(); // FIXME this should probably not be in display
 	orbiterPtr->Draw();
 
-	if (true)
+	// Activate shader pipeline
+	UseShader(Shader::threeDshader);
+	
+	if (displayModelPtr->created)
 	{
-		UseShader(Shader::threeDshader);
+		// Make sure that eyePos updates with any scene or geometry changes
+		auto& CL = *(currentStructure->getCL());
+		Globals::InteriorView::eyePos = CL[currentCLidx].coords;
+		displayModelPtr->Draw();
 	}
-
-	displayModelPtr->Draw();
 
 	//  Revert to fixed pipeline
 	UseShader(Shader::fixedPipeline);
@@ -117,7 +117,7 @@ void display()
 	if (Toggles::Noise::showPVectors) noisePtr->DrawNoise();
 
 	// In exterior view, draw an indicator of where the interior view is
-	if (Globals::viewMode == ViewMode::EXTERIOR)
+	if (Globals::viewMode == ViewMode::EXTERIOR && displayModelPtr->created)
 	{
 		PushShader(0);
 		glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);

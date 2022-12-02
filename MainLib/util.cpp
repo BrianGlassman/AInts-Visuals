@@ -126,6 +126,9 @@ void Model::PostCreate()
 	{
 		normal.Normalize();
 	}
+
+	// Set creation flag
+	created = true;
 }
 
 // Must be called AFTER Create so that both vertex lists are populated
