@@ -142,7 +142,7 @@ void display()
 
 int main(int argc, char* argv[])
 {
-	Perlin noise(1669792348);
+	Perlin noise;
 	noisePtr = &noise;
 
 	bool useNoise = true;
