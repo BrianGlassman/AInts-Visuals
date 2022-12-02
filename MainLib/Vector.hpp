@@ -54,19 +54,20 @@ public:
     Vector3Int Reversed() { return {-x, -y, -z}; }
     std::size_t Hash() const
     {
-        // Use sXXsYYsZZ as hash, where "s" is 1 for positive and 0 for negative or 0
+        // Use sXXsYYsZZ as hash, where "s" is 2 for positive and 1 for negative or 0
         // (assumes that no coordinate > 99)
-        return (x > 0)*1e8 + abs(x)*1e6 + 
+        return 100100100 +
+               (x > 0)*1e8 + abs(x)*1e6 + 
                (y > 0)*1e5 + abs(y)*1e3 + 
                (z > 0)*1e2 + abs(z)*1e0;
     }
 
-    static const Vector3Int  Forward; static const int  hashForward =       101;
-    static const Vector3Int Backward; static const int hashBackward =         1;
-    static const Vector3Int       Up; static const int       hashUp =    101000;
-    static const Vector3Int     Down; static const int     hashDown =      1000;
-    static const Vector3Int    Right; static const int    hashRight = 101000000;
-    static const Vector3Int     Left; static const int     hashLeft =   1000000;
+    static const Vector3Int  Forward; static const int  hashForward = 100100201;
+    static const Vector3Int Backward; static const int hashBackward = 100100101;
+    static const Vector3Int       Up; static const int       hashUp = 100201100;
+    static const Vector3Int     Down; static const int     hashDown = 100101100;
+    static const Vector3Int    Right; static const int    hashRight = 201100100;
+    static const Vector3Int     Left; static const int     hashLeft = 101100100;
 
     // Operators
     bool operator==(const Vector3Int& vec) const;
