@@ -7,7 +7,7 @@ static float view_rotx, view_roty, view_rotz;
 
 // Toggleables
 bool usingWire = false;
-bool usingAxes = true;
+bool usingAxes = false;
 
 namespace InteriorView {
 	static GLfloat fp_up[] = {0.0, 1.0, 0.0};
