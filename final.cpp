@@ -83,6 +83,7 @@ void display()
 		break;
 	}
 	case Scene::chamber:
+	case Scene::hill:
 	{
 		baseMag = 2;
 		break;
@@ -183,6 +184,13 @@ int main(int argc, char* argv[])
 		chamber.children[1]->endpointBottom[1] = 0;
 		if (useNoise) chamber.ApplyNoise(zero);
 		chamber.Create();
+	}
+
+	if (true)
+	{
+		hill.AddHill(0, 0, 0);
+		if (useNoise) chamber.ApplyNoise(zero);
+		hill.Create();
 	}
 
 	// if (false) // FIXME CL breaks because the connections are wrong (i.e. forced)

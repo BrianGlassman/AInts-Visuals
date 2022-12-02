@@ -49,7 +49,11 @@ void Structure::DrawCenterlines()
 	auto& CLtoUse = *getCL();
 	if (CLtoUse.size() == 0)
 	{ // Exit early to prevent SegFault
-		Fatal(999, "Called DrawCenterLines with no elements\n");
+		fprintf(stderr, "Called DrawCenterLines with no elements\n");
+		glColor3f(1, 1, 1);
+		glPopAttrib();
+		PopShader();
+		return;
 	}
 
 	std::unordered_set<int> closedSet;

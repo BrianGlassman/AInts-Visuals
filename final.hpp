@@ -27,6 +27,7 @@ Colony* displayModelPtr;
 Colony colony;
 Colony tunnel;
 Colony chamber;
+Colony hill;
 // Colony allTunnels;
 
 Noise* noisePtr;
@@ -68,6 +69,11 @@ void SetDisplayPtr()
 	case Scene::chamber:
 	{
 		displayModelPtr = &chamber;
+		break;
+	}
+	case Scene::hill:
+	{
+		displayModelPtr = &hill;
 		break;
 	}
 	// case Scene::allTunnels:
