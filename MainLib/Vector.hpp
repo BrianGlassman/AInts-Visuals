@@ -42,5 +42,24 @@ public:
     int z;
 
     std::vector<int> asStdVec();
+
+    // Operators
+    bool operator==(const Vector3Int& vec) const;
 private:
+};
+
+// Ref https://en.cppreference.com/w/cpp/utility/hash
+// custom specialization of std::hash can be injected in namespace std
+template<>
+struct std::hash<Vector3Int>
+{
+    std::size_t operator()(Vector3Int const& vec) const noexcept
+    {
+        // Use sXXsYYsZZ as hash, where "s" is 1 for positive and 0 for negative or 0
+        // (assumes that no coordinate > 99)
+        std::size_t hash = (vec.x > 0)*1e8 + vec.x*1e6 + 
+               (vec.y > 0)*1e5 + vec.y*1e3 + 
+               (vec.z > 0)*1e2 + vec.z*1e0;
+        return hash;
+    }
 };

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <memory>
+#include <memory> // shared_ptr
 
 #include "CSCIx229.h"
 #include "util.hpp" // Model class

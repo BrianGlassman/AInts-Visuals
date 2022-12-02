@@ -111,3 +111,8 @@ std::vector<int> Vector3Int::asStdVec()
 {
     return std::vector<int> ({x, y, z});
 }
+
+bool Vector3Int::operator==(const Vector3Int& vec) const
+{
+    return x == vec.x && y == vec.y && z == vec.z;
+}
