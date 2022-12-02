@@ -24,6 +24,13 @@ Vector3::Vector3(float coords[])
     z = coords[2];
 }
 
+Vector3::Vector3(const Vector3Int intVec)
+{
+    x = intVec.x;
+    y = intVec.y;
+    z = intVec.z;
+}
+
 float& Vector3::operator[](int index)
 {
     switch(index)
@@ -105,6 +112,49 @@ Vector3 Vector3::Cross(Vector3 right)
     ans.y = -(x * right.z - z * right.x);
     ans.z = x * right.y - y * right.x;
     return ans;
+}
+
+//------------
+// Vector3Int
+//------------
+
+const Vector3Int  Vector3Int::Forward({0, 0,  1});
+const Vector3Int Vector3Int::Backward({0, 0, -1});
+const Vector3Int       Vector3Int::Up({0,  1, 0});
+const Vector3Int     Vector3Int::Down({0, -1, 0});
+const Vector3Int    Vector3Int::Right({ 1, 0, 0});
+const Vector3Int     Vector3Int::Left({-1, 0, 0});
+
+Vector3Int::Vector3Int()
+{
+    x = 0; y = 0; z = 0;
+}
+
+Vector3Int::Vector3Int(std::initializer_list<int> coords)
+{
+    auto it = coords.begin();
+    x = *it;
+    it++;
+    y = *it;
+    it++;
+    z = *it;
+}
+
+Vector3Int::Vector3Int(int coords[])
+{
+    x = coords[0];
+    y = coords[1];
+    z = coords[2];
+}
+
+Vector3Int::Vector3Int(const Vector3 floatVec)
+{
+    x = floatVec.x;
+    if (floatVec.x != x) Fatal(999, "Non-integer X coordinate\n");
+    y = floatVec.y;
+    if (floatVec.y != y) Fatal(999, "Non-integer Y coordinate\n");
+    z = floatVec.z;
+    if (floatVec.z != z) Fatal(999, "Non-integer Z coordinate\n");
 }
 
 std::vector<int> Vector3Int::asStdVec()
