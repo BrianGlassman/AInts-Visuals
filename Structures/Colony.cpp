@@ -39,10 +39,7 @@ void LinkEndpoints(ChildMap& children, OffsetsMap& offsets, std::vector<Vertex>&
         auto srcEnd = srcChild->GetEndpoint(srcEPdir);
         if (srcEnd == -1) continue;
 
-        Vector3Int dstCoords({
-            srcCoords.x + srcEPdir.x,
-            srcCoords.y + srcEPdir.y,
-            srcCoords.z + srcEPdir.z});
+        Vector3Int dstCoords = srcCoords + srcEPdir;
         dstOffset = offsets.at(dstCoords);
         auto& dstChild = children.at(dstCoords);
 

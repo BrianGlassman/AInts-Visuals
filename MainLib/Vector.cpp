@@ -157,7 +157,7 @@ Vector3Int::Vector3Int(const Vector3 floatVec)
     if (floatVec.z != z) Fatal(999, "Non-integer Z coordinate\n");
 }
 
-std::vector<int> Vector3Int::asStdVec()
+std::vector<int> Vector3Int::asStdVec() const
 {
     return std::vector<int> ({x, y, z});
 }
@@ -165,4 +165,14 @@ std::vector<int> Vector3Int::asStdVec()
 bool Vector3Int::operator==(const Vector3Int& vec) const
 {
     return x == vec.x && y == vec.y && z == vec.z;
+}
+
+Vector3Int Vector3Int::operator+(const Vector3Int& rhs) const
+{
+    return {x + rhs.x, y + rhs.y, z + rhs.z};
+}
+
+Vector3Int Vector3Int::operator-(const Vector3Int& rhs) const
+{
+    return operator+(rhs.Reversed());
 }

@@ -50,8 +50,8 @@ public:
     Vector3Int(int coords[]);
     Vector3Int(const Vector3 floatVec);
 
-    std::vector<int> asStdVec();
-    Vector3Int Reversed() { return {-x, -y, -z}; }
+    std::vector<int> asStdVec() const;
+    Vector3Int Reversed() const { return {-x, -y, -z}; }
     std::size_t Hash() const
     {
         // Use sXXsYYsZZ as hash, where "s" is 2 for positive and 1 for negative or 0
@@ -71,6 +71,8 @@ public:
 
     // Operators
     bool operator==(const Vector3Int& vec) const;
+    Vector3Int operator+(const Vector3Int& rhs) const;
+    Vector3Int operator-(const Vector3Int& rhs) const;
 private:
 };
 
