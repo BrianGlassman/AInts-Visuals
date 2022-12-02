@@ -161,9 +161,6 @@ void PopulateColony(Colony& colony)
 		colony.AddChamber(coords, chamberCon[i]);
 	}
 	colony.AddHill(-1, 4 - 1, 0);
-
-	// Special setting since Hill always draws the tunnel
-    colony.children[{-1, 4 - 1, 0}]->endpointBottom = colony.children[{-1, 4 - 1, 0}]->getCL()->size() - 1;
 }
 
 void PopulateTunnels(Colony& colony)

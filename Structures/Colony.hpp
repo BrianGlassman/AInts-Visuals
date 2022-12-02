@@ -34,10 +34,9 @@ public:
 
     // FIXME part of temp motion model
     std::vector<Vertex>* getCL();
-
-    // FIXME this should not be public, but was needed for setting SIdx of endpoints
-    std::unordered_map<Vector3Int, std::shared_ptr<Structure>> children;
 private:
+    std::unordered_map<Vector3Int, std::shared_ptr<Structure>> children;
+
     void AddStructure(std::shared_ptr<Structure> structPtr, Vector3 center);
 
     // FIXME part of temp motion model
