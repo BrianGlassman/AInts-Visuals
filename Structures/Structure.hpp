@@ -2,6 +2,7 @@
 
 #include "util.hpp" // Model class
 #include "Vertex.hpp"
+#include "Vector.hpp"
 
 enum class SideType
 {
@@ -50,6 +51,28 @@ public:
         default:
             Fatal(999, "Invalid endpoint index %d\n", EPidx);
             return NULL;
+        }
+    }
+    int* GetEndpoint(const Vector3Int direction)
+    {
+        auto hash = std::hash<Vector3Int>()(direction);
+        switch(hash)
+        {
+            case Vector3Int::hashRight:
+                return endpointRight;
+            case Vector3Int::hashLeft:
+                return endpointLeft;
+            case Vector3Int::hashUp:
+                return endpointTop;
+            case Vector3Int::hashDown:
+                return endpointBottom;
+            case Vector3Int::hashForward:
+                return endpointForward;
+            case Vector3Int::hashBackward:
+                return endpointBack;
+            default:
+                Fatal(999, "Invalid endpoint direction hash %d (%d, %d, %d)\n", hash, direction.x, direction.y, direction.z);
+                return NULL;
         }
     }
 

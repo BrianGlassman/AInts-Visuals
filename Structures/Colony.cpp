@@ -5,6 +5,7 @@
 #include "Hill.hpp"
 #include "Shaders.hpp"
 #include "Tunnel.hpp"
+#include "Vector.hpp"
 
 Colony::Colony()
 {
@@ -22,7 +23,7 @@ std::vector<Vertex>* Colony::getCL()
 }
 
 
-void LinkEndpoints(std::vector<std::shared_ptr<Structure>>& children, std::vector<int>& offsets, std::vector<Vertex>& dstCL, int srcEPidx)
+void LinkEndpoints(std::vector<std::shared_ptr<Structure>>& children, std::vector<int>& offsets, std::vector<Vertex>& dstCL, Vector3Int srcEPdir)
 {
     int srcOffset, dstOffset;
 
@@ -30,22 +31,21 @@ void LinkEndpoints(std::vector<std::shared_ptr<Structure>>& children, std::vecto
     {
         srcOffset = offsets[srcSIdx];
         auto& srcChild = children[srcSIdx];
-        auto srcEnd = srcChild->GetEndpoint(srcEPidx);
+        auto srcEnd = srcChild->GetEndpoint(srcEPdir);
         if (srcEnd[0] == -1) continue;
-        if (srcEnd[1] == -1) Fatal(999, "Source (%d) VIdx (%d) set but not SIdx. srcEPidx = %d\n", srcSIdx, srcEnd[0], srcEPidx);
+        if (srcEnd[1] == -1) Fatal(999, "Source (%d) VIdx (%d) set but not SIdx. srcEP hash = %d\n", srcSIdx, srcEnd[0], srcEPdir.Hash());
         int srcIdx = srcEnd[0];
 
         // Source/Destination endpoints are on opposing sides
-        int dstEPidx = (srcEPidx % 2 == 0) ? srcEPidx + 1 : srcEPidx - 1;
-        // printf("src side = %d, dst side = %d\n", srcEPidx, dstEPidx);
+        Vector3Int dstEPdir = srcEPdir.Reversed();
 
         int dstSIdx = srcEnd[1];
         dstOffset = offsets[dstSIdx];
         auto& dstChild = children[dstSIdx];
-        auto dstEnd = dstChild->GetEndpoint(dstEPidx);
+        auto dstEnd = dstChild->GetEndpoint(dstEPdir);
         // printf("src Vidx %d, src SIdx %d, dst VIdx %d, dst SIdx %d\n", srcEnd[0], srcEnd[1], dstEnd[0], dstEnd[1]);
         if (dstEnd[0] == -1) continue;
-        if (dstEnd[1] == -1) Fatal(999, "Destination (%d) VIdx (%d) set but not SIdx. dstEPidx = %d\n", dstSIdx, dstEnd[0], dstEPidx);
+        if (dstEnd[1] == -1) Fatal(999, "Destination (%d) VIdx (%d) set but not SIdx. dstEP hash = %d\n", dstSIdx, dstEnd[0], dstEPdir.Hash());
         int dstIdx = dstEnd[0];
 
         int offset;
@@ -149,10 +149,12 @@ void Colony::CenterlineHelper(std::vector<Vertex>& dstCL, bool usePerturbed)
     }
 
     // Link endpoints from adjacent children
-    for (int i = 0; i <= 5; i++)
-    {
-        LinkEndpoints(children, offsets, dstCL, i);
-    }
+    LinkEndpoints(children, offsets, dstCL, Vector3Int::Forward);
+    LinkEndpoints(children, offsets, dstCL, Vector3Int::Backward);
+    LinkEndpoints(children, offsets, dstCL, Vector3Int::Left);
+    LinkEndpoints(children, offsets, dstCL, Vector3Int::Right);
+    LinkEndpoints(children, offsets, dstCL, Vector3Int::Up);
+    LinkEndpoints(children, offsets, dstCL, Vector3Int::Down);
 
     // Merge coincident points now that all creation and linking is done
     MergeCoincident(dstCL);
