@@ -118,7 +118,7 @@ void PopulateColony(Colony& colony)
 		u+d,
 		u+d+r,
 		d+l,
-		r, // FIXME should be u+r,
+		u+r,
 	};
 
 	float chamberCoords[][3] = {
@@ -160,6 +160,7 @@ void PopulateColony(Colony& colony)
 		coords.y -= 1;
 		colony.AddChamber(coords, chamberCon[i]);
 	}
+	colony.AddHill(-1, 4 - 1, 0);
 
 
 	// FIXME don't do this manually
@@ -198,7 +199,7 @@ void PopulateColony(Colony& colony)
 	colony.children[6]->endpointLeft[1] = 7;
 
 	// 7
-	// FIXME  colony.children[7]->endpointTop[1] = 15;
+	colony.children[7]->endpointTop[1] = 15;
 	colony.children[7]->endpointRight[1] = 6;
 	}
 
@@ -231,7 +232,11 @@ void PopulateColony(Colony& colony)
 	colony.children[14]->endpointLeft[1] = 13;
 	colony.children[14]->endpointBack[1] = 12;
 
-	// colony.AddHill(-1, 4, 0); // 15
+	// --- Hill ---
+	// 15
+	colony.children[15]->endpointBottom[1] = 7;
+	// Special setting since Hill always draws the tunnel
+    colony.children[15]->endpointBottom[0] = colony.children[15]->getCL()->size() - 1;
 }
 
 void PopulateTunnels(Colony& colony)

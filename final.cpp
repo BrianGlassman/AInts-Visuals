@@ -189,7 +189,12 @@ int main(int argc, char* argv[])
 	if (true)
 	{
 		hill.AddHill(0, 0, 0);
-		if (useNoise) chamber.ApplyNoise(zero);
+		// Special setting since Hill always draws the tunnel
+		hill.children[0]->endpointBottom[0] = hill.children[0]->getCL()->size() - 1;
+		hill.children[0]->endpointBottom[1] = 1;
+		hill.AddTunnel(0, -1, 0, 4);
+		hill.children[1]->endpointTop[1] = 0;
+		if (useNoise) hill.ApplyNoise(zero);
 		hill.Create();
 	}
 

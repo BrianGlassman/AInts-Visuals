@@ -1,55 +1,258 @@
 #include "Hill.hpp"
 
+#include "globals.hpp"
+
+Hill::Hill()
+{
+    type = 6;
+    sideType = SideType::tunnel;
+    noiseScale = Globals::tunnelNoiseScale;
+
+    Create();
+}
+
+void Hill::CreateSides()
+{
+    float d = 360 / n;
+    float dy = height / panels;
+    float lowerR, upperR;
+    float x, y = -0.5, z;
+    for (int i = 0; i < panels; i++)
+    {
+        lowerR = (topRadius - baseRadius) * ((y + 0.5) / height) + baseRadius;
+        upperR = (topRadius - baseRadius) * ((y + dy + 0.5) / height) + baseRadius;
+        for (float theta = 0; theta < 360; theta += d)
+        {
+            // --- Lower left triangle ---
+            // Top left point
+            Polar2Cart(upperR, theta, &x, &z);
+            z = -z;
+            indices.push_back(vertices.size()); triIndices.push_back(vertices.size());
+            // FIXME normal should be slanted
+            normals.push_back({x, 0, z});
+            vertices.push_back({x, y + dy, z});
+
+            // Bottom left
+            Polar2Cart(lowerR, theta, &x, &z);
+            z = -z;
+            indices.push_back(vertices.size()); triIndices.push_back(vertices.size());
+            // FIXME normal should be slanted
+            normals.push_back({x, 0, z});
+            vertices.push_back({x, y, z});
+
+            // Bottom right
+            Polar2Cart(lowerR, theta + d, &x, &z);
+            z = -z;
+            indices.push_back(vertices.size()); triIndices.push_back(vertices.size());
+            // FIXME normal should be slanted
+            normals.push_back({x, 0, z});
+            vertices.push_back({x, y, z});
+
+            // --- Upper triangle ---
+            // Top left - coincident with Lower's top point
+            Polar2Cart(upperR, theta, &x, &z);
+            z = -z;
+            indices.push_back(vertices.size()); triIndices.push_back(vertices.size());
+            // FIXME normal should be slanted
+            normals.push_back({x, 0, z});
+            vertices.push_back({x, y + dy, z});
+
+            // Bottom right point - coincident with Lower's bottom right
+            Polar2Cart(lowerR, theta + d, &x, &z);
+            z = -z;
+            indices.push_back(vertices.size()); triIndices.push_back(vertices.size());
+            // FIXME normal should be slanted
+            normals.push_back({x, 0, z});
+            vertices.push_back({x, y, z});
+
+            // Top right
+            Polar2Cart(upperR, theta + d, &x, &z);
+            z = -z;
+            indices.push_back(vertices.size()); triIndices.push_back(vertices.size());
+            // FIXME normal should be slanted
+            normals.push_back({x, 0, z});
+            vertices.push_back({x, y + dy, z});
+        }
+
+        y += dy;
+    }
+}
+
+void Hill::CreateTunnel()
+{
+    float dy = height / panels;
+    float thetaD = 360 / n;
+    float x, y = -0.5, z;
+    
+    for (int i = 0; i < panels; i++)
+    {
+        for (float theta = 360; theta > 0; theta -= thetaD)
+        {
+			{ // This column
+                Polar2Cart(topRadius, theta, &x, &z);
+                z = -z;
+
+                // Lower edge
+                indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
+                normals.push_back({x, 0, z});
+                vertices.push_back({x, y, z});
+
+                // Upper edge
+                indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
+                normals.push_back({x, 0, z});
+                vertices.push_back({x, y + dy, z});
+            }
+
+			{ // Next column
+                Polar2Cart(topRadius, theta - thetaD, &x, &z);
+                z = -z;
+
+                // Upper edge
+                indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
+                normals.push_back({x, 0, z});
+                vertices.push_back({x, y + dy, z});
+
+                // Lower edge
+                indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
+                normals.push_back({x, 0, z});
+                vertices.push_back({x, y, z});
+            }
+        }
+        y += dy;
+    }
+}
+
+void Hill::CreateCLHelper(std::vector<Vertex> &CLtoUse)
+{
+    int lastIdx = -1, currentIdx;
+    float dy = height / panels;
+    float y = -0.5;
+    for (int i = 0; i <= panels; i++)
+    {
+        // Create
+        currentIdx = CLtoUse.size();
+        Vertex vert(currentIdx, {0, y, 0});
+
+        // Link
+        if (lastIdx >= 0)
+        {
+            CLtoUse[lastIdx].AddNeighbor(currentIdx);
+            vert.AddNeighbor(lastIdx);
+        }
+
+		// Insert (MUST be after creation and linking)
+        CLtoUse.push_back(vert);
+
+        // Increment
+        y += dy;
+        lastIdx = currentIdx;
+    }
+}
+void Hill::CreateCenterline()
+{
+    CreateCLHelper(centerline);
+    CreateCLHelper(baseCenterline);
+}
+
+void Hill::PreCreate()
+{
+    Structure::PreCreate();
+	triIndices.clear();
+	quadIndices.clear();
+}
+void Hill::Create()
+{
+    PreCreate();
+
+    CreateSides();
+    CreateTunnel();
+    CreateCenterline();
+
+    PostCreate();
+}
+
+void Hill::DrawHelper(std::vector<Vector3> drawVertices)
+{
+	// FIXME array-ification can happen in Create, doesn't need to be in Draw
+	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
+		// Convert vector of vectors to flat array
+		float vertexArray[drawVertices.size() * 3];
+		for (unsigned int i = 0; i < drawVertices.size(); i++)
+		{
+			vertexArray[i*3 + 0] = drawVertices[i][0];
+			vertexArray[i*3 + 1] = drawVertices[i][1];
+			vertexArray[i*3 + 2] = drawVertices[i][2];
+			// printf("vertexArray %d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]);
+		}
+		float normalArray[normals.size() * 3];
+		for (unsigned int i = 0; i < normals.size(); i++)
+		{
+			normalArray[i*3 + 0] = normals[i][0];
+			normalArray[i*3 + 1] = normals[i][1];
+			normalArray[i*3 + 2] = normals[i][2];
+		}
+
+		if (triIndices.size() > 0)
+		{ // Draw with GL_TRIANGLES
+			unsigned int triIndexArray[triIndices.size()];
+			for (unsigned int i = 0; i < triIndices.size(); i++)
+			{
+				triIndexArray[i] = triIndices[i];
+				// fprintf(stdout, "%d\n", triIndexArray[i]);
+			}
+			// fprintf(stdout, "%d: %d\n", triIndices.size()-1, triIndexArray[triIndices.size()-1]); // Check for overflow
+
+			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+			glNormalPointer(GL_FLOAT, 0, normalArray);
+			glDrawElements(GL_TRIANGLES, triIndices.size(), GL_UNSIGNED_INT, triIndexArray);
+		}
+
+		if (quadIndices.size() > 0)
+		{ // Draw with GL_QUADS
+			unsigned int quadIndexArray[quadIndices.size()];
+			for (unsigned int i = 0; i < quadIndices.size(); i++)
+			{
+				quadIndexArray[i] = quadIndices[i];
+				// fprintf(stdout, "%d\n", quadIndexArray[i]);
+			}
+			// fprintf(stdout, "%d: %d\n", quadIndices.size()-1, quadIndexArray[quadIndices.size()-1]); // Check for overflow
+
+			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+			glNormalPointer(GL_FLOAT, 0, normalArray);
+			glDrawElements(GL_QUADS, quadIndices.size(), GL_UNSIGNED_INT, quadIndexArray);
+		}
+	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
+}
 void Hill::Draw()
 {
+	if (Toggles::showNormals) DrawNormals(0.2);
+
 	glPushMatrix(); {
-		glTranslatef(center[0], center[1] - 0.5, center[2]);
-        glScalef(1, height, 1);
+		glTranslatef(center[0], center[1], center[2]);
 
-        // Top
-        glBegin(GL_TRIANGLE_FAN); {
-            glNormal3f(0, 1, 0);
-            glTexCoord2f(0.5, 0.5);
-            glVertex3d(0, 1, 0);
-            float x, z;
-            for (int theta=360; theta >= 0; theta -= (360 / n))
-            {
-                Polar2Cart(topRadius, theta, &x, &z);
-                glTexCoord2f(0.5*(1 + x), 0.5*(1 + z));
-                glVertex3d(x, 1, z);
-            }
-        } glEnd();
+		// Perturbed geometry
+		if (Toggles::Noise::showPerturbed)
+			DrawHelper(vertices);
 
- 	 	// Sides
-        glBegin(GL_QUAD_STRIP); {
-            float x, z;
-            for (int theta=360; theta >= 0; theta -= (360 / n))
-            {
-                Polar2Cart(topRadius, theta, &x, &z);
-                // FIXME normal should be slanted
-                glNormal3f(x, 0, z);
-                glTexCoord2f(M_PI * theta / 360.0f, 0.0f);
-                glVertex3d(x, 1, z);
+		// Baseline geometry
+		if (Toggles::Noise::showBase)
+		{
+			if (Toggles::Noise::showPerturbed)
+			{ // Use white, transparent wireframe
+				glColor4f(1, 1, 1, 0.5);
+				glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
+				glDisable(GL_TEXTURE_2D);
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			} // else: Use colored, textured geometry
 
-                Polar2Cart(baseRadius, theta, &x, &z);
-                glTexCoord2f(M_PI * theta / 360.0f, 1.0f);
-                glVertex3d(x, 0, z);
-            }
-        } glEnd();
+			DrawHelper(baseVertices);
 
-        // Bottom
-        // FIXME texture is swirly
-        glBegin(GL_TRIANGLE_FAN); {
-            glNormal3f(0, -1, 0);
-            glTexCoord2f(0.5, 0.5);
-            glVertex3d(0, 0, 0);
-            float x, z;
-            for (int theta=0; theta <= 360; theta += (360 / n))
-            {
-                Polar2Cart(baseRadius, theta, &x, &z);
-                glTexCoord2f(0.5*(1 + x), 0.5*(1 + z));
-                glVertex3d(x, 0, z);
-            }
-        } glEnd();
+            // Reset if changes were made
+			if (Toggles::Noise::showPerturbed)
+			{
+				glPopAttrib();
+				glColor4f(1, 1, 1, 1);
+			}
+		}
 	} glPopMatrix();
 }
