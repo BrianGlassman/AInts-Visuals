@@ -78,6 +78,7 @@ public:
 
     // Operators
     bool operator==(const Vector3Int& vec) const;
+    bool operator!=(const Vector3Int& vec) const { return ! operator==(vec); }
     Vector3Int operator+(const Vector3Int& rhs) const;
     Vector3Int operator-(const Vector3Int& rhs) const;
 private:
