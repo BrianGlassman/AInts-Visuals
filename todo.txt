@@ -1,5 +1,3 @@
-bugs:
-	centerline isn't using noise
 
 default to not showing the light source trace (red and blue lines) because that might be what's causing the problem
 
