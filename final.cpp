@@ -108,11 +108,14 @@ void display()
 		// Make sure that eyePos updates with any scene or geometry changes
 		auto& CL = *(currentStructure->getCL());
 		Globals::InteriorView::eyePos = CL[currentCLidx].coords;
+
 		displayModelPtr->Draw();
 	}
 
 	//  Revert to fixed pipeline
 	UseShader(Shader::fixedPipeline);
+
+	if (Globals::toBuild != StructureType::NONE) buildIndicator.Draw();
 
 	if (Toggles::Noise::showPVectors) noisePtr->DrawNoise();
 
@@ -148,6 +151,10 @@ int main(int argc, char* argv[])
 	bool useNoise = true;
 	Toggles::Noise::showPerturbed = useNoise;
 	Toggles::Noise::showBase = !useNoise;
+
+
+	Globals::toBuild = StructureType::Chamber;
+
 
 	// Create the scene to be displayed
 	Globals::sceneChoice = Scene::colony;

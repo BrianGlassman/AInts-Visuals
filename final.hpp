@@ -12,6 +12,7 @@
 
 // Structures
 #include "Colony.hpp"
+#include "BuildIndicator.hpp"
 
 // Noise
 #include "Noise.hpp"
@@ -29,6 +30,8 @@ Colony tunnel;
 Colony chamber;
 Colony hill;
 // Colony allTunnels;
+
+BuildIndicator buildIndicator;
 
 Noise* noisePtr;
 
