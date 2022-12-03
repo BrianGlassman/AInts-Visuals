@@ -1,9 +1,6 @@
 
 toBuild movement should change with view direction, probably
-
-include instructions for moving toBuild in README, once I've figured out what they are
-
-buildIndicator is getting a lot darker than it should with "Toggle Wireframe" activated
+	include instructions for moving toBuild in README, once I've figured out what they are
 
 should clean the Python stuff out of Noise directory (move it to _reference)
 
