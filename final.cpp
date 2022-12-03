@@ -154,7 +154,14 @@ void Input::buildKey(unsigned char k)
 		switch(Globals::toBuild)
 		{
 		case StructureType::NONE: return;
-		case StructureType::Delete: displayModelPtr->DeleteStructure(buildIndicator.center); break;
+		case StructureType::Delete:
+			if (displayModelPtr->GetChild(buildIndicator.center) == nullptr)
+			{
+				// Nothing there, nothing to do
+				return;
+			}
+			displayModelPtr->DeleteStructure(buildIndicator.center);
+			break;
 		default: displayModelPtr->AddStructure(buildIndicator.center, Globals::toBuild); break;
 		}
 		
