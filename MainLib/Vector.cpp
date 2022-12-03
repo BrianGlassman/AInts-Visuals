@@ -124,6 +124,14 @@ const Vector3Int       Vector3Int::Up({0,  1, 0});
 const Vector3Int     Vector3Int::Down({0, -1, 0});
 const Vector3Int    Vector3Int::Right({ 1, 0, 0});
 const Vector3Int     Vector3Int::Left({-1, 0, 0});
+const Vector3Int Vector3Int::directions[6] = {
+     Vector3Int::Forward,
+    Vector3Int::Backward,
+          Vector3Int::Up,
+        Vector3Int::Down,
+       Vector3Int::Right,
+        Vector3Int::Left,
+};
 
 Vector3Int::Vector3Int()
 {

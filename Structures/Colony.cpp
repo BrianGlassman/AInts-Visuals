@@ -153,12 +153,10 @@ void Colony::CenterlineHelper(std::vector<Vertex>& dstCL, bool usePerturbed)
     }
 
     // Link endpoints from adjacent children
-    LinkEndpoints(children, offsets, dstCL, Vector3Int::Forward);
-    LinkEndpoints(children, offsets, dstCL, Vector3Int::Backward);
-    LinkEndpoints(children, offsets, dstCL, Vector3Int::Left);
-    LinkEndpoints(children, offsets, dstCL, Vector3Int::Right);
-    LinkEndpoints(children, offsets, dstCL, Vector3Int::Up);
-    LinkEndpoints(children, offsets, dstCL, Vector3Int::Down);
+    for (auto& direction : Vector3Int::directions)
+    {
+        LinkEndpoints(children, offsets, dstCL, direction);
+    }
 
     // Merge coincident points now that all creation and linking is done
     MergeCoincident(dstCL);

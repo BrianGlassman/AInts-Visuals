@@ -69,6 +69,7 @@ public:
     static const Vector3Int     Down; static const int     hashDown = 100101100;
     static const Vector3Int    Right; static const int    hashRight = 201100100;
     static const Vector3Int     Left; static const int     hashLeft = 101100100;
+    static const Vector3Int directions[6];
 
     // Operators
     bool operator==(const Vector3Int& vec) const;
