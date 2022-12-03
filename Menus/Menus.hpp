@@ -40,6 +40,7 @@ class NoiseMenu : public Menu { public: NoiseMenu(); };
 
 class ViewMenu : public Menu { public: ViewMenu(); };
 
+void SetBuildModel(StructureType type); // Defined elsewhere
 class BuildMenu : public Menu { public: BuildMenu(); };
 
 } // namespace Menus

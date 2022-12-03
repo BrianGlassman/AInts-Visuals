@@ -143,6 +143,7 @@ void display()
 	postDisplay();
 }
 
+// Connect Input to the BuildIndicator
 void Input::buildKey(unsigned char k)
 {
 	if (k == 32) // Space - build it
@@ -155,6 +156,12 @@ void Input::buildKey(unsigned char k)
 	{
 		buildIndicator.HandleKey(k);
 	}
+}
+
+// Connect the Menu to the BuildIndicator
+void Menus::SetBuildModel(StructureType type)
+{
+	buildIndicator.SetModel(type);
 }
 
 int main(int argc, char* argv[])

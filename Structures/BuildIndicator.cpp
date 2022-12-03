@@ -5,10 +5,43 @@
 #include "Chamber.hpp"
 #include "Mine.hpp"
 #include "Farm.hpp"
+#include "Hill.hpp"
 
 BuildIndicator::BuildIndicator()
 {
     model = std::make_unique<Chamber>();
+    model->Create();
+}
+
+void BuildIndicator::SetModel(StructureType type)
+{
+    switch(type)
+    {
+    case StructureType::NONE:
+        model = nullptr;
+        return;
+    case StructureType::Tunnel:
+        model = std::make_unique<Tunnel>();
+        break;
+    case StructureType::Chamber:
+        model = std::make_unique<Chamber>();
+        break;
+    case StructureType::Mine:
+        model = std::make_unique<Hill>();
+        break;
+    // case StructureType::Farm:
+    //     model = std::make_unique<Farm>();
+    //     break;
+    case StructureType::Hill:
+        model = std::make_unique<Hill>();
+        break;
+    // case StructureType::Delete:
+    //     // FIXME make a "delete model"
+    //     break;
+    default:
+        Fatal(999, "BuildIndicator::SetModel Unrecognized StructureType %d\n", type);
+    }
+    model->center = center;
     model->Create();
 }
 
@@ -69,6 +102,8 @@ void BuildIndicator::Create()
 
 void BuildIndicator::Draw()
 {
+    if (model == nullptr) return;
+
     PushShader(Shader::fixedPipeline);
     glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
     glEnable(GL_POLYGON_OFFSET_FILL);

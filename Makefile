@@ -80,7 +80,7 @@ Mine.o: $(STCRDIR)/Mine.cpp $(STCRDIR)/Mine.hpp Chamber.o
 Farm.o: $(STCRDIR)/Farm.cpp $(STCRDIR)/Farm.hpp Chamber.o
 # Colony needs to depend on all the other Structures
 Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp Chamber.o Hill.o Tunnel.o Mine.o MainLib.a
-BuildIndicator.o: $(STCRDIR)/BuildIndicator.cpp $(STCRDIR)/BuildIndicator.hpp Structure.o Chamber.o Hill.o Tunnel.o Mine.o Farm.o
+BuildIndicator.o: $(STCRDIR)/BuildIndicator.cpp $(STCRDIR)/BuildIndicator.hpp Structure.o Chamber.o Hill.o Tunnel.o Mine.o Farm.o MainLib.a
 
 #--- Noise ---
 Noise.o: $(NOISDIR)/Noise.cpp $(NOISDIR)/Noise.hpp

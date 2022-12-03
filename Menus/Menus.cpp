@@ -112,6 +112,7 @@ namespace Callbacks{ void Build(int val)
     default:
         Fatal(999, "Unknown val %d to Build callback\n", val);
     }
+    SetBuildModel(Globals::toBuild);
 }}
 BuildMenu::BuildMenu()
 {
