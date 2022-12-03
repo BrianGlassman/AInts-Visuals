@@ -308,14 +308,14 @@ void Colony::DrawCenterlines()
 	ErrCheck("Colony::DrawCenterlines");
 }
 
-void Colony::Draw()
+void Colony::Draw(bool hasControl)
 {
 	glPushMatrix(); {
 		glTranslatef(center[0], center[1], center[2]);
 
         for(auto& child : children)
         {
-            child.second->Draw();
+            child.second->Draw(hasControl);
         }
 
         if(Toggles::showCenterlines) DrawCenterlines();

@@ -9,7 +9,7 @@ public:
     Hill();
 
     void Create();
-    void Draw();
+    void Draw(bool hasControl = true);
 
     float baseRadius = 0.5f;
     float topRadius = 0.1f; // Should be equal to tunnel radius

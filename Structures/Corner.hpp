@@ -35,7 +35,7 @@ public:
 	int panels = 4;
 
 	void Create();
-    void Draw();
+    void Draw(bool hasControl = true);
 private:
 	// Transformation to align the mesh properly
 	Vector3 meshRotate = {0, 0, 0};

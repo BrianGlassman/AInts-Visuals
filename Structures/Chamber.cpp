@@ -368,19 +368,21 @@ void Chamber::DrawHelper(std::vector<Vector3> drawVertices)
 	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 }
 
-void Chamber::Draw()
+void Chamber::Draw(bool hasControl)
 {
 	if (Toggles::showNormals) DrawNormals(0.2);
 
-	if (Toggles::debug)
+	if (hasControl)
 	{
-		PushShader(Shader::fixedPipeline);
-		glPushAttrib(GL_ENABLE_BIT);
-		glDisable(GL_TEXTURE_2D);
-	}
-	else
-	{
-		PushShader(Shader::threeDshader);
+		if (Toggles::debug)
+		{
+			PushShader(Shader::fixedPipeline);
+			glPushAttrib(GL_ENABLE_BIT); glDisable(GL_TEXTURE_2D);
+		}
+		else
+		{
+			PushShader(Shader::threeDshader);
+		}
 	}
 
 	glPushMatrix(); {
@@ -393,7 +395,7 @@ void Chamber::Draw()
 		// Baseline geometry
 		if (Toggles::Noise::showBase)
 		{
-			if (Toggles::Noise::showPerturbed)
+			if (Toggles::Noise::showPerturbed && hasControl)
 			{ // Use white, transparent wireframe
 				glColor4f(1, 1, 1, 0.5);
 				glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
@@ -401,7 +403,7 @@ void Chamber::Draw()
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			} // else: Use colored, textured geometry
 			DrawHelper(baseVertices);
-			if (Toggles::Noise::showPerturbed)
+			if (Toggles::Noise::showPerturbed && hasControl)
 			{
 				glPopAttrib();
 				glColor4f(1, 1, 1, 1);
@@ -409,8 +411,11 @@ void Chamber::Draw()
 		}
 	} glPopMatrix();
 
-	if (Toggles::debug) glPopAttrib();
-	PopShader();
+	if (hasControl)
+	{
+		if (Toggles::debug) glPopAttrib();
+		PopShader();
+	}
 
 	ErrCheck("Chamber::Draw");
 }

@@ -37,7 +37,7 @@ public:
     virtual void Create();
 	virtual void PostCreate();
 	void DrawNormals(float scale = 1);
-	virtual void Draw();
+	virtual void Draw(bool hasControl = true);
 
     virtual void ApplyNoise();
 protected:
@@ -63,7 +63,7 @@ public:
 	float height = 1.0f;
 	int n = 12;
 
-	void Draw();
+	void Draw(bool hasControl = true);
 	void SetTopCenter(float x, float y, float z);
 	void SetBottomCenter(float x, float y, float z);
 };
@@ -83,7 +83,7 @@ public:
 	// Internal (i.e. center to wall) distance
 	float radius = 0.5f;
 
-	void Draw();
+	void Draw(bool hasControl = true);
 private:
 	unsigned char sides;
 };
@@ -96,5 +96,5 @@ public:
 	float radius = 0.5f;
 	int n = 12;
 
-	void Draw();
+	void Draw(bool hasControl = true);
 };

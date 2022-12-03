@@ -420,7 +420,7 @@ void Corner::DrawHelper(std::vector<Vector3> drawVertices)
 		}
 	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 }
-void Corner::Draw()
+void Corner::Draw(bool hasControl)
 {
 	if (Toggles::showNormals)
 	{
@@ -431,15 +431,18 @@ void Corner::Draw()
 		} glPopMatrix();
 	}
 
-	if (Toggles::debug)
+	if (hasControl)
 	{
-		PushShader(Shader::fixedPipeline);
-		glPushAttrib(GL_ENABLE_BIT); glDisable(GL_TEXTURE_2D);
-		glColor3f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25);
-	}
-	else
-	{
-		PushShader(Shader::threeDshader);
+		if (Toggles::debug)
+		{
+			PushShader(Shader::fixedPipeline);
+			glPushAttrib(GL_ENABLE_BIT); glDisable(GL_TEXTURE_2D);
+			glColor3f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25);
+		}
+		else
+		{
+			PushShader(Shader::threeDshader);
+		}
 	}
 
 	glFrontFace(windMode);
@@ -454,7 +457,7 @@ void Corner::Draw()
 		// Baseline geometry
 		if (Toggles::Noise::showBase)
 		{
-			if (Toggles::Noise::showPerturbed)
+			if (Toggles::Noise::showPerturbed && hasControl)
 			{ // Use white, transparent wireframe
 				glColor4f(1, 1, 1, 0.5);
 				glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
@@ -462,7 +465,7 @@ void Corner::Draw()
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			} // else: Use colored, textured geometry
 			DrawHelper(baseVertices);
-			if (Toggles::Noise::showPerturbed)
+			if (Toggles::Noise::showPerturbed && hasControl)
 			{
 				glPopAttrib();
 				glColor4f(1, 1, 1, 1);
@@ -470,14 +473,14 @@ void Corner::Draw()
 		}
     } glPopMatrix();
 
-	if (Toggles::debug)
+	if (Toggles::debug && hasControl)
 	{
 		glPopAttrib();
 		glColor3f(1, 1, 1);
 	}
 	
 	glFrontFace(GL_CCW);
-	PopShader();
+	if (hasControl) PopShader();
 
 	ErrCheck("Corner::Draw");
 }

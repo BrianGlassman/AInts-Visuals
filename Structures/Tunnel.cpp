@@ -265,7 +265,7 @@ void Tunnel::OldDraw()
 
 }
 
-void Tunnel::Draw()
+void Tunnel::Draw(bool hasControl)
 {
 	glPushMatrix(); {
 		glTranslatef(center[0], center[1], center[2]);
@@ -274,7 +274,7 @@ void Tunnel::Draw()
 
 		for (auto &&corner : corners)
 		{
-			corner.Draw();
+			corner.Draw(hasControl);
 		}
 	} glPopMatrix();
 }

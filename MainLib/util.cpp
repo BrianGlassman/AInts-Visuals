@@ -183,7 +183,7 @@ void Model::DrawNormals(float scale)
 	PopShader();
 }
 
-void Model::Draw()
+void Model::Draw(bool hasControl)
 {
 	fprintf(stdout, "WARNING base draw\n");
 }
@@ -192,7 +192,7 @@ Cylinder::Cylinder()
 {
 }
 
-void Cylinder::Draw()
+void Cylinder::Draw(bool hasControl)
 {
  	glPushMatrix(); {
  	 	glTranslatef(center[0], center[1], center[2]);
@@ -275,7 +275,7 @@ Cube::Cube()
  	 	back * 2 + forward * 1);
 }
 
-void Cube::Draw()
+void Cube::Draw(bool hasControl)
 {
 	// Vertex Coordinates
 	const float vertices[][3] = {
@@ -325,7 +325,7 @@ Sphere::Sphere()
 {
 }
 
-void Sphere::Draw()
+void Sphere::Draw(bool hasControl)
 {
 	glPushMatrix(); {
 		// Apply transformations

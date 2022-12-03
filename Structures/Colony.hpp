@@ -18,7 +18,7 @@ public:
     virtual void Create();
     void ApplyNoise();
     void DrawCenterlines();
-    void Draw();
+    void Draw(bool hasControl = true);
 
     void AddTunnel(Vector3Int center) { AddStructure(center, StructureType::Tunnel); }
     void AddTunnel(int x, int y, int z) { AddStructure({x, y, z}, StructureType::Tunnel); }

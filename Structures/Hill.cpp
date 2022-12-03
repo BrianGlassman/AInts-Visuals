@@ -225,19 +225,22 @@ void Hill::DrawHelper(std::vector<Vector3> drawVertices)
 		}
 	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 }
-void Hill::Draw()
+void Hill::Draw(bool hasControl)
 {
 	if (Toggles::showNormals) DrawNormals(0.2);
 
-	if (Toggles::debug)
-	{
-		PushShader(Shader::fixedPipeline);
-		glPushAttrib(GL_ENABLE_BIT); glDisable(GL_TEXTURE_2D);
-	}
-	else
-	{
-		PushShader(Shader::threeDshader);
-	}
+    if (hasControl)
+    {
+        if (Toggles::debug)
+        {
+            PushShader(Shader::fixedPipeline);
+            glPushAttrib(GL_ENABLE_BIT); glDisable(GL_TEXTURE_2D);
+        }
+        else
+        {
+            PushShader(Shader::threeDshader);
+        }
+    }
 
 
 	glPushMatrix(); {
@@ -250,7 +253,7 @@ void Hill::Draw()
 		// Baseline geometry
 		if (Toggles::Noise::showBase)
 		{
-			if (Toggles::Noise::showPerturbed)
+			if (Toggles::Noise::showPerturbed && hasControl)
 			{ // Use white, transparent wireframe
 				glColor4f(1, 1, 1, 0.5);
 				glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
@@ -261,7 +264,7 @@ void Hill::Draw()
 			DrawHelper(baseVertices);
 
             // Reset if changes were made
-			if (Toggles::Noise::showPerturbed)
+			if (Toggles::Noise::showPerturbed && hasControl)
 			{
 				glPopAttrib();
 				glColor4f(1, 1, 1, 1);
@@ -269,8 +272,11 @@ void Hill::Draw()
 		}
 	} glPopMatrix();
 
-	if (Toggles::debug) glPopAttrib();
-    PopShader();
+    if (hasControl)
+    {
+        if (Toggles::debug) glPopAttrib();
+        PopShader();
+    }
 
     ErrCheck("Hill::Draw");
 }

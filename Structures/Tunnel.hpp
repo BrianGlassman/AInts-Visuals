@@ -14,7 +14,7 @@ public:
 
 	void Create();
 	void ApplyNoise();
-	void Draw();
+	void Draw(bool hasControl);
 
 	float radius = 0.1f;
 	int n = 8; // Must be a multiple of 8 for the sake of passing to Corner
