@@ -145,7 +145,16 @@ void display()
 
 void Input::buildKey(unsigned char k)
 {
-	buildIndicator.HandleKey(k);
+	if (k == 32) // Space - build it
+	{
+		displayModelPtr->AddStructure(buildIndicator.center, Globals::toBuild);
+		displayModelPtr->Create();
+		displayModelPtr->ApplyNoise();
+	}
+	else
+	{
+		buildIndicator.HandleKey(k);
+	}
 }
 
 int main(int argc, char* argv[])
@@ -153,9 +162,11 @@ int main(int argc, char* argv[])
 	Perlin noise;
 	noisePtr = &noise;
 
-	bool useNoise = true;
-	Toggles::Noise::showPerturbed = useNoise;
-	Toggles::Noise::showBase = !useNoise;
+	{
+		bool startNoisy = true;
+		Toggles::Noise::showPerturbed = startNoisy;
+		Toggles::Noise::showBase = !startNoisy;
+	}
 
 
 	Globals::toBuild = StructureType::Chamber;
@@ -167,7 +178,7 @@ int main(int argc, char* argv[])
 	{
 		PopulateColony(colony);
 		colony.Create();
-		if (useNoise) colony.ApplyNoise();
+		colony.ApplyNoise();
 	}
 
 	if (true)
@@ -175,7 +186,7 @@ int main(int argc, char* argv[])
 		tunnel.AddTunnel(0, 0, 0); // Tunnel
 		tunnel.AddTunnel(-1, 0, 0);
 		tunnel.Create();
-		if (useNoise) tunnel.ApplyNoise();
+		tunnel.ApplyNoise();
 	}
 
 	if (true)
@@ -183,7 +194,7 @@ int main(int argc, char* argv[])
 		chamber.AddChamber(0, 0, 0); // Chamber
 		chamber.AddChamber(0, 1, 0);
 		chamber.Create();
-		if (useNoise) chamber.ApplyNoise();
+		chamber.ApplyNoise();
 	}
 
 	if (true)
@@ -191,14 +202,14 @@ int main(int argc, char* argv[])
 		hill.AddHill(0, 0, 0);
 		hill.AddTunnel(0, -1, 0);
 		hill.Create();
-		if (useNoise) hill.ApplyNoise();
+		hill.ApplyNoise();
 	}
 
 	// if (false) // FIXME CL breaks because the connections are wrong (i.e. forced)
 	// {
 	// 	PopulateTunnels(allTunnels);
 	// 	allTunnels.Create();
-	// 	if (useNoise) allTunnels.ApplyNoise();
+	// 	allTunnels.ApplyNoise();
 	// }
 
 	// Initialize displayModelPtr

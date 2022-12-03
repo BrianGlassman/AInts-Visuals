@@ -28,13 +28,13 @@ public:
     void AddHill(Vector3Int center) { AddStructure(center, StructureType::Hill); }
     void AddHill(int x, int y, int z) { AddStructure({x, y, z}, StructureType::Hill); }
 
+    void AddStructure(Vector3Int center, StructureType type);
+    void AddStructure(int x, int y, int z, StructureType type);
+
     // FIXME part of temp motion model
     std::vector<Vertex>* getCL();
 private:
     std::unordered_map<Vector3Int, std::shared_ptr<Structure>> children;
-
-    void AddStructure(Vector3Int center, StructureType type);
-    void AddStructure(int x, int y, int z, StructureType type);
 
     // FIXME part of temp motion model
     void CenterlineHelper(std::vector<Vertex>& dstCL, bool usePerturbed);
