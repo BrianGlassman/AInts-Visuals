@@ -35,8 +35,6 @@ private:
 
     void AddStructure(Vector3Int center, StructureType type);
     void AddStructure(int x, int y, int z, StructureType type);
-    void AddStructure(Vector3Int center, StructureType type, unsigned char sides);
-    void AddStructure(int x, int y, int z, StructureType type, unsigned char sides);
 
     // FIXME part of temp motion model
     void CenterlineHelper(std::vector<Vertex>& dstCL, bool usePerturbed);
