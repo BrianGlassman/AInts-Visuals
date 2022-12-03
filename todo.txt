@@ -1,8 +1,4 @@
 
-still need to implement deleting buildings
-
-
-
 toBuild movement should change with view direction, probably
 
 include instructions for moving toBuild in README, once I've figured out what they are
