@@ -159,10 +159,11 @@ namespace Callbacks{ void Gizmos(int val)
         Toggles::debug = !Toggles::debug;
         break;
     case 1:
-        ToggleWireframe();
+        Toggles::Display::wireframe = !Toggles::Display::wireframe;
+        glPolygonMode(GL_FRONT_AND_BACK, (Toggles::Display::wireframe) ? GL_LINE : GL_FILL);
         break;
     case 2:
-        ToggleAxes();
+        Toggles::Display::showAxes = !Toggles::Display::showAxes;
         break;
     case 3:
         Toggles::showNormals = !Toggles::showNormals;

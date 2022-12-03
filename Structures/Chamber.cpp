@@ -402,7 +402,9 @@ void Chamber::Draw(bool hasControl)
 				glDisable(GL_TEXTURE_2D);
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			} // else: Use colored, textured geometry
+
 			DrawHelper(baseVertices);
+			
 			if (Toggles::Noise::showPerturbed && hasControl)
 			{
 				glPopAttrib();

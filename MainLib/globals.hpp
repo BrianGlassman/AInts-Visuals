@@ -32,6 +32,11 @@ namespace Toggles
         extern bool showPVectors;
         extern bool showBase;
     }
+    namespace Display
+    {
+        extern bool showAxes;
+        extern bool wireframe;
+    }
 
     extern bool showNormals;
 

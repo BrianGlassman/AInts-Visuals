@@ -55,6 +55,9 @@ static void init(int argc, char* argv[])
 		glCullFace(GL_FRONT);
 	glEnable(GL_DEPTH_TEST);
 
+	// Wireframe
+	glPolygonMode(GL_FRONT_AND_BACK, (Toggles::Display::wireframe) ? GL_LINE : GL_FILL);
+
 	SetCallbacks();
 
 	Menus::CreateMenus();
@@ -225,7 +228,7 @@ int main(int argc, char* argv[])
 	// Initialize displayModelPtr
 	SetDisplayPtr();
 
-	buildIndicator.SetModel(StructureType::NONE);
+	Menus::SetBuildModel(StructureType::NONE);
 
 	init(argc, argv);
 

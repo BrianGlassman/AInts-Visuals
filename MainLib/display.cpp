@@ -5,10 +5,6 @@
 
 static float view_rotx, view_roty, view_rotz;
 
-// Toggleables
-bool usingWire = false;
-bool usingAxes = false;
-
 namespace InteriorView {
 	static GLfloat fp_up[] = {0.0, 1.0, 0.0};
 }
@@ -98,7 +94,7 @@ void preDisplay()
 
 void postDisplay(float scale)
 {
-	if (usingAxes) DrawAxes(scale);
+	if (Toggles::Display::showAxes) DrawAxes(scale);
 
 	glFlush();
 	glutSwapBuffers();
@@ -121,31 +117,4 @@ void visible(int vis)
 		glutIdleFunc(idle);
 	else
 		glutIdleFunc(NULL);
-}
-
-void ToggleWireframe()
-{
-	SetWireframe(!usingWire);
-}
-void SetWireframe(bool useWire)
-{
-	if (useWire)
-	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		usingWire = true;
-	}
-	else
-	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		usingWire = false;
-	}
-}
-
-void ToggleAxes()
-{
-	SetAxes(!usingAxes);
-}
-void SetAxes(bool useAxes)
-{
-	usingAxes = useAxes;
 }
