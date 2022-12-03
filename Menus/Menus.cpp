@@ -89,21 +89,24 @@ namespace Callbacks{ void Build(int val)
     switch(val)
     {
     case 0:
-        Globals::toBuild = StructureType::Tunnel;
+        Globals::toBuild = StructureType::NONE;
         break;
     case 1:
-        Globals::toBuild = StructureType::Chamber;
+        Globals::toBuild = StructureType::Tunnel;
         break;
     case 2:
-        Globals::toBuild = StructureType::Mine;
+        Globals::toBuild = StructureType::Chamber;
         break;
     case 3:
-        Globals::toBuild = StructureType::Farm;
+        Globals::toBuild = StructureType::Mine;
         break;
     case 4:
-        Globals::toBuild = StructureType::Hill;
+        Globals::toBuild = StructureType::Farm;
         break;
     case 5:
+        Globals::toBuild = StructureType::Hill;
+        break;
+    case 6:
         Globals::toBuild = StructureType::Delete;
         break;
     default:
@@ -113,7 +116,7 @@ namespace Callbacks{ void Build(int val)
 BuildMenu::BuildMenu()
 {
     name = "Build";
-    buttons = { "Tunnel", "Chamber", "Mine", "Farm", "Hill", "Delete" };
+    buttons = { "None", "Tunnel", "Chamber", "Mine", "Farm", "Hill", "Delete" };
     callback = Callbacks::Build;
 }
 
