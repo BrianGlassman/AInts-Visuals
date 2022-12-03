@@ -1,5 +1,6 @@
 #include "Corner.hpp"
 #include "globals.hpp"
+#include "Shaders.hpp"
 #include "Structure.hpp"
 
 Corner::Corner()
@@ -432,8 +433,13 @@ void Corner::Draw()
 
 	if (Toggles::debug)
 	{
+		PushShader(Shader::fixedPipeline);
 		glPushAttrib(GL_ENABLE_BIT); glDisable(GL_TEXTURE_2D);
 		glColor3f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25);
+	}
+	else
+	{
+		PushShader(Shader::threeDshader);
 	}
 
 	glFrontFace(windMode);
@@ -471,4 +477,7 @@ void Corner::Draw()
 	}
 	
 	glFrontFace(GL_CCW);
+	PopShader();
+
+	ErrCheck("Corner::Draw");
 }

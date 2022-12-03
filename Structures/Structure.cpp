@@ -129,5 +129,5 @@ void Structure::DrawCenterlines()
 	glPopAttrib();
 	PopShader();
 
-	ErrCheck("Structure::DrawCenterlines\n");
+	ErrCheck("Structure::DrawCenterlines");
 }

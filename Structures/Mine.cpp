@@ -125,7 +125,7 @@ void Mine::Create()
 		CreateInternal(2,  true, 0, false, 1,  true); // back
     }
 
-	ErrCheck("Chamber::Create\n");
+	ErrCheck("Mine::Create");
 
 	PostCreate();
 }

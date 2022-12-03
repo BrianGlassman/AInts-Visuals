@@ -1,6 +1,7 @@
 #include "Hill.hpp"
 
 #include "globals.hpp"
+#include "Shaders.hpp"
 
 Hill::Hill()
 {
@@ -228,6 +229,17 @@ void Hill::Draw()
 {
 	if (Toggles::showNormals) DrawNormals(0.2);
 
+	if (Toggles::debug)
+	{
+		PushShader(Shader::fixedPipeline);
+		glPushAttrib(GL_ENABLE_BIT); glDisable(GL_TEXTURE_2D);
+	}
+	else
+	{
+		PushShader(Shader::threeDshader);
+	}
+
+
 	glPushMatrix(); {
 		glTranslatef(center[0], center[1], center[2]);
 
@@ -256,4 +268,9 @@ void Hill::Draw()
 			}
 		}
 	} glPopMatrix();
+
+	if (Toggles::debug) glPopAttrib();
+    PopShader();
+
+    ErrCheck("Hill::Draw");
 }

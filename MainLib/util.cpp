@@ -19,6 +19,8 @@ void Polar2Cart(float radius, float theta, float* x_out, float* y_out)
  */
 void DrawAxes(float scale)
 {
+	PushShader(Shader::fixedPipeline);
+	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
 	
@@ -47,9 +49,9 @@ void DrawAxes(float scale)
 			glRasterPos3d(Z_AXIS);
 	} glPopMatrix();
 	
-	glEnable(GL_LIGHTING);
-	glEnable(GL_TEXTURE_2D);
+	glPopAttrib();
 	glColor3f(1, 1, 1);
+	PopShader();
 	
 	ErrCheck("DrawAxes");
 }

@@ -100,8 +100,8 @@ void display()
 	orbiterPtr->UpdatePosition(); // FIXME this should probably not be in display
 	orbiterPtr->Draw();
 
-	// Activate shader pipeline
-	UseShader(Shader::threeDshader);
+	// Use brick shader as a scream test
+	UseShader(Shader::brickShader);
 	
 	if (displayModelPtr->created)
 	{

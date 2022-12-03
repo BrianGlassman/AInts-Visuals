@@ -305,7 +305,7 @@ void Colony::DrawCenterlines()
 	glPopAttrib();
 	PopShader();
 
-	ErrCheck("Colony::DrawCenterlines\n");
+	ErrCheck("Colony::DrawCenterlines");
 }
 
 void Colony::Draw()
@@ -320,6 +320,8 @@ void Colony::Draw()
 
         if(Toggles::showCenterlines) DrawCenterlines();
     } glPopMatrix();
+
+    ErrCheck("Colony::Draw");
 }
 
 void Colony::AddStructure(Vector3Int center, StructureType type)

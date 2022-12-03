@@ -1,3 +1,7 @@
+current task:
+	each object should set its own shader usage, rather than relying on the existing state
+
+
 
 toBuild movement should change with view direction, probably
 

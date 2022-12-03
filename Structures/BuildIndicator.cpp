@@ -160,9 +160,10 @@ void BuildIndicator::Draw()
     else glColor4f(0.3, 0.7, 1, 1.0);
     model->Draw();
 
+    glPolygonOffset(0, 0);
     glColor4f(1, 1, 1, 1);
     glPopAttrib();
     PopShader();
 
-    ErrCheck("BuildIndicator::Draw\n");
+    ErrCheck("BuildIndicator::Draw");
 }

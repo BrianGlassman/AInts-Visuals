@@ -2,6 +2,7 @@
 
 #include "Chamber.hpp"
 #include "globals.hpp"
+#include "Shaders.hpp"
 
 Chamber::Chamber(unsigned char sides)
 {
@@ -261,7 +262,7 @@ void Chamber::Create()
 		endpointBack = centerline.size() - 1;
 	}
 
-	ErrCheck("Chamber::Create\n");
+	ErrCheck("Chamber::Create");
 
 	PostCreate();
 }
@@ -373,8 +374,13 @@ void Chamber::Draw()
 
 	if (Toggles::debug)
 	{
+		PushShader(Shader::fixedPipeline);
 		glPushAttrib(GL_ENABLE_BIT);
 		glDisable(GL_TEXTURE_2D);
+	}
+	else
+	{
+		PushShader(Shader::threeDshader);
 	}
 
 	glPushMatrix(); {
@@ -404,4 +410,7 @@ void Chamber::Draw()
 	} glPopMatrix();
 
 	if (Toggles::debug) glPopAttrib();
+	PopShader();
+
+	ErrCheck("Chamber::Draw");
 }

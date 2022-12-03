@@ -169,7 +169,7 @@ void Tunnel::Create()
 		endpointBack = centerline.size() - 1;
 	}
 
-	ErrCheck("Tunnel::Create\n");
+	ErrCheck("Tunnel::Create");
 
 	PostCreate();
 }
