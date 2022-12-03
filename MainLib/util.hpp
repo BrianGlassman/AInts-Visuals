@@ -51,7 +51,7 @@ protected:
 	std::vector<int> indices;
 };
 
-class Cylinder : Model
+class Cylinder : public Model
 {
 public:
 	Cylinder();
@@ -68,7 +68,7 @@ public:
 	void SetBottomCenter(float x, float y, float z);
 };
 
-class Cube : Model
+class Cube : public Model
 {
 public:
 	Cube();
@@ -88,7 +88,7 @@ private:
 	unsigned char sides;
 };
 
-class Sphere : Model
+class Sphere : public Model
 {
 public:
 	Sphere();
