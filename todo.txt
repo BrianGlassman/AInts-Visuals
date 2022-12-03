@@ -5,8 +5,6 @@ include instructions for moving toBuild in README, once I've figured out what th
 
 buildIndicator is getting a lot darker than it should with "Toggle Wireframe" activated
 
-buildIndicator shouldn't show in Interior View
-
 should clean the Python stuff out of Noise directory (move it to _reference)
 
 Hill should only be able to connect at the bottom

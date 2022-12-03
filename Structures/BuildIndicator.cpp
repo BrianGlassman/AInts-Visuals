@@ -140,6 +140,7 @@ void BuildIndicator::Create()
 void BuildIndicator::Draw()
 {
     if (model == nullptr) return;
+    if (Globals::viewMode == ViewMode::INTERIOR) return;
 
     PushShader(Shader::fixedPipeline);
     glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
