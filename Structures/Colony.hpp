@@ -6,6 +6,7 @@
 
 #include "CSCIx229.h"
 #include "util.hpp" // Model class
+#include "globals.hpp"
 #include "Structure.hpp"
 #include "Vertex.hpp"
 

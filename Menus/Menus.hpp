@@ -40,4 +40,6 @@ class NoiseMenu : public Menu { public: NoiseMenu(); };
 
 class ViewMenu : public Menu { public: ViewMenu(); };
 
+class BuildMenu : public Menu { public: BuildMenu(); };
+
 } // namespace Menus

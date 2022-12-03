@@ -3,7 +3,7 @@ default to not showing the light source trace (red and blue lines) because that 
 
 do what prof said: make a wrapper that sets color AND material, and use this everywhere
 
-
+P vectors are getting lit by the orbiter, might be using the shader too
 
 
 
@@ -20,6 +20,8 @@ perspective view looks weird, like it's fish-eyed or something
 something wrong with Makefile again. Was getting a bad_alloc that got fixed by clean-then-make
 
 Normals don't account for perturbations
+
+At least one of the FIXMEs was because I changed a compile warning. Should address that well ahead of time just in case
 
 
 

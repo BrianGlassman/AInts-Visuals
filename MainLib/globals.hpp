@@ -2,6 +2,20 @@
 
 #include "Vector.hpp"
 
+// Used in various places, so not all elements are used in each
+enum class StructureType
+{
+    Delete = 0,
+    Model = 1,
+    Tunnel = 2,
+    Chamber = 3,
+    Colony = 4,
+    Mine = 5,
+    Hill = 6,
+    Farm = 7,
+    NONE = 99,
+};
+
 //---------
 // Toggles
 //---------
@@ -35,6 +49,7 @@ namespace Globals
 {
     extern float tunnelNoiseScale;
     extern float chamberNoiseScale;
+    extern StructureType toBuild;
 }
 
 //-------------------

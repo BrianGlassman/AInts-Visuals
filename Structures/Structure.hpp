@@ -11,16 +11,6 @@ enum class SideType
     chamber = 1, // TODO set to 2 when ready to handle chambers
 };
 
-enum class StructureType
-{
-    Model = 1,
-    Tunnel = 2,
-    Chamber = 3,
-    Colony = 4,
-    Mine = 5,
-    Hill = 6,
-};
-
 class Structure : public Model
 {
 public:

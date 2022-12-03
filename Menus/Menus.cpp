@@ -26,6 +26,10 @@ void Menus::CreateMenus()
     mainMenu.Create();
     mainMenu.Attach(GLUT_RIGHT_BUTTON);
 
+    // Build
+    BuildMenu build; build.Create();
+    mainMenu.AddSubMenu(&build);
+
     // View
     ViewMenu view; view.Create();
     mainMenu.AddSubMenu(&view);
@@ -75,6 +79,42 @@ void Menu::AddSubMenu(Menu* menu)
 MainMenu::MainMenu()
 {
     name = "Main";
+}
+
+//-------
+// Build
+//-------
+namespace Callbacks{ void Build(int val)
+{
+    switch(val)
+    {
+    case 0:
+        Globals::toBuild = StructureType::Tunnel;
+        break;
+    case 1:
+        Globals::toBuild = StructureType::Chamber;
+        break;
+    case 2:
+        Globals::toBuild = StructureType::Mine;
+        break;
+    case 3:
+        Globals::toBuild = StructureType::Farm;
+        break;
+    case 4:
+        Globals::toBuild = StructureType::Hill;
+        break;
+    case 5:
+        Globals::toBuild = StructureType::Delete;
+        break;
+    default:
+        Fatal(999, "Unknown val %d to Build callback\n", val);
+    }
+}}
+BuildMenu::BuildMenu()
+{
+    name = "Build";
+    buttons = { "Tunnel", "Chamber", "Mine", "Farm", "Hill", "Delete" };
+    callback = Callbacks::Build;
 }
 
 //------
