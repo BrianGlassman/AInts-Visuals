@@ -87,6 +87,7 @@ void SetDisplayPtr()
 	default:
 		Fatal(999, "Unknown scene %d\n", Globals::sceneChoice);
 	}
+	buildIndicator.colony = displayModelPtr;
 }
 
 void PopulateColony(Colony& colony)

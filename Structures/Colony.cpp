@@ -357,3 +357,15 @@ void Colony::AddStructure(int x, int y, int z, StructureType type)
 {
     AddStructure({x, y, z}, type);
 }
+
+std::shared_ptr<Structure> Colony::GetChild(Vector3Int coords)
+{
+    if (children.count(coords) > 0)
+    {
+        return children.at(coords);
+    }
+    else
+    {
+        return nullptr;
+    }
+}

@@ -32,6 +32,8 @@ public:
     void AddStructure(Vector3Int center, StructureType type);
     void AddStructure(int x, int y, int z, StructureType type);
 
+    std::shared_ptr<Structure> GetChild(Vector3Int coords); // For BuildIndicator to draw existing structures for deletion
+
     // FIXME part of temp motion model
     std::vector<Vertex>* getCL();
 private:

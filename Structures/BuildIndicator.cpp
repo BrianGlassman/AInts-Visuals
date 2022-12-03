@@ -1,5 +1,6 @@
 #include "BuildIndicator.hpp"
 #include "Shaders.hpp"
+#include "util.hpp"
 
 #include "Tunnel.hpp"
 #include "Chamber.hpp"
@@ -7,9 +8,27 @@
 #include "Farm.hpp"
 #include "Hill.hpp"
 
+class DeleteViz : public Structure
+{
+public:
+    DeleteViz()
+    {
+        cube.radius = 0.4;
+    }
+
+    void Draw()
+    {
+        cube.center = center;
+        cube.Draw();
+    }
+private:
+    Cube cube;
+};
+std::shared_ptr<DeleteViz> deleteViz = std::make_shared<DeleteViz>();
+
 BuildIndicator::BuildIndicator()
 {
-    model = std::make_unique<Chamber>();
+    model = std::make_shared<Chamber>();
     model->Create();
 }
 
@@ -23,23 +42,23 @@ void BuildIndicator::SetModel(StructureType type)
         model = nullptr;
         return; // <-- return, not break
     case StructureType::Tunnel:
-        model = std::make_unique<Tunnel>();
+        model = std::make_shared<Tunnel>();
         break;
     case StructureType::Chamber:
-        model = std::make_unique<Chamber>();
+        model = std::make_shared<Chamber>();
         break;
     case StructureType::Mine:
-        model = std::make_unique<Hill>();
+        model = std::make_shared<Hill>();
         break;
     // case StructureType::Farm:
-    //     model = std::make_unique<Farm>();
+    //     model = std::make_shared<Farm>();
     //     break;
     case StructureType::Hill:
-        model = std::make_unique<Hill>();
+        model = std::make_shared<Hill>();
         break;
-    // case StructureType::Delete:
-    //     // FIXME make a "delete model"
-    //     break;
+    case StructureType::Delete:
+        model = colony->GetChild(center);
+        return; // <-- return, not break
     default:
         Fatal(999, "BuildIndicator::SetModel Unrecognized StructureType %d\n", type);
     }
@@ -94,8 +113,23 @@ void BuildIndicator::HandleKey(unsigned char k)
 	}
 
     // If a change was made, have to re-generate
-    model->center = center;
-    model->Create();
+    if (Globals::toBuild == StructureType::Delete)
+    {
+        // Change which model is targeted
+        model = colony->GetChild(center);
+        if (model == nullptr)
+        {
+            // Use a visual stand-in to show the cursor location
+            model = deleteViz;
+            model->center = center;
+        }
+    }
+    else
+    {
+        // Move the model center
+        model->center = center;
+        model->Create();
+    }
 }
 
 void BuildIndicator::Create()
@@ -116,12 +150,14 @@ void BuildIndicator::Draw()
     glPolygonOffset(0, -1); // Make sure it shows even when overlayed on existing geometry
 
     // First draw - Mostly transparent, filled in
-    glColor4f(0, 0.5, 1, 0.2);
+    if (Globals::toBuild == StructureType::Delete) glColor4f(1, 0, 0, 0.2);
+    else glColor4f(0, 0.5, 1, 0.2);
     model->Draw();
 
     // Second draw - Opaque, wireframe
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    glColor4f(0.3, 0.7, 1, 1.0);
+    if (Globals::toBuild == StructureType::Delete) glColor4f(1, 0.3, 0.3, 1.0);
+    else glColor4f(0.3, 0.7, 1, 1.0);
     model->Draw();
 
     glColor4f(1, 1, 1, 1);

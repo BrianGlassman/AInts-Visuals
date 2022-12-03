@@ -1,7 +1,5 @@
 
 still need to implement deleting buildings
-	also need a visual indicator for when delete is selected
-
 
 
 
