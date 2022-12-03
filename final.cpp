@@ -160,24 +160,18 @@ int main(int argc, char* argv[])
 		colony.Create();
 	}
 
-	// forward : 1
-	//    back : 2
-	//     top : 4
-	//  bottom : 8
-	//   right : 16
-	//    left : 32
 	if (true)
 	{
-		tunnel.AddTunnel(0, 0, 0, 32); // Tunnel
-		tunnel.AddTunnel(-1, 0, 0, 16);
+		tunnel.AddTunnel(0, 0, 0); // Tunnel
+		tunnel.AddTunnel(-1, 0, 0);
 		if (useNoise) tunnel.ApplyNoise(zero);
 		tunnel.Create();
 	}
 
 	if (true)
 	{
-		chamber.AddChamber(0, 0, 0, 4); // Chamber
-		chamber.AddChamber(0, 1, 0, 8);
+		chamber.AddChamber(0, 0, 0); // Chamber
+		chamber.AddChamber(0, 1, 0);
 		if (useNoise) chamber.ApplyNoise(zero);
 		chamber.Create();
 	}
@@ -185,7 +179,7 @@ int main(int argc, char* argv[])
 	if (true)
 	{
 		hill.AddHill(0, 0, 0);
-		hill.AddTunnel(0, -1, 0, 4);
+		hill.AddTunnel(0, -1, 0);
 		if (useNoise) hill.ApplyNoise(zero);
 		hill.Create();
 	}

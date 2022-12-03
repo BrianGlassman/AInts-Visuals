@@ -102,25 +102,6 @@ void PopulateColony(Colony& colony)
 		{-1, 3, 0}, // 7
 	};
 
-	unsigned char f = 1;
-	unsigned char b = 2;
-	unsigned char u = 4;
-	unsigned char d = 8;
-	unsigned char r = 16;
-	unsigned char l = 32;
-
-	unsigned char tunnelCon[] = {
-		f+r+l+u,
-		f+b+r,
-		b+r+d,
-		b+l,
-
-		u+d,
-		u+d+r,
-		d+l,
-		u+r,
-	};
-
 	int chamberCoords[][3] = {
 		// Individual chambers
 		{-1, 0, 0}, // 8
@@ -134,31 +115,18 @@ void PopulateColony(Colony& colony)
 		{2, 0, 1}, // 14
 	};
 
-	unsigned char chamberCon[] = {
-		// Individual chambers
-		r, // 8
-		l, // 9
-		u, // 10
-
-		// Grouped chambers
-		r+l+f, // 11
-		l+f, // 12
-		r+l+f+b, // 13
-		l+b, // 14
-	};
-
 	Vector3Int coords;
 	for (int i = 0; i < 8; i++)
 	{
 		coords = tunnelCoords[i];
 		coords.y -= 1;
-		colony.AddTunnel(coords, tunnelCon[i]);
+		colony.AddTunnel(coords);
 	}
 	for (int i = 0; i < 7; i++)
 	{
 		coords = chamberCoords[i];
 		coords.y -= 1;
-		colony.AddChamber(coords, chamberCon[i]);
+		colony.AddChamber(coords);
 	}
 	colony.AddHill(-1, 4 - 1, 0);
 }
@@ -214,62 +182,8 @@ void PopulateTunnels(Colony& colony)
 		// FIXME doesn't include 2 tunnels per axis
 	};
 
-	unsigned char f = 1;
-	unsigned char b = 2;
-	unsigned char u = 4;
-	unsigned char d = 8;
-	unsigned char r = 16;
-	unsigned char l = 32;
-
-	unsigned char tunnelCon[] = {
-		// 0
-		0,
-
-		// 1
-		r,
-		u,
-		f,
-		l,
-		d,
-		b,
-
-		// 2 - x = 0
-		u+f,
-		d+f,
-		u+b,
-		d+b,
-
-		// 2 - y = 0
-		r+f,
-		l+f,
-		r+b,
-		l+b,
-
-		// 2 - z=0
-		r+u,
-		l+u,
-		r+d,
-		l+d,
-
-		// 3 - all +
-		r+u+f,
-
-		// 3 - one -
-		l+u+f,
-		r+d+f,
-		r+u+b,
-
-		// 3 - two -
-		l+d+f,
-		l+u+b,
-		r+d+b,
-
-		// 3 - all -
-		l+d+b,
-	};
-
 	for (int i = 0; i < 27; i++)
 	{
-		colony.AddTunnel(tunnelCoords[i], tunnelCon[i]);
+		colony.AddTunnel(tunnelCoords[i]);
 	}
 }

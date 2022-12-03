@@ -35,12 +35,15 @@ void LinkEndpoints(ChildMap& children, OffsetsMap& offsets, std::vector<Vertex>&
         auto& srcCoords = childPair.first;
         auto& srcChild = childPair.second;
 
-        srcOffset = offsets[srcCoords];
+        if (offsets.count(srcCoords) == 0) Fatal(999, "Offsets does not contain srcCoords (%d, %d, %d)\n", srcCoords.x, srcCoords.y, srcCoords.z);
+        srcOffset = offsets.at(srcCoords);
         auto srcEnd = srcChild->GetEndpoint(srcEPdir);
         if (srcEnd == -1) continue;
 
         Vector3Int dstCoords = srcCoords + srcEPdir;
+        if (offsets.count(dstCoords) == 0) Fatal(999, "Offsets does not contain dstCoords (%d, %d, %d)\n", dstCoords.x, dstCoords.y, dstCoords.z);
         dstOffset = offsets.at(dstCoords);
+        if (children.count(dstCoords) == 0) Fatal(999, "Children does not contain dstCoords (%d, %d, %d)\n", dstCoords.x, dstCoords.y, dstCoords.z);
         auto& dstChild = children.at(dstCoords);
 
         // Source/Destination endpoints are on opposing sides
@@ -296,25 +299,4 @@ void Colony::AddStructure(Vector3Int center, StructureType type)
 void Colony::AddStructure(int x, int y, int z, StructureType type)
 {
     AddStructure({x, y, z}, type);
-}
-void Colony::AddStructure(Vector3Int center, StructureType type, unsigned char sides)
-{
-    std::shared_ptr<Structure> ptr;
-    switch(type)
-    {
-    case StructureType::Tunnel:
-        ptr = std::make_shared<Tunnel>(sides);
-        break;
-    case StructureType::Chamber:
-        ptr = std::make_shared<Chamber>(sides);
-        break;
-    default:
-        Fatal(999, "Unrecognized sided StructureType %d\n", type);
-    }
-    ptr->center = center;
-    children.insert({center, ptr});
-}
-void Colony::AddStructure(int x, int y, int z, StructureType type, unsigned char sides)
-{
-    AddStructure({x, y, z}, type, sides);
 }

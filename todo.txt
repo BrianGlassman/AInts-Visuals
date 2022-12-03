@@ -1,4 +1,7 @@
 
+Make the colony, but with nothing connected to neighbors
+Next: Pre-plan the locations for everything, then create everything at once
+
 Stop manually setting the connections. Steps for now:
 	Colony()
 	tell the colony where to put tunnels/chambers/etc. but don't create them yet
