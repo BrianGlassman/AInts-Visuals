@@ -13,7 +13,7 @@ public:
 	Tunnel(unsigned char sides);
 
 	void Create();
-	void ApplyNoise(float offset[]);
+	void ApplyNoise();
 	void Draw();
 
 	float radius = 0.1f;

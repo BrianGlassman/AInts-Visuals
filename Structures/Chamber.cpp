@@ -266,7 +266,7 @@ void Chamber::Create()
 	PostCreate();
 }
 
-void Chamber::ApplyNoise(float offset[])
+void Chamber::ApplyNoise()
 {
 	// Use different noise scaling for arm portion versus main chamber
 	float scale;
@@ -281,9 +281,9 @@ void Chamber::ApplyNoise(float offset[])
 			scale = Globals::tunnelNoiseScale;
 		}
 
-		float x = baseVertices[i][0] + center[0] + offset[0];
-		float y = baseVertices[i][1] + center[1] + offset[1];
-		float z = baseVertices[i][2] + center[2] + offset[2];
+		float x = baseVertices[i][0] + center[0];
+		float y = baseVertices[i][1] + center[1];
+		float z = baseVertices[i][2] + center[2];
 
         auto p = noisePtr->getNoise(x, y, z);
         
@@ -302,9 +302,9 @@ void Chamber::ApplyNoise(float offset[])
 	// Apply to the centerline
 	for (unsigned int i = 0; i < baseCenterline.size(); i++)
 	{
-		float x = baseCenterline[i].x() + center.x + offset[0];
-		float y = baseCenterline[i].y() + center.y + offset[1];
-		float z = baseCenterline[i].z() + center.z + offset[2];
+		float x = baseCenterline[i].x() + center.x;
+		float y = baseCenterline[i].y() + center.y;
+		float z = baseCenterline[i].z() + center.z;
 
 		auto p = noisePtr->getNoise(x, y, z);
 

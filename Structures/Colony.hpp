@@ -14,7 +14,7 @@ class Colony : public Model
 public:
     Colony();
     virtual void Create();
-    void ApplyNoise(float offset[]);
+    void ApplyNoise();
     void DrawCenterlines();
     void Draw();
 

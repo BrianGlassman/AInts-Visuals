@@ -15,7 +15,7 @@ public:
 
     virtual void PreCreate();
     virtual void Create();
-    virtual void ApplyNoise(float offset[]);
+    virtual void ApplyNoise();
     void Draw();
 
     float radius = 0.5f;

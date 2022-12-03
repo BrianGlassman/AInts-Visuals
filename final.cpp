@@ -148,7 +148,6 @@ int main(int argc, char* argv[])
 	bool useNoise = true;
 	Toggles::Noise::showPerturbed = useNoise;
 	Toggles::Noise::showBase = !useNoise;
-	float zero[] = {0, 0, 0}; // FIXME not sure why the 1-param ApplyNoise isn't getting inherited
 
 	// Create the scene to be displayed
 	Globals::sceneChoice = Scene::colony;
@@ -156,7 +155,7 @@ int main(int argc, char* argv[])
 	if (true)
 	{
 		PopulateColony(colony);
-		if (useNoise) colony.ApplyNoise(zero);
+		if (useNoise) colony.ApplyNoise();
 		colony.Create();
 	}
 
@@ -164,7 +163,7 @@ int main(int argc, char* argv[])
 	{
 		tunnel.AddTunnel(0, 0, 0); // Tunnel
 		tunnel.AddTunnel(-1, 0, 0);
-		if (useNoise) tunnel.ApplyNoise(zero);
+		if (useNoise) tunnel.ApplyNoise();
 		tunnel.Create();
 	}
 
@@ -172,7 +171,7 @@ int main(int argc, char* argv[])
 	{
 		chamber.AddChamber(0, 0, 0); // Chamber
 		chamber.AddChamber(0, 1, 0);
-		if (useNoise) chamber.ApplyNoise(zero);
+		if (useNoise) chamber.ApplyNoise();
 		chamber.Create();
 	}
 
@@ -180,14 +179,14 @@ int main(int argc, char* argv[])
 	{
 		hill.AddHill(0, 0, 0);
 		hill.AddTunnel(0, -1, 0);
-		if (useNoise) hill.ApplyNoise(zero);
+		if (useNoise) hill.ApplyNoise();
 		hill.Create();
 	}
 
 	// if (false) // FIXME CL breaks because the connections are wrong (i.e. forced)
 	// {
 	// 	PopulateTunnels(allTunnels);
-	// 	if (useNoise) allTunnels.ApplyNoise(zero);
+	// 	if (useNoise) allTunnels.ApplyNoise();
 	// 	allTunnels.Create();
 	// }
 

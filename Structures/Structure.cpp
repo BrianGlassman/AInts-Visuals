@@ -21,17 +21,17 @@ void Structure::PreCreate()
 	baseCenterline.clear();
 }
 
-void Structure::ApplyNoise(float offset[])
+void Structure::ApplyNoise()
 {
 	// Call parent version to apply to the vertices
-	Model::ApplyNoise(offset);
+	Model::ApplyNoise();
 
 	// Apply to the centerline
 	for (unsigned int i = 0; i < baseCenterline.size(); i++)
 	{
-		float x = baseCenterline[i].x() + center.x + offset[0];
-		float y = baseCenterline[i].y() + center.y + offset[1];
-		float z = baseCenterline[i].z() + center.z + offset[2];
+		float x = baseCenterline[i].x() + center.x;
+		float y = baseCenterline[i].y() + center.y;
+		float z = baseCenterline[i].z() + center.z;
 
 		auto p = noisePtr->getNoise(x, y, z);
 

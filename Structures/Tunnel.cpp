@@ -176,21 +176,20 @@ void Tunnel::Create()
 	PostCreate();
 }
 
-void Tunnel::ApplyNoise(float offset[])
+void Tunnel::ApplyNoise()
 {
 	// Apply to each corner
-    float newOffset[] = {offset[0] + center[0], offset[1] + center[1], offset[2] + center[2]};
 	for (auto&& corner : corners)
 	{
-		corner.ApplyNoise(newOffset);
+		corner.ApplyNoise();
 	}
 
 	// Apply to the centerline
 	for (unsigned int i = 0; i < baseCenterline.size(); i++)
 	{
-		float x = baseCenterline[i].x() + center.x + offset[0];
-		float y = baseCenterline[i].y() + center.y + offset[1];
-		float z = baseCenterline[i].z() + center.z + offset[2];
+		float x = baseCenterline[i].x() + center.x;
+		float y = baseCenterline[i].y() + center.y;
+		float z = baseCenterline[i].z() + center.z;
 
 		auto p = noisePtr->getNoise(x, y, z);
 

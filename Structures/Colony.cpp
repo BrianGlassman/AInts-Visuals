@@ -186,12 +186,11 @@ void Colony::Create()
     PostCreate();
 }
 
-void Colony::ApplyNoise(float offset[])
+void Colony::ApplyNoise()
 {
-    float newOffset[] = {offset[0] + center[0], offset[1] + center[1], offset[2] + center[2]};
 	for (auto&& child : children)
 	{
-		child.second->ApplyNoise(newOffset);
+		child.second->ApplyNoise();
 	}
 }
 
