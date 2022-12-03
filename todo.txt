@@ -12,8 +12,6 @@ default to not showing the light source trace (red and blue lines) because that 
 do what prof said: make a wrapper that sets color AND material, and use this everywhere
 also make textures brighter
 
-P vectors are getting lit by the orbiter, might be using the shader too
-
 
 
 track interior view eye position separately for each scene

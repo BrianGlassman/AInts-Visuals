@@ -5,6 +5,7 @@
 
 #include "CSCIx229.h"
 #include "Perlin.hpp"
+#include "Shaders.hpp"
 
 // Broadly adapted from https://cs.nyu.edu/~perlin/noise/
 
@@ -141,12 +142,14 @@ std::vector<float> Perlin::getNoise(float x, float y, float z)
 
 void Perlin::DrawNoise()
 {
+    PushShader(Shader::fixedPipeline);
+    glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT | GL_LINE_BIT);
     glDisable(GL_TEXTURE_2D);
-    glPushAttrib(GL_POINT_BIT);
+    glDisable(GL_LIGHTING);
     glPointSize(15);
-    glPushAttrib(GL_LINE_BIT);
     glLineWidth(7);
     glColor4f(1, 1, 0.6, 0.5);
+
     for (unsigned int i = 0; i < pVectorsKeys.size(); i++)
     {
         auto coords = pVectorsKeys[i];
@@ -163,7 +166,7 @@ void Perlin::DrawNoise()
             coords.z + p.z*0.6);
         glEnd();
     }
+
     glPopAttrib();
-    glPopAttrib();
-    glEnable(GL_TEXTURE_2D);
+    PopShader();
 }

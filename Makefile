@@ -67,6 +67,9 @@ textures.o: $(MLIBDIR)/textures.cpp $(MLIBDIR)/textures.hpp $(MLIBDIR)/globals.h
 util.o: $(MLIBDIR)/util.cpp $(MLIBDIR)/util.hpp $(MLIBDIR)/globals.hpp
 window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp $(MLIBDIR)/globals.hpp
 
+#--- Shaders ---
+Shaders.o: $(SHDEDIR)/Shaders.cpp $(SHDEDIR)/Shaders.hpp $(CLIBDIR)/CSCIx229.h textures.o
+
 #--- Structures ---
 # Base structures
 Structure.o: $(STCRDIR)/Structure.cpp $(STCRDIR)/Structure.hpp util.o Vertex.o
@@ -83,14 +86,11 @@ Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp Chamber.o Hill.o Tunnel.o 
 BuildIndicator.o: $(STCRDIR)/BuildIndicator.cpp $(STCRDIR)/BuildIndicator.hpp Structure.o Chamber.o Hill.o Tunnel.o Mine.o Farm.o MainLib.a
 
 #--- Noise ---
-Noise.o: $(NOISDIR)/Noise.cpp $(NOISDIR)/Noise.hpp
-Perlin.o: $(NOISDIR)/Perlin.cpp $(NOISDIR)/Perlin.hpp
+Noise.o: $(NOISDIR)/Noise.cpp $(NOISDIR)/Noise.hpp Shaders.a
+Perlin.o: $(NOISDIR)/Perlin.cpp $(NOISDIR)/Perlin.hpp Shaders.a
 
 #--- Menus ---
 Menus.o: $(MENUDIR)/Menus.cpp $(MENUDIR)/Menus.hpp
-
-#--- Shaders ---
-Shaders.o: $(SHDEDIR)/Shaders.cpp $(SHDEDIR)/Shaders.hpp
 
 #----------------
 # Create archive
