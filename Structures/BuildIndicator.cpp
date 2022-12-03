@@ -61,8 +61,8 @@ void BuildIndicator::SetModel(StructureType type)
     default:
         Fatal(999, "BuildIndicator::SetModel Unrecognized StructureType %d\n", type);
     }
-    model->center = center;
-    model->Create();
+
+    Create();
 }
 
 void BuildIndicator::HandleKey(unsigned char k)
@@ -112,9 +112,14 @@ void BuildIndicator::HandleKey(unsigned char k)
 	}
 
     // If a change was made, have to re-generate
+    Create();
+}
+
+void BuildIndicator::Create()
+{
     if (Globals::toBuild == StructureType::Delete)
     {
-        // Change which model is targeted
+        // Get the targeted model
         model = colony->GetChild(center);
         if (model == nullptr)
         {
@@ -129,12 +134,6 @@ void BuildIndicator::HandleKey(unsigned char k)
         model->center = center;
         model->Create();
     }
-}
-
-void BuildIndicator::Create()
-{
-    model->center = center;
-    model->Create();
 }
 
 void BuildIndicator::Draw(bool hasControl)

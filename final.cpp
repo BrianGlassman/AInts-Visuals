@@ -153,13 +153,14 @@ void Input::buildKey(unsigned char k)
 	{
 		switch(Globals::toBuild)
 		{
-		case StructureType::NONE: return; break;
+		case StructureType::NONE: return;
 		case StructureType::Delete: displayModelPtr->DeleteStructure(buildIndicator.center); break;
 		default: displayModelPtr->AddStructure(buildIndicator.center, Globals::toBuild); break;
 		}
 		
 		displayModelPtr->Create();
 		displayModelPtr->ApplyNoise();
+		buildIndicator.Create();
 	}
 	else
 	{
