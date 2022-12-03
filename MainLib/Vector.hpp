@@ -22,6 +22,7 @@ public:
     Vector3(const Vector3Int intVec);
 
     std::vector<float> asStdVec();
+    Vector3 Reversed() const { return {-x, -y, -z}; }
 
     void RotateX(float theta);
     void RotateY(float theta);
@@ -37,6 +38,10 @@ public:
 
     // Operators
     float& operator[](int index);
+    Vector3 operator+(const Vector3& rhs) const;
+    Vector3 operator+(const Vector3Int& rhs) const;
+    Vector3 operator-(const Vector3& rhs) const;
+    Vector3 operator-(const Vector3Int& rhs) const;
 private:
 };
 

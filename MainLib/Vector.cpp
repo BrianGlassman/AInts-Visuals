@@ -44,6 +44,26 @@ float& Vector3::operator[](int index)
     }
 }
 
+Vector3 Vector3::operator+(const Vector3& rhs) const
+{
+    return {x + rhs.x, y + rhs.y, z + rhs.z};
+}
+
+Vector3 Vector3::operator+(const Vector3Int& rhs) const
+{
+    return {x + rhs.x, y + rhs.y, z + rhs.z};
+}
+
+Vector3 Vector3::operator-(const Vector3& rhs) const
+{
+    return operator+(rhs.Reversed());
+}
+
+Vector3 Vector3::operator-(const Vector3Int& rhs) const
+{
+    return operator+(rhs.Reversed());
+}
+
 std::vector<float> Vector3::asStdVec()
 {
     return std::vector<float> ({x, y, z});
