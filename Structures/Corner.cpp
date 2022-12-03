@@ -421,7 +421,14 @@ void Corner::DrawHelper(std::vector<Vector3> drawVertices)
 }
 void Corner::Draw()
 {
-	if (Toggles::showNormals) DrawNormals(0.25);
+	if (Toggles::showNormals)
+	{
+		// Counteract the center-translation, since that already happens in Tunnel
+		glPushMatrix(); {
+			glTranslatef(-center[0], -center[1], -center[2]);
+			DrawNormals(0.25);
+		} glPopMatrix();
+	}
 
 	if (Toggles::debug)
 	{
