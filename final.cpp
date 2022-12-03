@@ -181,9 +181,6 @@ int main(int argc, char* argv[])
 		Toggles::Noise::showBase = !startNoisy;
 	}
 
-
-	Globals::toBuild = StructureType::NONE;
-
 	// Create the scene to be displayed
 	Globals::sceneChoice = Scene::colony;
 
@@ -227,6 +224,8 @@ int main(int argc, char* argv[])
 
 	// Initialize displayModelPtr
 	SetDisplayPtr();
+
+	buildIndicator.SetModel(StructureType::NONE);
 
 	init(argc, argv);
 

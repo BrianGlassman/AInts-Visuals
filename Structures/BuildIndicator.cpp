@@ -28,8 +28,7 @@ std::shared_ptr<DeleteViz> deleteViz = std::make_shared<DeleteViz>();
 
 BuildIndicator::BuildIndicator()
 {
-    model = std::make_shared<Chamber>();
-    model->Create();
+    model = nullptr;
 }
 
 void BuildIndicator::SetModel(StructureType type)
