@@ -3,6 +3,12 @@ toBuild movement should change with view direction, probably
 
 include instructions for moving toBuild in README, once I've figured out what they are
 
+buildIndicator is getting a lot darker than it should with "Toggle Wireframe" activated
+
+buildIndicator shouldn't show in Interior View
+
+
+
 
 
 default to not showing the light source trace (red and blue lines) because that might be what's causing the problem

@@ -14,6 +14,7 @@ class Colony : public Model
 {
 public:
     Colony();
+    virtual void PreCreate();
     virtual void Create();
     void ApplyNoise();
     void DrawCenterlines();

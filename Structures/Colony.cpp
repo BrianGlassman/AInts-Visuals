@@ -25,6 +25,12 @@ std::vector<Vertex>* Colony::getCL()
 		return &baseCenterline;
 }
 
+void Colony::PreCreate()
+{
+	Model::PreCreate();
+	centerline.clear();
+	baseCenterline.clear();
+}
 
 void LinkEndpoints(ChildMap& children, OffsetsMap& offsets, std::vector<Vertex>& dstCL, Vector3Int srcEPdir)
 {
@@ -193,7 +199,17 @@ void Colony::Create()
         auto& coords = childPair.first;
         auto& child = childPair.second;
 
-        offsets.insert({coords, idxOffset});
+        if (offsets.count(coords) > 0)
+        {
+            // Replace existing value
+            offsets.at(coords) = idxOffset;
+        }
+        else
+        {
+            // Add new value
+            auto ret = offsets.insert({coords, idxOffset});
+            if (!ret.second) Fatal(999, "Failed to insert offset\n");
+        }
 
         idxOffset += child->getCL()->size();
     }
@@ -324,7 +340,18 @@ void Colony::AddStructure(Vector3Int center, StructureType type)
         Fatal(999, "Unrecognized StructureType %d\n", type);
     }
     ptr->center = center;
-    children.insert({center, ptr});
+
+    if (children.count(center) > 0)
+    {
+        // Replace existing child
+        children.at(center) = ptr;
+    }
+    else
+    {
+        // Add new child
+        auto ret = children.insert({center, ptr});
+        if (!ret.second) Fatal(999, "Failed to insert child\n");
+    }
 }
 void Colony::AddStructure(int x, int y, int z, StructureType type)
 {
