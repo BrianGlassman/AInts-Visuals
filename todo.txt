@@ -1,4 +1,10 @@
 
+toBuild movement should change with view direction, probably
+
+include instructions for moving toBuild in README, once I've figured out what they are
+
+
+
 default to not showing the light source trace (red and blue lines) because that might be what's causing the problem
 
 do what prof said: make a wrapper that sets color AND material, and use this everywhere

@@ -143,6 +143,11 @@ void display()
 	postDisplay();
 }
 
+void Input::buildKey(unsigned char k)
+{
+	buildIndicator.HandleKey(k);
+}
+
 int main(int argc, char* argv[])
 {
 	Perlin noise;
@@ -154,7 +159,6 @@ int main(int argc, char* argv[])
 
 
 	Globals::toBuild = StructureType::Chamber;
-
 
 	// Create the scene to be displayed
 	Globals::sceneChoice = Scene::colony;
