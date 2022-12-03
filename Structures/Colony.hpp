@@ -30,7 +30,6 @@ public:
     // FIXME part of temp motion model
     std::vector<Vertex>* getCL();
 private:
-    // std::unordered_map<Vector3Int, int> plannedChildren; // Gets filled before children, so that adjacency is known when creating Structures
     std::unordered_map<Vector3Int, std::shared_ptr<Structure>> children;
 
     void AddStructure(Vector3Int center, StructureType type);

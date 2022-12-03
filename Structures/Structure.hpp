@@ -33,6 +33,33 @@ public:
 	bool  bottom = true; // -Y
 	bool forward = true; // +Z
 	bool    back = true; // -Z
+    void SetSide(const Vector3Int direction, bool newVal)
+    {
+        auto hash = std::hash<Vector3Int>()(direction);
+        switch(hash)
+        {
+            case Vector3Int::hashRight:
+                right = newVal;
+                break;
+            case Vector3Int::hashLeft:
+                left = newVal;
+                break;
+            case Vector3Int::hashUp:
+                top = newVal;
+                break;
+            case Vector3Int::hashDown:
+                bottom = newVal;
+                break;
+            case Vector3Int::hashForward:
+                forward = newVal;
+                break;
+            case Vector3Int::hashBackward:
+                back = newVal;
+                break;
+            default:
+                Fatal(999, "Invalid side direction hash %d (%d, %d, %d)\n", hash, direction.x, direction.y, direction.z);
+        }
+    }
 
     // Index of the vertex that is the endpoint in that direction
     // {vertex index within this Structure, index of neighboring Structure within the parent}

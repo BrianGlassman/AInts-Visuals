@@ -155,39 +155,39 @@ int main(int argc, char* argv[])
 	if (true)
 	{
 		PopulateColony(colony);
-		if (useNoise) colony.ApplyNoise();
 		colony.Create();
+		if (useNoise) colony.ApplyNoise();
 	}
 
 	if (true)
 	{
 		tunnel.AddTunnel(0, 0, 0); // Tunnel
 		tunnel.AddTunnel(-1, 0, 0);
-		if (useNoise) tunnel.ApplyNoise();
 		tunnel.Create();
+		if (useNoise) tunnel.ApplyNoise();
 	}
 
 	if (true)
 	{
 		chamber.AddChamber(0, 0, 0); // Chamber
 		chamber.AddChamber(0, 1, 0);
-		if (useNoise) chamber.ApplyNoise();
 		chamber.Create();
+		if (useNoise) chamber.ApplyNoise();
 	}
 
 	if (true)
 	{
 		hill.AddHill(0, 0, 0);
 		hill.AddTunnel(0, -1, 0);
-		if (useNoise) hill.ApplyNoise();
 		hill.Create();
+		if (useNoise) hill.ApplyNoise();
 	}
 
 	// if (false) // FIXME CL breaks because the connections are wrong (i.e. forced)
 	// {
 	// 	PopulateTunnels(allTunnels);
-	// 	if (useNoise) allTunnels.ApplyNoise();
 	// 	allTunnels.Create();
+	// 	if (useNoise) allTunnels.ApplyNoise();
 	// }
 
 	// Initialize displayModelPtr

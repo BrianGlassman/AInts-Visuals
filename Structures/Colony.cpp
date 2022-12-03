@@ -164,9 +164,27 @@ void Colony::CenterlineHelper(std::vector<Vertex>& dstCL, bool usePerturbed)
 
 void Colony::Create()
 {
-    // FIXME this overload is only needed for temp motion model
-
     PreCreate();
+
+    // Update the sides for each Structure
+    Vector3Int testCoords;
+    bool val;
+    for (auto&& childPair : children)
+    {
+        auto& coords = childPair.first;
+        auto& child = childPair.second;
+
+        // Update each side
+        for (auto& direction : Vector3Int::directions)
+        {
+            testCoords = coords + direction;
+            val = (children.count(testCoords) > 0);
+            child->SetSide(direction, val);
+        }
+
+        // Re-create the Structure with updated sides
+        child->Create();
+    }
 
     // Create the offsets map
     int idxOffset = 0;
