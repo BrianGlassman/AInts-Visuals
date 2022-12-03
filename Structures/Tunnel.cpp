@@ -48,6 +48,12 @@ void Tunnel::Create()
 {
 	PreCreate();
 
+	// Propagate center
+	for (auto&& corner : corners)
+	{
+		corner.center = center;
+	}
+
 	Corner* corner;
 	{ // Right top front
 		corner = &corners[0];
@@ -120,14 +126,6 @@ void Tunnel::Create()
 		corner->surroundings.y = (int)bottom;
 		corner->surroundings.z = (int)back;
 	}
-
-	// FIXME temp override
-	// for (auto&& corner : corners)
-	// {
-	// 	corner.surroundings.x = 1;
-	// 	corner.surroundings.y = 0;
-	// 	corner.surroundings.z = 1;
-	// }
 
 	// Create vertices AFTER setting surroundings
 	for (auto&& corner : corners)

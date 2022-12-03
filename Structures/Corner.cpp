@@ -432,7 +432,7 @@ void Corner::Draw()
 	glFrontFace(windMode);
 
 	glPushMatrix(); {
-		glTranslatef(center[0], center[1], center[2]);
+		// Intentionally don't translate by center. Already gets handled in Tunnel
 
 		// Perturbed geometry
 		if (Toggles::Noise::showPerturbed)
