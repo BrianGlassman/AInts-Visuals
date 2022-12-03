@@ -358,6 +358,22 @@ void Colony::AddStructure(int x, int y, int z, StructureType type)
     AddStructure({x, y, z}, type);
 }
 
+void Colony::DeleteStructure(Vector3Int center)
+{
+    if (children.count(center) > 0)
+    {
+        children.erase(center);
+    }
+    else
+    {
+        Fatal(999, "Trying to delete structure that doesn't exist\n");
+    }
+}
+void Colony::DeleteStructure(int x, int y, int z)
+{
+    DeleteStructure({x, y, z});
+}
+
 std::shared_ptr<Structure> Colony::GetChild(Vector3Int coords)
 {
     if (children.count(coords) > 0)

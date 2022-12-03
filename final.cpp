@@ -148,7 +148,13 @@ void Input::buildKey(unsigned char k)
 {
 	if (k == 32) // Space - build it
 	{
-		displayModelPtr->AddStructure(buildIndicator.center, Globals::toBuild);
+		switch(Globals::toBuild)
+		{
+		case StructureType::NONE: return; break;
+		case StructureType::Delete: displayModelPtr->DeleteStructure(buildIndicator.center); break;
+		default: displayModelPtr->AddStructure(buildIndicator.center, Globals::toBuild); break;
+		}
+		
 		displayModelPtr->Create();
 		displayModelPtr->ApplyNoise();
 	}
@@ -176,7 +182,7 @@ int main(int argc, char* argv[])
 	}
 
 
-	Globals::toBuild = StructureType::Chamber;
+	Globals::toBuild = StructureType::NONE;
 
 	// Create the scene to be displayed
 	Globals::sceneChoice = Scene::colony;

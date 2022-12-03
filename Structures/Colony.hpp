@@ -32,6 +32,9 @@ public:
     void AddStructure(Vector3Int center, StructureType type);
     void AddStructure(int x, int y, int z, StructureType type);
 
+    void DeleteStructure(Vector3Int center);
+    void DeleteStructure(int x, int y, int z);
+
     std::shared_ptr<Structure> GetChild(Vector3Int coords); // For BuildIndicator to draw existing structures for deletion
 
     // FIXME part of temp motion model

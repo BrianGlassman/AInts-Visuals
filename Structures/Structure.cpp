@@ -17,8 +17,18 @@ void Structure::UnpackSides(unsigned char sides)
 void Structure::PreCreate()
 {
 	Model::PreCreate();
+
+	// Reset centerlines
 	centerline.clear();
 	baseCenterline.clear();
+
+	// Reset endpoints
+	  endpointRight = -1;
+	   endpointLeft = -1;
+	    endpointTop = -1;
+	 endpointBottom = -1;
+	endpointForward = -1;
+	   endpointBack = -1;
 }
 
 void Structure::ApplyNoise()
