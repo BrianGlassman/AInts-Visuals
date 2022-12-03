@@ -337,7 +337,7 @@ void Colony::AddStructure(Vector3Int center, StructureType type)
         ptr = std::make_shared<Hill>();
         break;
     default:
-        Fatal(999, "Unrecognized StructureType %d\n", type);
+        Fatal(999, "Colony::AddStructure Unrecognized StructureType %d\n", type);
     }
     ptr->center = center;
 
