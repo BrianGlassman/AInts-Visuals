@@ -185,6 +185,11 @@ void Colony::Create()
         {
             testCoords = coords + direction;
             val = (children.count(testCoords) > 0);
+            if (val && children.at(testCoords)->sideType == SideType::hill && direction != Vector3Int::Up)
+            {
+                // Hills can only connect on the bottom (i.e. direction from neighbor is Up)
+                val = false;
+            }
             child->SetSide(direction, val);
         }
 

@@ -6,7 +6,7 @@
 Hill::Hill()
 {
     type = 6;
-    sideType = SideType::tunnel;
+    sideType = SideType::hill;
     noiseScale = Globals::tunnelNoiseScale;
 
     Create();

@@ -9,6 +9,7 @@ enum class SideType
     closed = 0,
     tunnel = 1,
     chamber = 1, // TODO set to 2 when ready to handle chambers
+    hill = 2, // Gives a way to only connect to the bottom of hills
 };
 
 class Structure : public Model

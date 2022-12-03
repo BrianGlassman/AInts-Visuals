@@ -7,11 +7,6 @@ buildIndicator is getting a lot darker than it should with "Toggle Wireframe" ac
 
 should clean the Python stuff out of Noise directory (move it to _reference)
 
-Hill should only be able to connect at the bottom
-	right now, building a hill next to a tunnel/chamber makes the tunnel/chamber try to connect to the hill
-	the Colony code that assigns connections could probably be tweaked to make a special case for Hill
-
-
 
 
 
