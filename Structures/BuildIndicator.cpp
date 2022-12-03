@@ -48,7 +48,7 @@ void BuildIndicator::SetModel(StructureType type)
         model = std::make_shared<Chamber>();
         break;
     case StructureType::Mine:
-        model = std::make_shared<Hill>();
+        model = std::make_shared<Mine>();
         break;
     // case StructureType::Farm:
     //     model = std::make_shared<Farm>();
