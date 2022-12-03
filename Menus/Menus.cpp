@@ -89,30 +89,29 @@ namespace Callbacks{ void Build(int val)
     switch(val)
     {
     case 0:
-        Globals::toBuild = StructureType::NONE;
+        SetBuildModel(StructureType::NONE);
         break;
     case 1:
-        Globals::toBuild = StructureType::Tunnel;
+        SetBuildModel(StructureType::Tunnel);
         break;
     case 2:
-        Globals::toBuild = StructureType::Chamber;
+        SetBuildModel(StructureType::Chamber);
         break;
     case 3:
-        Globals::toBuild = StructureType::Mine;
+        SetBuildModel(StructureType::Mine);
         break;
     case 4:
-        Globals::toBuild = StructureType::Farm;
+        SetBuildModel(StructureType::Farm);
         break;
     case 5:
-        Globals::toBuild = StructureType::Hill;
+        SetBuildModel(StructureType::Hill);
         break;
     case 6:
-        Globals::toBuild = StructureType::Delete;
+        SetBuildModel(StructureType::Delete);
         break;
     default:
         Fatal(999, "Unknown val %d to Build callback\n", val);
     }
-    SetBuildModel(Globals::toBuild);
 }}
 BuildMenu::BuildMenu()
 {

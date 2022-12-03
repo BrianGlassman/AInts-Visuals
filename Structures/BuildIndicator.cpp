@@ -15,11 +15,13 @@ BuildIndicator::BuildIndicator()
 
 void BuildIndicator::SetModel(StructureType type)
 {
+    Globals::toBuild = type;
+
     switch(type)
     {
     case StructureType::NONE:
         model = nullptr;
-        return;
+        return; // <-- return, not break
     case StructureType::Tunnel:
         model = std::make_unique<Tunnel>();
         break;
@@ -47,6 +49,8 @@ void BuildIndicator::SetModel(StructureType type)
 
 void BuildIndicator::HandleKey(unsigned char k)
 {
+    if (Globals::toBuild == StructureType::NONE) return;
+
 	switch (k) {
 	// Movement
 	case 'w':

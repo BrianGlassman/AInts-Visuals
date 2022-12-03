@@ -178,7 +178,7 @@ void key(unsigned char k, int x, int y)
 
 	if (Globals::viewMode == ViewMode::INTERIOR) fpsKey(k);
 
-	if (Globals::viewMode == ViewMode::EXTERIOR && Globals::toBuild != StructureType::NONE)
+	if (Globals::viewMode == ViewMode::EXTERIOR)
 	{
 		Input::buildKey(k);
 	}
