@@ -1,6 +1,5 @@
 current task: using perturbations applied slightly offset from the source point to calculate the perturbed normal
 PROBLEMS:
-	the perturbed normal is exactly the same as the original normal
 	not sure the overall approach is even working all that well
 		might be because the vertices are too far away? The underlying surface has more detail than I'm showing
 		idea: work on Tunnel/Corner. Should be easier to tell what the correct answer is

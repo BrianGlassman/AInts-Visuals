@@ -304,31 +304,37 @@ void Chamber::ApplyNoise()
 			ty = ty.Normalized() * 0.001;
 			tz = tz.Normalized() * 0.001;
 
-			// printf("tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
+			// printf(" original tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
 
 			// Perturbation will be slightly different because of the offset
-			Vector3 px = noisePtr->getNoise(baseVertices[i] + center/* + tx*/);
-			Vector3 py = noisePtr->getNoise(baseVertices[i] + center/* + ty*/);
-			Vector3 pz = noisePtr->getNoise(baseVertices[i] + center/* + tz*/);
+			Vector3 px = noisePtr->getNoise(baseVertices[i] + center + tx);
+			Vector3 py = noisePtr->getNoise(baseVertices[i] + center + ty);
+			Vector3 pz = noisePtr->getNoise(baseVertices[i] + center + tz);
 
 			// printf("px*scale = %f, %f, %f\n", px.x*scale, px.y*scale, px.z*scale);
+
+			// printf(" p*scale = %f, %f, %f\n", p.x*scale, p.y*scale, p.z*scale);
+
+			// printf("perturbed tx = original tx + px*scale - p*scale\n");
 
 			// Compute the perturbed tangent vectors
 			tx = tx + px*scale - p*scale;
 			ty = ty + py*scale - p*scale;
 			tz = tz + pz*scale - p*scale;
 
+			// printf("perturbed tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
+
 			// Normalize for the sake of later computation
 			tx.Normalize();
 			ty.Normalize();
 			tz.Normalize();
 
+			// printf("perturbed and normalized tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
+
 			// Eliminate zero-magnitude tangents
 			bool xValid = tx.Magnitude() > 0;
 			bool yValid = ty.Magnitude() > 0;
 			bool zValid = tz.Magnitude() > 0;
-
-			// printf("perturbed tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
 
 			Vector3 tUse1, tUse2;
 			if (!zValid)
