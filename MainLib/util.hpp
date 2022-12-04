@@ -51,6 +51,7 @@ protected:
 	std::vector<std::vector<float>> texCoords;
 	std::vector<int> indices;
 
+	void ApplyNoiseHelper(unsigned int i, float scale);
 	void DrawNormalHelper(float scale, std::vector<Vector3> verticesToUse, std::vector<Vector3> normalsToUse);
 };
 

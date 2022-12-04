@@ -282,152 +282,22 @@ void Chamber::ApplyNoise()
 			scale = Globals::tunnelNoiseScale;
 		}
 
-		// Perturbation at the initial vertex
-		Vector3 p = noisePtr->getNoise(baseVertices[i] + center);
-		// printf("p*scale = %f, %f, %f\n", p.x*scale, p.y*scale, p.z*scale);
-
-		// --- Vertices ---
-		vertices[i] = baseVertices[i] + p*scale;
-
-		// --- Normals ---
-		if (true)
-		{
-			// printf("base normal = %f, %f, %f\n", normals[i].x, normals[i].y, normals[i].z);
-
-			// Construct tangent vectors by crossing the normal with each axis
-			Vector3 tx = normals[i].Cross(Vector3::Right);
-			Vector3 ty = normals[i].Cross(Vector3::Up);
-			Vector3 tz = normals[i].Cross(Vector3::Forward);
-
-			// Reduce magnitude to a small value
-			tx = tx.Normalized() * 0.001;
-			ty = ty.Normalized() * 0.001;
-			tz = tz.Normalized() * 0.001;
-
-			// printf(" original tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
-
-			// Perturbation will be slightly different because of the offset
-			Vector3 px = noisePtr->getNoise(baseVertices[i] + center + tx);
-			Vector3 py = noisePtr->getNoise(baseVertices[i] + center + ty);
-			Vector3 pz = noisePtr->getNoise(baseVertices[i] + center + tz);
-
-			// printf("px*scale = %f, %f, %f\n", px.x*scale, px.y*scale, px.z*scale);
-
-			// printf(" p*scale = %f, %f, %f\n", p.x*scale, p.y*scale, p.z*scale);
-
-			// printf("perturbed tx = original tx + px*scale - p*scale\n");
-
-			// Compute the perturbed tangent vectors
-			tx = tx + px*scale - p*scale;
-			ty = ty + py*scale - p*scale;
-			tz = tz + pz*scale - p*scale;
-
-			// printf("perturbed tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
-
-			// Normalize for the sake of later computation
-			tx.Normalize();
-			ty.Normalize();
-			tz.Normalize();
-
-			// printf("perturbed and normalized tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
-
-			// Eliminate zero-magnitude tangents
-			bool xValid = tx.Magnitude() > 0;
-			bool yValid = ty.Magnitude() > 0;
-			bool zValid = tz.Magnitude() > 0;
-
-			Vector3 tUse1, tUse2;
-			if (!zValid)
-			{
-				if (!(xValid && yValid)) Fatal(999, "Not enough valid tangents\n");
-				// printf("validity xy\n");
-				tUse1 = tx;
-				tUse2 = ty;
-			}
-			else if (!yValid)
-			{
-				if (!(xValid && zValid)) Fatal(999, "Not enough valid tangents\n");
-				// printf("validity xz\n");
-				tUse1 = tx;
-				tUse2 = tz;
-			}
-			else if (!xValid)
-			{
-				if (!(yValid && zValid)) Fatal(999, "Not enough valid tangents\n");
-				// printf("validity yz\n");
-				tUse1 = ty;
-				tUse2 = tz;
-			}
-			else
-			{
-				// Use whichever two perturbed tangents are most orthogonal to each other
-				float xDy = abs(tx.Dot(ty));
-				float xDz = abs(tx.Dot(tz));
-				float yDz = abs(ty.Dot(tz));
-				if (xDy <= xDz && xDy <= yDz)
-				{
-					// printf("ortho xy\n");
-					tUse1 = tx;
-					tUse2 = ty;
-				}
-				else if (xDz <= xDy && xDz <= yDz)
-				{
-					// printf("ortho xz\n");
-					tUse1 = tx;
-					tUse2 = tz;
-				}
-				else if (yDz <= xDy && yDz <= xDz)
-				{
-					// printf("ortho yz\n");
-					tUse1 = ty;
-					tUse2 = tz;
-				}
-				else Fatal(999, "ApplyNoise failed somehow\n");
-			}
-
-			// Compute the new normal by crossing the perturbed tangents
-			Vector3 tempN = tUse1.Cross(tUse2);
-
-			// Normalize
-			tempN.Normalize();
-			if (tempN.Magnitude() == 0) printf("tx = (%f, %f, %f), ty = (%f, %f, %f), tz = (%f, %f, %f)\n",
-				tx.x, tx.y, tx.z,
-				ty.x, ty.y, ty.z,
-				tz.x, tz.y, tz.z
-				);
-
-			// Assume normals never completely change direction, and any inversion is because of cross product ordering
-			if (tempN.Dot(baseNormals[i]) < 0)
-			{
-				// printf("Base (%f, %f, %f), Perturbed (%f, %f, %f), Dot %f\n", baseNormals[i].x, baseNormals[i].y, baseNormals[i].z, tempN.x, tempN.y, tempN.z, tempN.Dot(baseNormals[i]));
-				tempN = tempN.Reversed();
-			}
-
-			// Save the result
-			normals[i] = tempN;
-		}
-
-
-		if (i == 0)
-		{
-			// fprintf(stdout, "base (%f, %f, %f), noise (%f, %f, %f)\n",
-			// 	baseVertices[i][0], baseVertices[i][1], baseVertices[i][2],
-			// 	p[0], p[1], p[2]);
-		}
+		ApplyNoiseHelper(i, scale);
     }
 
 	// Apply to the centerline
 	for (unsigned int i = 0; i < baseCenterline.size(); i++)
 	{
-		float x = baseCenterline[i].x() + center.x;
-		float y = baseCenterline[i].y() + center.y;
-		float z = baseCenterline[i].z() + center.z;
-
-		auto p = noisePtr->getNoise(x, y, z);
-
-		centerline[i].coords.x = baseCenterline[i].x() + p[0]*noiseScale;
-		centerline[i].coords.y = baseCenterline[i].y() + p[1]*noiseScale;
-		centerline[i].coords.z = baseCenterline[i].z() + p[2]*noiseScale;
+		if (armIndices.find(i) == armIndices.end())
+		{
+			scale = noiseScale;
+		}
+		else
+		{
+			scale = Globals::tunnelNoiseScale;
+		}
+		
+		ApplyNoiseCLHelper(i, scale);
 	}
 }
 

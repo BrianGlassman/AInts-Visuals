@@ -115,6 +115,7 @@ protected:
 
     void UnpackSides(unsigned char sides);
     void PreCreate();
+    void ApplyNoiseCLHelper(unsigned int i, float scale);
     void DrawCLHelper(GLenum mode, std::vector<Vertex> CLtoUse);
     void DrawCenterlines();
 };

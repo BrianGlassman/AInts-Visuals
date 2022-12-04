@@ -31,6 +31,13 @@ void Structure::PreCreate()
 	   endpointBack = -1;
 }
 
+void Structure::ApplyNoiseCLHelper(unsigned int i, float scale)
+{
+	Vector3 p = noisePtr->getNoise(baseCenterline[i].coords + center);
+
+	centerline[i].coords = baseCenterline[i].coords + p*scale;
+}
+
 void Structure::ApplyNoise()
 {
 	// Call parent version to apply to the vertices
@@ -39,15 +46,7 @@ void Structure::ApplyNoise()
 	// Apply to the centerline
 	for (unsigned int i = 0; i < baseCenterline.size(); i++)
 	{
-		float x = baseCenterline[i].x() + center.x;
-		float y = baseCenterline[i].y() + center.y;
-		float z = baseCenterline[i].z() + center.z;
-
-		auto p = noisePtr->getNoise(x, y, z);
-
-		centerline[i].coords.x = baseCenterline[i].x() + p[0]*noiseScale;
-		centerline[i].coords.y = baseCenterline[i].y() + p[1]*noiseScale;
-		centerline[i].coords.z = baseCenterline[i].z() + p[2]*noiseScale;
+		ApplyNoiseCLHelper(i, noiseScale);
 	}
 }
 
