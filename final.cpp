@@ -91,13 +91,13 @@ void display()
 		baseMag = 2;
 		break;
 	}
-	// case Scene::allTunnels:
-	// {
-	// 	baseMag = 4;
-	// 	break;
-	// }
+	case Scene::allTunnels:
+	{
+		baseMag = 4;
+		break;
+	}
 	default:
-		Fatal(999, "Unknown scene %d\n", Globals::sceneChoice);
+		Fatal(999, "final.cpp::display: Unknown scene %d\n", Globals::sceneChoice);
 	}
 
 	orbiterPtr->UpdatePosition(); // FIXME this should probably not be in display
@@ -224,12 +224,12 @@ int main(int argc, char* argv[])
 		hill.ApplyNoise();
 	}
 
-	// if (false) // FIXME CL breaks because the connections are wrong (i.e. forced)
-	// {
-	// 	PopulateTunnels(allTunnels);
-	// 	allTunnels.Create();
-	// 	allTunnels.ApplyNoise();
-	// }
+	if (true)
+	{
+		PopulateTunnels(allTunnels);
+		allTunnels.Create();
+		allTunnels.ApplyNoise();
+	}
 
 	// Initialize displayModelPtr
 	SetDisplayPtr();

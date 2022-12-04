@@ -29,7 +29,7 @@ Colony colony;
 Colony tunnel;
 Colony chamber;
 Colony hill;
-// Colony allTunnels;
+Colony allTunnels;
 
 BuildIndicator buildIndicator;
 
@@ -79,13 +79,13 @@ void SetDisplayPtr()
 		displayModelPtr = &hill;
 		break;
 	}
-	// case Scene::allTunnels:
-	// {
-	// 	displayModelPtr = &allTunnels;
-	// 	break;
-	// }
+	case Scene::allTunnels:
+	{
+		displayModelPtr = &allTunnels;
+		break;
+	}
 	default:
-		Fatal(999, "Unknown scene %d\n", Globals::sceneChoice);
+		Fatal(999, "final.hpp::SetDisplayPtr: Unknown scene %d\n", Globals::sceneChoice);
 	}
 	buildIndicator.colony = displayModelPtr;
 }

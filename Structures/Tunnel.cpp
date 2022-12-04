@@ -57,7 +57,6 @@ void Tunnel::Create()
 	Corner* corner;
 	{ // Right top front
 		corner = &corners[0];
-		// FIXME final version should not be offset
 		corner->baseScale[0] = 1; corner->baseScale[1] = 1; corner->baseScale[2] = 1;
 		corner->surroundings.x = (int)right;
 		corner->surroundings.y = (int)top;
@@ -66,7 +65,6 @@ void Tunnel::Create()
 
 	{ // Right top back
 		corner = &corners[1];
-		// FIXME final version should not be offset
 		corner->baseScale[0] = 1; corner->baseScale[1] = 1; corner->baseScale[2] = -1;
 		corner->surroundings.x = (int)right;
 		corner->surroundings.y = (int)top;
@@ -75,7 +73,6 @@ void Tunnel::Create()
 
 	{ // Right bottom front
 		corner = &corners[2];
-		// FIXME final version should not be offset
 		corner->baseScale[0] = 1; corner->baseScale[1] = -1; corner->baseScale[2] = 1;
 		corner->surroundings.x = (int)right;
 		corner->surroundings.y = (int)bottom;
@@ -84,7 +81,6 @@ void Tunnel::Create()
 	
 	{ // Right bottom back
 		corner = &corners[3];
-		// FIXME final version should not be offset
 		corner->baseScale[0] = 1; corner->baseScale[1] = -1; corner->baseScale[2] = -1;
 		corner->surroundings.x = (int)right;
 		corner->surroundings.y = (int)bottom;
@@ -93,7 +89,6 @@ void Tunnel::Create()
 	
 	{ // Left top front
 		corner = &corners[4];
-		// FIXME final version should not be offset
 		corner->baseScale[0] = -1; corner->baseScale[1] = 1; corner->baseScale[2] = 1;
 		corner->surroundings.x = (int)left;
 		corner->surroundings.y = (int)top;
@@ -102,7 +97,6 @@ void Tunnel::Create()
 
 	{ // Left top back
 		corner = &corners[5];
-		// FIXME final version should not be offset
 		corner->baseScale[0] = -1; corner->baseScale[1] = 1; corner->baseScale[2] = -1;
 		corner->surroundings.x = (int)left;
 		corner->surroundings.y = (int)top;
@@ -111,7 +105,6 @@ void Tunnel::Create()
 
 	{ // Left bottom front
 		corner = &corners[6];
-		// FIXME final version should not be offset
 		corner->baseScale[0] = -1; corner->baseScale[1] = -1; corner->baseScale[2] = 1;
 		corner->surroundings.x = (int)left;
 		corner->surroundings.y = (int)bottom;
@@ -120,7 +113,6 @@ void Tunnel::Create()
 	
 	{ // Left bottom back
 		corner = &corners[7];
-		// FIXME final version should not be offset
 		corner->baseScale[0] = -1; corner->baseScale[1] = -1; corner->baseScale[2] = -1;
 		corner->surroundings.x = (int)left;
 		corner->surroundings.y = (int)bottom;
