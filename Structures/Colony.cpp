@@ -136,11 +136,11 @@ void Colony::CenterlineHelper(std::vector<Vertex>& dstCL, bool usePerturbed)
             float worldX = src.x() + center.x;
             float worldY = src.y() + center.y;
             float worldZ = src.z() + center.z;
-            // printf("%f + %f = %f\n", src.x(), center.x, worldX);
+            // printf("%f + %f = %f\n", src.x(), center.x, worldX); // NORELEASE
             dst.coords.x = worldX;
             dst.coords.y = worldY;
             dst.coords.z = worldZ;
-            // printf("%d: %f, %f, %f\n", index, dst.x(), dst.y(), dst.z());
+            // printf("%d: %f, %f, %f\n", index, dst.x(), dst.y(), dst.z()); // NORELEASE
 
             dstCL.push_back(dst);
         }
@@ -273,7 +273,7 @@ void Colony::DrawCenterlines()
 		auto currentIdx = *frontier.begin();
 		frontier.erase(frontier.begin());
 		auto current = CLtoUse[currentIdx];
-		// printf("Current has %lu neighbors\n", current.neighbors.size());
+		// printf("Current has %lu neighbors\n", current.neighbors.size()); // NORELEASE
 
 		for (auto&& neighborIdx : current.neighbors)
 		{
@@ -282,9 +282,9 @@ void Colony::DrawCenterlines()
 			// Draw line from this point to the neighbor
 			glBegin(GL_LINES);
 			glVertex3f( current.x(),  current.y(),  current.z());
-			// printf("current %f, %f, %f\n", current.x(),  current.y(),  current.z());
+			// printf("current %f, %f, %f\n", current.x(),  current.y(),  current.z()); // NORELEASE
 			glVertex3f(neighbor.x(), neighbor.y(), neighbor.z());
-			// printf("neighbor %f, %f, %f\n", neighbor.x(),  neighbor.y(),  neighbor.z());
+			// printf("neighbor %f, %f, %f\n", neighbor.x(),  neighbor.y(),  neighbor.z()); // NORELEASE
 			glEnd();
 
 			// Add the neighbor to the frontier (if not already in closedSet or frontier)

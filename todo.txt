@@ -48,6 +48,10 @@ something wrong with Makefile again. Was getting a bad_alloc that got fixed by c
 
 At least one of the FIXMEs was because I changed a compile warning. Should address that well ahead of time just in case
 
+there's some old code scattered around (mostly in Corner?) from how I was originally planning to do neighbor connections
+
+for release: remove everything that has a "// NORELEASE" tag
+	CANNOT just delete the lines. Sometimes the tag just means a comment that's part of the line
 
 
 

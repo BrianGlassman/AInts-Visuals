@@ -40,7 +40,7 @@ void Chamber::FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool
 {
 	Vector3 coords;
 
-	// FIXME generalize for n != 8
+	// FIXME generalize for n != 8 // NORELEASE
 
 	// Ref https://en.cppreference.com/w/cpp/utility/functional/bind
 	auto boundSetCoords = std::bind(SetCoords, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, i0, f0, i1, f1, i2, f2);
@@ -126,7 +126,7 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				armIndices.insert(vertices.size());
 				normals.push_back(coords);
-				// FIXME texture
+				// FIXME texture // NORELEASE
 				coords[i0] = (f0 ? -1 : 1) * (x + d);
 				vertices.push_back(coords);
 
@@ -134,7 +134,7 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 				coords[i0] = 0;
 				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				normals.push_back(coords);
-				// FIXME texture
+				// FIXME texture // NORELEASE
 				coords[i0] = f0 ? -x : x;
 				vertices.push_back(coords);
 			}
@@ -148,7 +148,7 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 				coords[i0] = 0;
 				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				normals.push_back(coords);
-				// FIXME texture
+				// FIXME texture // NORELEASE
 				coords[i0] = f0 ? -x : x;
 				vertices.push_back(coords);
 
@@ -157,7 +157,7 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				armIndices.insert(vertices.size());
 				normals.push_back(coords);
-				// FIXME texture
+				// FIXME texture // NORELEASE
 				coords[i0] = (f0 ? -1 : 1) * (x + d);
 				vertices.push_back(coords);
 			}
@@ -169,7 +169,7 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 
 void Chamber::CreateCLHelper(std::vector<Vertex> &CLtoUse, int axis, bool flip)
 {
-	// FIXME should match arm panelling exactly, then handle core differently
+	// FIXME should match arm panelling exactly, then handle core differently // NORELEASE
 
 	int panels = round(0.5 / tunnelRadius); // <-- different from Tunnel
 	float d = (0.5) / panels; // <-- different from Tunnel
@@ -211,7 +211,7 @@ void Chamber::Create()
 {
 	PreCreate();
 
-	// fprintf(stdout, "panelWidth = %f\n", panelWidth);
+	// fprintf(stdout, "panelWidth = %f\n", panelWidth); // NORELEASE
 
 	// Note: flip i0 to change winding direction
 
@@ -301,7 +301,7 @@ void Chamber::ApplyNoise()
 
 void Chamber::DrawHelper(std::vector<Vector3> drawVertices)
 {
-	// FIXME array-ification can happen in Create, doesn't need to be in Draw
+	// FIXME array-ification can happen in Create, doesn't need to be in Draw // NORELEASE
 	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
 		// Convert vector of vectors to flat array
 		float vertexArray[drawVertices.size() * 3];
@@ -310,7 +310,7 @@ void Chamber::DrawHelper(std::vector<Vector3> drawVertices)
 			vertexArray[i*3 + 0] = drawVertices[i][0];
 			vertexArray[i*3 + 1] = drawVertices[i][1];
 			vertexArray[i*3 + 2] = drawVertices[i][2];
-			// fprintf(stdout, "vertexArray %d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]);
+			// fprintf(stdout, "vertexArray %d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]); // NORELEASE
 		}
 		float normalArray[normals.size() * 3];
 		for (unsigned int i = 0; i < normals.size(); i++)
@@ -326,9 +326,9 @@ void Chamber::DrawHelper(std::vector<Vector3> drawVertices)
 			for (unsigned int i = 0; i < triIndices.size(); i++)
 			{
 				triIndexArray[i] = triIndices[i];
-				// fprintf(stdout, "%d\n", triIndexArray[i]);
+				// fprintf(stdout, "%d\n", triIndexArray[i]); // NORELEASE
 			}
-			// fprintf(stdout, "%d: %d\n", triIndices.size()-1, triIndexArray[triIndices.size()-1]); // Check for overflow
+			// fprintf(stdout, "%d: %d\n", triIndices.size()-1, triIndexArray[triIndices.size()-1]); // Check for overflow // NORELEASE
 
 			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
 			glNormalPointer(GL_FLOAT, 0, normalArray);
@@ -341,9 +341,9 @@ void Chamber::DrawHelper(std::vector<Vector3> drawVertices)
 			for (unsigned int i = 0; i < quadIndices.size(); i++)
 			{
 				quadIndexArray[i] = quadIndices[i];
-				// fprintf(stdout, "%d\n", quadIndexArray[i]);
+				// fprintf(stdout, "%d\n", quadIndexArray[i]); // NORELEASE
 			}
-			// fprintf(stdout, "%d: %d\n", quadIndices.size()-1, quadIndexArray[quadIndices.size()-1]); // Check for overflow
+			// fprintf(stdout, "%d: %d\n", quadIndices.size()-1, quadIndexArray[quadIndices.size()-1]); // Check for overflow // NORELEASE
 
 			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
 			glNormalPointer(GL_FLOAT, 0, normalArray);

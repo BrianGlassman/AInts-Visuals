@@ -38,13 +38,13 @@ void Corner::SetRotateAndScale()
 			meshScale[0] = 1; meshScale[1] = 1; meshScale[2] = 1;
 			windCW = false;
 		}
-		else
-		{
-			// y >= x >= z - Switch X and Y
-			// NOTE: only used once chambers matter
-			// meshRotate[0] = 0; meshRotate[1] =  0; meshRotate[2] = 90;
-			// meshScale[0] = -1; meshScale[1] = 1; meshScale[2] = 1;
-			// windCW = false;
+		else // CHAMBERCONNECT // NORELEASE
+		{ // NORELEASE
+			// y >= x >= z - Switch X and Y // NORELEASE
+			// NOTE: only used once chambers matter // NORELEASE
+			// meshRotate[0] = 0; meshRotate[1] =  0; meshRotate[2] = 90; // NORELEASE
+			// meshScale[0] = -1; meshScale[1] = 1; meshScale[2] = 1; // NORELEASE
+			// windCW = false; // NORELEASE
 		}
 	}
 	else if (surroundings.z >= surroundings.x && surroundings.z >= surroundings.y)
@@ -56,14 +56,14 @@ void Corner::SetRotateAndScale()
 			meshScale[0] = 1; meshScale[1] = 1; meshScale[2] = 1;
 			windCW = false;
 		}
-		else
-		{
-			// z >= y >= x
-			// NOTE: only used once chambers matter
-			// meshRotate[0] = 0; meshRotate[1] = -90; meshRotate[2] = 0;
-			// meshScale[0] = -1; meshScale[1] = 1; meshScale[2] = 1;
-			// windCW = false;
-		}
+		else // CHAMBERCONNECT // NORELEASE
+		{ // NORELEASE
+			// z >= y >= x // NORELEASE
+			// NOTE: only used once chambers matter // NORELEASE
+			// meshRotate[0] = 0; meshRotate[1] = -90; meshRotate[2] = 0; // NORELEASE
+			// meshScale[0] = -1; meshScale[1] = 1; meshScale[2] = 1; // NORELEASE
+			// windCW = false; // NORELEASE
+		} // NORELEASE
 	}
 	else
 	{
@@ -149,7 +149,7 @@ void Corner::CreateCoreOuter(int i0, int i1, float c1, int i2, float c2)
 	coords[i0] = 0; coords[i1] = c1; coords[i2] = c2;
 	indices.push_back(vertices.size());
 	normals.push_back(coords);
-	// FIXME texture
+	// FIXME texture // NORELEASE
 	coords[i0] = radius;
 	vertices.push_back(coords);
 }
@@ -172,7 +172,7 @@ void Corner::CreateArm(int i0, int i1, int i2, bool reverse)
 			// Outer edge (Inner if reversed)
 			indices.push_back(vertices.size());
 			normals.push_back(coords);
-			// FIXME texture
+			// FIXME texture // NORELEASE
 			coords[i0] = reverse ? x : x + d;
 			vertices.push_back(coords);
 
@@ -180,7 +180,7 @@ void Corner::CreateArm(int i0, int i1, int i2, bool reverse)
 			coords[i0] = 0;
 			indices.push_back(vertices.size());
 			normals.push_back(coords);
-			// FIXME texture
+			// FIXME texture // NORELEASE
 			coords[i0] = reverse ? x + d : x;
 			vertices.push_back(coords);
 		}
@@ -202,7 +202,7 @@ void Corner::XTunnel(bool makeY, bool makeZ)
 
 		// Inner point
 		indices.push_back(vertices.size());
-		// FIXME texture
+		// FIXME texture // NORELEASE
 		if (makeY)
 		{
 			if (makeZ)
@@ -248,7 +248,7 @@ void Corner::YTunnel(bool makeZ)
 			float y = z;
 			indices.push_back(vertices.size());
 			normals.push_back({x, 0, z});
-			// FIXME texture
+			// FIXME texture // NORELEASE
 			vertices.push_back({x, y, z});
 		}
 		else
@@ -256,7 +256,7 @@ void Corner::YTunnel(bool makeZ)
 			float y = x;
 			indices.push_back(vertices.size());
 			normals.push_back({x, 0, z});
-			// FIXME texture
+			// FIXME texture // NORELEASE
 			vertices.push_back({x, y, z});
 		}
 
@@ -297,7 +297,7 @@ void Corner::Create()
 
     UpdateConnections();
 
-	// TODO need a second key to handle diagonals eventually
+	// CHAMBERCONNECT need a second key to handle diagonals eventually // NORELEASE
 	switch(surroundings.sqrMagnitude())
 	{
 	case 0:
@@ -315,7 +315,7 @@ void Corner::Create()
 		YTunnel(true);
 		ZTunnel();
 		break;
-	// TODO handle chambers, too
+	// CHAMBERCONNECT handle chambers, too // NORELEASE
 	default:
 		Fatal(999, "Unknown connection %d\n", surroundings.sqrMagnitude());
 	}
@@ -323,29 +323,29 @@ void Corner::Create()
 	// Apply scaling and rotation to the created vertices
 	for (auto&& vertex : vertices)
 	{
-		// fprintf(stdout, "Pre (%f, %f, %f) rot (%f, %f, %f) * (%f, %f, %f)\n", 
-		// 	vertex[0], vertex[1], vertex[2],
-		// 	meshRotate[0], meshRotate[1], meshRotate[2],
-		// 	meshScale[0], meshScale[1], meshScale[2]);
+		// fprintf(stdout, "Pre (%f, %f, %f) rot (%f, %f, %f) * (%f, %f, %f)\n", // NORELEASE
+		// 	vertex[0], vertex[1], vertex[2], // NORELEASE
+		// 	meshRotate[0], meshRotate[1], meshRotate[2], // NORELEASE
+		// 	meshScale[0], meshScale[1], meshScale[2]); // NORELEASE
 
 		// Rotate around Z axis
 		vertex.RotateZ(meshRotate[2]);
-		// fprintf(stdout, "Post Z (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]);
+		// fprintf(stdout, "Post Z (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]); // NORELEASE
 
 		// Rotate around Y axis
 		vertex.RotateY(meshRotate[1]);
-		// fprintf(stdout, "Post Y (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]);
+		// fprintf(stdout, "Post Y (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]); // NORELEASE
 
 		// Rotate around X axis
 		vertex.RotateX(meshRotate[0]);
-		// fprintf(stdout, "Post X (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]);
+		// fprintf(stdout, "Post X (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]); // NORELEASE
 
 		// Scale
 		vertex[0] *= baseScale[0] * meshScale[0];
 		vertex[1] *= baseScale[1] * meshScale[1];
 		vertex[2] *= baseScale[2] * meshScale[2];
 
-		// fprintf(stdout, "Post scale (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]);
+		// fprintf(stdout, "Post scale (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]); // NORELEASE
 	}
 
 	// Apply scaling and rotation to the created normals
@@ -385,7 +385,7 @@ void Corner::UpdateConnections()
 
 void Corner::DrawHelper(std::vector<Vector3> drawVertices)
 {
-	// FIXME array-ification can happen in Create, doesn't need to be in Draw
+	// FIXME array-ification can happen in Create, doesn't need to be in Draw // NORELEASE
 	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
 		// Convert vector of vectors to flat array
 		float vertexArray[drawVertices.size() * 3];
@@ -394,7 +394,7 @@ void Corner::DrawHelper(std::vector<Vector3> drawVertices)
 			vertexArray[i*3 + 0] = drawVertices[i][0];
 			vertexArray[i*3 + 1] = drawVertices[i][1];
 			vertexArray[i*3 + 2] = drawVertices[i][2];
-			// fprintf(stdout, "%d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]);
+			// fprintf(stdout, "%d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]); // NORELEASE
 		}
 		float normalArray[normals.size() * 3];
 		for (unsigned int i = 0; i < normals.size(); i++)
@@ -408,7 +408,7 @@ void Corner::DrawHelper(std::vector<Vector3> drawVertices)
 		for (unsigned int i = 0; i < indices.size(); i++)
 		{
 			indexArray[i] = indices[i];
-			// fprintf(stdout, "%d\n", indices[i]);
+			// fprintf(stdout, "%d\n", indices[i]); // NORELEASE
 		}
 
 		glVertexPointer(3, GL_FLOAT, 0, vertexArray);

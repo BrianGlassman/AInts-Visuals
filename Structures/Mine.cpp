@@ -97,7 +97,7 @@ void Mine::Create()
 {
 	PreCreate();
 
-	// fprintf(stdout, "panelWidth = %f\n", panelWidth);
+	// fprintf(stdout, "panelWidth = %f\n", panelWidth); // NORELEASE
 
 	// Note: flip i0 to change winding direction
 

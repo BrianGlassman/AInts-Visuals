@@ -26,7 +26,7 @@ public:
 	// Transformation to put the corner in the right spot
 	Vector3 baseScale = {1, 1, 1};
 
-	// FIXME make public once auto-generation is implemented
+	// FIXME make private once auto-generation is implemented // NORELEASE
     Surroundings surroundings;
 
 	float radius = 0.1f;
@@ -58,5 +58,5 @@ private:
 	void YTunnel(bool makeZ);
 	void ZTunnel();
 
-	void DrawHelper(std::vector<Vector3> drawVertices); // FIXME pass by reference
+	void DrawHelper(std::vector<Vector3> drawVertices); // FIXME pass by reference // NORELEASE
 };

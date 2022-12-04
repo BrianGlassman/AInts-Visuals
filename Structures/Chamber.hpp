@@ -25,12 +25,12 @@ protected:
     float panelWidth;
     std::unordered_set<int> armIndices;
 
-    // FIXME should these really be properties?
-    // FIXME these should be linked, not hard-coded
+    // FIXME should these really be properties? // NORELEASE
+    // FIXME these should be linked, not hard-coded // NORELEASE
     int tunnelN = 8;
     int armPanels = 1; // Shouldn't be the same as the tunnel value, but should be related
     float tunnelRadius = 0.1f;
-    // endFixme
+    // endFixme // NORELEASE
 
     // Use different primitives as convenient
     std::vector<int> triIndices; // Indices to draw using GL_TRIANGLES
@@ -44,5 +44,5 @@ protected:
     void CreateCLHelper(std::vector<Vertex> &CLtoUse, int axis, bool flip);
     void CreateCenterline(int axis, bool flip);
 
-    void DrawHelper(std::vector<Vector3> drawVertices); // FIXME pass by reference
+    void DrawHelper(std::vector<Vector3> drawVertices); // FIXME pass by reference // NORELEASE
 };

@@ -12,7 +12,7 @@ Tunnel::Tunnel()
 
 void Tunnel::CreateCLHelper(std::vector<Vertex> &CLtoUse, const int axis, const bool flip)
 {
-	int panels = 4; // FIXME generalize
+	int panels = 4; // FIXME generalize // NORELEASE
 	float d = (0.5 - radius) / panels;
 
 	int lastIdx = 0;
@@ -180,7 +180,7 @@ void Tunnel::ApplyNoise()
 		centerline[i].coords = baseCenterline[i].coords + p*noiseScale;
 	}
 
-	// printf("%f, %f, %f\n", centerline[0].coords.x, centerline[0].coords.y, centerline[0].coords.z);
+	// printf("%f, %f, %f\n", centerline[0].coords.x, centerline[0].coords.y, centerline[0].coords.z); // NORELEASE
 }
 
 void Tunnel::OldDraw()
