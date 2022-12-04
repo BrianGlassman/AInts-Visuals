@@ -180,17 +180,34 @@ void Model::DrawNormalHelper(float scale, std::vector<Vector3> verticesToUse, st
 }
 void Model::DrawNormals(float scale)
 {
+	PushShader(Shader::fixedPipeline);
 	glColor3f(1, 0, 0);
-	PushShader(0);
-	glPushAttrib(GL_ENABLE_BIT); glDisable(GL_LIGHTING); glDisable(GL_TEXTURE_2D);
+	glPushAttrib(GL_ENABLE_BIT | GL_LINE_BIT);
+	glDisable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
 	
 	glPushMatrix(); {
 		glTranslatef(center[0], center[1], center[2]);
 		
+		// Perturbed geometry
 		if (Toggles::Noise::showPerturbed)
 			DrawNormalHelper(scale, vertices, normals);
-		else
-			DrawNormalHelper(scale, baseVertices, baseNormals);
+		
+		if (Toggles::Noise::showBase)
+		{
+			if (Toggles::Noise::showPerturbed)
+			{
+				// Show base for comparison
+				glColor3f(0.7, 0.2, 0.2);
+				glLineWidth(5);
+				DrawNormalHelper(scale*0.5, vertices, baseNormals);
+			}
+			else
+			{
+				// Only show base
+				DrawNormalHelper(scale, baseVertices, baseNormals);
+			}
+		}
 	} glPopMatrix();
 	glPopAttrib();
 	glColor3f(1, 1, 1);
