@@ -220,7 +220,6 @@ int main(int argc, char* argv[])
 	if (true)
 	{
 		hill.AddHill(0, 0, 0);
-		hill.AddTunnel(0, -1, 0);
 		hill.Create();
 		hill.ApplyNoise();
 	}

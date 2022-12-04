@@ -18,6 +18,7 @@ void Hill::CreateSides()
     float dy = height / panels;
     float lowerR, upperR;
     float x, y = -0.5, z;
+    float N = (baseRadius - topRadius) / height; // d/dy of normal vector
     for (int i = 0; i < panels; i++)
     {
         lowerR = (topRadius - baseRadius) * ((y + 0.5) / height) + baseRadius;
@@ -29,24 +30,21 @@ void Hill::CreateSides()
             Polar2Cart(upperR, theta, &x, &z);
             z = -z;
             indices.push_back(vertices.size()); triIndices.push_back(vertices.size());
-            // FIXME normal should be slanted
-            normals.push_back({x, 0, z});
+            normals.push_back({x, N*upperR, z});
             vertices.push_back({x, y + dy, z});
 
             // Bottom left
             Polar2Cart(lowerR, theta, &x, &z);
             z = -z;
             indices.push_back(vertices.size()); triIndices.push_back(vertices.size());
-            // FIXME normal should be slanted
-            normals.push_back({x, 0, z});
+            normals.push_back({x, N*lowerR, z});
             vertices.push_back({x, y, z});
 
             // Bottom right
             Polar2Cart(lowerR, theta + d, &x, &z);
             z = -z;
             indices.push_back(vertices.size()); triIndices.push_back(vertices.size());
-            // FIXME normal should be slanted
-            normals.push_back({x, 0, z});
+            normals.push_back({x, N*lowerR, z});
             vertices.push_back({x, y, z});
 
             // --- Upper triangle ---
@@ -54,24 +52,21 @@ void Hill::CreateSides()
             Polar2Cart(upperR, theta, &x, &z);
             z = -z;
             indices.push_back(vertices.size()); triIndices.push_back(vertices.size());
-            // FIXME normal should be slanted
-            normals.push_back({x, 0, z});
+            normals.push_back({x, N*upperR, z});
             vertices.push_back({x, y + dy, z});
 
             // Bottom right point - coincident with Lower's bottom right
             Polar2Cart(lowerR, theta + d, &x, &z);
             z = -z;
             indices.push_back(vertices.size()); triIndices.push_back(vertices.size());
-            // FIXME normal should be slanted
-            normals.push_back({x, 0, z});
+            normals.push_back({x, N*lowerR, z});
             vertices.push_back({x, y, z});
 
             // Top right
             Polar2Cart(upperR, theta + d, &x, &z);
             z = -z;
             indices.push_back(vertices.size()); triIndices.push_back(vertices.size());
-            // FIXME normal should be slanted
-            normals.push_back({x, 0, z});
+            normals.push_back({x, N*upperR, z});
             vertices.push_back({x, y + dy, z});
         }
 
