@@ -213,7 +213,6 @@ int main(int argc, char* argv[])
 	if (true)
 	{
 		chamber.AddChamber(0, 0, 0); // Chamber
-		chamber.AddChamber(0, 1, 0);
 		chamber.Create();
 		chamber.ApplyNoise();
 	}

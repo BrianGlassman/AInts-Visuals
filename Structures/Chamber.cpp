@@ -318,35 +318,77 @@ void Chamber::ApplyNoise()
 			ty = ty + py*scale - p*scale;
 			tz = tz + pz*scale - p*scale;
 
+			// Normalize for the sake of later computation
+			tx.Normalize();
+			ty.Normalize();
+			tz.Normalize();
+
+			// Eliminate zero-magnitude tangents
+			bool xValid = tx.Magnitude() > 0;
+			bool yValid = ty.Magnitude() > 0;
+			bool zValid = tz.Magnitude() > 0;
+
 			// printf("perturbed tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
 
-			// Use whichever two perturbed tangents are longest
 			Vector3 tUse1, tUse2;
-			float mx = tx.Magnitude();
-			float my = ty.Magnitude();
-			float mz = tz.Magnitude();
-			if (mz <= mx && mz <= my)
+			if (!zValid)
 			{
+				if (!(xValid && yValid)) Fatal(999, "Not enough valid tangents\n");
+				// printf("validity xy\n");
 				tUse1 = tx;
 				tUse2 = ty;
 			}
-			else if (my <= mx && my <= mz)
+			else if (!yValid)
 			{
+				if (!(xValid && zValid)) Fatal(999, "Not enough valid tangents\n");
+				// printf("validity xz\n");
 				tUse1 = tx;
 				tUse2 = tz;
 			}
-			else if (mx <= my && mx <= mz)
+			else if (!xValid)
 			{
+				if (!(yValid && zValid)) Fatal(999, "Not enough valid tangents\n");
+				// printf("validity yz\n");
 				tUse1 = ty;
 				tUse2 = tz;
 			}
-			else Fatal(999, "ApplyNoise failed somehow\n");
+			else
+			{
+				// Use whichever two perturbed tangents are most orthogonal to each other
+				float xDy = abs(tx.Dot(ty));
+				float xDz = abs(tx.Dot(tz));
+				float yDz = abs(ty.Dot(tz));
+				if (xDy <= xDz && xDy <= yDz)
+				{
+					// printf("ortho xy\n");
+					tUse1 = tx;
+					tUse2 = ty;
+				}
+				else if (xDz <= xDy && xDz <= yDz)
+				{
+					// printf("ortho xz\n");
+					tUse1 = tx;
+					tUse2 = tz;
+				}
+				else if (yDz <= xDy && yDz <= xDz)
+				{
+					// printf("ortho yz\n");
+					tUse1 = ty;
+					tUse2 = tz;
+				}
+				else Fatal(999, "ApplyNoise failed somehow\n");
+			}
 
 			// Compute the new normal by crossing the perturbed tangents
 			Vector3 tempN = tUse1.Cross(tUse2);
 
 			// Normalize
 			tempN.Normalize();
+			if (tempN.Magnitude() == 0) printf("tx = (%f, %f, %f), ty = (%f, %f, %f), tz = (%f, %f, %f)\n",
+				tx.x, tx.y, tx.z,
+				ty.x, ty.y, ty.z,
+				tz.x, tz.y, tz.z
+				);
 
 			// Assume normals never completely change direction, and any inversion is because of cross product ordering
 			if (tempN.Dot(baseNormals[i]) < 0)
