@@ -19,6 +19,7 @@ public:
     Vector3();
     Vector3(std::initializer_list<float> coords);
     Vector3(float coords[]);
+    Vector3(std::vector<float> coords);
     Vector3(const Vector3Int intVec);
 
     std::vector<float> asStdVec();
@@ -36,12 +37,20 @@ public:
     float Dot(Vector3 right);
     Vector3 Cross(Vector3 right);
 
+    static const Vector3  Forward;
+    static const Vector3 Backward;
+    static const Vector3       Up;
+    static const Vector3     Down;
+    static const Vector3    Right;
+    static const Vector3     Left;
+
     // Operators
     float& operator[](int index);
     Vector3 operator+(const Vector3& rhs) const;
     Vector3 operator+(const Vector3Int& rhs) const;
     Vector3 operator-(const Vector3& rhs) const;
     Vector3 operator-(const Vector3Int& rhs) const;
+    Vector3 operator*(const float& coeff) const;
 private:
 };
 

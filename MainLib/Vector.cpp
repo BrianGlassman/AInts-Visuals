@@ -2,6 +2,13 @@
 
 #include "Vector.hpp"
 
+const Vector3  Vector3::Forward({ 0.0f,  0.0f,  1.0f});
+const Vector3 Vector3::Backward({ 0.0f,  0.0f, -1.0f});
+const Vector3       Vector3::Up({ 0.0f,  1.0f,  0.0f});
+const Vector3     Vector3::Down({ 0.0f, -1.0f,  0.0f});
+const Vector3    Vector3::Right({ 1.0f,  0.0f,  0.0f});
+const Vector3     Vector3::Left({-1.0f,  0.0f,  0.0f});
+
 Vector3::Vector3()
 {
     x = 0; y = 0; z = 0;
@@ -18,6 +25,13 @@ Vector3::Vector3(std::initializer_list<float> coords)
 }
 
 Vector3::Vector3(float coords[])
+{
+    x = coords[0];
+    y = coords[1];
+    z = coords[2];
+}
+
+Vector3::Vector3(std::vector<float> coords)
 {
     x = coords[0];
     y = coords[1];
@@ -64,6 +78,11 @@ Vector3 Vector3::operator-(const Vector3Int& rhs) const
     return operator+(rhs.Reversed());
 }
 
+Vector3 Vector3::operator*(const float& coeff) const
+{
+    return {x*coeff, y*coeff, z*coeff};
+}
+
 std::vector<float> Vector3::asStdVec()
 {
     return std::vector<float> ({x, y, z});
@@ -99,6 +118,7 @@ float Vector3::Magnitude()
 void Vector3::Normalize()
 {
     float mag = Magnitude();
+    if (mag < 1e-9) return; // Avoid division by SMALL which creates nans
     x /= mag;
     y /= mag;
     z /= mag;
