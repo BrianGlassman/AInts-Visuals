@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "Vector.hpp"
+
 class Noise
 {
 public:
@@ -11,6 +13,7 @@ public:
 
     virtual std::vector<float> getNoise(float x, float y, float z);
     std::vector<float> getNoise(std::vector<float> coords);
+    std::vector<float> getNoise(Vector3 coords);
 
     float getFloat();
     std::vector<float> getVec3();

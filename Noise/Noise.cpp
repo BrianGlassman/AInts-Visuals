@@ -61,3 +61,8 @@ std::vector<float> Noise::getNoise(std::vector<float> coords)
 {
     return getNoise(coords[0], coords[1], coords[2]);
 }
+
+std::vector<float> Noise::getNoise(Vector3 coords)
+{
+    return getNoise(coords.x, coords.y, coords.z);
+}
