@@ -50,6 +50,8 @@ protected:
 	std::vector<Vector3> baseNormals;
 	std::vector<std::vector<float>> texCoords;
 	std::vector<int> indices;
+
+	void DrawNormalHelper(float scale, std::vector<Vector3> verticesToUse, std::vector<Vector3> normalsToUse);
 };
 
 class Cylinder : public Model

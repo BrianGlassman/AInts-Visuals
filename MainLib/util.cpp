@@ -166,6 +166,18 @@ void Model::ApplyNoise()
     }
 }
 
+void Model::DrawNormalHelper(float scale, std::vector<Vector3> verticesToUse, std::vector<Vector3> normalsToUse)
+{
+	glBegin(GL_LINES);
+	for (auto&& i : indices)
+	{
+		auto&& vertex = verticesToUse[i];
+		auto&& normal = normalsToUse[i];
+		glVertex3f(vertex.x, vertex.y, vertex.z);
+		glVertex3f(scale * normal.x + vertex.x, scale * normal.y + vertex.y, scale * normal.z + vertex.z);
+	}
+	glEnd();
+}
 void Model::DrawNormals(float scale)
 {
 	glColor3f(1, 0, 0);
@@ -175,15 +187,10 @@ void Model::DrawNormals(float scale)
 	glPushMatrix(); {
 		glTranslatef(center[0], center[1], center[2]);
 		
-		glBegin(GL_LINES);
-		for (auto&& i : indices)
-		{
-			auto&& vertex = vertices[i];
-			auto&& normal = normals[i];
-			glVertex3f(vertex.x, vertex.y, vertex.z);
-			glVertex3f(scale * normal.x + vertex.x, scale * normal.y + vertex.y, scale * normal.z + vertex.z);
-		}
-		glEnd();
+		if (Toggles::Noise::showPerturbed)
+			DrawNormalHelper(scale, vertices, normals);
+		else
+			DrawNormalHelper(scale, baseVertices, baseNormals);
 	} glPopMatrix();
 	glPopAttrib();
 	glColor3f(1, 1, 1);
