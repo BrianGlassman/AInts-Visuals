@@ -47,6 +47,7 @@ protected:
     std::vector<Vector3> vertices;
 	std::vector<Vector3> baseVertices;
 	std::vector<Vector3> normals;
+	std::vector<Vector3> baseNormals;
 	std::vector<std::vector<float>> texCoords;
 	std::vector<int> indices;
 };

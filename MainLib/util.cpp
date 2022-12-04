@@ -102,6 +102,7 @@ void Model::PreCreate()
     vertices.clear();
 	baseVertices.clear();
 	normals.clear();
+	baseNormals.clear();
 	texCoords.clear();
 	indices.clear();
 }
@@ -123,10 +124,16 @@ void Model::PostCreate()
 		baseVertices.push_back(vertex);
 	}
 
-	// Normalize normalizes
+	// Normalize normals
 	for (auto&& normal : normals)
 	{
 		normal.Normalize();
+	}
+
+	// Copy normals to baseNormals
+	for (auto&& normal : normals)
+	{
+		baseNormals.push_back(normal);
 	}
 
 	// Set creation flag

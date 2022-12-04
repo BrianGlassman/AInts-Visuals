@@ -282,15 +282,83 @@ void Chamber::ApplyNoise()
 			scale = Globals::tunnelNoiseScale;
 		}
 
-		float x = baseVertices[i][0] + center[0];
-		float y = baseVertices[i][1] + center[1];
-		float z = baseVertices[i][2] + center[2];
+		// Perturbation at the initial vertex
+		Vector3 p = noisePtr->getNoise(baseVertices[i] + center);
+		// printf("p*scale = %f, %f, %f\n", p.x*scale, p.y*scale, p.z*scale);
 
-        auto p = noisePtr->getNoise(x, y, z);
-        
-		vertices[i][0] = baseVertices[i][0] + p[0]*scale;
-        vertices[i][1] = baseVertices[i][1] + p[1]*scale;
-        vertices[i][2] = baseVertices[i][2] + p[2]*scale;
+		// --- Vertices ---
+		vertices[i] = baseVertices[i] + p*scale;
+
+		// --- Normals ---
+		if (true)
+		{
+			// printf("base normal = %f, %f, %f\n", normals[i].x, normals[i].y, normals[i].z);
+
+			// Construct tangent vectors by crossing the normal with each axis
+			Vector3 tx = normals[i].Cross(Vector3::Right);
+			Vector3 ty = normals[i].Cross(Vector3::Up);
+			Vector3 tz = normals[i].Cross(Vector3::Forward);
+
+			// Reduce magnitude to a small value
+			tx = tx.Normalized() * 0.001;
+			ty = ty.Normalized() * 0.001;
+			tz = tz.Normalized() * 0.001;
+
+			// printf("tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
+
+			// Perturbation will be slightly different because of the offset
+			Vector3 px = noisePtr->getNoise(baseVertices[i] + center/* + tx*/);
+			Vector3 py = noisePtr->getNoise(baseVertices[i] + center/* + ty*/);
+			Vector3 pz = noisePtr->getNoise(baseVertices[i] + center/* + tz*/);
+
+			// printf("px*scale = %f, %f, %f\n", px.x*scale, px.y*scale, px.z*scale);
+
+			// Compute the perturbed tangent vectors
+			tx = tx + px*scale - p*scale;
+			ty = ty + py*scale - p*scale;
+			tz = tz + pz*scale - p*scale;
+
+			// printf("perturbed tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
+
+			// Use whichever two perturbed tangents are longest
+			Vector3 tUse1, tUse2;
+			float mx = tx.Magnitude();
+			float my = ty.Magnitude();
+			float mz = tz.Magnitude();
+			if (mz <= mx && mz <= my)
+			{
+				tUse1 = tx;
+				tUse2 = ty;
+			}
+			else if (my <= mx && my <= mz)
+			{
+				tUse1 = tx;
+				tUse2 = tz;
+			}
+			else if (mx <= my && mx <= mz)
+			{
+				tUse1 = ty;
+				tUse2 = tz;
+			}
+			else Fatal(999, "ApplyNoise failed somehow\n");
+
+			// Compute the new normal by crossing the perturbed tangents
+			Vector3 tempN = tUse1.Cross(tUse2);
+
+			// Normalize
+			tempN.Normalize();
+
+			// Assume normals never completely change direction, and any inversion is because of cross product ordering
+			if (tempN.Dot(baseNormals[i]) < 0)
+			{
+				// printf("Base (%f, %f, %f), Perturbed (%f, %f, %f), Dot %f\n", baseNormals[i].x, baseNormals[i].y, baseNormals[i].z, tempN.x, tempN.y, tempN.z, tempN.Dot(baseNormals[i]));
+				tempN = tempN.Reversed();
+			}
+
+			// Save the result
+			normals[i] = tempN;
+		}
+
 
 		if (i == 0)
 		{
