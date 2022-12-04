@@ -13,6 +13,30 @@ do what prof said: make a wrapper that sets color AND material, and use this eve
 also make textures brighter
 
 
+[thanksgiving] buildings and other ants
+	idea: somehow invert the Z-buffer or something. Only render parts of the building that would be occluded by chamber walls
+	ex 37(maybe? Whatever was shown in class 12/1) deals with the stencil buffer, so may be helpful here
+		IMPORTANT NOTE: stencil buffer is complicated, so should rewatch this lecture if I end up using stencil buffer
+	could maybe do something involving setting the stencil buffer per-chamber, and clear it at the start of the next chamber
+	also might be able to set VALUES in the stencil buffer. So only draw if the Z-buffer value is greater/less than the value stored in the stencil buffer
+	could also do some trick using textures? See example whatever-was-second-half-of-12/1
+	
+figure out how to do 3d texturing that can handle Z axis lines
+
+Normals don't account for perturbations, so lighting looks wrong
+	probably going to have to do perturbations at the same time as vertex-generation to get the normals right
+		using Bezier patches might help, since OpenGL can do auto-normals there?
+
+
+
+
+
+should check which menu options don't currently work and implement or remove them
+	toggle ambient light
+	toggle directed light
+	toggle smooth/flat shadows
+	...?
+
 
 track interior view eye position separately for each scene
 	also make it stop moving when new structures are added
@@ -27,62 +51,14 @@ perspective view looks weird, like it's fish-eyed or something
 
 something wrong with Makefile again. Was getting a bad_alloc that got fixed by clean-then-make
 
-Normals don't account for perturbations
-
 At least one of the FIXMEs was because I changed a compile warning. Should address that well ahead of time just in case
 
 
 
 
 
-[thanksgiving] buildings and other ants
-	idea: somehow invert the Z-buffer or something. Only render parts of the building that would be occluded by chamber walls
-	ex 37(maybe? Whatever was shown in class 12/1) deals with the stencil buffer, so may be helpful here
-		IMPORTANT NOTE: stencil buffer is complicated, so should rewatch this lecture if I end up using stencil buffer
-	could maybe do something involving setting the stencil buffer per-chamber, and clear it at the start of the next chamber
-	also might be able to set VALUES in the stencil buffer. So only draw if the Z-buffer value is greater/less than the value stored in the stencil buffer
-	could also do some trick using textures? See example whatever-was-second-half-of-12/1
-
-chamber uses a different noiseScale than tunnel, so there's a chance for cross-over
-
-probably going to have to do perturbations at the same time as vertex-generation to get the normals right
-	using Bezier patches might help, since OpenGL can do auto-normals there?
-
-would like to have better 3D navigation for interior view, but the vector math gets nasty
-	current version has "up" locked to Y axis, so turning is always around that axis instead of relative to view
-
-look into using LINE_LOOP to make a wireframe? The LEGO example used a wireframe, too, but I think a different methodology
-
-add "return to default" functions for lighting, materials, textures, colors, etc.
-	or use push/pop attrib
-
-prevent neighboring vertices from overlapping
-	change how much the perturbation applies based on the line length? Probably not. That limits the max displacement
-	somehow ensure that all lines are the same length? That way a fixed perturbation value (lineLength * 0.49) will always be ok
-		also need to ensure open spaces (ex. between opposite walls) are larger than this value, but that should be fine
-	do multiple perturbation passes? Large displacement for broad strokes applies to long edges, then smaller displacements use smaller edges
-	bias or constrain the perturbations? ex. each vertical slice of a tunnel can only perturb up or down
-	
-[initial] meshes for tunnels and empty chambers, with adjacent structures connecting to each other
-
-use VBOs (ref Ex. 8) for performance improvement
-
-make orbiting lights based on fixed speed, not display speed
-	the Thunderbirds example probably has this capability
-
-May be better to use a pixel shader?
-Marching cubes? Some other isosurface algorithm?
-	https://www3.cs.stonybrook.edu/~qin/courses/visualization/visualization-surface-rendering-with-polygons.pdf
-	https://people.eecs.berkeley.edu/~jrs/meshpapers/Bloomenthal.pdf
-
-May want to use a DisplayList instead of VBO (so that I can store transformations, not just vertices)
-	note: deprecated in OpenGL 3, although it's still available through compatibility
-
 have a player option in exterior view for switching between back-cull (exterior) and front-cull (interior) for tunnel/chamber walls
 
-[final] place new structures and delete existing ones
-[final] UI menu to select which structure to place
-[final] 3D grid visualization and ghost of to-be-placed
 
 [stretch0] texture variations
 [stretch1] merge adjacent chambers
@@ -92,22 +68,65 @@ have a player option in exterior view for switching between back-cull (exterior)
 [stretch5] collision detection for interior view movement
 
 
+OPTIONAL IMPROVEMENTS
+----------------------
+do a second noise pass with lower magnitude and smaller cell size to create variation within the walls
+	if this is done after the first pass and applies to the post-noise vertices, should still be proof against crossover as long as {S < 0.5 * cellSize}
+	
+use a different noise scale for chambers so that they can be more varied than tunnels can reasonably handle
+	risks crossover, though
+
+May want to use a DisplayList instead of VBO (so that I can store transformations, not just vertices)
+	note: deprecated in OpenGL 3, although it's still available through compatibility
+
+use VBOs (ref Ex. 8) for performance improvement
+
+May be better to use a pixel shader?
+Marching cubes? Some other isosurface algorithm?
+	https://www3.cs.stonybrook.edu/~qin/courses/visualization/visualization-surface-rendering-with-polygons.pdf
+	https://people.eecs.berkeley.edu/~jrs/meshpapers/Bloomenthal.pdf
+	
+make orbiting lights based on fixed speed, not display speed
+	the Thunderbirds example probably has this capability
+
+would like to have better 3D navigation for interior view, but the vector math gets nasty
+	current version has "up" locked to Y axis, so turning is always around that axis instead of relative to view
+
+
+
+
+
 HOPEFULLY DONE
 ---------------
+[SOLUTION] Hopefully this has been fixed by using "float azimuth = 0, elevation = 0" instead of "float azimuth, elevation" but need to keep an eye on it
 about 1/3 of the time the light doesn't show up at all. WTF????
 	in some scenes it's at the wrong Y value, may or may not be related
-					Hopefully this has been fixed by using "float azimuth = 0, elevation = 0" instead of "float azimuth, elevation" but need to keep an eye on it
-						
+
+[SOLUTION] fixed by implementing a Bezier curve fade, although this is still a good condition to test with						
 seed = 1669398889 the side-tunnel just below the Hill gets smushed
-					fixed by implementing a Bezier curve fade, although this is still a good condition to test with
-					
+
+[SOLUTION] Might have been fixed by resetting the eyePos to match the CL node in Display? Not sure
 resizing the window in Interior view very much does not work
-					Might have been fixed by resetting the eyePos to match the CL node in Display? Not sure
+
+[SOLUTION] mathed it out on a whiteboard (phone photo) and as long as both noise vectors are scaled by S and S < 0.5 points can't ever cross
+prevent neighboring vertices from overlapping
+	change how much the perturbation applies based on the line length? Probably not. That limits the max displacement
+	somehow ensure that all lines are the same length? That way a fixed perturbation value (lineLength * 0.49) will always be ok
+		also need to ensure open spaces (ex. between opposite walls) are larger than this value, but that should be fine
+	do multiple perturbation passes? Large displacement for broad strokes applies to long edges, then smaller displacements use smaller edges
+	bias or constrain the perturbations? ex. each vertical slice of a tunnel can only perturb up or down
+
 
 DONE
 ----------------
 [initial] predefined layout
 [initial] placeholder textures and lighting
+[initial] meshes for tunnels and empty chambers, with adjacent structures connecting to each other
 
 [thanksgiving] exterior and interior views, with movement controls
 [thanksgiving] random noise perturbations
+
+[final] place new structures and delete existing ones
+[final] UI menu to select which structure to place
+[final] 3D grid visualization and ghost of to-be-placed
+	note: didn't do 3D grid visualizing because it isn't really needed with the WASD control scheme
