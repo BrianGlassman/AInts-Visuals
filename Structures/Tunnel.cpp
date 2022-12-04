@@ -2,12 +2,10 @@
 
 #include "globals.hpp"
 
-Tunnel::Tunnel(unsigned char sides)
+Tunnel::Tunnel()
 {
 	type = 2;
 	sideType = SideType::tunnel;
-
-	UnpackSides(sides);
 
 	Create();
 }

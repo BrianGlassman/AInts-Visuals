@@ -4,7 +4,7 @@
 #include "globals.hpp"
 #include "Shaders.hpp"
 
-Chamber::Chamber(unsigned char sides)
+Chamber::Chamber()
 {
 	type = 3;
 	sideType = SideType::chamber;
@@ -15,8 +15,6 @@ Chamber::Chamber(unsigned char sides)
 	padScale = 1 - 2*padding;
 
 	panelWidth = 1.0*padScale / panels;
-
-	UnpackSides(sides);
 
 	Create();
 }

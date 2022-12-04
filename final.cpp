@@ -161,13 +161,15 @@ void Input::buildKey(unsigned char k)
 				return;
 			}
 			displayModelPtr->DeleteStructure(buildIndicator.center);
+			
+			buildIndicator.Create();
+			buildIndicator.ApplyNoise();
 			break;
 		default: displayModelPtr->AddStructure(buildIndicator.center, Globals::toBuild); break;
 		}
 		
 		displayModelPtr->Create();
 		displayModelPtr->ApplyNoise();
-		buildIndicator.Create();
 	}
 	else
 	{

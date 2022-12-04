@@ -63,6 +63,7 @@ void BuildIndicator::SetModel(StructureType type)
     }
 
     Create();
+    ApplyNoise();
 }
 
 void BuildIndicator::HandleKey(unsigned char k)
@@ -113,6 +114,7 @@ void BuildIndicator::HandleKey(unsigned char k)
 
     // If a change was made, have to re-generate
     Create();
+    ApplyNoise();
 }
 
 void BuildIndicator::Create()
@@ -134,6 +136,12 @@ void BuildIndicator::Create()
         model->center = center;
         model->Create();
     }
+}
+
+void BuildIndicator::ApplyNoise()
+{
+    if (Globals::toBuild == StructureType::Delete) return;
+    model->ApplyNoise();
 }
 
 void BuildIndicator::Draw(bool hasControl)

@@ -9,9 +9,7 @@
 class Chamber : public Structure
 {
 public:
-    Chamber() : Chamber(0) {}
-    // FIXME temporary convenience until auto-generating is implemented
-    Chamber(unsigned char sides);
+    Chamber();
 
     virtual void PreCreate();
     virtual void Create();

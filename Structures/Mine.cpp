@@ -1,7 +1,7 @@
 #include "Mine.hpp"
 #include "globals.hpp"
 
-Mine::Mine(unsigned char sides)
+Mine::Mine()
 {
 	type = 5;
 	sideType = SideType::chamber;
@@ -13,8 +13,6 @@ Mine::Mine(unsigned char sides)
 	padScale = 1 - 2*padding;
 
 	panelWidth = 1.0*padScale / panels;
-
-	UnpackSides(sides);
 
 	Create();
 }

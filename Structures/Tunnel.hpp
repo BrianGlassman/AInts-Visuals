@@ -8,9 +8,7 @@
 class Tunnel : public Structure
 {
 public:
-	Tunnel() : Tunnel(0) {}
-	// FIXME temporary convenience until auto-generating is implemented
-	Tunnel(unsigned char sides);
+	Tunnel();
 
 	void Create();
 	void ApplyNoise();
