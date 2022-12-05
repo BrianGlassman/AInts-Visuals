@@ -64,7 +64,7 @@ static void init(int argc, char* argv[])
 
 	InitShaders();
 
-	InitObjects();
+	Objects::Mine = OBJ("Mine.obj", 1.0 / 128);
 
 	ErrCheck("init");
 }
@@ -126,7 +126,7 @@ void display()
 
 
 	// FIXME this should very much be elsewhere
-	glCallList(Objects::Mine);
+	Objects::Mine.Draw();
 
 
 
