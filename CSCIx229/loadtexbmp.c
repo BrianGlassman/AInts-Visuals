@@ -23,8 +23,13 @@ static void Reverse(void* x,const int n)
 //
 //  Load texture from BMP file
 //
-unsigned int LoadTexBMP(const char* file)
+unsigned int LoadTexBMP(const char* dir, const char* _file)
 {
+   // Set file directory
+   char file[64];
+   strcpy(file, dir);
+   strcat(file, _file);
+   
    //  Open file
    FILE* f = fopen(file,"rb");
    if (!f) Fatal(40, "Cannot open file %s\n",file);

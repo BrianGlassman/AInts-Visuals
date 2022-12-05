@@ -24,10 +24,15 @@
 // Shaders
 #include "Shaders.hpp"
 
+// Objects
+#include "Objects.hpp"
+
 Colony* displayModelPtr;
 Colony colony;
 Colony tunnel;
 Colony chamber;
+Colony mine;
+Colony farm;
 Colony hill;
 Colony allTunnels;
 
@@ -72,6 +77,16 @@ void SetDisplayPtr()
 	case Scene::chamber:
 	{
 		displayModelPtr = &chamber;
+		break;
+	}
+	case Scene::mine:
+	{
+		displayModelPtr = &mine;
+		break;
+	}
+	case Scene::farm:
+	{
+		displayModelPtr = &farm;
 		break;
 	}
 	case Scene::hill:

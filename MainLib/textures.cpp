@@ -6,7 +6,7 @@ std::map<std::string, GLuint> textures = std::map<std::string, GLuint>();
 
 void LoadTexture(std::string key, std::string filename)
 {
-	textures[key] = LoadTexBMP(("Textures/" + filename).c_str());
+	textures[key] = LoadTexBMP("Textures/", filename.c_str());
 }
 
 /// @brief Setup for using textures, based on Ex. 14

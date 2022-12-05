@@ -162,11 +162,16 @@ static char* readstr(char* line,const char* skip)
 //
 //  Load materials from file
 //
-static void LoadMaterial(const char* file)
+static void LoadMaterial(const char* dir, const char* _file)
 {
    int k=-1;
    char* line;
    char* str;
+
+   // Set file directory
+   char file[64];
+   strcpy(file, dir);
+   strcat(file, _file);
 
    //  Open file or return with warning on error
    FILE* f = fopen(file,"r");
@@ -219,7 +224,7 @@ static void LoadMaterial(const char* file)
       }
       //  Textures (must be BMP - will fail if not)
       else if ((str = readstr(line,"map_Kd")))
-         mtl[k].map = LoadTexBMP(str);
+         mtl[k].map = LoadTexBMP(dir, str);
       //  Ignore line if we get here
    }
    fclose(f);
@@ -255,8 +260,9 @@ static void SetMaterial(const char* name)
 
 //
 //  Load OBJ file
+//  Note: dir should end with "/"
 //
-int LoadOBJ(const char* file)
+int LoadOBJ(const char* dir, const char* _file)
 {
    int  Nv,Nn,Nt;  //  Number of vertex, normal and textures
    int  Mv,Mn,Mt;  //  Maximum vertex, normal and textures
@@ -265,6 +271,11 @@ int LoadOBJ(const char* file)
    float* T;       //  Array if textures coordinates
    char*  line;    //  Line pointer
    char*  str;     //  String pointer
+
+   // Set file directory
+   char file[64];
+   strcpy(file, dir);
+   strcat(file, _file);
 
    //  Open file
    FILE* f = fopen(file,"r");
@@ -340,7 +351,7 @@ int LoadOBJ(const char* file)
          SetMaterial(str);
       //  Load materials
       else if ((str = readstr(line,"mtllib")))
-         LoadMaterial(str);
+         LoadMaterial(dir, str);
       //  Skip this line
    }
    fclose(f);

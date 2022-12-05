@@ -31,7 +31,7 @@ static void init(int argc, char* argv[])
 
 	// Textures
 	// FIXME for SOME REASON having this load here makes the one inside textures.cpp work
-	LoadTexBMP("Textures/dirtGroundTileable.bmp");
+	LoadTexBMP("Textures/", "dirtGroundTileable.bmp");
 	InitTextures();
 	BindTexture("dirt"); // FIXME each thing should choose the right texture, not rely on this default
 
@@ -64,6 +64,8 @@ static void init(int argc, char* argv[])
 
 	InitShaders();
 
+	InitObjects();
+
 	ErrCheck("init");
 }
 
@@ -86,6 +88,8 @@ void display()
 		break;
 	}
 	case Scene::chamber:
+	case Scene::mine:
+	case Scene::farm:
 	case Scene::hill:
 	{
 		baseMag = 2;
@@ -117,6 +121,17 @@ void display()
 
 	//  Revert to fixed pipeline
 	UseShader(Shader::fixedPipeline);
+
+
+
+
+	// FIXME this should very much be elsewhere
+	glCallList(Objects::Mine);
+
+
+
+
+
 
 	if (Globals::toBuild != StructureType::NONE) buildIndicator.Draw();
 
@@ -197,36 +212,46 @@ int main(int argc, char* argv[])
 	// Create the scene to be displayed
 	Globals::sceneChoice = Scene::colony;
 
-	if (true)
+	if (true) // Colony
 	{
 		PopulateColony(colony);
 		colony.Create();
 		colony.ApplyNoise();
 	}
 
-	if (true)
+	if (true) // Tunnel
 	{
-		tunnel.AddTunnel(0, 0, 0); // Tunnel
+		tunnel.AddTunnel(0, 0, 0);
 		tunnel.AddTunnel(-1, 0, 0);
 		tunnel.Create();
 		tunnel.ApplyNoise();
 	}
 
-	if (true)
+	if (true) // Chamber
 	{
-		chamber.AddChamber(0, 0, 0); // Chamber
+		chamber.AddChamber(0, 0, 0);
 		chamber.Create();
 		chamber.ApplyNoise();
 	}
 
-	if (true)
+	if (true) // Mine
+	{
+		// TODO
+	}
+
+	if (true) // Farm
+	{
+		// TODO
+	}
+
+	if (true) // Hill
 	{
 		hill.AddHill(0, 0, 0);
 		hill.Create();
 		hill.ApplyNoise();
 	}
 
-	if (true)
+	if (true) // All Tunnels
 	{
 		PopulateTunnels(allTunnels);
 		allTunnels.Create();

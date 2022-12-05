@@ -13,7 +13,8 @@ STCRDIR=Structures
 NOISDIR=Noise
 MENUDIR=Menus
 SHDEDIR=Shaders
-INCLUDE=-I $(CLIBDIR) -I $(MLIBDIR) -I $(STCRDIR) -I $(NOISDIR) -I $(MENUDIR) -I $(SHDEDIR)
+OBJSDIR=Objects
+INCLUDE=-I $(CLIBDIR) -I $(MLIBDIR) -I $(STCRDIR) -I $(NOISDIR) -I $(MENUDIR) -I $(SHDEDIR) -I $(OBJSDIR)
 
 # Default target
 all: final
@@ -70,6 +71,9 @@ window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp $(MLIBDIR)/globals.hpp
 #--- Shaders ---
 Shaders.o: $(SHDEDIR)/Shaders.cpp $(SHDEDIR)/Shaders.hpp $(CLIBDIR)/CSCIx229.h textures.o
 
+#--- Objects ---
+Objects.o: $(OBJSDIR)/Objects.cpp $(OBJSDIR)/Objects.hpp $(CLIBDIR)/CSCIx229.h
+
 #--- Structures ---
 # Base structures
 Structure.o: $(STCRDIR)/Structure.cpp $(STCRDIR)/Structure.hpp util.o Vertex.o
@@ -107,6 +111,8 @@ Menus.a: Menus.o
 	ar -rcs $@ $^
 Shaders.a: Shaders.o
 	ar -rcs $@ $^
+Objects.a: Objects.o
+	ar -rcs $@ $^
 
 #---------------
 # Compile rules
@@ -141,6 +147,11 @@ Shaders.a: Shaders.o
 %.o: $(SHDEDIR)/%.cpp
 	g++ -c $(CFLAGS) $< $(INCLUDE)
 
+%.o: $(OBJSDIR)/%.c
+	gcc -c $(CFLAGS) $< $(INCLUDE)
+%.o: $(OBJSDIR)/%.cpp
+	g++ -c $(CFLAGS) $< $(INCLUDE)
+
 %.o: %.c
 	gcc -c $(CFLAGS) $< $(INCLUDE)
 %.o: %.cpp
@@ -150,9 +161,9 @@ Shaders.a: Shaders.o
 #  Targets
 #-----------
 # Link (and final.o dependency to keep them together)
-final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h MainLib.a Structures.a Noise.a Menus.a Shaders.a
+final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h MainLib.a Structures.a Noise.a Menus.a Shaders.a Objects.a
 # FIXME I have no clue why Vertex.o needs to be here, but apparently it does
-final:               final.o            CSCIx229.a MainLib.a Structures.a Noise.a Menus.a Shaders.a Vertex.o
+final:               final.o            CSCIx229.a MainLib.a Structures.a Noise.a Menus.a Shaders.a Objects.a Vertex.o
 	g++ -o $@ $^ $(CFLAGS) $(LIBS) $(INCLUDE)
 
 noise: $(NOISDIR)/main.cpp Noise.a CSCIx229.a MainLib.a

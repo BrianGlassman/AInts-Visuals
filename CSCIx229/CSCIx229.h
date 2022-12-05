@@ -55,9 +55,9 @@ extern "C" {
 void Print(const char* format , ...);
 void Fatal(const int code, const char* format , ...);
 void FatalDef();
-unsigned int LoadTexBMP(const char* file);
+unsigned int LoadTexBMP(const char* dir, const char* file);
 void ErrCheck(const char* where);
-int  LoadOBJ(const char* file);
+int  LoadOBJ(const char* dir, const char* file);
 
 #ifdef __cplusplus
 }
