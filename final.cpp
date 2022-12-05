@@ -187,6 +187,8 @@ void Menus::SetBuildModel(StructureType type)
 
 int main(int argc, char* argv[])
 {
+	InitOBJs();
+
 	Perlin noise;
 	noisePtr = &noise;
 

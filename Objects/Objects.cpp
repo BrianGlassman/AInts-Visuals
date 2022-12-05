@@ -175,6 +175,11 @@ void OBJ::Draw(bool hasControl)
 }
 
 namespace Objects {
-    std::shared_ptr<OBJ> Mine = std::make_shared<OBJ>("Mine.obj", 128);
+    std::shared_ptr<OBJ> Mine;
     // OBJ Farm;
+}
+
+void InitOBJs()
+{
+    Objects::Mine = std::make_shared<OBJ>("Mine.obj", 128);
 }
