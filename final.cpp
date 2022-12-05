@@ -199,9 +199,9 @@ int main(int argc, char* argv[])
 	}
 
 	// Create the scene to be displayed
-	Globals::sceneChoice = Scene::colony;
+	Globals::sceneChoice = Scene::mine;
 
-	if (true) // Colony
+	if (false) // Colony
 	{
 		PopulateColony(colony);
 		colony.AddStructure(2, -1, 1, StructureType::Mine);
@@ -224,7 +224,7 @@ int main(int argc, char* argv[])
 		chamber.ApplyNoise();
 	}
 
-	if (false) // Mine
+	if (true) // Mine
 	{
 		mine.AddStructure(0, 0, 0, StructureType::Mine);
 		mine.Create();
