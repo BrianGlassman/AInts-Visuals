@@ -2,6 +2,7 @@
 #include "display.hpp"
 #include "globals.hpp"
 #include "input.hpp"
+#include "Shaders.hpp"
 
 static float view_rotx, view_roty, view_rotz;
 
@@ -90,16 +91,40 @@ void preDisplay()
 	default:
 		FatalDef();
 	}
+
+	// Use brick shader as a scream test
+	UseShader(Shader::brickShader);
+
+	ErrCheck("PreDisplay");
 }
 
 void postDisplay(float scale)
 {
+	// In exterior view, draw an indicator of where the interior view is
+	if (Globals::viewMode == ViewMode::EXTERIOR && displayModelPtr->created)
+	{
+		PushShader(Shader::fixedPipeline);
+		glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_LIGHTING);
+		glPointSize(20);
+		glColor3f(1, 0, 0);
+
+		auto& eyePos = Globals::InteriorView::eyePos;
+		glBegin(GL_POINTS); glVertex3f(eyePos.x, eyePos.y, eyePos.z); glEnd();
+
+		glColor3f(1, 1, 1);
+		glPopAttrib();
+		PopShader();
+	}
+
 	if (Toggles::Display::showAxes) DrawAxes(scale);
 
 	glFlush();
 	glutSwapBuffers();
 
-	ErrCheck("display");
+	ErrCheck("postDisplay");
 }
 void postDisplay()
 {

@@ -36,6 +36,7 @@ namespace Toggles
     {
         extern bool showAxes;
         extern bool wireframe;
+        extern bool faceCulling;
     }
 
     extern bool showNormals;

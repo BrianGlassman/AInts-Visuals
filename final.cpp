@@ -48,7 +48,8 @@ static void init(int argc, char* argv[])
 	glEnable(GL_BLEND);
 
 	// Face culling and Z-buffering
-	glEnable(GL_CULL_FACE);
+	if (Toggles::Display::faceCulling) glEnable(GL_CULL_FACE);
+	else glDisable(GL_CULL_FACE);
 	if (Globals::viewMode == ViewMode::EXTERIOR)
 		glCullFace(GL_BACK);
 	else
@@ -104,9 +105,6 @@ void display()
 
 	orbiterPtr->UpdatePosition(); // FIXME this should probably not be in display
 	orbiterPtr->Draw();
-
-	// Use brick shader as a scream test
-	UseShader(Shader::brickShader);
 	
 	if (displayModelPtr->created)
 	{
@@ -123,25 +121,6 @@ void display()
 	if (Globals::toBuild != StructureType::NONE) buildIndicator.Draw();
 
 	if (Toggles::Noise::showPVectors) noisePtr->DrawNoise();
-
-	// In exterior view, draw an indicator of where the interior view is
-	if (Globals::viewMode == ViewMode::EXTERIOR && displayModelPtr->created)
-	{
-		PushShader(0);
-		glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
-		glDisable(GL_TEXTURE_2D);
-		glDisable(GL_DEPTH_TEST);
-		glDisable(GL_LIGHTING);
-		glPointSize(20);
-		glColor3f(1, 0, 0);
-
-		auto& eyePos = Globals::InteriorView::eyePos;
-		glBegin(GL_POINTS); glVertex3f(eyePos.x, eyePos.y, eyePos.z); glEnd();
-
-		glColor3f(1, 1, 1);
-		glPopAttrib();
-		PopShader();
-	}
 
 	ErrCheck("display");
 

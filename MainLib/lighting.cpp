@@ -1,5 +1,6 @@
 #include "lighting.hpp"
 #include "globals.hpp"
+#include "Shaders.hpp"
 
 #define SHINY_DEFAULT 10
 
@@ -97,6 +98,7 @@ void OrbitLight::UpdatePosition()
 
 void OrbitLight::Draw()
 {
+	PushShader(Shader::fixedPipeline);
 	// Draw gizmos
 	glPushMatrix(); {
 		glDisable(GL_LIGHTING);
@@ -135,4 +137,7 @@ void OrbitLight::Draw()
 		glEnable(GL_LIGHTING);
 		glEnable(GL_TEXTURE_2D);
 	} glPopMatrix();
+	PopShader();
+
+	ErrCheck("OrbitLight::Draw");
 }
