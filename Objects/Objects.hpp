@@ -34,8 +34,11 @@ public:
     std::vector<Vector3> OBJvertices;
     std::vector<Objects::Face> OBJfaces;
 
+    void PreCreate() override;
     void Create() override;
     void Draw(bool hasControl = false) override;
+private:
+    std::vector<Vector3> colors;
 };
 
 namespace Objects {

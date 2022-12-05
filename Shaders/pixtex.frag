@@ -29,6 +29,9 @@ void main()
               + Id*gl_FrontLightProduct[1].diffuse
               + Is*gl_FrontLightProduct[1].specular;
 
+   // Apply the vertex coloring, if any (ref https://stackoverflow.com/a/2554526)
+   color *= gl_Color;
+
    // Blend two textures (ref https://distrustsimplicity.net/articles/texture-blending-in-glsl/)
    vec4 t0 = texture2D(tex0, gl_TexCoord[0].xy);
    vec4 t1 = texture2D(tex1, gl_TexCoord[0].xy);
@@ -38,6 +41,5 @@ void main()
    float a = 2*abs(gl_TexCoord[0].z / p - floor(gl_TexCoord[0].z / p + 0.5));
 
    //  Apply texture
-   // gl_FragColor = color * mix(t0, t1, gl_TexCoord[0].z);
    gl_FragColor = color * mix(t0, t1, a);
 }

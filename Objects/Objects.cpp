@@ -118,6 +118,12 @@ OBJ::OBJ(std::string filename, float _scale)
     scale = _scale / MVscale; // FIXME scale doesn't get used yet
 }
 
+void OBJ::PreCreate()
+{
+    Structure::PreCreate();
+    colors.clear();
+}
+
 void OBJ::Create()
 {
     PreCreate();
@@ -130,6 +136,7 @@ void OBJ::Create()
             indices.push_back(vertices.size());
             vertices.push_back(OBJvertices[face.vIdxs[i]] * (1.0 / scale));
             normals.push_back(OBJnormals[face.nIdxs[i]]);
+            colors.push_back(OBJcolors[face.cIdxs[i]]);
         }
     }
 
@@ -139,7 +146,7 @@ void OBJ::Create()
 void OBJ::Draw(bool hasControl)
 {
 	// FIXME array-ification can happen in Create, doesn't need to be in Draw // NORELEASE
-	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
+	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); glEnableClientState(GL_COLOR_ARRAY); {
 		// Convert vector of vectors to flat array
 		float vertexArray[vertices.size() * 3];
 		for (unsigned int i = 0; i < vertices.size(); i++)
@@ -156,6 +163,13 @@ void OBJ::Draw(bool hasControl)
 			normalArray[i*3 + 1] = normals[i][1];
 			normalArray[i*3 + 2] = normals[i][2];
 		}
+        float colorArray[colors.size() * 3];
+        for (unsigned int i = 0; i < colors.size(); i++)
+        {
+            colorArray[i*3 + 0] = colors[i][0];
+            colorArray[i*3 + 1] = colors[i][1];
+            colorArray[i*3 + 2] = colors[i][2];
+        }
 
 		if (indices.size() > 0)
 		{ // Draw with GL_TRIANGLES
@@ -169,9 +183,10 @@ void OBJ::Draw(bool hasControl)
 
 			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
 			glNormalPointer(GL_FLOAT, 0, normalArray);
+            glColorPointer(3, GL_FLOAT, 0, colorArray);
 			glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, triIndexArray);
 		}
-	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
+	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY); glDisableClientState(GL_COLOR_ARRAY);
 }
 
 namespace Objects {
@@ -182,4 +197,8 @@ namespace Objects {
 void InitOBJs()
 {
     Objects::Mine = std::make_shared<OBJ>("Mine.obj", 128);
+    Objects::Mine->OBJcolors = std::vector<Vector3>({
+        {256/256.0, 200/256.0, 150/256.0},
+        {1, 1, 1},
+    });
 }

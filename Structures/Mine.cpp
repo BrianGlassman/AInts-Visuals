@@ -40,7 +40,7 @@ void Mine::Draw(bool hasControl)
 {
 	// Chamber::Draw();
 
-	PushShader(Shader::fixedPipeline);
+	PushShader(Shader::threeDshader);
 	glPushMatrix();
 	glTranslatef(center.x, center.y, center.z);
 

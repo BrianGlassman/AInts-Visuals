@@ -19,6 +19,8 @@ void main()
    Normal = gl_NormalMatrix * gl_Normal;
    //  Eye position
    View  = -P.xyz;
+   //  Vertex color (ref https://stackoverflow.com/a/2554526)
+   gl_FrontColor = gl_Color;
    //  Texture based on position
    gl_TexCoord[0] = gl_Vertex;
    //  Set vertex position
