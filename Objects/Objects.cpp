@@ -143,17 +143,17 @@ void OBJ::Create()
     PostCreate();
 }
 
-void OBJ::Draw(bool hasControl)
+void OBJ::DrawHelper(std::vector<Vector3> drawVertices)
 {
 	// FIXME array-ification can happen in Create, doesn't need to be in Draw // NORELEASE
 	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); glEnableClientState(GL_COLOR_ARRAY); {
 		// Convert vector of vectors to flat array
-		float vertexArray[vertices.size() * 3];
-		for (unsigned int i = 0; i < vertices.size(); i++)
+		float vertexArray[drawVertices.size() * 3];
+		for (unsigned int i = 0; i < drawVertices.size(); i++)
 		{
-			vertexArray[i*3 + 0] = vertices[i][0];
-			vertexArray[i*3 + 1] = vertices[i][1];
-			vertexArray[i*3 + 2] = vertices[i][2];
+			vertexArray[i*3 + 0] = drawVertices[i][0];
+			vertexArray[i*3 + 1] = drawVertices[i][1];
+			vertexArray[i*3 + 2] = drawVertices[i][2];
 			// fprintf(stdout, "vertexArray %d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]); // NORELEASE
 		}
 		float normalArray[normals.size() * 3];
@@ -187,6 +187,16 @@ void OBJ::Draw(bool hasControl)
 			glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, triIndexArray);
 		}
 	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY); glDisableClientState(GL_COLOR_ARRAY);
+}
+
+void OBJ::Draw(bool hasControl)
+{
+    // Perturbed geometry
+    if (Toggles::Noise::showPerturbed)
+        DrawHelper(vertices);
+    // Only show base if not showing perturbed, too cluttered to show both
+    else if (Toggles::Noise::showBase)
+        DrawHelper(baseVertices);
 }
 
 namespace Objects {

@@ -1,7 +1,6 @@
 PROBLEMS:
 	mine OBJ is coupled to a single Mine object
 	processing time is too long, need to either simplify the object or reduce the voxel count
-	OBJ geometry ignores the noise toggle
 
 
 toBuild movement should change with view direction, probably

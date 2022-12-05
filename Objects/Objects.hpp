@@ -39,6 +39,8 @@ public:
     void Draw(bool hasControl = false) override;
 private:
     std::vector<Vector3> colors;
+
+    void DrawHelper(std::vector<Vector3> drawVertices); // FIXME pass by reference // NORELEASE
 };
 
 namespace Objects {
