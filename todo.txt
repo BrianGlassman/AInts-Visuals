@@ -1,3 +1,8 @@
+PROBLEMS:
+	mine OBJ is coupled to a single Mine object
+	processing time is too long, need to either simplify the object or reduce the voxel count
+
+
 toBuild movement should change with view direction, probably
 	include instructions for moving toBuild in README, once I've figured out what they are
 

@@ -116,6 +116,11 @@ OBJ::OBJ(std::string filename, float _scale)
     }
 
     scale = _scale / MVscale; // FIXME scale doesn't get used yet
+}
+
+void OBJ::Create()
+{
+    PreCreate();
 
     // Convert OBJ system to the system everything else uses
     for (auto& face : OBJfaces)
@@ -127,6 +132,8 @@ OBJ::OBJ(std::string filename, float _scale)
             normals.push_back(OBJnormals[face.nIdxs[i]]);
         }
     }
+
+    PostCreate();
 }
 
 void OBJ::Draw(bool hasControl)
@@ -168,6 +175,6 @@ void OBJ::Draw(bool hasControl)
 }
 
 namespace Objects {
-    std::shared_ptr<OBJ> Mine = std::make_shared<OBJ>("babyMine.obj", 128);
+    std::shared_ptr<OBJ> Mine = std::make_shared<OBJ>("Mine.obj", 128);
     // OBJ Farm;
 }

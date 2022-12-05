@@ -202,6 +202,7 @@ int main(int argc, char* argv[])
 	if (true) // Colony
 	{
 		PopulateColony(colony);
+		colony.AddStructure(2, -1, 1, StructureType::Mine);
 		colony.Create();
 		colony.ApplyNoise();
 	}
@@ -221,7 +222,7 @@ int main(int argc, char* argv[])
 		chamber.ApplyNoise();
 	}
 
-	if (true) // Mine
+	if (false) // Mine
 	{
 		mine.AddStructure(0, 0, 0, StructureType::Mine);
 		mine.Create();

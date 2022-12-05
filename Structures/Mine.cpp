@@ -19,14 +19,36 @@ Mine::Mine()
 	Create();
 }
 
+void Mine::Create()
+{
+	Chamber::Create();
+
+	// FIXME this tethers OBJ to this particular Mine
+	Objects::Mine->center = center;
+	Objects::Mine->Create();
+}
+
+void Mine::ApplyNoise()
+{
+	Chamber::ApplyNoise();
+
+	// FIXME this tethers OBJ to this particular Mine
+	Objects::Mine->ApplyNoise();
+}
+
 void Mine::Draw(bool hasControl)
 {
-	Chamber::Draw();
+	// Chamber::Draw();
 
-	PushShader(Shader::threeDshader);
+	PushShader(Shader::fixedPipeline);
+	glPushMatrix();
+	glTranslatef(center.x, center.y, center.z);
 
+	glFrontFace(GL_CW);
 	Objects::Mine->Draw();
+	glFrontFace(GL_CCW);
 
+	glPopMatrix();
 	PopShader();
 
 	ErrCheck("Mine::Draw");

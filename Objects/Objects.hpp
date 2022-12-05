@@ -34,6 +34,7 @@ public:
     std::vector<Vector3> OBJvertices;
     std::vector<Objects::Face> OBJfaces;
 
+    void Create() override;
     void Draw(bool hasControl = false) override;
 };
 

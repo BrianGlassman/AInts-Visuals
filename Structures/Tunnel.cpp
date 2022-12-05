@@ -183,7 +183,7 @@ void Tunnel::ApplyNoise()
 	// printf("%f, %f, %f\n", centerline[0].coords.x, centerline[0].coords.y, centerline[0].coords.z); // NORELEASE
 }
 
-void Tunnel::OldDraw()
+void Tunnel::OldDraw() // NORELEASE
 {
 	// Arms
 	{
