@@ -47,8 +47,6 @@ should add a check "glGetIntegervl(GL_MAX_TEXTURE_UNITS, n)" where n is however 
 
 
 
-perspective view looks weird, like it's fish-eyed or something
-
 something wrong with Makefile again. Was getting a bad_alloc that got fixed by clean-then-make
 
 At least one of the FIXMEs was because I changed a compile warning. Should address that well ahead of time just in case
