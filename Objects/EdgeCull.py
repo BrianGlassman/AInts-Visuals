@@ -1,5 +1,7 @@
 #%% Parse the file
 filename = 'Objects/Mine_ORIG.obj'
+outer_edge = 6.4 # Edge of the MV box (i.e. cube sides)
+
 with open(filename, 'r') as f:
     lines = [x.strip() for x in f.readlines()]
 
@@ -30,43 +32,65 @@ for line in faces:
     foo.append(bar)
 faces = foo ; del foo, bar
 
+#%% Function def
+def removeVertMap(vertMap: list, vertices: list[list[float]], faces: list[list[dict]]) -> None:
+    i = len(vertMap) - 1
+    while i >= 0:
+        if vertMap[i] is None:
+            vertices.pop(i-1)
+        i -= 1
+    print(f"Removed {len(vertMap)-1 - len(vertices)} ({len(vertMap)-1} -> {len(vertices)}) vertices")
+
+    # Update faces to match the removals
+    i = 0
+    while i < len(faces):
+        face = faces[i]
+
+        # Update the vertex numbering to account for skipped vertices
+        brk = False
+        for point in face:
+            v = point['v']
+            if vertMap[v] is None:
+                # Cull face if using a skipped vertex
+                brk = True
+                faces.pop(i)
+                break
+            else:
+                point['v'] = vertMap[v]
+        if (brk): continue
+
+        i += 1
+
 #%% Remove edges, tracking the removals
-vertMap = ['1-INDEX']
+# Remove MV box corners
+edgeMap = ['1-INDEX']
 skipped = 0
 for i, vertex in enumerate(vertices):
-    if all(abs(v) == 6.4 for v in vertex):
+    if any(abs(v) == outer_edge for v in vertex):
         skipped += 1
-        vertMap.append(None)
+        edgeMap.append(None)
     else:
-        vertMap.append(i - skipped + 1)
-# print(vertMap)
+        if any(abs(v) > 6.35 for v in vertex):
+            print(vertex)
+        edgeMap.append(i - skipped + 1)
+# print(edgeMap)
 
-i = len(vertMap) - 1
-while i >= 0:
-    if vertMap[i] is None:
-        vertices.pop(i-1)
-    i -= 1
-print(f"Removed {len(vertMap)-1 - len(vertices)} / {len(vertMap)-1} vertices")
+removeVertMap(edgeMap, vertices, faces)
 
-# Update faces to match the removals
-i = 0
-while i < len(faces):
-    face = faces[i]
-
-    # Update the vertex numbering to account for skipped vertices
-    brk = False
-    for point in face:
-        v = point['v']
-        if vertMap[v] is None:
-            # Cull face if using a skipped vertex
-            brk = True
-            faces.pop(i)
-            break
+#%% Remove the core for now so I can see what I'm doing
+if False:
+    coreMap = ['1-INDEX']
+    skipped = 0
+    for i, vertex in enumerate(vertices):
+        if all(abs(v) <= 4.5 for v in vertex):
+            skipped += 1
+            coreMap.append(None)
         else:
-            point['v'] = vertMap[v]
-    if (brk): continue
+            if any(abs(v) > 6.35 for v in vertex):
+                print(vertex)
+            coreMap.append(i - skipped + 1)
 
-    i += 1
+    removeVertMap(coreMap, vertices, faces)
 
 #%% Convert back to text
 normals = ['# normals'] + ["vn " + " ".join(str(v) for v in line) for line in normals]
