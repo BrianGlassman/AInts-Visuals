@@ -14,7 +14,7 @@ public:
     virtual void PreCreate();
     virtual void Create();
     virtual void ApplyNoise();
-    void Draw(bool hasControl = true);
+    virtual void Draw(bool hasControl = true);
 
     float radius = 0.5f;
     // Number of panels per side (each side is N x N panels). Must be at least 3 (2 edges + >=1 face)

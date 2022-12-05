@@ -7,30 +7,16 @@
 
 // Adapted from Ex. 28
 
-float MVscale = 10; // MagicaVoxel uses a 1:10 scale
-
 class OBJ
 {
 public:
-    OBJ(std::string filename, float scale = 1)
-    {
-        id = LoadOBJ("Objects/", filename.c_str());
-        this->scale = scale * MVscale;
-
-        // For some reason not having a print statement here breaks everything
-        printf("Created OBJ with id %d\n", id);
-    }
+    OBJ();
+    OBJ(int id, float scale = 1);
 
     int id;
-    float scale;
+    float scale; // The *inverse* scale (i.e. scale = 100 will shrink the model)
 
-    void Draw()
-    {
-        glPushMatrix();
-        glScalef(scale, scale, scale);
-        glCallList(id);
-        glPopMatrix();
-    }
+    void Draw();
 };
 
 namespace Objects {

@@ -3,6 +3,7 @@
 #include "Chamber.hpp"
 #include "globals.hpp"
 #include "Hill.hpp"
+#include "Mine.hpp"
 #include "Shaders.hpp"
 #include "Tunnel.hpp"
 #include "Vector.hpp"
@@ -333,6 +334,10 @@ void Colony::AddStructure(Vector3Int center, StructureType type)
         break;
     case StructureType::Chamber:
         ptr = std::make_shared<Chamber>();
+        break;
+    case StructureType::Mine:
+        ptr = std::make_shared<Mine>();
+        printf("adding mine %d\n", ptr->type);
         break;
     case StructureType::Hill:
         ptr = std::make_shared<Hill>();

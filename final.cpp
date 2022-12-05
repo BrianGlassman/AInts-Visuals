@@ -64,7 +64,10 @@ static void init(int argc, char* argv[])
 
 	InitShaders();
 
-	Objects::Mine = OBJ("Mine.obj", 1.0 / 128);
+	{
+		int mineID = LoadOBJ("Objects/", "Mine.obj");
+		Objects::Mine = OBJ(mineID, 128);
+	}
 
 	ErrCheck("init");
 }
@@ -121,17 +124,6 @@ void display()
 
 	//  Revert to fixed pipeline
 	UseShader(Shader::fixedPipeline);
-
-
-
-
-	// FIXME this should very much be elsewhere
-	Objects::Mine.Draw();
-
-
-
-
-
 
 	if (Globals::toBuild != StructureType::NONE) buildIndicator.Draw();
 
@@ -215,6 +207,7 @@ int main(int argc, char* argv[])
 	if (true) // Colony
 	{
 		PopulateColony(colony);
+		// colony.AddStructure(0, 0, 0, StructureType::Mine);
 		colony.Create();
 		colony.ApplyNoise();
 	}
@@ -236,7 +229,9 @@ int main(int argc, char* argv[])
 
 	if (true) // Mine
 	{
-		// TODO
+		mine.AddStructure(0, 0, 0, StructureType::Mine);
+		mine.Create();
+		mine.ApplyNoise();
 	}
 
 	if (true) // Farm
