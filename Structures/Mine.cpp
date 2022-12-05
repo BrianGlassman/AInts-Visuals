@@ -38,15 +38,18 @@ void Mine::ApplyNoise()
 
 void Mine::Draw(bool hasControl)
 {
-	Chamber::Draw();
+	// Chamber::Draw();
 
-	PushShader(Shader::threeDshader);
+	PushShader(Shader::fixedPipeline);
 	glPushMatrix();
 	glTranslatef(center.x, center.y, center.z);
 
+	glPushAttrib(GL_ENABLE_BIT);
+	glDisable(GL_LIGHTING); glDisable(GL_TEXTURE_2D);
 	glFrontFace(GL_CW);
 	Objects::Mine->Draw();
 	glFrontFace(GL_CCW);
+	glPopAttrib();
 
 	glPopMatrix();
 	PopShader();

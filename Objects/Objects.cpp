@@ -210,6 +210,7 @@ void InitOBJs()
     Objects::Mine = std::make_shared<OBJ>("Mine.obj", 140);
     Objects::Mine->OBJcolors = std::vector<Vector3>({
         {256/256.0, 200/256.0, 150/256.0},
+        {0.3, 0.3, 1},
         {1, 1, 1},
     });
 }
