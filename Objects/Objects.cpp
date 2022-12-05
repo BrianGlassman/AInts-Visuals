@@ -206,7 +206,8 @@ namespace Objects {
 
 void InitOBJs()
 {
-    Objects::Mine = std::make_shared<OBJ>("Mine.obj", 128);
+    // Use 140 instead of 128 to make sure it fits inside the Chamber walls
+    Objects::Mine = std::make_shared<OBJ>("Mine.obj", 140);
     Objects::Mine->OBJcolors = std::vector<Vector3>({
         {256/256.0, 200/256.0, 150/256.0},
         {1, 1, 1},

@@ -38,7 +38,7 @@ void Mine::ApplyNoise()
 
 void Mine::Draw(bool hasControl)
 {
-	// Chamber::Draw();
+	Chamber::Draw();
 
 	PushShader(Shader::threeDshader);
 	glPushMatrix();
