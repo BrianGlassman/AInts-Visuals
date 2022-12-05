@@ -337,7 +337,6 @@ void Colony::AddStructure(Vector3Int center, StructureType type)
         break;
     case StructureType::Mine:
         ptr = std::make_shared<Mine>();
-        printf("adding mine %d\n", ptr->type);
         break;
     case StructureType::Hill:
         ptr = std::make_shared<Hill>();

@@ -25,7 +25,9 @@ void Mine::Draw(bool hasControl)
 
 	PushShader(Shader::threeDshader);
 
-	Objects::Mine.Draw();
+	Objects::Mine->Draw();
 
 	PopShader();
+
+	ErrCheck("Mine::Draw");
 }

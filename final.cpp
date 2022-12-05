@@ -64,11 +64,6 @@ static void init(int argc, char* argv[])
 
 	InitShaders();
 
-	{
-		int mineID = LoadOBJ("Objects/", "Mine.obj");
-		Objects::Mine = OBJ(mineID, 128);
-	}
-
 	ErrCheck("init");
 }
 
@@ -207,7 +202,6 @@ int main(int argc, char* argv[])
 	if (true) // Colony
 	{
 		PopulateColony(colony);
-		// colony.AddStructure(0, 0, 0, StructureType::Mine);
 		colony.Create();
 		colony.ApplyNoise();
 	}
