@@ -1,3 +1,4 @@
+make UseShader private, force everything to use Push/Pop
 
 PROBLEMS:
 	processing time is too long, need to either simplify the object or reduce the voxel count

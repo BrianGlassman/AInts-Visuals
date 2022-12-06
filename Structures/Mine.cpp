@@ -15,13 +15,13 @@ Mine::Mine()
 
 	panelWidth = 1.0*padScale / panels;
 
-	pieces.push_back(MinePiece(Objects::MineCore));
-	// pieces.push_back(MinePiece(Objects::MineRightCap));
-	// pieces.push_back(MinePiece(Objects::MineLeftCap));
-	// pieces.push_back(MinePiece(Objects::MineTopCap));
-	// pieces.push_back(MinePiece(Objects::MineBottomCap));
-	// pieces.push_back(MinePiece(Objects::MineFrontCap));
-	// pieces.push_back(MinePiece(Objects::MineBackCap));
+	pieces.insert({Vector3Int::Zero, MinePiece(Objects::MineCore)});
+	pieces.insert({Vector3Int::Right, MinePiece(Objects::MineRightCap)});
+	pieces.insert({Vector3Int::Left, MinePiece(Objects::MineLeftCap)});
+	pieces.insert({Vector3Int::Up, MinePiece(Objects::MineTopCap)});
+	pieces.insert({Vector3Int::Down, MinePiece(Objects::MineBottomCap)});
+	pieces.insert({Vector3Int::Forward, MinePiece(Objects::MineFrontCap)});
+	pieces.insert({Vector3Int::Backward, MinePiece(Objects::MineBackCap)});
 
 	Create();
 }
@@ -37,9 +37,15 @@ void Mine::Create()
 
 	Chamber::Create(false);
 
-	for (auto&& piece : pieces)
+	for (auto&& dirPiece : pieces)
 	{
-		piece.Create();
+		auto& dir = dirPiece.first;
+		if (dir == Vector3Int::Zero || GetSide(dir))
+		{ // Always use core. Only use caps if that side exists
+			auto& piece = dirPiece.second;
+			piece.center = center;
+			piece.Create();
+		}
 	}
 
 	PostCreate();
@@ -51,9 +57,11 @@ void Mine::ApplyNoise()
 {
 	Chamber::ApplyNoise();
 
-	for (auto&& piece : pieces)
+	for (auto&& dirPiece : pieces)
 	{
-		piece.ApplyNoise();
+		auto& dir = dirPiece.first;
+		auto& piece = dirPiece.second;
+		if (piece.created) piece.ApplyNoise();
 	}
 }
 
@@ -61,9 +69,16 @@ void Mine::Draw(bool hasControl)
 {
 	// Chamber::Draw();
 
-	for (auto&& piece : pieces)
+	// Only draw the inside from interior view
+	if (Globals::viewMode == ViewMode::INTERIOR)
 	{
-		piece.Draw();
+		PushShader(Shader::fixedPipeline);
+		for (auto&& dirPiece : pieces)
+		{
+			auto& dir = dirPiece.first;
+			auto& piece = dirPiece.second;
+			if (piece.created) piece.Draw();
+		}
 	}
 
 	ErrCheck("Mine::Draw");

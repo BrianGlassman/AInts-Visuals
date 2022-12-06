@@ -51,6 +51,28 @@ public:
                 Fatal(999, "Invalid side direction hash %d (%d, %d, %d)\n", hash, direction.x, direction.y, direction.z);
         }
     }
+    bool GetSide(const Vector3Int direction)
+    {
+        auto hash = std::hash<Vector3Int>()(direction);
+        switch(hash)
+        {
+            case Vector3Int::hashRight:
+                return right;
+            case Vector3Int::hashLeft:
+                return left;
+            case Vector3Int::hashUp:
+                return top;
+            case Vector3Int::hashDown:
+                return bottom;
+            case Vector3Int::hashForward:
+                return forward;
+            case Vector3Int::hashBackward:
+                return back;
+            default:
+                Fatal(999, "Invalid side direction hash %d (%d, %d, %d)\n", hash, direction.x, direction.y, direction.z);
+                return false;
+        }
+    }
 
     // Index of the vertex that is the endpoint in that direction
     // {vertex index within this Structure, index of neighboring Structure within the parent}

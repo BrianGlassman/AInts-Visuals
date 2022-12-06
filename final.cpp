@@ -112,7 +112,7 @@ void display()
 		displayModelPtr->Draw();
 	}
 
-	//  Revert to fixed pipeline
+	//  Revert to fixed pipeline // FIXME shouldn't do this
 	UseShader(Shader::fixedPipeline);
 
 	if (Globals::toBuild != StructureType::NONE) buildIndicator.Draw();
