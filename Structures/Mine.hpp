@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Chamber.hpp"
+#include "Objects.hpp"
 
 class Mine : public Chamber
 {
@@ -13,6 +14,7 @@ public:
 private:
     std::vector<int> OBJindices;
     std::vector<Vector3> OBJcolors;
+    std::shared_ptr<OBJ> OBJptr;
 
     void DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals);
 };

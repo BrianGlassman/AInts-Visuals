@@ -39,6 +39,13 @@ private:
 };
 
 namespace Objects {
-    extern std::shared_ptr<OBJ> Mine;
+    extern std::shared_ptr<OBJ> MineTopCap;
+    extern std::shared_ptr<OBJ> MineBottomCap;
+    extern std::shared_ptr<OBJ> MineFrontCap;
+    extern std::shared_ptr<OBJ> MineBackCap;
+    extern std::shared_ptr<OBJ> MineCore;
+    extern std::shared_ptr<OBJ> MineLeftCap;
+    // No right cap, always open
+
     // OBJ Farm;
 }

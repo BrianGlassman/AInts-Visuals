@@ -122,17 +122,35 @@ OBJ::OBJ(std::string filename, float _scale)
 }
 
 namespace Objects {
-    std::shared_ptr<OBJ> Mine;
+    std::shared_ptr<OBJ> MineTopCap;
+    std::shared_ptr<OBJ> MineBottomCap;
+    std::shared_ptr<OBJ> MineFrontCap;
+    std::shared_ptr<OBJ> MineBackCap;
+    std::shared_ptr<OBJ> MineCore;
+    std::shared_ptr<OBJ> MineLeftCap;
     // OBJ Farm;
 }
 
 void InitOBJs()
 {
-    // Use 144 (=128 + 16) instead of 128 to make sure it fits inside the Chamber walls
-    Objects::Mine = std::make_shared<OBJ>("Mine.obj", 144);
-    Objects::Mine->OBJcolors = std::vector<Vector3>({
+    std::vector<Vector3> MineColors({
         {256/256.0, 200/256.0, 150/256.0},
-        {0.3, 0.3, 1},
         {1, 1, 1},
+        {0.3, 0.3, 1},
     });
+
+    Objects::MineTopCap = std::make_shared<OBJ>("Mine4-0.obj", 100);
+    Objects::MineTopCap->OBJcolors = MineColors;
+    Objects::MineBottomCap = std::make_shared<OBJ>("Mine4-1.obj", 100);
+    Objects::MineBottomCap->OBJcolors = MineColors;
+    Objects::MineFrontCap = std::make_shared<OBJ>("Mine4-2.obj", 100);
+    Objects::MineFrontCap->OBJcolors = MineColors;
+    Objects::MineBackCap = std::make_shared<OBJ>("Mine4-3.obj", 100);
+    Objects::MineBackCap->OBJcolors = MineColors;
+    Objects::MineCore = std::make_shared<OBJ>("Mine4-4.obj", 100);
+    Objects::MineCore->OBJcolors = MineColors;
+    Objects::MineLeftCap = std::make_shared<OBJ>("Mine4-5.obj", 100);
+    Objects::MineLeftCap->OBJcolors = MineColors;
+    // Something is very wrong though
+    // Still drawing the outer sphere, and also the cube walls aren't getting changed by the scaling factor
 }

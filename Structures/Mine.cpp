@@ -1,6 +1,5 @@
 #include "Mine.hpp"
 #include "globals.hpp"
-#include "Objects.hpp"
 #include "Shaders.hpp"
 
 Mine::Mine()
@@ -15,6 +14,11 @@ Mine::Mine()
 	padScale = 1 - 2*padding;
 
 	panelWidth = 1.0*padScale / panels;
+
+	printf("not yet\n");
+	OBJptr = Objects::MineTopCap;
+	printf("Got here\n");
+	if (OBJptr == nullptr) Fatal(999, "OBJptr is null\n");
 
 	Create();
 }
@@ -89,17 +93,18 @@ void Mine::Create()
 
 	// Copy over OBJ values
 	// NOTE: OBJ reuses vertices, I do not
-	for (auto& face : Objects::Mine->OBJfaces)
+	for (auto& face : OBJptr->OBJfaces)
 	{
         for (int i = 0; i < 3; i ++)
         {
             OBJindices.push_back(vertices.size());
-            vertices.push_back(Objects::Mine->OBJvertices[face.vIdxs[i]]);
-            normals.push_back(Objects::Mine->OBJnormals[face.nIdxs[i]]);
-            OBJcolors.push_back(Objects::Mine->OBJcolors[face.cIdxs[i]]);
+            vertices.push_back(OBJptr->OBJvertices[face.vIdxs[i]]);
+            normals.push_back(OBJptr->OBJnormals[face.nIdxs[i]]);
+            OBJcolors.push_back(OBJptr->OBJcolors[face.cIdxs[i]]);
         }
 	}
 
+	if (false)
 	{ // Join the OBJ geometry to the Chamber geometry
 		std::vector<int> edge;
 		for (int axis = 0; axis <= 2; axis++)
@@ -214,9 +219,10 @@ void Mine::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> dr
 
 void Mine::Draw(bool hasControl)
 {
-	Chamber::Draw();
+	// Chamber::Draw();
 
 	PushShader(Shader::threeDshader);
+	glPushAttrib(GL_ENABLE_BIT);
 	glPushMatrix(); {
 		glTranslatef(center.x, center.y, center.z);
 
@@ -226,6 +232,7 @@ void Mine::Draw(bool hasControl)
 		else if (Toggles::Noise::showBase) DrawHelper(baseVertices, baseNormals);
 
 	} glPopMatrix();
+	glPopAttrib();
 	PopShader();
 
 	ErrCheck("Mine::Draw");
