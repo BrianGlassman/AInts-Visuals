@@ -22,7 +22,7 @@ struct Face
 };
 }
 
-class OBJ : public Structure
+class OBJ
 {
 public:
     OBJ(std::string filename, float scale = 1);
@@ -34,13 +34,8 @@ public:
     std::vector<Vector3> OBJvertices;
     std::vector<Objects::Face> OBJfaces;
 
-    void PreCreate() override;
-    void Create() override;
-    void Draw(bool hasControl = false) override;
 private:
     std::vector<Vector3> colors;
-
-    void DrawHelper(std::vector<Vector3> drawVertices); // FIXME pass by reference // NORELEASE
 };
 
 namespace Objects {

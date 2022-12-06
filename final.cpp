@@ -178,9 +178,9 @@ int main(int argc, char* argv[])
 	}
 
 	// Create the scene to be displayed
-	Globals::sceneChoice = Scene::mine;
+	Globals::sceneChoice = Scene::colony;
 
-	if (false) // Colony
+	if (true) // Colony
 	{
 		PopulateColony(colony);
 		colony.AddStructure(2, -1, 1, StructureType::Mine);

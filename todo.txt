@@ -1,5 +1,8 @@
+
+PRETTY SURE THAT THE PERTURBED NORMALS ARE ALWAYS GETTING USED FOR LIGHTING
+
+
 PROBLEMS:
-	mine OBJ is coupled to a single Mine object
 	processing time is too long, need to either simplify the object or reduce the voxel count
 
 
