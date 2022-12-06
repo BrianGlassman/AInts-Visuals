@@ -34,8 +34,10 @@ static void init(int argc, char* argv[])
 	// Lighting
 	initLighting();
 	Light ambient(0.5, 0, 0);
+	ambientConst = ambient.GetConst();
 	// OrbitLight orbiter(0, 0.45, 0.7);
 	OrbitLight orbiter(0, 0.4, 0);
+	directedConst = orbiter.GetConst();
 	orbiter.radius = baseMag * 1.2;
 	orbiterPtr = &orbiter;
 

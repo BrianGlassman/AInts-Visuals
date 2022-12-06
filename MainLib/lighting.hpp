@@ -4,11 +4,39 @@
 
 void initLighting();
 
+extern int ambientConst;
+extern int directedConst;
+
 class Light
 {
 public:
 	Light(float ambient = 0, float diffuse = 0, float specular = 0);
 
+	int GetConst()
+	{
+		switch (id)
+		{
+		case GL_LIGHT0:
+			return 0;
+		case GL_LIGHT1:
+			return 1;
+		case GL_LIGHT2:
+			return 2;
+		case GL_LIGHT3:
+			return 3;
+		case GL_LIGHT4:
+			return 4;
+		case GL_LIGHT5:
+			return 5;
+		case GL_LIGHT6:
+			return 6;
+		case GL_LIGHT7:
+			return 7;
+		default:
+			Fatal(999, "Unrecognized light id");
+			return -1;
+		}
+	}
 	void SetAmbientLevel(float level);
 	void SetDiffuseLevel(float level);
 	void SetSpecularLevel(float level);
@@ -19,7 +47,7 @@ protected:
 	void SetLightfv(GLenum pname, float level);
 };
 
-class OrbitLight : Light
+class OrbitLight : public Light
 {
 public:
 	OrbitLight(float ambient = 0, float diffuse = 0, float specular = 0);

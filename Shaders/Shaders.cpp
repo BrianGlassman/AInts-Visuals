@@ -1,6 +1,7 @@
 #include <vector>
 
 #include "Shaders.hpp"
+#include "lighting.hpp"
 #include "textures.hpp"
 
 int Shader::fixedPipeline = 0;
@@ -30,9 +31,9 @@ void UseShader(int shader)
 
       // Set lights
       id = glGetUniformLocation(shader,"ambientLight");
-      glUniform1i(id, 0); // FIXME don't hardcode
+      glUniform1i(id, ambientConst);
       id = glGetUniformLocation(shader,"directedLight");
-      glUniform1i(id, 1); // FIXME don't hardcode
+      glUniform1i(id, directedConst);
 
       // // Set textures (ref https://stackoverflow.com/a/25252981)
       id = glGetUniformLocation(shader, "tex0");

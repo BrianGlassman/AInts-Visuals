@@ -16,6 +16,9 @@ int IDs[8] = {
 };
 int nextID = 0;
 
+int ambientConst;
+int directedConst;
+
 void initLighting()
 {
 	// Setup for Lighting, based on Ex. 13
