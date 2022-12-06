@@ -241,10 +241,6 @@ int main(int argc, char* argv[])
 
 	init(argc, argv);
 
-	// Run display and reshape to zoom to fit
-	display();
-	//reshape(windowWidth, windowHeight; FIXME
-
 	if (Toggles::printMove) PrintMoveOptions();
 
 	ErrCheck("main");

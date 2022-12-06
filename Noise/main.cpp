@@ -20,7 +20,6 @@ void display();
 void SetCallbacks()
 {
 	glutDisplayFunc(display);
-	//FIXME
 	glutReshapeFunc(reshape);
 	glutVisibilityFunc(visible);
 
@@ -197,10 +196,6 @@ int main(int argc, char* argv[])
     SetCallbacks();
 
     noisePtr = new Perlin();
-
-	// Run display and reshape to zoom to fit
-	display();
-	//reshape(windowWidth, windowHeight; FIXME
 
 	ErrCheck("main");
 	glutMainLoop();

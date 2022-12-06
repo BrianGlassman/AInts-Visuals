@@ -58,12 +58,5 @@ public:
     void UpdatePosition();
 	void Draw();
 private:
-    enum class OrbitMode {
-        orbiting,
-        manual,
-    };
-
 	float azimuth = 0, elevation = 0;
-
-	OrbitMode mode = OrbitMode::orbiting;
 };
