@@ -34,11 +34,13 @@ public:
 			return -1;
 		}
 	}
+	void Toggle();
 	void SetAmbientLevel(float level);
 	void SetDiffuseLevel(float level);
 	void SetSpecularLevel(float level);
 protected:
-	int id;
+	GLenum id;
+	bool active;
 	float position[4] = {0, 0, 0, 0}; // MUST be a float[4] (supposedly)
 
 	void SetLightfv(GLenum pname, float level);

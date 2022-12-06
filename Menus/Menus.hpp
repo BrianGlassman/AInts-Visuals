@@ -3,6 +3,8 @@
 #include <functional>
 #include <vector>
 
+#include "globals.hpp"
+
 namespace Menus{
 void nullopCallback(int val);
 

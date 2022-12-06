@@ -1,6 +1,7 @@
+#include "Menus.hpp"
 #include "CSCIx229.h"
 #include "display.hpp"
-#include "Menus.hpp"
+#include "lighting.hpp"
 #include "globals.hpp"
 #include "window.hpp"
 
@@ -199,10 +200,10 @@ namespace Callbacks{ void Light(int val)
     switch(val)
     {
     case 0:
-        // FIXME toggle ambient
+        Globals::Lighting::ambient->Toggle();
         break;
     case 1:
-        // FIXME toggle direct
+        Globals::Lighting::directed->Toggle();
         break;
     case 2:
         Toggles::Light::lightOrbiting = !Toggles::Light::lightOrbiting;

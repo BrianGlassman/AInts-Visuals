@@ -4,7 +4,7 @@
 
 #define SHINY_DEFAULT 10
 
-int IDs[8] = {
+GLenum IDs[8] = {
 	GL_LIGHT0,
 	GL_LIGHT1,
 	GL_LIGHT2,
@@ -48,18 +48,26 @@ Light::Light(float ambient, float diffuse, float specular)
 	// Assign an ID
 	if (nextID > 7) Fatal(999, "Ran out of lights\n");
 	id = IDs[nextID];
-	// printf("Creating light number %d, ID = %d\n", nextID, id);
+	// printf("Creating light number %d, ID = %d\n", nextID, id); // NORELEASE
 	nextID++;
 
 	// Setup the light
 	glEnable(id);
+	active = true;
 
 	// Translate intensity to color vectors
 	SetAmbientLevel(ambient);
 	SetDiffuseLevel(diffuse);
 	SetSpecularLevel(specular);
 
-	// fprintf(stdout, "(Creation) Light pos = (%f, %f, %f), elevation = %f\n", position[0], position[1], position[2]);
+	// fprintf(stdout, "(Creation) Light pos = (%f, %f, %f), elevation = %f\n", position[0], position[1], position[2]); // NORELEASE
+}
+
+void Light::Toggle()
+{
+	if (active) glDisable(id);
+	else glEnable(id);
+	active = !active;
 }
 
 void Light::SetLightfv(GLenum pname, float level)
@@ -92,7 +100,7 @@ void OrbitLight::UpdatePosition()
 	position[0] = radius*Cos(azimuth)*Cos(elevation);
 	position[1] = radius*Sin(elevation);
 	position[2] = radius*Sin(azimuth)*Cos(elevation);
-	// fprintf(stdout, "Light pos = (%f, %f, %f), elevation = %f\n", position[0], position[1], position[2], elevation);
+	// fprintf(stdout, "Light pos = (%f, %f, %f), elevation = %f\n", position[0], position[1], position[2], elevation); // NORELEASE
 	glLightfv(id, GL_POSITION, position);
 }
 
