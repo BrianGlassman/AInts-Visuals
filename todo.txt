@@ -38,8 +38,7 @@ should check which menu options don't currently work and implement or remove the
 	...?
 
 
-track interior view eye position separately for each scene
-	also make it stop moving when new structures are added
+make interior eye position stop moving when new structures are added
 
 should add a check "glGetIntegervl(GL_MAX_TEXTURE_UNITS, n)" where n is however many textures I need to use
 	there's also a check for max texture size

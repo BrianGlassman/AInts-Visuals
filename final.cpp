@@ -9,10 +9,6 @@
 
 #include "final.hpp"
 
-// Tracks which vertex the interior view is at
-Colony* currentStructure;
-int currentCLidx;
-
 static void init(int argc, char* argv[])
 {
 	// Do all the OpenGL setup
@@ -109,8 +105,8 @@ void display()
 	if (displayModelPtr->created)
 	{
 		// Make sure that eyePos updates with any scene or geometry changes
-		auto& CL = *(currentStructure->getCL());
-		Globals::InteriorView::eyePos = CL[currentCLidx].coords;
+		auto CL = Globals::InteriorView->pathHolder->getCL();
+		Globals::InteriorView->eyePos = CL->at(Globals::InteriorView->pathIdx).coords;
 
 		displayModelPtr->Draw();
 	}
@@ -179,6 +175,7 @@ int main(int argc, char* argv[])
 
 	// Create the scene to be displayed
 	Globals::sceneChoice = Scene::colony;
+	Globals::InteriorView = &(Globals::IVs.at(Globals::sceneChoice));
 
 	if (true) // Colony
 	{
@@ -186,6 +183,7 @@ int main(int argc, char* argv[])
 		colony.AddStructure(2, -1, 1, StructureType::Mine);
 		colony.Create();
 		colony.ApplyNoise();
+		Globals::IVs.at(Scene::colony).pathHolder = &colony;
 	}
 
 	if (true) // Tunnel
@@ -194,6 +192,7 @@ int main(int argc, char* argv[])
 		tunnel.AddTunnel(-1, 0, 0);
 		tunnel.Create();
 		tunnel.ApplyNoise();
+		Globals::IVs.at(Scene::tunnel).pathHolder = &tunnel;
 	}
 
 	if (true) // Chamber
@@ -201,6 +200,7 @@ int main(int argc, char* argv[])
 		chamber.AddChamber(0, 0, 0);
 		chamber.Create();
 		chamber.ApplyNoise();
+		Globals::IVs.at(Scene::chamber).pathHolder = &chamber;
 	}
 
 	if (true) // Mine
@@ -208,6 +208,7 @@ int main(int argc, char* argv[])
 		mine.AddStructure(0, 0, 0, StructureType::Mine);
 		mine.Create();
 		mine.ApplyNoise();
+		Globals::IVs.at(Scene::mine).pathHolder = &mine;
 	}
 
 	if (true) // Farm
@@ -220,6 +221,7 @@ int main(int argc, char* argv[])
 		hill.AddHill(0, 0, 0);
 		hill.Create();
 		hill.ApplyNoise();
+		Globals::IVs.at(Scene::hill).pathHolder = &hill;
 	}
 
 	if (true) // All Tunnels
@@ -227,6 +229,7 @@ int main(int argc, char* argv[])
 		PopulateTunnels(allTunnels);
 		allTunnels.Create();
 		allTunnels.ApplyNoise();
+		Globals::IVs.at(Scene::allTunnels).pathHolder = &allTunnels;
 	}
 
 	// Initialize displayModelPtr
@@ -236,14 +239,11 @@ int main(int argc, char* argv[])
 
 	init(argc, argv);
 
-	currentStructure = displayModelPtr;
-	currentCLidx = 0;
-
 	// Run display and reshape to zoom to fit
 	display();
 	//reshape(windowWidth, windowHeight; FIXME
 
-	// PrintMoveOptions();
+	if (Toggles::printMove) PrintMoveOptions();
 
 	ErrCheck("main");
 	glutMainLoop();

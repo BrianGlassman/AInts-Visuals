@@ -11,7 +11,4 @@ namespace Input {
 
 void SetInputCallbacks();
 
-// FIXME this is super temp and hacky
-extern Colony* currentStructure;
-extern int currentCLidx;
 void PrintMoveOptions();

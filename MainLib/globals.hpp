@@ -1,5 +1,9 @@
 #pragma once
 
+#include <unordered_map>
+#include <vector>
+
+#include "CSCIx229.h"
 #include "Vector.hpp"
 
 // Used in various places, so not all elements are used in each
@@ -96,14 +100,34 @@ extern int windowHeight;
 // Dispaly --> Window
 //--------------------
 enum class ViewMode { INTERIOR, EXTERIOR };
+class Colony; // Forward declaration for _InteriorView
+struct _InteriorView{
+    Colony* pathHolder;
+    int pathIdx;
+    Vector3 up;
+    Vector3 right;
+    float rotH;
+    float rotV;
+    Vector3 eyePos;
+    Vector3 lookDir;
+
+    _InteriorView()
+    {
+        pathHolder = nullptr;
+        pathIdx = 0;
+        up = {0, 1, 0};
+        rotH = 180;
+        rotV = 0;
+        eyePos = {1, -1, 0};
+        lookDir = {
+             (float)(Sin(rotH)*Cos(rotV)),
+            -(float)(Sin(rotV)),
+            -(float)(Cos(rotH)*Cos(rotV))};
+    }
+};
 namespace Globals
 {
     extern ViewMode viewMode;
-    namespace InteriorView {
-        extern Vector3 up;
-        extern Vector3 right;
-        extern float rotH, rotV;
-        extern Vector3 eyePos;
-        extern Vector3 lookDir;
-    }
+    extern std::unordered_map<Scene, _InteriorView> IVs;
+    extern _InteriorView* InteriorView;
 }

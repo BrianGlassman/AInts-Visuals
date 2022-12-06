@@ -8,8 +8,8 @@ float speed = 1.0; // FIXME for now speed is irrelevant because movement is vert
 
 void PrintMoveOptions()
 {
-	printf("%d can move to ", currentCLidx);
-	for (int neighbor : (*currentStructure->getCL())[currentCLidx].neighbors)
+	printf("%d can move to ", Globals::InteriorView->pathIdx);
+	for (int neighbor : Globals::InteriorView->pathHolder->getCL()->at(Globals::InteriorView->pathIdx).neighbors)
 	{
 		printf("%d, ", neighbor);
 	}
@@ -18,13 +18,13 @@ void PrintMoveOptions()
 
 void fpsMove(Vector3 goalMotion)
 {
-	auto& current = (*currentStructure->getCL())[currentCLidx];
+	auto& current = Globals::InteriorView->pathHolder->getCL()->at(Globals::InteriorView->pathIdx);
 
 	// Get all neighboring CL vertices
 	std::vector<Vertex> neighbors;
 	for (auto&& neighbor : current.neighbors)
 	{
-		neighbors.push_back((*currentStructure->getCL())[neighbor]);
+		neighbors.push_back(Globals::InteriorView->pathHolder->getCL()->at(neighbor));
 	}
 
 	// Get unit vectors pointing towards each neighbor
@@ -40,7 +40,7 @@ void fpsMove(Vector3 goalMotion)
 	}
 
 	// Pick whichever vertex is best aligned with goalMotion
-	int bestNew = currentCLidx;
+	int bestNew = Globals::InteriorView->pathIdx;
 	float bestMag = 0.75; // Have to be pointing mostly that way to count
 	for (unsigned int i = 0; i < neighbors.size(); i++)
 	{
@@ -58,14 +58,14 @@ void fpsMove(Vector3 goalMotion)
 	if (Toggles::printMove) printf("\n");
 
 	// Move to the chosen vertex
-	currentCLidx = bestNew;
-	Globals::InteriorView::eyePos = (*currentStructure->getCL())[bestNew].coords;
+	Globals::InteriorView->pathIdx = bestNew;
+	Globals::InteriorView->eyePos = Globals::InteriorView->pathHolder->getCL()->at(bestNew).coords;
 
 	if (Toggles::printMove) PrintMoveOptions();
 }
 void fpsKey(unsigned char k)
 {
-	namespace iv = Globals::InteriorView;
+	auto iv = Globals::InteriorView;
 
 	switch (k) {
 	// Movement
@@ -74,9 +74,9 @@ void fpsKey(unsigned char k)
 		{
 			// Move along the line from eye to center
 			Vector3 goalMotion;
-			goalMotion.x = speed * iv::lookDir[0];
-			goalMotion.y = speed * iv::lookDir[1];
-			goalMotion.z = speed * iv::lookDir[2];
+			goalMotion.x = speed * iv->lookDir[0];
+			goalMotion.y = speed * iv->lookDir[1];
+			goalMotion.z = speed * iv->lookDir[2];
 			fpsMove(goalMotion);
 		}
 		break;
@@ -85,9 +85,9 @@ void fpsKey(unsigned char k)
 		{
 			// Move opposite Right vector
 			Vector3 goalMotion;
-			goalMotion.x = -speed * iv::right[0];
-			goalMotion.y = -speed * iv::right[1];
-			goalMotion.z = -speed * iv::right[2];
+			goalMotion.x = -speed * iv->right[0];
+			goalMotion.y = -speed * iv->right[1];
+			goalMotion.z = -speed * iv->right[2];
 			fpsMove(goalMotion);
 		}
 		break;
@@ -96,9 +96,9 @@ void fpsKey(unsigned char k)
 		{
 			// Move opposite the line from eye to center
 			Vector3 goalMotion;
-			goalMotion.x = -speed * iv::lookDir[0];
-			goalMotion.y = -speed * iv::lookDir[1];
-			goalMotion.z = -speed * iv::lookDir[2];
+			goalMotion.x = -speed * iv->lookDir[0];
+			goalMotion.y = -speed * iv->lookDir[1];
+			goalMotion.z = -speed * iv->lookDir[2];
 			fpsMove(goalMotion);
 		}
 		break;
@@ -107,9 +107,9 @@ void fpsKey(unsigned char k)
 		{
 			// Move along Right vector
 			Vector3 goalMotion;
-			goalMotion.x = speed * iv::right[0];
-			goalMotion.y = speed * iv::right[1];
-			goalMotion.z = speed * iv::right[2];
+			goalMotion.x = speed * iv->right[0];
+			goalMotion.y = speed * iv->right[1];
+			goalMotion.z = speed * iv->right[2];
 			fpsMove(goalMotion);
 		}
 		break;
@@ -146,12 +146,15 @@ void key(unsigned char k, int x, int y)
 	*/
 	case '[':
 		Globals::sceneChoice--;
+		Globals::InteriorView = &(Globals::IVs.at(Globals::sceneChoice));
 		break;
 	case ']':
 		Globals::sceneChoice++;
+		Globals::InteriorView = &(Globals::IVs.at(Globals::sceneChoice));
 		break;
 	case '\\':
 		Globals::sceneChoice = Scene::colony;
+		Globals::InteriorView = &(Globals::IVs.at(Globals::sceneChoice));
 		break;
 	case 27: // Escape - exit
 		Cleanup();

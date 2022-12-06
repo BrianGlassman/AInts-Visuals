@@ -79,16 +79,13 @@ int windowHeight = 900;
 // Dispaly --> Window
 //--------------------
 ViewMode Globals::viewMode = ViewMode::EXTERIOR;
-namespace Globals {
-  namespace InteriorView {
-    Vector3 up = {0, 1, 0};
-    float rotH = 180;
-    float rotV = 0;
-    Vector3 eyePos = {1, -1, 0};
-    Vector3 lookDir = {
-         Sin(rotH)*Cos(rotV),
-        -Sin(rotV),
-        -Cos(rotH)*Cos(rotV)};
-    Vector3 right = (lookDir.Cross(up)).Normalized();
-  }
-}
+std::unordered_map<Scene, _InteriorView> Globals::IVs({
+  {Scene::colony, _InteriorView()},
+  {Scene::tunnel, _InteriorView()},
+  {Scene::chamber, _InteriorView()},
+  {Scene::mine, _InteriorView()},
+  {Scene::farm, _InteriorView()},
+  {Scene::hill, _InteriorView()},
+  {Scene::allTunnels, _InteriorView()},
+  });
+_InteriorView* Globals::InteriorView;
