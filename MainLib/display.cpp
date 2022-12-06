@@ -52,7 +52,7 @@ void HandleMousePosition()
 
 void RotateView()
 {
-	// Assume orthographic FIXME
+	// Note: only works for orthographic
 	glRotated(view_rotx, X_AXIS);
 	glRotated(view_roty, Y_AXIS);
 	glRotated(view_rotz, Z_AXIS);
