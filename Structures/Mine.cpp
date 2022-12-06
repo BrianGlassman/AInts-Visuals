@@ -34,55 +34,7 @@ void Mine::Create()
 {
 	PreCreate();
 
-	// Can't just call Chamber::Create because it includes PostCreate
-	{
-		// Faces
-		if (true)
-		{
-			CreateFace(0, false, 1, false, 2, false, right);
-			CreateFace(1, false, 2, false, 0, false, top);
-			CreateFace(2, false, 0, false, 1, false, forward);
-			CreateFace(0,  true, 1, false, 2,  true, left);
-			CreateFace(1,  true, 2, false, 0,  true, bottom);
-			CreateFace(2,  true, 0, false, 1,  true, back);
-		}
-
-		// Create centerlines
-		centerline.push_back(Vertex(0));
-		baseCenterline.push_back(Vertex(0));
-		if (right)
-		{
-			CreateCenterline(0, false);
-			endpointRight = centerline.size() - 1;
-		}
-		if (left)
-		{
-			CreateCenterline(0,  true);
-			endpointLeft = centerline.size() - 1;
-		}
-		if (top)
-		{
-			CreateCenterline(1, false);
-			endpointTop = centerline.size() - 1;
-		}
-		if (bottom)
-		{
-			CreateCenterline(1,  true);
-			endpointBottom = centerline.size() - 1;
-		}
-		if (forward)
-		{
-			CreateCenterline(2, false);
-			endpointForward = centerline.size() - 1;
-		}
-		if (back)
-		{
-			CreateCenterline(2,  true);
-			endpointBack = centerline.size() - 1;
-		}
-
-		ErrCheck("Chamber::Create");
-	}
+	Chamber::Create(false);
 
 	// Need the color vector to be the same length as the other vectors for the sake of indexing
 	Vector3 grey({0.5, 0.5, 0.5});

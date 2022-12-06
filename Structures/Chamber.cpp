@@ -207,9 +207,9 @@ void Chamber::PreCreate()
 	triIndices.clear();
 	quadIndices.clear();
 }
-void Chamber::Create()
+void Chamber::Create(bool PrePost)
 {
-	PreCreate();
+	if (PrePost) PreCreate();
 
 	// fprintf(stdout, "panelWidth = %f\n", panelWidth); // NORELEASE
 
@@ -262,7 +262,7 @@ void Chamber::Create()
 
 	ErrCheck("Chamber::Create");
 
-	PostCreate();
+	if (PrePost) PostCreate();
 }
 
 void Chamber::ApplyNoise()

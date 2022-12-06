@@ -12,7 +12,8 @@ public:
     Chamber();
 
     virtual void PreCreate();
-    virtual void Create();
+    virtual void Create(bool PrePost);
+    virtual void Create() override { Create(true); }
     virtual void ApplyNoise();
     virtual void Draw(bool hasControl = true);
 
