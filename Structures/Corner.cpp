@@ -82,14 +82,6 @@ void Corner::SetRotateAndScale()
 		windMode = GL_CCW;
 }
 
-SideType GetNodeType(int x, int y, int z)
-{
-	// FIXME need to get the neighbor
-	Structure structure;
-
-	return structure.sideType;
-}
-
 void Corner::CreateClosed()
 {
 	int d = 360 / n;
@@ -295,7 +287,7 @@ void Corner::Create()
 	indexBounds.clear();
 	indexBounds.push_back(0);
 
-    UpdateConnections();
+    SetRotateAndScale();
 
 	// CHAMBERCONNECT need a second key to handle diagonals eventually // NORELEASE
 	switch(surroundings.sqrMagnitude())
@@ -362,25 +354,6 @@ void Corner::Create()
 
 	indexBounds.push_back(indices.size());
 	PostCreate();
-}
-
-void Corner::UpdateConnections()
-{
-	//Surroundings surroundings = {0,0,0, 0,0,0};
-    /*
-	// Handle adjacent nodes
-	surroundings.x = (int)GetNodeType(1, 0, 0);
-	surroundings.y = (int)GetNodeType(0, 1, 0);
-	surroundings.z = (int)GetNodeType(0, 0, 1);
-	// Handle diagonal nodes
-	surroundings.xy = (surroundings.x == 2 && surroundings.y == 2) ? (int)GetNodeType(1, 1, 0) : 0;
-	surroundings.xz = (surroundings.x == 2 && surroundings.y == 2) ? (int)GetNodeType(1, 0, 1) : 0;
-	surroundings.yz = (surroundings.x == 2 && surroundings.y == 2) ? (int)GetNodeType(0, 1, 1) : 0;
-    */
-	
-	//int key[2] = {surroundings.sqrMagnitude(), 0};
-
-	SetRotateAndScale();
 }
 
 void Corner::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals)

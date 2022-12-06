@@ -24,7 +24,7 @@ also make textures brighter
 	could maybe do something involving setting the stencil buffer per-chamber, and clear it at the start of the next chamber
 	also might be able to set VALUES in the stencil buffer. So only draw if the Z-buffer value is greater/less than the value stored in the stencil buffer
 	could also do some trick using textures? See example whatever-was-second-half-of-12/1
-	
+
 figure out how to do 3d texturing that can handle Z axis lines
 
 
@@ -49,8 +49,6 @@ should add a check "glGetIntegervl(GL_MAX_TEXTURE_UNITS, n)" where n is however 
 something wrong with Makefile again. Was getting a bad_alloc that got fixed by clean-then-make
 
 At least one of the FIXMEs was because I changed a compile warning. Should address that well ahead of time just in case
-
-there's some old code scattered around (mostly in Corner?) from how I was originally planning to do neighbor connections
 
 for release: remove everything that has a "// NORELEASE" tag
 	CANNOT just delete the lines. Sometimes the tag just means a comment that's part of the line

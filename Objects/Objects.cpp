@@ -115,7 +115,7 @@ OBJ::OBJ(std::string filename, float _scale)
         // else: skip
     }
 
-    scale = _scale / MVscale; // FIXME scale doesn't get used yet
+    scale = _scale / MVscale;
 }
 
 namespace Objects {
