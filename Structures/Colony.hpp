@@ -37,12 +37,12 @@ public:
 
     std::shared_ptr<Structure> GetChild(Vector3Int coords); // For BuildIndicator to draw existing structures for deletion
 
-    // FIXME part of temp motion model // NORELEASE
+    // Part of temp motion model // NORELEASE
     std::vector<Vertex>* getCL();
 private:
     std::unordered_map<Vector3Int, std::shared_ptr<Structure>> children;
 
-    // FIXME part of temp motion model // NORELEASE
+    // Part of temp motion model // NORELEASE
     void CenterlineHelper(std::vector<Vertex>& dstCL, bool usePerturbed);
     std::vector<Vertex> baseCenterline;
     std::vector<Vertex> centerline;

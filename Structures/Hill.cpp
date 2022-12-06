@@ -170,7 +170,7 @@ void Hill::Create()
 
 void Hill::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals)
 {
-	// FIXME array-ification can happen in Create, doesn't need to be in Draw // NORELEASE
+	// OPTIM array-ification can happen in Create, doesn't need to be in Draw // NORELEASE
 	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
 		// Convert vector of vectors to flat array
 		float vertexArray[drawVertices.size() * 3];
