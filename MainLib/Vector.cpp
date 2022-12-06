@@ -110,9 +110,13 @@ void Vector3::RotateZ(float theta)
     z =  oldZ;
 }
 
+float Vector3::SqrMag()
+{
+    return x*x + y*y + z*z;
+}
 float Vector3::Magnitude()
 {
-    return sqrt(x*x + y*y + z*z);
+    return sqrt(SqrMag());
 }
 
 void Vector3::Normalize()

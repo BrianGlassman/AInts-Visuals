@@ -88,15 +88,72 @@ void Mine::Create()
 	}
 
 	// Copy over OBJ values
+	// NOTE: OBJ reuses vertices, I do not
 	for (auto& face : Objects::Mine->OBJfaces)
 	{
         for (int i = 0; i < 3; i ++)
         {
             OBJindices.push_back(vertices.size());
-            vertices.push_back(Objects::Mine->OBJvertices[face.vIdxs[i]] * (1.0 / Objects::Mine->scale));
+            vertices.push_back(Objects::Mine->OBJvertices[face.vIdxs[i]]);
             normals.push_back(Objects::Mine->OBJnormals[face.nIdxs[i]]);
             OBJcolors.push_back(Objects::Mine->OBJcolors[face.cIdxs[i]]);
         }
+	}
+
+	{ // Join the OBJ geometry to the Chamber geometry
+		std::vector<int> edge;
+		for (int axis = 0; axis <= 2; axis++)
+		{
+			// --- Find the furthest points
+			float mx = 49.0 / 144;
+			std::vector<int> thisEdge;
+			float val;
+			for (std::size_t i = OBJindices.front() ; i < vertices.size(); i++)
+			{
+				auto& vertex = vertices.at(i);
+				val = abs(vertex[axis]);
+
+				if (val < mx) continue;
+
+				if (val > mx)
+				{
+					thisEdge.clear();
+					mx = val;
+					// printf("New mx = %f\n", mx); // NORELEASE
+				}
+
+				if (val == mx)
+				{
+					thisEdge.push_back(i);
+					// printf("Edge vertex (i = %d) %f, %f, %f\n", i, vertex.x, vertex.y, vertex.z); // NORELEASE
+				}
+			}
+
+			edge.insert(edge.begin(), thisEdge.begin(), thisEdge.end());
+		}
+
+		// --- Move the edge vertices to the nearest Chamber arm vertices
+		for (auto& i : edge)
+		{
+			auto& vertex = vertices.at(i);
+			// printf("vertices_i = %d: before %f, %f, %f\n", i, vertex.x, vertex.y, vertex.z); // NORELEASE
+
+			float bestSqrMag = 999;
+			Vector3 bestCoords;
+			for (int ci = 0; ci < OBJindices.front(); ci++)
+			{
+				auto& cvert = vertices.at(ci);
+				if ((cvert - vertex).SqrMag() < bestSqrMag)
+				{
+					bestSqrMag = (cvert - vertex).SqrMag();
+					bestCoords = cvert;
+				}
+			}
+			vertex = bestCoords;
+
+			// printf("after %f, %f, %f\n", vertex.x, vertex.y, vertex.z); // NORELEASE
+		}
+		printf("Done\n");
 	}
 
 	PostCreate();
@@ -157,25 +214,18 @@ void Mine::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> dr
 
 void Mine::Draw(bool hasControl)
 {
-	// Chamber::Draw();
+	Chamber::Draw();
 
-	PushShader(Shader::fixedPipeline);
-	glPushMatrix();
-	glTranslatef(center.x, center.y, center.z);
+	PushShader(Shader::threeDshader);
+	glPushMatrix(); {
+		glTranslatef(center.x, center.y, center.z);
 
-	glPushAttrib(GL_ENABLE_BIT);
-	glDisable(GL_LIGHTING); glDisable(GL_TEXTURE_2D);
+		// Perturbed geometry
+		if (Toggles::Noise::showPerturbed) DrawHelper(vertices, normals);
+		// Only show base if not showing perturbed, too cluttered to show both
+		else if (Toggles::Noise::showBase) DrawHelper(baseVertices, baseNormals);
 
-
-    // Perturbed geometry
-    if (Toggles::Noise::showPerturbed) DrawHelper(vertices, normals);
-    // Only show base if not showing perturbed, too cluttered to show both
-    else if (Toggles::Noise::showBase) DrawHelper(baseVertices, baseNormals);
-
-
-	glPopAttrib();
-
-	glPopMatrix();
+	} glPopMatrix();
 	PopShader();
 
 	ErrCheck("Mine::Draw");

@@ -29,6 +29,7 @@ public:
     void RotateY(float theta);
     void RotateZ(float theta);
 
+    float SqrMag();
     float Magnitude();
     void Normalize(); // Normalizes in-place
     Vector3 Normalized(); // Returns the normalized version
