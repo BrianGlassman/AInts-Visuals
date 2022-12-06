@@ -38,6 +38,7 @@ public:
     float Dot(Vector3 right);
     Vector3 Cross(Vector3 right);
 
+    static const Vector3     Zero;
     static const Vector3  Forward;
     static const Vector3 Backward;
     static const Vector3       Up;
@@ -78,6 +79,7 @@ public:
                (z > 0)*1e2 + abs(z)*1e0;
     }
 
+    static const Vector3Int     Zero; static const int     hashZero = 100100100;
     static const Vector3Int  Forward; static const int  hashForward = 100100201;
     static const Vector3Int Backward; static const int hashBackward = 100100101;
     static const Vector3Int       Up; static const int       hashUp = 100201100;

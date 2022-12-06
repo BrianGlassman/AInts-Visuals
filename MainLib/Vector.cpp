@@ -2,6 +2,7 @@
 
 #include "Vector.hpp"
 
+const Vector3     Vector3::Zero({ 0.0f,  0.0f,  0.0f});
 const Vector3  Vector3::Forward({ 0.0f,  0.0f,  1.0f});
 const Vector3 Vector3::Backward({ 0.0f,  0.0f, -1.0f});
 const Vector3       Vector3::Up({ 0.0f,  1.0f,  0.0f});
@@ -162,12 +163,13 @@ Vector3 Vector3::Cross(Vector3 right)
 // Vector3Int
 //------------
 
-const Vector3Int  Vector3Int::Forward({0, 0,  1});
-const Vector3Int Vector3Int::Backward({0, 0, -1});
-const Vector3Int       Vector3Int::Up({0,  1, 0});
-const Vector3Int     Vector3Int::Down({0, -1, 0});
-const Vector3Int    Vector3Int::Right({ 1, 0, 0});
-const Vector3Int     Vector3Int::Left({-1, 0, 0});
+const Vector3Int     Vector3Int::Zero({ 0,  0,  0});
+const Vector3Int  Vector3Int::Forward({ 0,  0,  1});
+const Vector3Int Vector3Int::Backward({ 0,  0, -1});
+const Vector3Int       Vector3Int::Up({ 0,  1,  0});
+const Vector3Int     Vector3Int::Down({ 0, -1,  0});
+const Vector3Int    Vector3Int::Right({ 1,  0,  0});
+const Vector3Int     Vector3Int::Left({-1,  0,  0});
 const Vector3Int Vector3Int::directions[6] = {
      Vector3Int::Forward,
     Vector3Int::Backward,
