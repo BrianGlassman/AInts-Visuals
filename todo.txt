@@ -6,8 +6,6 @@ PROBLEMS:
 toBuild movement should change with view direction, probably
 	include instructions for moving toBuild in README, once I've figured out what they are
 
-should clean the Python stuff out of Noise directory (move it to _reference)
-
 
 
 
