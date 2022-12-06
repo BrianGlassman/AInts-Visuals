@@ -16,8 +16,8 @@ int IDs[8] = {
 };
 int nextID = 0;
 
-int ambientConst;
-int directedConst;
+Light* Globals::Lighting::ambient;
+OrbitLight* Globals::Lighting::directed;
 
 void initLighting()
 {

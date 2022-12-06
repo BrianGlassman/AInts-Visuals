@@ -34,12 +34,11 @@ static void init(int argc, char* argv[])
 	// Lighting
 	initLighting();
 	Light ambient(0.5, 0, 0);
-	ambientConst = ambient.GetConst();
+	Globals::Lighting::ambient = &ambient;
 	// OrbitLight orbiter(0, 0.45, 0.7);
 	OrbitLight orbiter(0, 0.4, 0);
-	directedConst = orbiter.GetConst();
+	Globals::Lighting::directed = &orbiter;
 	orbiter.radius = baseMag * 1.2;
-	orbiterPtr = &orbiter;
 
 	// Enable alpha
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -101,8 +100,8 @@ void display()
 		Fatal(999, "final.cpp::display: Unknown scene %d\n", Globals::sceneChoice);
 	}
 
-	orbiterPtr->UpdatePosition(); // FIXME this should probably not be in display
-	orbiterPtr->Draw();
+	Globals::Lighting::directed->UpdatePosition(); // FIXME this should probably not be in display
+	Globals::Lighting::directed->Draw();
 	
 	if (displayModelPtr->created)
 	{

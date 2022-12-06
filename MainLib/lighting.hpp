@@ -4,9 +4,6 @@
 
 void initLighting();
 
-extern int ambientConst;
-extern int directedConst;
-
 class Light
 {
 public:
@@ -60,3 +57,8 @@ public:
 private:
 	float azimuth = 0, elevation = 0;
 };
+
+namespace Globals::Lighting {
+	extern Light* ambient;
+	extern OrbitLight* directed;
+}

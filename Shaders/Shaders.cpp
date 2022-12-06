@@ -31,9 +31,9 @@ void UseShader(int shader)
 
       // Set lights
       id = glGetUniformLocation(shader,"ambientLight");
-      glUniform1i(id, ambientConst);
+      glUniform1i(id, Globals::Lighting::ambient->GetConst());
       id = glGetUniformLocation(shader,"directedLight");
-      glUniform1i(id, directedConst);
+      glUniform1i(id, Globals::Lighting::directed->GetConst());
 
       // // Set textures (ref https://stackoverflow.com/a/25252981)
       id = glGetUniformLocation(shader, "tex0");

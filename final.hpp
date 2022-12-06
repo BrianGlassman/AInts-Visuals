@@ -40,8 +40,6 @@ BuildIndicator buildIndicator;
 
 Noise* noisePtr;
 
-OrbitLight* orbiterPtr;
-
 //-----------------------
 // Function declarations
 //-----------------------
