@@ -135,9 +135,9 @@ namespace Objects {
 void InitOBJs()
 {
     std::vector<Vector3> MineColors({
-        {256/256.0, 200/256.0, 150/256.0},
-        {1, 1, 1},
-        {0.3, 0.3, 1},
+        {256/256.0, 200/256.0, 150/256.0}, // Ore
+        {1, 1, 1}, // Outer surface - white to show texture
+        {0.4, 0.4, 0.5}, // Inner surface
     });
 
     Objects::MineCore = std::make_shared<OBJ>("Mine4-4.obj", 100);
