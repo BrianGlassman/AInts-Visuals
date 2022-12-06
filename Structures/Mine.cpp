@@ -165,7 +165,6 @@ void Mine::Draw(bool hasControl)
 
 	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_LIGHTING); glDisable(GL_TEXTURE_2D);
-	glFrontFace(GL_CW);
 
 
     // Perturbed geometry
@@ -174,7 +173,6 @@ void Mine::Draw(bool hasControl)
     else if (Toggles::Noise::showBase) DrawHelper(baseVertices, baseNormals);
 
 
-	glFrontFace(GL_CCW);
 	glPopAttrib();
 
 	glPopMatrix();
