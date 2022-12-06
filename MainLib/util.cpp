@@ -143,20 +143,21 @@ void Model::PostCreate()
 void Model::ApplyNoiseHelper(unsigned int i, float scale)
 {
 	// Perturbation at the initial vertex
-	Vector3 p = noisePtr->getNoise(baseVertices[i] + center);
+	Vector3 p = noisePtr->getNoise(baseVertices.at(i) + center);
 	// printf("p*scale = %f, %f, %f\n", p.x*scale, p.y*scale, p.z*scale);
 	
 	// --- Vertices ---
-	vertices[i] = baseVertices[i] + p*scale;
+	vertices[i] = baseVertices.at(i) + p*scale;
 
 	// --- Normals ---
 	{
-		// printf("base normal = %f, %f, %f\n", normals[i].x, normals[i].y, normals[i].z);
+		auto& baseNormal = baseNormals.at(i);
+		// printf("base normal = %f, %f, %f\n", normal.x, normal.y, normal.z);
 
 		// Construct tangent vectors by crossing the normal with each axis
-		Vector3 tx = normals[i].Cross(Vector3::Right);
-		Vector3 ty = normals[i].Cross(Vector3::Up);
-		Vector3 tz = normals[i].Cross(Vector3::Forward);
+		Vector3 tx = baseNormal.Cross(Vector3::Right);
+		Vector3 ty = baseNormal.Cross(Vector3::Up);
+		Vector3 tz = baseNormal.Cross(Vector3::Forward);
 
 		// Reduce magnitude to a small value
 		tx = tx.Normalized() * 0.001;
@@ -196,23 +197,21 @@ void Model::ApplyNoiseHelper(unsigned int i, float scale)
 		bool zValid = tz.Magnitude() > 0;
 
 		Vector3 tUse1, tUse2;
+		if ((xValid + yValid + zValid) < 2) Fatal(999, "Not enough valid tangents\n");
 		if (!zValid)
 		{
-			if (!(xValid && yValid)) Fatal(999, "Not enough valid tangents\n");
 			// printf("validity xy\n");
 			tUse1 = tx;
 			tUse2 = ty;
 		}
 		else if (!yValid)
 		{
-			if (!(xValid && zValid)) Fatal(999, "Not enough valid tangents\n");
 			// printf("validity xz\n");
 			tUse1 = tx;
 			tUse2 = tz;
 		}
 		else if (!xValid)
 		{
-			if (!(yValid && zValid)) Fatal(999, "Not enough valid tangents\n");
 			// printf("validity yz\n");
 			tUse1 = ty;
 			tUse2 = tz;
@@ -245,25 +244,25 @@ void Model::ApplyNoiseHelper(unsigned int i, float scale)
 		}
 
 		// Compute the new normal by crossing the perturbed tangents
-		Vector3 tempN = tUse1.Cross(tUse2);
+		Vector3 normal = tUse1.Cross(tUse2);
 
 		// Normalize
-		tempN.Normalize();
-		if (tempN.Magnitude() == 0) printf("tx = (%f, %f, %f), ty = (%f, %f, %f), tz = (%f, %f, %f)\n",
+		normal.Normalize();
+		if (normal.Magnitude() == 0) printf("tx = (%f, %f, %f), ty = (%f, %f, %f), tz = (%f, %f, %f)\n",
 			tx.x, tx.y, tx.z,
 			ty.x, ty.y, ty.z,
 			tz.x, tz.y, tz.z
 			);
 
 		// Assume normals never completely change direction, and any inversion is because of cross product ordering
-		if (tempN.Dot(baseNormals[i]) < 0)
+		if (normal.Dot(baseNormal) < 0)
 		{
-			// printf("Base (%f, %f, %f), Perturbed (%f, %f, %f), Dot %f\n", baseNormals[i].x, baseNormals[i].y, baseNormals[i].z, tempN.x, tempN.y, tempN.z, tempN.Dot(baseNormals[i]));
-			tempN = tempN.Reversed();
+			// printf("Base (%f, %f, %f), Perturbed (%f, %f, %f), Dot %f\n", baseNormal.x, baseNormal.y, baseNormal.z, normal.x, normal.y, normal.z, normal.Dot(baseNormal));
+			normal = normal.Reversed();
 		}
 
 		// Save the result
-		normals[i] = tempN;
+		normals[i] = normal;
 	}
 }
 
