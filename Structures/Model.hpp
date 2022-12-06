@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "globals.hpp"
 #include "Vector.hpp"
 #include "Vertex.hpp"
 
@@ -15,7 +16,7 @@ class Model
 public:
 	Model();
 	virtual ~Model(); // Need a virtual destructor for polymorphics
-	int type;
+	StructureType type = StructureType::NONE;
 	
 	Vector3 center = {0.0f, 0.0f, 0.0f};
 	bool created = false;

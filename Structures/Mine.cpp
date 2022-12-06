@@ -4,7 +4,7 @@
 
 Mine::Mine()
 {
-	type = 5;
+	type = StructureType::Mine;
 	sideType = SideType::chamber;
 	noiseScale = Globals::chamberNoiseScale;
 

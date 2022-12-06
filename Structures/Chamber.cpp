@@ -6,7 +6,7 @@
 
 Chamber::Chamber()
 {
-	type = 3;
+	type = StructureType::Chamber;
 	sideType = SideType::chamber;
 	noiseScale = Globals::chamberNoiseScale;
 

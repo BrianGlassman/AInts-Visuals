@@ -13,7 +13,7 @@ using OffsetsMap = std::unordered_map<Vector3Int, int>;
 
 Colony::Colony()
 {
-    type = 4;
+    type = StructureType::Colony;
 
     // Specifically do not call Create() so that it can be called after populating
 }

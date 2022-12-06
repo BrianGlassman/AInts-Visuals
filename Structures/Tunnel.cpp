@@ -4,7 +4,7 @@
 
 Tunnel::Tunnel()
 {
-	type = 2;
+	type = StructureType::Tunnel;
 	sideType = SideType::tunnel;
 
 	Create();

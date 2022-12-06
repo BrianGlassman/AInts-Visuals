@@ -5,7 +5,7 @@
 
 Model::Model()
 {
-	type = 1;
+	type = StructureType::Model;
 	noiseScale = Globals::chamberNoiseScale;
 }
 
