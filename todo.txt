@@ -3,6 +3,8 @@ PROBLEMS:
 	processing time is too long, need to either simplify the object or reduce the voxel count
 
 
+should be a way to move the light and camera around so that it's easier to grade
+
 toBuild movement should change with view direction, probably
 	include instructions for moving toBuild in README, once I've figured out what they are
 

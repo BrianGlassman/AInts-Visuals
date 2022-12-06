@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CSCIx229.h"
-#include "util.hpp" // Model class
+#include "Model.hpp"
 
 class Surroundings {
 public:

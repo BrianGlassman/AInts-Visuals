@@ -1,6 +1,6 @@
 #pragma once
 
-#include "util.hpp" // Model class
+#include "Model.hpp"
 #include "Vertex.hpp"
 #include "Vector.hpp"
 
