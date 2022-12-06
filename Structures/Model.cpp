@@ -21,11 +21,12 @@ void Model::PreCreate()
 	indices.clear();
 }
 
+// Should never be called, just an example to remember Pre/Post
 void Model::Create()
 {
 	PreCreate();
 
-    // Fill in the trackers
+    Fatal(999, "Model::Create called\n");
 
 	PostCreate();
 }
@@ -58,7 +59,7 @@ void Model::ApplyNoiseHelper(unsigned int i, float scale)
 {
 	// Perturbation at the initial vertex
 	Vector3 p = noisePtr->getNoise(baseVertices.at(i) + center);
-	// printf("p*scale = %f, %f, %f\n", p.x*scale, p.y*scale, p.z*scale);
+	// printf("p*scale = %f, %f, %f\n", p.x*scale, p.y*scale, p.z*scale); // NORELEASE
 	
 	// --- Vertices ---
 	vertices[i] = baseVertices.at(i) + p*scale;
@@ -66,7 +67,7 @@ void Model::ApplyNoiseHelper(unsigned int i, float scale)
 	// --- Normals ---
 	{
 		auto& baseNormal = baseNormals.at(i);
-		// printf("base normal = %f, %f, %f\n", normal.x, normal.y, normal.z);
+		// printf("base normal = %f, %f, %f\n", normal.x, normal.y, normal.z); // NORELEASE
 
 		// Construct tangent vectors by crossing the normal with each axis
 		Vector3 tx = baseNormal.Cross(Vector3::Right);
@@ -78,32 +79,32 @@ void Model::ApplyNoiseHelper(unsigned int i, float scale)
 		ty = ty.Normalized() * 0.001;
 		tz = tz.Normalized() * 0.001;
 
-		// printf(" original tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
+		// printf(" original tx = %f, %f, %f\n", tx.x, tx.y, tx.z); // NORELEASE
 
 		// Perturbation will be slightly different because of the offset
 		Vector3 px = noisePtr->getNoise(baseVertices[i] + center + tx);
 		Vector3 py = noisePtr->getNoise(baseVertices[i] + center + ty);
 		Vector3 pz = noisePtr->getNoise(baseVertices[i] + center + tz);
 
-		// printf("px*scale = %f, %f, %f\n", px.x*scale, px.y*scale, px.z*scale);
+		// printf("px*scale = %f, %f, %f\n", px.x*scale, px.y*scale, px.z*scale); // NORELEASE
 
-		// printf(" p*scale = %f, %f, %f\n", p.x*scale, p.y*scale, p.z*scale);
+		// printf(" p*scale = %f, %f, %f\n", p.x*scale, p.y*scale, p.z*scale); // NORELEASE
 
-		// printf("perturbed tx = original tx + px*scale - p*scale\n");
+		// printf("perturbed tx = original tx + px*scale - p*scale\n"); // NORELEASE
 
 		// Compute the perturbed tangent vectors
 		tx = tx + px*scale - p*scale;
 		ty = ty + py*scale - p*scale;
 		tz = tz + pz*scale - p*scale;
 
-		// printf("perturbed tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
+		// printf("perturbed tx = %f, %f, %f\n", tx.x, tx.y, tx.z); // NORELEASE
 
 		// Normalize for the sake of later computation
 		tx.Normalize();
 		ty.Normalize();
 		tz.Normalize();
 
-		// printf("perturbed and normalized tx = %f, %f, %f\n", tx.x, tx.y, tx.z);
+		// printf("perturbed and normalized tx = %f, %f, %f\n", tx.x, tx.y, tx.z); // NORELEASE
 
 		// Eliminate zero-magnitude tangents
 		bool xValid = tx.Magnitude() > 0;
@@ -138,19 +139,19 @@ void Model::ApplyNoiseHelper(unsigned int i, float scale)
 			float yDz = abs(ty.Dot(tz));
 			if (xDy <= xDz && xDy <= yDz)
 			{
-				// printf("ortho xy\n");
+				// printf("ortho xy\n"); // NORELEASE
 				tUse1 = tx;
 				tUse2 = ty;
 			}
 			else if (xDz <= xDy && xDz <= yDz)
 			{
-				// printf("ortho xz\n");
+				// printf("ortho xz\n"); // NORELEASE
 				tUse1 = tx;
 				tUse2 = tz;
 			}
 			else if (yDz <= xDy && yDz <= xDz)
 			{
-				// printf("ortho yz\n");
+				// printf("ortho yz\n"); // NORELEASE
 				tUse1 = ty;
 				tUse2 = tz;
 			}
@@ -162,16 +163,11 @@ void Model::ApplyNoiseHelper(unsigned int i, float scale)
 
 		// Normalize
 		normal.Normalize();
-		if (normal.Magnitude() == 0) printf("tx = (%f, %f, %f), ty = (%f, %f, %f), tz = (%f, %f, %f)\n",
-			tx.x, tx.y, tx.z,
-			ty.x, ty.y, ty.z,
-			tz.x, tz.y, tz.z
-			);
 
 		// Assume normals never completely change direction, and any inversion is because of cross product ordering
 		if (normal.Dot(baseNormal) < 0)
 		{
-			// printf("Base (%f, %f, %f), Perturbed (%f, %f, %f), Dot %f\n", baseNormal.x, baseNormal.y, baseNormal.z, normal.x, normal.y, normal.z, normal.Dot(baseNormal));
+			// printf("Base (%f, %f, %f), Perturbed (%f, %f, %f), Dot %f\n", baseNormal.x, baseNormal.y, baseNormal.z, normal.x, normal.y, normal.z, normal.Dot(baseNormal)); // NORELEASE
 			normal = normal.Reversed();
 		}
 
@@ -288,7 +284,7 @@ void Cylinder::Draw(bool hasControl)
  	 	}
 
  	 	// Bottom
-		// FIXME texture is probably swirly
+		// OPTIM texture is probably swirly // NORELEASE
  	 	if (bottom)
  	 	{
  	 	 	glBegin(GL_TRIANGLE_FAN); {
@@ -363,7 +359,7 @@ void Cube::Draw(bool hasControl)
 		{
 			if (sides & (1 << i))
 			{
-				//fprintf(stdout, "%d & %d\n", sides, i);
+				//fprintf(stdout, "%d & %d\n", sides, i); // NORELEASE
 				DrawLitQuad(
 					vertices[indices[5-i][0]],
 					vertices[indices[5-i][1]],
@@ -394,20 +390,20 @@ void Sphere::Draw(bool hasControl)
 		{
 			Polar2Cart(1, phi, &r0, &y0);
 			Polar2Cart(1, phi + d, &r1, &y1);
-			// fprintf(stdout, "slice %f: (%f, %f), (%f, %f)\n", phi, r0, y0, r1, y1);
+			// fprintf(stdout, "slice %f: (%f, %f), (%f, %f)\n", phi, r0, y0, r1, y1); // NORELEASE
 
 			glBegin(GL_QUAD_STRIP);
 			for (int theta = 0; theta <= 360; theta += d)
 			{
-				// FIXME texture
+				// OPTIM texture // NORELEASE
 				Polar2Cart(r0, theta, &x, &z);
 				glNormal3d(x, y0, z);
 				glVertex3d(x, y0, z);
-				// fprintf(stdout, "0: (%f, %f, %f)", x, y0, z);
+				// fprintf(stdout, "0: (%f, %f, %f)", x, y0, z); // NORELEASE
 				Polar2Cart(r1, theta, &x, &z);
 				glNormal3d(x, y1, z);
 				glVertex3d(x, y1, z);
-				// fprintf(stdout, "   1: (%f, %f, %f)\n", x, y1, z);
+				// fprintf(stdout, "   1: (%f, %f, %f)\n", x, y1, z); // NORELEASE
 			}
 			glEnd();
 		}

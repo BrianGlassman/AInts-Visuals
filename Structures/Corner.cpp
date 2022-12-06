@@ -141,7 +141,7 @@ void Corner::CreateCoreOuter(int i0, int i1, float c1, int i2, float c2)
 	coords[i0] = 0; coords[i1] = c1; coords[i2] = c2;
 	indices.push_back(vertices.size());
 	normals.push_back(coords);
-	// FIXME texture // NORELEASE
+	// OPTIM texture // NORELEASE
 	coords[i0] = radius;
 	vertices.push_back(coords);
 }
@@ -164,7 +164,7 @@ void Corner::CreateArm(int i0, int i1, int i2, bool reverse)
 			// Outer edge (Inner if reversed)
 			indices.push_back(vertices.size());
 			normals.push_back(coords);
-			// FIXME texture // NORELEASE
+			// OPTIM texture // NORELEASE
 			coords[i0] = reverse ? x : x + d;
 			vertices.push_back(coords);
 
@@ -172,7 +172,7 @@ void Corner::CreateArm(int i0, int i1, int i2, bool reverse)
 			coords[i0] = 0;
 			indices.push_back(vertices.size());
 			normals.push_back(coords);
-			// FIXME texture // NORELEASE
+			// OPTIM texture // NORELEASE
 			coords[i0] = reverse ? x + d : x;
 			vertices.push_back(coords);
 		}
@@ -194,7 +194,7 @@ void Corner::XTunnel(bool makeY, bool makeZ)
 
 		// Inner point
 		indices.push_back(vertices.size());
-		// FIXME texture // NORELEASE
+		// OPTIM texture // NORELEASE
 		if (makeY)
 		{
 			if (makeZ)
@@ -240,7 +240,7 @@ void Corner::YTunnel(bool makeZ)
 			float y = z;
 			indices.push_back(vertices.size());
 			normals.push_back({x, 0, z});
-			// FIXME texture // NORELEASE
+			// OPTIM texture // NORELEASE
 			vertices.push_back({x, y, z});
 		}
 		else
@@ -248,7 +248,7 @@ void Corner::YTunnel(bool makeZ)
 			float y = x;
 			indices.push_back(vertices.size());
 			normals.push_back({x, 0, z});
-			// FIXME texture // NORELEASE
+			// OPTIM texture // NORELEASE
 			vertices.push_back({x, y, z});
 		}
 

@@ -126,7 +126,7 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				armIndices.insert(vertices.size());
 				normals.push_back(coords);
-				// FIXME texture // NORELEASE
+				// OPTIM texture // NORELEASE
 				coords[i0] = (f0 ? -1 : 1) * (x + d);
 				vertices.push_back(coords);
 
@@ -134,7 +134,7 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 				coords[i0] = 0;
 				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				normals.push_back(coords);
-				// FIXME texture // NORELEASE
+				// OPTIM texture // NORELEASE
 				coords[i0] = f0 ? -x : x;
 				vertices.push_back(coords);
 			}
@@ -148,7 +148,7 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 				coords[i0] = 0;
 				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				normals.push_back(coords);
-				// FIXME texture // NORELEASE
+				// OPTIM texture // NORELEASE
 				coords[i0] = f0 ? -x : x;
 				vertices.push_back(coords);
 
@@ -157,7 +157,7 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 				indices.push_back(vertices.size()); quadIndices.push_back(vertices.size());
 				armIndices.insert(vertices.size());
 				normals.push_back(coords);
-				// FIXME texture // NORELEASE
+				// OPTIM texture // NORELEASE
 				coords[i0] = (f0 ? -1 : 1) * (x + d);
 				vertices.push_back(coords);
 			}
