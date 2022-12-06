@@ -30,6 +30,8 @@ also make textures brighter
 
 figure out how to do 3d texturing that can handle Z axis lines
 
+have "Toggle wireframe" show a wireframe with polygon offset even when filled geometry is active
+add "Toggle filled"
 
 
 

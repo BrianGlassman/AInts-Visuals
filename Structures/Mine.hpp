@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Chamber.hpp"
+#include "MinePiece.hpp"
 #include "Objects.hpp"
 
 class Mine : public Chamber
@@ -10,11 +11,10 @@ public:
 
     void PreCreate() override;
     void Create() override;
+    void ApplyNoise() override;
     void Draw(bool hasControl = true) override;
 private:
-    std::vector<int> OBJindices;
-    std::vector<Vector3> OBJcolors;
-    std::shared_ptr<OBJ> OBJptr;
+    std::vector<MinePiece> pieces;
 
-    void DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals);
+    // void DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals);
 };

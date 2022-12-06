@@ -17,6 +17,7 @@ enum class StructureType
     Mine = 5,
     Hill = 6,
     Farm = 7,
+    MinePiece = 8,
     NONE = 99,
 };
 
