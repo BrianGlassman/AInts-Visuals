@@ -26,20 +26,27 @@ public:
 	// Transformation to put the corner in the right spot
 	Vector3 baseScale = {1, 1, 1};
 
-	// FIXME make private once auto-generation is implemented // NORELEASE
-    Surroundings surroundings;
 
 	float radius = 0.1f;
     int n = 8; // Must be a multiple of 8 to handle 45 degree triple-corners
 	// Number of strips making up each arm
 	int panels = 4;
 
+	void SetSurroundings(bool x, bool y, bool z)
+	{
+		surroundings.x = (int)x;
+		surroundings.y = (int)y;
+		surroundings.z = (int)z;
+	}
 	void Create();
     void Draw(bool hasControl = true);
 private:
 	// Transformation to align the mesh properly
 	Vector3 meshRotate = {0, 0, 0};
 	Vector3 meshScale = {1, 1, 1};
+
+	// Information about neighbors
+    Surroundings surroundings;
 
 	// Flag to get vertex winding correct
 	bool windCW = false;

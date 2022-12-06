@@ -56,65 +56,49 @@ void Tunnel::Create()
 	{ // Right top front
 		corner = &corners[0];
 		corner->baseScale[0] = 1; corner->baseScale[1] = 1; corner->baseScale[2] = 1;
-		corner->surroundings.x = (int)right;
-		corner->surroundings.y = (int)top;
-		corner->surroundings.z = (int)forward;
+		corner->SetSurroundings(right, top, forward);
 	}
 
 	{ // Right top back
 		corner = &corners[1];
 		corner->baseScale[0] = 1; corner->baseScale[1] = 1; corner->baseScale[2] = -1;
-		corner->surroundings.x = (int)right;
-		corner->surroundings.y = (int)top;
-		corner->surroundings.z = (int)back;
+		corner->SetSurroundings(right, top, back);
 	}
 
 	{ // Right bottom front
 		corner = &corners[2];
 		corner->baseScale[0] = 1; corner->baseScale[1] = -1; corner->baseScale[2] = 1;
-		corner->surroundings.x = (int)right;
-		corner->surroundings.y = (int)bottom;
-		corner->surroundings.z = (int)forward;
+		corner->SetSurroundings(right, bottom, forward);
 	}
 	
 	{ // Right bottom back
 		corner = &corners[3];
 		corner->baseScale[0] = 1; corner->baseScale[1] = -1; corner->baseScale[2] = -1;
-		corner->surroundings.x = (int)right;
-		corner->surroundings.y = (int)bottom;
-		corner->surroundings.z = (int)back;
+		corner->SetSurroundings(right, bottom, back);
 	}
 	
 	{ // Left top front
 		corner = &corners[4];
 		corner->baseScale[0] = -1; corner->baseScale[1] = 1; corner->baseScale[2] = 1;
-		corner->surroundings.x = (int)left;
-		corner->surroundings.y = (int)top;
-		corner->surroundings.z = (int)forward;
+		corner->SetSurroundings(left, top, forward);
 	}
 
 	{ // Left top back
 		corner = &corners[5];
 		corner->baseScale[0] = -1; corner->baseScale[1] = 1; corner->baseScale[2] = -1;
-		corner->surroundings.x = (int)left;
-		corner->surroundings.y = (int)top;
-		corner->surroundings.z = (int)back;
+		corner->SetSurroundings(left, top, back);
 	}
 
 	{ // Left bottom front
 		corner = &corners[6];
 		corner->baseScale[0] = -1; corner->baseScale[1] = -1; corner->baseScale[2] = 1;
-		corner->surroundings.x = (int)left;
-		corner->surroundings.y = (int)bottom;
-		corner->surroundings.z = (int)forward;
+		corner->SetSurroundings(left, bottom, forward);
 	}
 	
 	{ // Left bottom back
 		corner = &corners[7];
 		corner->baseScale[0] = -1; corner->baseScale[1] = -1; corner->baseScale[2] = -1;
-		corner->surroundings.x = (int)left;
-		corner->surroundings.y = (int)bottom;
-		corner->surroundings.z = (int)back;
+		corner->SetSurroundings(left, bottom, back);
 	}
 
 	// Create vertices AFTER setting surroundings
