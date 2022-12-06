@@ -1,7 +1,4 @@
 
-PRETTY SURE THAT THE PERTURBED NORMALS ARE ALWAYS GETTING USED FOR LIGHTING
-
-
 PROBLEMS:
 	processing time is too long, need to either simplify the object or reduce the voxel count
 

@@ -104,7 +104,7 @@ void Mine::Create()
 	ErrCheck("Mine::Create");
 }
 
-void Mine::DrawHelper(std::vector<Vector3> drawVertices)
+void Mine::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals)
 {
 	// FIXME array-ification can happen in Create, doesn't need to be in Draw // NORELEASE
 	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); glEnableClientState(GL_COLOR_ARRAY); {
@@ -120,12 +120,12 @@ void Mine::DrawHelper(std::vector<Vector3> drawVertices)
 				// fprintf(stdout, "vertexArray %d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]); // NORELEASE
 			}
 		}
-		float normalArray[normals.size() * 3];
-		for (unsigned int i = 0; i < normals.size(); i++)
+		float normalArray[drawNormals.size() * 3];
+		for (unsigned int i = 0; i < drawNormals.size(); i++)
 		{
-			normalArray[i*3 + 0] = normals[i][0];
-			normalArray[i*3 + 1] = normals[i][1];
-			normalArray[i*3 + 2] = normals[i][2];
+			normalArray[i*3 + 0] = drawNormals[i][0];
+			normalArray[i*3 + 1] = drawNormals[i][1];
+			normalArray[i*3 + 2] = drawNormals[i][2];
 		}
 
 		// colorArray only used for OBJ vertices
@@ -169,9 +169,9 @@ void Mine::Draw(bool hasControl)
 
 
     // Perturbed geometry
-    if (Toggles::Noise::showPerturbed) DrawHelper(vertices);
+    if (Toggles::Noise::showPerturbed) DrawHelper(vertices, normals);
     // Only show base if not showing perturbed, too cluttered to show both
-    else if (Toggles::Noise::showBase) DrawHelper(baseVertices);
+    else if (Toggles::Noise::showBase) DrawHelper(baseVertices, baseNormals);
 
 
 	glFrontFace(GL_CCW);

@@ -28,5 +28,5 @@ private:
     void CreateSides();
     void CreateTunnel();
 
-    void DrawHelper(std::vector<Vector3> drawVertices);
+    void DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals);
 };

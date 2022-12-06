@@ -44,5 +44,5 @@ protected:
     void CreateCLHelper(std::vector<Vertex> &CLtoUse, int axis, bool flip);
     void CreateCenterline(int axis, bool flip);
 
-    void DrawHelper(std::vector<Vector3> drawVertices); // FIXME pass by reference // NORELEASE
+    void DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals); // FIXME pass by reference // NORELEASE
 };

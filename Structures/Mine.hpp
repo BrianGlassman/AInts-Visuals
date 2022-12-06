@@ -14,5 +14,5 @@ private:
     std::vector<int> OBJindices;
     std::vector<Vector3> OBJcolors;
 
-    void DrawHelper(std::vector<Vector3> drawVertices);
+    void DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals);
 };

@@ -383,7 +383,7 @@ void Corner::UpdateConnections()
 	SetRotateAndScale();
 }
 
-void Corner::DrawHelper(std::vector<Vector3> drawVertices)
+void Corner::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals)
 {
 	// FIXME array-ification can happen in Create, doesn't need to be in Draw // NORELEASE
 	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
@@ -396,12 +396,12 @@ void Corner::DrawHelper(std::vector<Vector3> drawVertices)
 			vertexArray[i*3 + 2] = drawVertices[i][2];
 			// fprintf(stdout, "%d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]); // NORELEASE
 		}
-		float normalArray[normals.size() * 3];
-		for (unsigned int i = 0; i < normals.size(); i++)
+		float normalArray[drawNormals.size() * 3];
+		for (unsigned int i = 0; i < drawNormals.size(); i++)
 		{
-			normalArray[i*3 + 0] = normals[i][0];
-			normalArray[i*3 + 1] = normals[i][1];
-			normalArray[i*3 + 2] = normals[i][2];
+			normalArray[i*3 + 0] = drawNormals[i][0];
+			normalArray[i*3 + 1] = drawNormals[i][1];
+			normalArray[i*3 + 2] = drawNormals[i][2];
 		}
 
 		unsigned int indexArray[indices.size()];
@@ -452,7 +452,7 @@ void Corner::Draw(bool hasControl)
 
 		// Perturbed geometry
 		if (Toggles::Noise::showPerturbed)
-			DrawHelper(vertices);
+			DrawHelper(vertices, normals);
 
 		// Baseline geometry
 		if (Toggles::Noise::showBase)
@@ -464,7 +464,7 @@ void Corner::Draw(bool hasControl)
 				glDisable(GL_TEXTURE_2D);
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			} // else: Use colored, textured geometry
-			DrawHelper(baseVertices);
+			DrawHelper(baseVertices, baseNormals);
 			if (Toggles::Noise::showPerturbed && hasControl)
 			{
 				glPopAttrib();

@@ -58,5 +58,5 @@ private:
 	void YTunnel(bool makeZ);
 	void ZTunnel();
 
-	void DrawHelper(std::vector<Vector3> drawVertices); // FIXME pass by reference // NORELEASE
+	void DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals); // FIXME pass by reference // NORELEASE
 };
