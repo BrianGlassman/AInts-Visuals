@@ -1,3 +1,8 @@
+OPTIM: could remove faces on outer edges of caps
+	could maybe remove the sides, but would have to have a way to make sure they aren't visible from inside
+	
+Core outer edges of caps should be removed (including Right)
+
 make UseShader private, force everything to use Push/Pop
 
 PROBLEMS:
