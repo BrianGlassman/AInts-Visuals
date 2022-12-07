@@ -125,7 +125,7 @@ void OrbitLight::Draw()
 			} glEnd();
 		} glPopMatrix();
 
-		glBegin(GL_LINES); {
+		glBegin(GL_LINES); { // NORELEASE
 			// Draw axis projections to the origin
 			SetColor(0.6, 0, 0);
 			glVertex3d(0, 0, 0);

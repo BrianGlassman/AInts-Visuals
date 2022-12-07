@@ -148,7 +148,7 @@ void Hill::CreateCenterline()
 {
     CreateCLHelper(centerline);
     CreateCLHelper(baseCenterline);
-    if (bottom) endpointBottom = centerline.size() - 1;
+    if (bottom) endpointBottom = 0;
 }
 
 void Hill::PreCreate()

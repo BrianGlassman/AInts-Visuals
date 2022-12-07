@@ -1,31 +1,25 @@
 
-hotkeys to show off functionality
-	PROMINENTLY documented in README
-
-OPTIM: could maybe remove the sides of caps, but would have to have a way to make sure they aren't visible from inside
-
-FPS tanks in full screen, especially when inside the Mine
-	implies the problem is with per-pixel calculations (shader) not caused by array-ification
+shrink textures. Each slice should be 256x256 at most
 
 specular lighting doesn't do anything?
 	did I set the shininess?
+
+make textures brighter
+	option to switch to a brighter version?
 
 should be a way to move the light and camera around so that it's easier to grade
 
 toBuild movement should change with view direction, probably
 	include instructions for moving toBuild in README, once I've figured out what they are
 
-Hill movement is wonky. Jumps from the bottom straight to the top, then you're stuck
-	Proably not setting the endpoint correctly?
-	
-shrink textures. Each slice should be 256x256 at most
+hotkeys to show off functionality
+	PROMINENTLY documented in README
+
+FPS tanks in full screen, especially when inside the Mine
+	implies the problem is with per-pixel calculations (shader) not caused by array-ification
 
 
 
-default to not showing the light source trace (red and blue lines) because that might be what's causing the problem
-
-make textures brighter
-	option to switch to a brighter version?
 	
 option to increase the light levels
 
@@ -46,6 +40,8 @@ are there any more Makefile warnings I turned off that can be turned back on?
 	make sure I'm using -Wall
 
 check for anything substantially uncommented and comment it
+
+default to not showing the light source trace (red and blue lines) because that might be what's causing the problem
 
 replace tabs with spaces
 
@@ -121,6 +117,8 @@ make orbiting lights based on fixed speed, not display speed
 
 would like to have better 3D navigation for interior view, but the vector math gets nasty
 	current version has "up" locked to Y axis, so turning is always around that axis instead of relative to view
+
+could maybe remove the sides of caps, but would have to have a way to make sure they aren't visible from inside
 
 [stretch0] texture variations
 [stretch1] merge adjacent chambers
