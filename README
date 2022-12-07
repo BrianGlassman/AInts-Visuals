@@ -9,7 +9,7 @@ CSCI 5229 (graduate)
 	A. Both views
 		  i. Pressing Escape will exit the program
 		 ii. Right clicking opens a menu to change the view and or access various debug options (detailed below)
-		iii. "[" and "]" will cycle through the available scenes: A full colony (the main, default scene), a pair of chambers, and a pair of tunnels
+		iii. "[" and "]" will cycle through the available scenes: A full colony (the main, default scene), individual views of the different buildings, and a test of tunnel interconnection.
 		 iv. "\" will go back to the full colony scene
 		  v. "m" will cycle between interior and exterior views
 	B. Exterior view
@@ -19,7 +19,7 @@ CSCI 5229 (graduate)
 		  i. Moving the mouse towards the edges of the window will rotate the view around the current eye position
 		 ii. WASD or the arrow keys will move the viewpoint, node by node. Movement is locked to the centerline nodes shown in cyan
 
-3. Right-click menu
+3. Right-Click menu
 	A. View - change between interior and exterior views
 	B. Lighting - toggle the orbit of the directed light
 	C. Noise
@@ -38,31 +38,65 @@ CSCI 5229 (graduate)
 	A. Adding buildings and ants to the environment. I originally planned to allow a cutaway in the exterior view to see inside the chambers and buildings, but this is turning out to be very challenging. I will probably drop the cutaway to be able to implement buildings.
 	B. Refinements on the texture and lighting. The current texture method can't handle geometry that is mostly parallel to the Z axis. I also want to improve the lighting overall, particularly in the interior view.
 
+TODO. Feature List
+	A. Predefined colony layout, displayed on startup.
+	B. Adjacent structures connect to each other appropriately, automatically updating when new structures are placed or existing structures are deleted.
+	C. 3D texturing via shader - Y position chooses one of 16 texture slices, X and Z position determine the location on that texture. Adjacent slices are blended together to avoid sharp cuts.
+	D. Ambient lighting and an orbiting directed light.
+	E. Random perturbations of geometry - A grid of random vectors is created, and the perturbation is the result of interpolating between the 8 nearest vectors.
+		- The perturbed and original geometries can be toggled from the Right-Click > Noise menu.
+		- Each "cell" is 1x1x1 units, with a perturbation vector at each corner. The perturbation vectors can be shown/hidden from the Right-Click menu: Noise > Toggle P Vectors.
+		- The interpolation is based on f(x,y,z) where f is a Bezier curve (defined in Noise/Perlin.cpp::BezierFade). This prevents sharp changes at the borders between cells.
+		- Crossover (adjacent vertices being perturbed enough that they switch relative positions) is mathematically impossible due to the nature of the perturbation and scaling factor.
+		- Normal vectors are perturbed to match the new geometry through the following process (implemented in Structures/Models.cpp::Model::ApplyNoiseHelper):
+			1. Take the cross product of the unperturbed Normal vector with each of the X, Y, and Z axes. This creates three tangent vectors based on the unperturbed geometry.
+			2. Reduce the magnitude of these tangent vectors to a small value (0.001) to remain in the neighborhood of the original vertex.
+			3. Get the three positions produced by offsetting from the original vertex by the tangent vector (i.e. position = vertex + tangent).
+			4. Perturb these positions using the same method as used for the vertex.
+			5. The difference between these perturbed positions and the perturbed vertex are the tangent vectors of the underlying perturbed surface.
+			6. Using whichever two perturbed tangent vectors are most orthogonal to each other, take the cross product to find the perturbed Normal vector.
+			7. If the resulting Normal vector is roughly opposite the original Normal vector (i.e. the dot product is < 0) reverse the direction.
+	F. Four different structures: Tunnel, Chamber, Hill, and Mine.
+		- The Tunnel, Chamber, and Hill geometry is defined in code.
+		- The Mine model was created in MagicaVoxel, with some code written to merge the edges of the voxel model with the surrounding Chamber geometry.
+			- It is modelled as 7 separate OBJs to allow opening/closing the side tunnels based whether there is an adjacent structure.
+	G. Exterior View, showing the colony as a whole. In the final game, this will be the primary construction and interaction view.
+		- The user can place new buildings or delete existing ones, selected from the Right-Click > Build menu.
+		- A visualization is shown when building/deleting so that the user knows where the change will occur.
+	H. Interior View, showing the colony from the perspective of a resident.
+		- The user can move around the colony, following pre-defined paths. Movement is node-to-node along whichever path is closest to the desired direction.
+		
 
-=================================
-=================================
-=================================
-=================================
-=================================
-README TODO STUFF
-	A menu to allow deleting and placing tunnels, chambers, and buildings.
-=================================
-=================================
-=================================
-=================================
-=================================
+TODO. Known Issues
+	A. Errors out if the last building is deleted.
+	B. Low framerate in fullscreen, likely because of the computations involved in 3D texturing.
+	C. The Right-Click > Build menu is visible in Interior View, although it has no effect.
+	D. When placing/deleting a building, the movement mapping is locked to world coordinates rather than changing as the camera is rotated.
 
-
+TODO. Future Work
+	A. Add more variety in the textures, and/or using a noise algorithm to generate the 3D texture rather than slicing a 2D texture.
+	B. Add functionality for merging adjacent chambers, rather than connecting them with a short tunnel.
+	C. Add shadowing and multiple light sources, especially for the Interior View.
+	D. Add more buildings, and using non-voxel geometry for the buildings.
+	E. Add the option of a cutaway view in Exterior View, so that the user can look into the colony from outside.
+	F. Add ants populating the colony.
+	G. Add animations to the ants and buildings.
+	H. Allow freeform movement in Interior View, rather than being tethered to a pre-defined path.
 
 Texture sources:
 dirtGroundTileable - https://www.deviantart.com/fabooguy/art/Dirt-Ground-Texture-Tileable-2048x2048-441212191
-	Flipped vertically and horizontally to create dirtGroundTileableFlipped
+	Sliced to create the various _x#_y# textures
 
 Code references:
 Class slides, examples, and library
+TODO FIXME
 Shaders adapted from Ex. 25, with modification to apply texture based on vertex position
 Polymorphic list - https://stackoverflow.com/questions/17532076/whats-the-preferred-c-idiom-to-own-a-collection-of-polymorphic-objects
 GLUT menus
 	http://www.cs.sjsu.edu/~bruce/fall_2016_cs_116a_lecture_creating_mouse_driven_menus.html
 	http://www.cs.sjsu.edu/~bruce/programs/fall_2016_cs_116a/example_glut_menu/example_glut_menu.c
 	https://www.opengl.org/resources/libraries/glut/spec3/node35.html
+
+Tool references:
+MagicaVoxel - A voxel modelling program, used to generate the Mine geometry - https://www.voxelmade.com/magicavoxel/
+Magick - An image manipulation tool, used to split the dirt texture into several slices - https://imagemagick.org/
