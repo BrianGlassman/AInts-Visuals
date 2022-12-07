@@ -1,9 +1,10 @@
 
+Mine coloring
+
+toggle for texture usage
+
 specular lighting doesn't do anything?
 	did I set the shininess?
-
-make textures brighter
-	option to switch to a brighter version?
 
 should be a way to move the light and camera around so that it's easier to grade
 

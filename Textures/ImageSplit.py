@@ -14,7 +14,7 @@ for y in range(splits):
     x_offset = 0
     for x in range(splits):
         out_filename = f"{orig_filename}_x{x}_y{y}"
-        cmd = f"./magick convert -extract {new_dim:d}x{new_dim:d}+{x_offset:d}+{y_offset:d} {orig_filename}.bmp {out_filename}.bmp"
+        cmd = f"../_reference/magick convert -extract {new_dim:d}x{new_dim:d}+{x_offset:d}+{y_offset:d} {orig_filename}.bmp {out_filename}.bmp"
         print(cmd)
         os.system(cmd)
         x_offset += new_dim
