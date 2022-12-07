@@ -104,12 +104,9 @@ namespace Callbacks{ void Build(int val)
         SetBuildModel(StructureType::Mine);
         break;
     case 4:
-        SetBuildModel(StructureType::Farm);
-        break;
-    case 5:
         SetBuildModel(StructureType::Hill);
         break;
-    case 6:
+    case 5:
         SetBuildModel(StructureType::Delete);
         break;
     default:
@@ -119,7 +116,7 @@ namespace Callbacks{ void Build(int val)
 BuildMenu::BuildMenu()
 {
     name = "Build";
-    buttons = { "None", "Tunnel", "Chamber", "Mine", "Farm", "Hill", "Delete" };
+    buttons = { "None", "Tunnel", "Chamber", "Mine", "Hill", "Delete" };
     callback = Callbacks::Build;
 }
 

@@ -85,10 +85,9 @@ Tunnel.o: $(STCRDIR)/Tunnel.cpp $(STCRDIR)/Tunnel.hpp util.o Corner.o
 # Buildings
 MinePiece.o: $(STCRDIR)/MinePiece.cpp $(STCRDIR)/MinePiece.hpp Chamber.o
 Mine.o: $(STCRDIR)/Mine.cpp $(STCRDIR)/Mine.hpp MinePiece.o Chamber.o
-Farm.o: $(STCRDIR)/Farm.cpp $(STCRDIR)/Farm.hpp Chamber.o
 # Colony needs to depend on all the other Structures
 Colony.o: $(STCRDIR)/Colony.cpp $(STCRDIR)/Colony.hpp Chamber.o Hill.o Tunnel.o Mine.o MainLib.a Model.o
-BuildIndicator.o: $(STCRDIR)/BuildIndicator.cpp $(STCRDIR)/BuildIndicator.hpp Structure.o Chamber.o Hill.o Tunnel.o Mine.o Farm.o MainLib.a
+BuildIndicator.o: $(STCRDIR)/BuildIndicator.cpp $(STCRDIR)/BuildIndicator.hpp Structure.o Chamber.o Hill.o Tunnel.o Mine.o MainLib.a
 
 #--- Noise ---
 Noise.o: $(NOISDIR)/Noise.cpp $(NOISDIR)/Noise.hpp Shaders.a
@@ -104,7 +103,7 @@ CSCIx229.a: fatal.o errcheck.o print.o loadtexbmp.o loadobj.o
 	ar -rcs $@ $^
 MainLib.a: globals.o display.o lighting.o input.o textures.o util.o Vector.o Vertex.o window.o
 	ar -rcs $@ $^
-Structures.a: Model.o Structure.o Corner.o Chamber.o Hill.o Tunnel.o Colony.o Mine.o MinePiece.o Farm.o BuildIndicator.o
+Structures.a: Model.o Structure.o Corner.o Chamber.o Hill.o Tunnel.o Colony.o Mine.o MinePiece.o BuildIndicator.o
 	ar -rcs $@ $^
 Noise.a: Noise.o Perlin.o
 	ar -rcs $@ $^

@@ -5,7 +5,6 @@
 #include "Tunnel.hpp"
 #include "Chamber.hpp"
 #include "Mine.hpp"
-#include "Farm.hpp"
 #include "Hill.hpp"
 
 class DeleteViz : public Structure
@@ -49,9 +48,6 @@ void BuildIndicator::SetModel(StructureType type)
     case StructureType::Mine:
         model = std::make_shared<Mine>();
         break;
-    // case StructureType::Farm:
-    //     model = std::make_shared<Farm>();
-    //     break;
     case StructureType::Hill:
         model = std::make_shared<Hill>();
         break;

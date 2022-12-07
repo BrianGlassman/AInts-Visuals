@@ -16,7 +16,6 @@ enum class StructureType
     Colony = 4,
     Mine = 5,
     Hill = 6,
-    Farm = 7,
     MinePiece = 8,
     NONE = 99,
 };
@@ -86,7 +85,7 @@ namespace Globals
 // Main, Input --> Display
 //-------------------------
 // Enum that can be incremented or decremented, adapted from https://stackoverflow.com/a/15451002
-enum class Scene : unsigned { START_OF_LIST, colony, tunnel, chamber, mine, farm, 
+enum class Scene : unsigned { START_OF_LIST, colony, tunnel, chamber, mine, 
     hill, allTunnels, END_OF_LIST };
 Scene& operator++(Scene &val );
 Scene operator++(Scene &val, int );

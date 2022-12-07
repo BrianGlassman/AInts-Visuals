@@ -46,6 +46,4 @@ namespace Objects {
     extern std::shared_ptr<OBJ> MineBottomCap;
     extern std::shared_ptr<OBJ> MineFrontCap;
     extern std::shared_ptr<OBJ> MineBackCap;
-
-    // OBJ Farm;
 }

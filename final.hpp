@@ -32,7 +32,6 @@ Colony colony;
 Colony tunnel;
 Colony chamber;
 Colony mine;
-Colony farm;
 Colony hill;
 Colony allTunnels;
 
@@ -79,11 +78,6 @@ void SetDisplayPtr()
 	case Scene::mine:
 	{
 		displayModelPtr = &mine;
-		break;
-	}
-	case Scene::farm:
-	{
-		displayModelPtr = &farm;
 		break;
 	}
 	case Scene::hill:
@@ -194,8 +188,6 @@ void PopulateTunnels(Colony& colony)
 
 		// 3 - all -
 		{-1, -1, -1},
-
-		// FIXME doesn't include 2 tunnels per axis
 	};
 
 	for (int i = 0; i < 27; i++)

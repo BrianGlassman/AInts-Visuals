@@ -114,7 +114,6 @@ std::unordered_map<Scene, _InteriorView> Globals::IVs({
   {Scene::tunnel, _InteriorView()},
   {Scene::chamber, _InteriorView()},
   {Scene::mine, _InteriorView()},
-  {Scene::farm, _InteriorView()},
   {Scene::hill, _InteriorView()},
   {Scene::allTunnels, _InteriorView()},
   });

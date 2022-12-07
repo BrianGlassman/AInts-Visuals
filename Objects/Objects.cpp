@@ -129,7 +129,6 @@ namespace Objects {
     std::shared_ptr<OBJ> MineBottomCap;
     std::shared_ptr<OBJ> MineFrontCap;
     std::shared_ptr<OBJ> MineBackCap;
-    // OBJ Farm;
 }
 
 void InitOBJs()

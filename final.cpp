@@ -26,10 +26,10 @@ static void init(int argc, char* argv[])
     #endif
 
     // Textures
-    // FIXME for SOME REASON having this load here makes the one inside textures.cpp work
+    // for SOME REASON having this load here makes the one inside textures.cpp work
     LoadTexBMP("Textures/", "dirtGroundTileable.bmp");
     InitTextures();
-    BindTexture("dirt"); // FIXME each thing should choose the right texture, not rely on this default
+    BindTexture("dirt");
 
     // Lighting
     initLighting();
@@ -85,7 +85,6 @@ void display()
     }
     case Scene::chamber:
     case Scene::mine:
-    case Scene::farm:
     case Scene::hill:
     {
         baseMag = 2;
@@ -100,7 +99,7 @@ void display()
         Fatal(999, "final.cpp::display: Unknown scene %d\n", Globals::sceneChoice);
     }
 
-    Globals::Lighting::directed->UpdatePosition(); // FIXME this should probably not be in display
+    Globals::Lighting::directed->UpdatePosition();
     Globals::Lighting::directed->Draw();
     
     if (displayModelPtr->created)
@@ -208,10 +207,6 @@ int main(int argc, char* argv[])
         mine.ApplyNoise();
         Globals::IVs.at(Scene::mine).pathHolder = &mine;
     }
-
-    if (true) // Farm // TODO // NORELEASE
-    { // NORELEASE
-    } // NORELEASE
 
     if (true) // Hill
     {
