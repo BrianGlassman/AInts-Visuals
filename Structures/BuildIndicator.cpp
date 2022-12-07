@@ -70,32 +70,32 @@ void BuildIndicator::HandleKey(unsigned char k)
 {
     if (Globals::toBuild == StructureType::NONE) return;
 
-	switch (k) {
-	// Movement
-	case 'w':
-	case 'W':
-		{
+    switch (k) {
+    // Movement
+    case 'w':
+    case 'W':
+        {
             center = center + Vector3Int::Backward;
-		}
-		break;
-	case 'a':
-	case 'A':
-		{
+        }
+        break;
+    case 'a':
+    case 'A':
+        {
             center = center + Vector3Int::Left;
-		}
-		break;
-	case 's':
-	case 'S':
-		{
+        }
+        break;
+    case 's':
+    case 'S':
+        {
             center = center + Vector3Int::Forward;
-		}
-		break;
-	case 'd':
-	case 'D':
-		{
+        }
+        break;
+    case 'd':
+    case 'D':
+        {
             center = center + Vector3Int::Right;
         }
-		break;
+        break;
     case 'r':
     case 'R':
         {
@@ -110,7 +110,7 @@ void BuildIndicator::HandleKey(unsigned char k)
         break;
     default:
         return;
-	}
+    }
 
     // If a change was made, have to re-generate
     Create();

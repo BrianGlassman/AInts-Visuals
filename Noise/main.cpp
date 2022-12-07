@@ -19,43 +19,43 @@ static void init(int argc, char* argv[]);
 void display();
 void SetCallbacks()
 {
-	glutDisplayFunc(display);
-	glutReshapeFunc(reshape);
-	glutVisibilityFunc(visible);
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+    glutVisibilityFunc(visible);
 
-	SetInputCallbacks();
+    SetInputCallbacks();
 
-	ErrCheck("SetCallbacks");
+    ErrCheck("SetCallbacks");
 }
 
 static void init(int argc, char* argv[])
 {
-	// Do all the OpenGL setup
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    // Do all the OpenGL setup
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 
-	// Window
-	CreateWindow();
+    // Window
+    CreateWindow();
 
-	#ifdef USEGLEW
-		if (glewInit() != GLEW_OK)
-		{
-			Fatal(1, "Error initializing GLEW\n");
-		}
-	#endif
+    #ifdef USEGLEW
+        if (glewInit() != GLEW_OK)
+        {
+            Fatal(1, "Error initializing GLEW\n");
+        }
+    #endif
 
-	// Wireframe
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // Wireframe
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	// Enable alpha
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_BLEND);
+    // Enable alpha
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
 
-	// Face culling and Z-buffering
-	// glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
+    // Face culling and Z-buffering
+    // glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
 
-	ErrCheck("init");
+    ErrCheck("init");
 }
 
 const static float baseVertices[][3] = {
@@ -114,7 +114,7 @@ void DrawPerturbedCube(float sideLength, float xCenter, float yCenter, float zCe
 
 void display()
 {
-	preDisplay();
+    preDisplay();
 
     static Cube cube;
 
@@ -123,8 +123,8 @@ void display()
     // Extents of the grid
     float mn = -1, mx = 1;
 
-	glDisable(GL_LIGHTING);
-	glDisable(GL_TEXTURE_2D);
+    glDisable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
 
     // Draw the perturbations
     glColor4f(1.0, 1.0, 0.6, 0.5);
@@ -183,10 +183,10 @@ void display()
         }
     }
 
-	glEnable(GL_LIGHTING);
-	glEnable(GL_TEXTURE_2D);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
 
-	postDisplay(2);
+    postDisplay(2);
 }
 
 int main(int argc, char* argv[])
@@ -197,10 +197,10 @@ int main(int argc, char* argv[])
 
     noisePtr = new Perlin();
 
-	ErrCheck("main");
-	glutMainLoop();
+    ErrCheck("main");
+    glutMainLoop();
 
-	fprintf(stdout, "Passed loop\n");
+    fprintf(stdout, "Passed loop\n");
     delete noisePtr;
-	return 99;
+    return 99;
 }

@@ -18,12 +18,12 @@ public:
     SideType sideType;
     
     // Whether there's a Structure in the neighboring position
-	bool   right = true; // +X
-	bool    left = true; // -X
-	bool     top = true; // +Y
-	bool  bottom = true; // -Y
-	bool forward = true; // +Z
-	bool    back = true; // -Z
+    bool   right = true; // +X
+    bool    left = true; // -X
+    bool     top = true; // +Y
+    bool  bottom = true; // -Y
+    bool forward = true; // +Z
+    bool    back = true; // -Z
     void SetSide(const Vector3Int direction, bool newVal)
     {
         auto hash = std::hash<Vector3Int>()(direction);
@@ -76,12 +76,12 @@ public:
 
     // Index of the vertex that is the endpoint in that direction
     // {vertex index within this Structure, index of neighboring Structure within the parent}
-	int   endpointRight = -1; // +X
-	int    endpointLeft = -1; // -X
-	int     endpointTop = -1; // +Y
-	int  endpointBottom = -1; // -Y
-	int endpointForward = -1; // +Z
-	int    endpointBack = -1; // -Z
+    int   endpointRight = -1; // +X
+    int    endpointLeft = -1; // -X
+    int     endpointTop = -1; // +Y
+    int  endpointBottom = -1; // -Y
+    int endpointForward = -1; // +Z
+    int    endpointBack = -1; // -Z
     int GetEndpoint(int EPidx)
     {
         switch (EPidx)

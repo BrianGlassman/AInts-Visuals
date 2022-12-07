@@ -83,7 +83,7 @@ void Hill::CreateTunnel()
     {
         for (float theta = 360; theta > 0; theta -= thetaD)
         {
-			{ // This column
+            { // This column
                 Polar2Cart(topRadius, theta, &x, &z);
                 z = -z;
 
@@ -98,7 +98,7 @@ void Hill::CreateTunnel()
                 vertices.push_back({x, y + dy, z});
             }
 
-			{ // Next column
+            { // Next column
                 Polar2Cart(topRadius, theta - thetaD, &x, &z);
                 z = -z;
 
@@ -135,7 +135,7 @@ void Hill::CreateCLHelper(std::vector<Vertex> &CLtoUse)
             vert.AddNeighbor(lastIdx);
         }
 
-		// Insert (MUST be after creation and linking)
+        // Insert (MUST be after creation and linking)
         CLtoUse.push_back(vert);
 
         // Increment
@@ -153,8 +153,8 @@ void Hill::CreateCenterline()
 void Hill::PreCreate()
 {
     Structure::PreCreate();
-	triIndices.clear();
-	quadIndices.clear();
+    triIndices.clear();
+    quadIndices.clear();
 }
 void Hill::Create()
 {
@@ -169,59 +169,59 @@ void Hill::Create()
 
 void Hill::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals)
 {
-	// OPTIM array-ification can happen in Create, doesn't need to be in Draw // NORELEASE
-	glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
-		// Convert vector of vectors to flat array
-		float vertexArray[drawVertices.size() * 3];
-		for (unsigned int i = 0; i < drawVertices.size(); i++)
-		{
-			vertexArray[i*3 + 0] = drawVertices[i][0];
-			vertexArray[i*3 + 1] = drawVertices[i][1];
-			vertexArray[i*3 + 2] = drawVertices[i][2];
-			// printf("vertexArray %d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]); // NORELEASE
-		}
-		float normalArray[drawNormals.size() * 3];
-		for (unsigned int i = 0; i < drawNormals.size(); i++)
-		{
-			normalArray[i*3 + 0] = drawNormals[i][0];
-			normalArray[i*3 + 1] = drawNormals[i][1];
-			normalArray[i*3 + 2] = drawNormals[i][2];
-		}
+    // OPTIM array-ification can happen in Create, doesn't need to be in Draw // NORELEASE
+    glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
+        // Convert vector of vectors to flat array
+        float vertexArray[drawVertices.size() * 3];
+        for (unsigned int i = 0; i < drawVertices.size(); i++)
+        {
+            vertexArray[i*3 + 0] = drawVertices[i][0];
+            vertexArray[i*3 + 1] = drawVertices[i][1];
+            vertexArray[i*3 + 2] = drawVertices[i][2];
+            // printf("vertexArray %d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]); // NORELEASE
+        }
+        float normalArray[drawNormals.size() * 3];
+        for (unsigned int i = 0; i < drawNormals.size(); i++)
+        {
+            normalArray[i*3 + 0] = drawNormals[i][0];
+            normalArray[i*3 + 1] = drawNormals[i][1];
+            normalArray[i*3 + 2] = drawNormals[i][2];
+        }
 
-		if (triIndices.size() > 0)
-		{ // Draw with GL_TRIANGLES
-			unsigned int triIndexArray[triIndices.size()];
-			for (unsigned int i = 0; i < triIndices.size(); i++)
-			{
-				triIndexArray[i] = triIndices[i];
-				// fprintf(stdout, "%d\n", triIndexArray[i]); // NORELEASE
-			}
-			// fprintf(stdout, "%d: %d\n", triIndices.size()-1, triIndexArray[triIndices.size()-1]); // Check for overflow // NORELEASE
+        if (triIndices.size() > 0)
+        { // Draw with GL_TRIANGLES
+            unsigned int triIndexArray[triIndices.size()];
+            for (unsigned int i = 0; i < triIndices.size(); i++)
+            {
+                triIndexArray[i] = triIndices[i];
+                // fprintf(stdout, "%d\n", triIndexArray[i]); // NORELEASE
+            }
+            // fprintf(stdout, "%d: %d\n", triIndices.size()-1, triIndexArray[triIndices.size()-1]); // Check for overflow // NORELEASE
 
-			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
-			glNormalPointer(GL_FLOAT, 0, normalArray);
-			glDrawElements(GL_TRIANGLES, triIndices.size(), GL_UNSIGNED_INT, triIndexArray);
-		}
+            glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+            glNormalPointer(GL_FLOAT, 0, normalArray);
+            glDrawElements(GL_TRIANGLES, triIndices.size(), GL_UNSIGNED_INT, triIndexArray);
+        }
 
-		if (quadIndices.size() > 0)
-		{ // Draw with GL_QUADS
-			unsigned int quadIndexArray[quadIndices.size()];
-			for (unsigned int i = 0; i < quadIndices.size(); i++)
-			{
-				quadIndexArray[i] = quadIndices[i];
-				// fprintf(stdout, "%d\n", quadIndexArray[i]); // NORELEASE
-			}
-			// fprintf(stdout, "%d: %d\n", quadIndices.size()-1, quadIndexArray[quadIndices.size()-1]); // Check for overflow // NORELEASE
+        if (quadIndices.size() > 0)
+        { // Draw with GL_QUADS
+            unsigned int quadIndexArray[quadIndices.size()];
+            for (unsigned int i = 0; i < quadIndices.size(); i++)
+            {
+                quadIndexArray[i] = quadIndices[i];
+                // fprintf(stdout, "%d\n", quadIndexArray[i]); // NORELEASE
+            }
+            // fprintf(stdout, "%d: %d\n", quadIndices.size()-1, quadIndexArray[quadIndices.size()-1]); // Check for overflow // NORELEASE
 
-			glVertexPointer(3, GL_FLOAT, 0, vertexArray);
-			glNormalPointer(GL_FLOAT, 0, normalArray);
-			glDrawElements(GL_QUADS, quadIndices.size(), GL_UNSIGNED_INT, quadIndexArray);
-		}
-	} glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
+            glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+            glNormalPointer(GL_FLOAT, 0, normalArray);
+            glDrawElements(GL_QUADS, quadIndices.size(), GL_UNSIGNED_INT, quadIndexArray);
+        }
+    } glDisableClientState(GL_VERTEX_ARRAY); glDisableClientState(GL_NORMAL_ARRAY);
 }
 void Hill::Draw(bool hasControl)
 {
-	if (Toggles::showNormals) DrawNormals(0.2);
+    if (Toggles::showNormals) DrawNormals(0.2);
 
     if (hasControl)
     {
@@ -237,34 +237,34 @@ void Hill::Draw(bool hasControl)
     }
 
 
-	glPushMatrix(); {
-		glTranslatef(center[0], center[1], center[2]);
+    glPushMatrix(); {
+        glTranslatef(center[0], center[1], center[2]);
 
-		// Perturbed geometry
-		if (Toggles::Noise::showPerturbed)
-			DrawHelper(vertices, normals);
+        // Perturbed geometry
+        if (Toggles::Noise::showPerturbed)
+            DrawHelper(vertices, normals);
 
-		// Baseline geometry
-		if (Toggles::Noise::showBase)
-		{
-			if (Toggles::Noise::showPerturbed && hasControl)
-			{ // Use white, transparent wireframe
-				SetColor(1, 1, 1, 0.5);
-				glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
-				glDisable(GL_TEXTURE_2D);
-				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			} // else: Use colored, textured geometry
+        // Baseline geometry
+        if (Toggles::Noise::showBase)
+        {
+            if (Toggles::Noise::showPerturbed && hasControl)
+            { // Use white, transparent wireframe
+                SetColor(1, 1, 1, 0.5);
+                glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
+                glDisable(GL_TEXTURE_2D);
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            } // else: Use colored, textured geometry
 
-			DrawHelper(baseVertices, baseNormals);
+            DrawHelper(baseVertices, baseNormals);
 
             // Reset if changes were made
-			if (Toggles::Noise::showPerturbed && hasControl)
-			{
-				glPopAttrib();
-				SetColor(1, 1, 1, 1);
-			}
-		}
-	} glPopMatrix();
+            if (Toggles::Noise::showPerturbed && hasControl)
+            {
+                glPopAttrib();
+                SetColor(1, 1, 1, 1);
+            }
+        }
+    } glPopMatrix();
 
     if (hasControl)
     {

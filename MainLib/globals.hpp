@@ -69,7 +69,7 @@ namespace Globals
     extern float tunnelNoiseScale;
     extern float chamberNoiseScale;
     extern StructureType toBuild;
-	extern SetColorMode setColorMode;
+    extern SetColorMode setColorMode;
 }
 
 //-------------------

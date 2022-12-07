@@ -16,45 +16,45 @@ static void init(int argc, char* argv[]);
 void display();
 void SetCallbacks()
 {
-	glutDisplayFunc(display);
-	//FIXME
-	glutReshapeFunc(reshape);
-	glutVisibilityFunc(visible);
+    glutDisplayFunc(display);
+    //FIXME
+    glutReshapeFunc(reshape);
+    glutVisibilityFunc(visible);
 
-	SetInputCallbacks();
+    SetInputCallbacks();
 
-	ErrCheck("SetCallbacks");
+    ErrCheck("SetCallbacks");
 }
 
 static void init(int argc, char* argv[])
 {
-	// Do all the OpenGL setup
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    // Do all the OpenGL setup
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 
-	// Window
-	CreateWindow();
+    // Window
+    CreateWindow();
 
-	#ifdef USEGLEW
-		if (glewInit() != GLEW_OK)
-		{
-			Fatal(1, "Error initializing GLEW\n");
-		}
-	#endif
+    #ifdef USEGLEW
+        if (glewInit() != GLEW_OK)
+        {
+            Fatal(1, "Error initializing GLEW\n");
+        }
+    #endif
 
-	ErrCheck("init");
+    ErrCheck("init");
 }
 
 void display()
 {
-	preDisplay();
+    preDisplay();
 
-	glDisable(GL_LIGHTING); // FIXME for some reason have to do this every loop?
+    glDisable(GL_LIGHTING); // FIXME for some reason have to do this every loop?
 
     static Cube cube;
     cube.Draw();
 
-	postDisplay(2);
+    postDisplay(2);
 }
 
 int main(int argc, char* argv[])
@@ -62,14 +62,14 @@ int main(int argc, char* argv[])
     init(argc, argv);
 
     SetCallbacks();
-	
+    
     display();
 
-	Menus::CreateMenus();
+    Menus::CreateMenus();
 
-	ErrCheck("main");
-	glutMainLoop();
+    ErrCheck("main");
+    glutMainLoop();
 
-	fprintf(stdout, "Passed loop\n");
-	return 99;
+    fprintf(stdout, "Passed loop\n");
+    return 99;
 }

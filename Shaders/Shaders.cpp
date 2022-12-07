@@ -16,10 +16,10 @@ void UseShader(int shader); // Forward declaration
 void InitShaders()
 {
    Shader::brickShader = CreateShaderProg("model.vert", "brick.frag");
-	Shader::threeDshader = CreateShaderProg("pixtex.vert", "pixtex.frag");
+    Shader::threeDshader = CreateShaderProg("pixtex.vert", "pixtex.frag");
 
-	// Use brick shader as a scream test
-	UseShader(Shader::brickShader);
+    // Use brick shader as a scream test
+    UseShader(Shader::brickShader);
 }
 
 void UseShader(int shader)
