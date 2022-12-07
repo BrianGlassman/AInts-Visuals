@@ -134,28 +134,26 @@ namespace Objects {
 
 void InitOBJs()
 {
-    std::vector<Vector3> MineColors({
-        {256/256.0, 200/256.0, 150/256.0}, // Ore
-        {1, 1, 1}, // Outer surface - white to show texture
-        {0.4, 0.4, 0.5}, // Inner surface
-    });
+    Vector3 ore({256/256.0, 200/256.0, 150/256.0}); // Rust-colored iron ore
+    Vector3 outer({1, 1, 1}); // Unchanged texture
+    Vector3 inner({0.4, 0.4, 0.5}); // Greyer, rockier soil
 
     float mineScale = 115;
 
     Objects::MineCore = std::make_shared<OBJ>("Mine4-0.obj", mineScale);
-    Objects::MineCore->OBJcolors = MineColors;
+    Objects::MineCore->OBJcolors = {ore, outer, inner};
     Objects::MineRightCap = std::make_shared<OBJ>("Mine4-1.obj", mineScale);;
-    Objects::MineRightCap->OBJcolors = MineColors;
+    Objects::MineRightCap->OBJcolors = {outer};
     Objects::MineLeftCap = std::make_shared<OBJ>("Mine4-6.obj", mineScale);
-    Objects::MineLeftCap->OBJcolors = MineColors;
+    Objects::MineLeftCap->OBJcolors = {ore, outer, inner};
     Objects::MineTopCap = std::make_shared<OBJ>("Mine4-2.obj", mineScale);
-    Objects::MineTopCap->OBJcolors = MineColors;
+    Objects::MineTopCap->OBJcolors = {ore, outer, inner};
     Objects::MineBottomCap = std::make_shared<OBJ>("Mine4-3.obj", mineScale);
-    Objects::MineBottomCap->OBJcolors = MineColors;
+    Objects::MineBottomCap->OBJcolors = {outer, inner};
     Objects::MineFrontCap = std::make_shared<OBJ>("Mine4-4.obj", mineScale);
-    Objects::MineFrontCap->OBJcolors = MineColors;
+    Objects::MineFrontCap->OBJcolors = {outer, inner};
     Objects::MineBackCap = std::make_shared<OBJ>("Mine4-5.obj", mineScale);
-    Objects::MineBackCap->OBJcolors = MineColors;
+    Objects::MineBackCap->OBJcolors = {ore, outer, inner};
     // Something is very wrong though
     // Still drawing the outer sphere, and also the cube walls aren't getting changed by the scaling factor
 }

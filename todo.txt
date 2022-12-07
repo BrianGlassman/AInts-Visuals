@@ -1,6 +1,4 @@
 
-Mine coloring
-
 toggle for texture usage
 
 specular lighting doesn't do anything?
