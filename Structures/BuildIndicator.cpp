@@ -57,7 +57,7 @@ void BuildIndicator::SetModel(StructureType type)
         break;
     case StructureType::Delete:
         model = colony->GetChild(center);
-        return; // <-- return, not break
+        break;
     default:
         Fatal(999, "BuildIndicator::SetModel Unrecognized StructureType %d\n", type);
     }

@@ -1,5 +1,5 @@
 
-Going from building something to Delete doesn't spawn the Delete cube
+Mine buildIndicator shows up too dark
 
 hotkeys to show off functionality
 	PROMINENTLY documented in README

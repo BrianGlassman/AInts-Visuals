@@ -73,6 +73,7 @@ TODO. Known Issues
 	B. Low framerate in fullscreen, likely because of the computations involved in 3D texturing.
 	C. The Right-Click > Build menu is visible in Interior View, although it has no effect.
 	D. When placing/deleting a building, the movement mapping is locked to world coordinates rather than changing as the camera is rotated.
+	E. Placing/deleting a building re-generates geometry for the entire colony, which can get very slow if there are multiple mines
 
 TODO. Future Work
 	A. Add more variety in the textures, and/or using a noise algorithm to generate the 3D texture rather than slicing a 2D texture.
