@@ -25,19 +25,6 @@ do what prof said: make a wrapper that sets color AND material, and use this eve
 also make textures brighter
 
 
-[thanksgiving] buildings: farm
-[thanksgiving] ants
-[thanksgiving] cutaway view
-	idea: somehow invert the Z-buffer or something. Only render parts of the building that would be occluded by chamber walls
-	ex 37(maybe? Whatever was shown in class 12/1) deals with the stencil buffer, so may be helpful here
-		IMPORTANT NOTE: stencil buffer is complicated, so should rewatch this lecture if I end up using stencil buffer
-	could maybe do something involving setting the stencil buffer per-chamber, and clear it at the start of the next chamber
-	also might be able to set VALUES in the stencil buffer. So only draw if the Z-buffer value is greater/less than the value stored in the stencil buffer
-	could also do some trick using textures? See example whatever-was-second-half-of-12/1
-
-have "Toggle wireframe" show a wireframe with polygon offset even when filled geometry is active
-add "Toggle filled"
-
 
 
 
@@ -48,30 +35,37 @@ should check which menu options don't currently work and implement or remove the
 	...?
 
 
+for release: remove everything that has a "// NORELEASE" tag
+	CANNOT just delete the lines. Sometimes the tag just means a comment that's part of the line
+
+README update
+
+
+have "Toggle wireframe" show a wireframe with polygon offset even when filled geometry is active
+add "Toggle filled"
+
+
+
+SHOULD DO, BUT PROBABLY WON'T
+------------------------------
+
+[thanksgiving] buildings: farm
+
+[thanksgiving] ants
+
+[thanksgiving] cutaway view
+	idea: somehow invert the Z-buffer or something. Only render parts of the building that would be occluded by chamber walls
+	ex 37(maybe? Whatever was shown in class 12/1) deals with the stencil buffer, so may be helpful here
+		IMPORTANT NOTE: stencil buffer is complicated, so should rewatch this lecture if I end up using stencil buffer
+	could maybe do something involving setting the stencil buffer per-chamber, and clear it at the start of the next chamber
+	also might be able to set VALUES in the stencil buffer. So only draw if the Z-buffer value is greater/less than the value stored in the stencil buffer
+	could also do some trick using textures? See example whatever-was-second-half-of-12/1
+
+[thanksgiving] [optional] have a player option in exterior view for switching between back-cull (exterior) and front-cull (interior) for tunnel/chamber walls
 
 should add a check "glGetIntegervl(GL_MAX_TEXTURE_UNITS, n)" where n is however many textures I need to use
 	there's also a check for max texture size
 	basically just look at whatever example he's going through about 50 minutes into class on 12/1
-
-
-
-something wrong with Makefile again. Was getting a bad_alloc that got fixed by clean-then-make
-
-for release: remove everything that has a "// NORELEASE" tag
-	CANNOT just delete the lines. Sometimes the tag just means a comment that's part of the line
-
-
-
-
-have a player option in exterior view for switching between back-cull (exterior) and front-cull (interior) for tunnel/chamber walls
-
-
-[stretch0] texture variations
-[stretch1] merge adjacent chambers
-[stretch2] shadowing
-[stretch3] custom shader for cutatways to create a smooth cut
-[stretch4] animations to ants/buildings
-[stretch5] collision detection for interior view movement
 
 
 OPTIONAL IMPROVEMENTS
@@ -98,12 +92,21 @@ make orbiting lights based on fixed speed, not display speed
 would like to have better 3D navigation for interior view, but the vector math gets nasty
 	current version has "up" locked to Y axis, so turning is always around that axis instead of relative to view
 
+[stretch0] texture variations
+[stretch1] merge adjacent chambers
+[stretch2] shadowing
+[stretch3] custom shader for cutatways to create a smooth cut
+[stretch4] animations to ants/buildings
+[stretch5] collision detection for interior view movement
 
 
 
 
 HOPEFULLY DONE
 ---------------
+[STATUS] stashed and labelled the changeset, but it hasn't happened since
+something wrong with Makefile again. Was getting a bad_alloc that got fixed by clean-then-make
+
 I think that the normals are being perturbed correctly, but it's hard to tell for sure. Especially on more complex surfaces.
 
 [SOLUTION] Hopefully this has been fixed by using "float azimuth = 0, elevation = 0" instead of "float azimuth, elevation" but need to keep an eye on it

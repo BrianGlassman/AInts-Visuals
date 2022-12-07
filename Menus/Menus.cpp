@@ -180,6 +180,9 @@ namespace Callbacks{ void Gizmos(int val)
         if (Toggles::Display::faceCulling) glEnable(GL_CULL_FACE);
         else glDisable(GL_CULL_FACE);
         break;
+    case 7:
+        CycleSetColor();
+        break;
     default:
         Fatal(999, "Unknown val %d to Gizmos callback\n", val);
     }
@@ -188,7 +191,8 @@ GizmosMenu::GizmosMenu()
 {
     name = "Gizmos";
     buttons = { "Toggle Debug", "Toggle Wireframe", "Toggle Axes", "Toggle Normals",
-                "Toggle Centerlines", "Toggle Movement Printout", "Toggle Face Culling" };
+                "Toggle Centerlines", "Toggle Movement Printout", "Toggle Face Culling",
+                "Cycle SetColor Mode" };
     callback = Callbacks::Gizmos;
 };
 

@@ -1,5 +1,6 @@
 #include "util.hpp"
 #include "Shaders.hpp"
+#include "globals.hpp"
 
 /*
  *  Convert polar to Cartesian coordinates
@@ -31,21 +32,18 @@ void DrawAxes(float scale)
 					glVertex3d(ORIGIN);
 					glVertex3d(X_AXIS);
 			} glEnd();
-			glRasterPos3d(X_AXIS);
 			
 			glColor3f(0,1,0);
 			glBegin(GL_LINES); {
 					glVertex3d(ORIGIN);
 					glVertex3d(Y_AXIS);
 			} glEnd();
-			glRasterPos3d(Y_AXIS);
 			
 			glColor3f(0,0,1);
 			glBegin(GL_LINES); {
 					glVertex3d(ORIGIN);
 					glVertex3d(Z_AXIS);
 			} glEnd();
-			glRasterPos3d(Z_AXIS);
 	} glPopMatrix();
 	
 	glPopAttrib();
@@ -86,4 +84,42 @@ void DrawLitQuad(const float A[], const float B[], const float C[], const float 
 	glTexCoord2f(0, 1);
 	glVertex3f(D[0],D[1],D[2]);
 	glEnd();
+}
+
+void CycleSetColor()
+{
+	Globals::setColorMode++;
+	switch (Globals::setColorMode)
+	{
+	case SetColorMode::glColor:
+		printf("SetColor Mode set to: glColor\n");
+		break;
+	case SetColorMode::materialProps:
+		printf("SetColor Mode set to: material properties\n");
+		break;
+	case SetColorMode::both:
+		printf("SetColor Mode set to: both\n");
+		// TODO
+		break;
+	default:
+		Fatal(999, "Unrecognized SetColorMode");
+	}
+}
+void SetColor(float r, float g, float b, float a)
+{
+	switch (Globals::setColorMode)
+	{
+	case SetColorMode::glColor:
+		glColor4f(r, g, b, a);
+		break;
+	case SetColorMode::materialProps:
+		glColor4f(g, r, g, a); // TODO (this is just for now)
+		break;
+	case SetColorMode::both:
+		glColor4f(r, g, b, a);
+		// TODO
+		break;
+	default:
+		Fatal(999, "Unrecognized SetColorMode");
+	}
 }

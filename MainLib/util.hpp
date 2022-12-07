@@ -14,3 +14,6 @@ void Polar2Cart(float radius, float theta, float* x_out, float* y_out);
 void DrawAxes(float scale);
 
 void DrawLitQuad(const float A[], const float B[], const float C[], const float D[]);
+
+void CycleSetColor();
+void SetColor(float r, float g, float b, float a = 1.0);

@@ -56,11 +56,19 @@ namespace Toggles
 //--------
 // Values
 //--------
+// Enum that can be incremented or decremented, adapted from https://stackoverflow.com/a/15451002
+enum class SetColorMode : unsigned { START_OF_LIST, glColor, materialProps, both, END_OF_LIST };
+SetColorMode& operator++(SetColorMode &val );
+SetColorMode operator++(SetColorMode &val, int );
+SetColorMode& operator--(SetColorMode &val );
+SetColorMode operator--(SetColorMode &val, int );
+
 namespace Globals
 {
     extern float tunnelNoiseScale;
     extern float chamberNoiseScale;
     extern StructureType toBuild;
+	extern SetColorMode setColorMode;
 }
 
 //-------------------

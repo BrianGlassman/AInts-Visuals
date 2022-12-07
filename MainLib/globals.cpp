@@ -26,6 +26,35 @@ bool Toggles::printMove = false;
 float Globals::tunnelNoiseScale =  0.3;
 float Globals::chamberNoiseScale = 0.3;
 StructureType Globals::toBuild = StructureType::NONE;
+SetColorMode Globals::setColorMode = SetColorMode::glColor;
+// Special behavior for ++SetColorMode
+SetColorMode& operator++(SetColorMode &val ) {
+  using IntType = typename std::underlying_type<SetColorMode>::type;
+  val = static_cast<SetColorMode>( static_cast<IntType>(val) + 1 );
+  if (val == SetColorMode::END_OF_LIST )
+    val = static_cast<SetColorMode>( static_cast<IntType>(SetColorMode::START_OF_LIST) + 1 );
+  return val;
+}
+// Special behavior for SetColorMode++
+SetColorMode operator++(SetColorMode &val, int ) {
+  SetColorMode result = val;
+  ++val;
+  return result;
+}
+// Special behavior for --SetColorMode
+SetColorMode& operator--(SetColorMode &val ) {
+  using IntType = typename std::underlying_type<SetColorMode>::type;
+  val = static_cast<SetColorMode>( static_cast<IntType>(val) - 1 );
+  if (val == SetColorMode::START_OF_LIST )
+    val = static_cast<SetColorMode>( static_cast<IntType>(SetColorMode::END_OF_LIST) - 1 );
+  return val;
+}
+// Special behavior for SetColorMode--
+SetColorMode operator--(SetColorMode &val, int ) {
+  SetColorMode result = val;
+  --val;
+  return result;
+}
 
 //-------------------
 // Input --> Display
