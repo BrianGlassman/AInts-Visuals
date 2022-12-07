@@ -35,7 +35,6 @@ void Project()
     default: // default to exterior (orthographic)
         //  Orthogonal projection box adjusted for the aspect ratio of the window
         {
-            // OPTIM scale based on the smaller of width/height rather than always using height
             double asp = (windowHeight>0) ? (double)windowWidth/windowHeight : 1;
             float maxMag = baseMag * Globals::mouse_zoom;
             // glOrtho(left, right, bottom, top, near, far)

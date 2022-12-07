@@ -21,7 +21,6 @@ public:
     Vector3 center = {0.0f, 0.0f, 0.0f};
     bool created = false;
 
-    // OPTIM should find a way to get rid of this // NORELEASE
     std::vector<Vertex>* getCL() { Fatal(999, "Called Model's getCL\n"); return NULL; }
 
     virtual void PreCreate();

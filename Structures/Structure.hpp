@@ -8,7 +8,7 @@ enum class SideType
 {
     closed = 0,
     tunnel = 1,
-    chamber = 1, // CHAMBERCONNECT set to 2 when ready to handle chambers // NORELEASE
+    chamber = 1,
     hill = 2, // Gives a way to only connect to the bottom of hills
 };
 

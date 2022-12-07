@@ -38,14 +38,6 @@ void Corner::SetRotateAndScale()
             meshScale[0] = 1; meshScale[1] = 1; meshScale[2] = 1;
             windCW = false;
         }
-        else // CHAMBERCONNECT // NORELEASE
-        { // NORELEASE
-            // y >= x >= z - Switch X and Y // NORELEASE
-            // NOTE: only used once chambers matter // NORELEASE
-            // meshRotate[0] = 0; meshRotate[1] =  0; meshRotate[2] = 90; // NORELEASE
-            // meshScale[0] = -1; meshScale[1] = 1; meshScale[2] = 1; // NORELEASE
-            // windCW = false; // NORELEASE
-        }
     }
     else if (surroundings.z >= surroundings.x && surroundings.z >= surroundings.y)
     {
@@ -56,14 +48,6 @@ void Corner::SetRotateAndScale()
             meshScale[0] = 1; meshScale[1] = 1; meshScale[2] = 1;
             windCW = false;
         }
-        else // CHAMBERCONNECT // NORELEASE
-        { // NORELEASE
-            // z >= y >= x // NORELEASE
-            // NOTE: only used once chambers matter // NORELEASE
-            // meshRotate[0] = 0; meshRotate[1] = -90; meshRotate[2] = 0; // NORELEASE
-            // meshScale[0] = -1; meshScale[1] = 1; meshScale[2] = 1; // NORELEASE
-            // windCW = false; // NORELEASE
-        } // NORELEASE
     }
     else
     {
@@ -141,7 +125,6 @@ void Corner::CreateCoreOuter(int i0, int i1, float c1, int i2, float c2)
     coords[i0] = 0; coords[i1] = c1; coords[i2] = c2;
     indices.push_back(vertices.size());
     normals.push_back(coords);
-    // OPTIM texture // NORELEASE
     coords[i0] = radius;
     vertices.push_back(coords);
 }
@@ -164,7 +147,6 @@ void Corner::CreateArm(int i0, int i1, int i2, bool reverse)
             // Outer edge (Inner if reversed)
             indices.push_back(vertices.size());
             normals.push_back(coords);
-            // OPTIM texture // NORELEASE
             coords[i0] = reverse ? x : x + d;
             vertices.push_back(coords);
 
@@ -172,7 +154,6 @@ void Corner::CreateArm(int i0, int i1, int i2, bool reverse)
             coords[i0] = 0;
             indices.push_back(vertices.size());
             normals.push_back(coords);
-            // OPTIM texture // NORELEASE
             coords[i0] = reverse ? x + d : x;
             vertices.push_back(coords);
         }
@@ -194,7 +175,6 @@ void Corner::XTunnel(bool makeY, bool makeZ)
 
         // Inner point
         indices.push_back(vertices.size());
-        // OPTIM texture // NORELEASE
         if (makeY)
         {
             if (makeZ)
@@ -240,7 +220,6 @@ void Corner::YTunnel(bool makeZ)
             float y = z;
             indices.push_back(vertices.size());
             normals.push_back({x, 0, z});
-            // OPTIM texture // NORELEASE
             vertices.push_back({x, y, z});
         }
         else
@@ -248,7 +227,6 @@ void Corner::YTunnel(bool makeZ)
             float y = x;
             indices.push_back(vertices.size());
             normals.push_back({x, 0, z});
-            // OPTIM texture // NORELEASE
             vertices.push_back({x, y, z});
         }
 
@@ -289,7 +267,6 @@ void Corner::Create()
 
     SetRotateAndScale();
 
-    // CHAMBERCONNECT need a second key to handle diagonals eventually // NORELEASE
     switch(surroundings.sqrMagnitude())
     {
     case 0:
@@ -307,7 +284,6 @@ void Corner::Create()
         YTunnel(true);
         ZTunnel();
         break;
-    // CHAMBERCONNECT handle chambers, too // NORELEASE
     default:
         Fatal(999, "Unknown connection %d\n", surroundings.sqrMagnitude());
     }
@@ -358,7 +334,6 @@ void Corner::Create()
 
 void Corner::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals)
 {
-    // OPTIM array-ification can happen in Create, doesn't need to be in Draw // NORELEASE
     glEnableClientState(GL_VERTEX_ARRAY); glEnableClientState(GL_NORMAL_ARRAY); {
         // Convert vector of vectors to flat array
         float vertexArray[drawVertices.size() * 3];

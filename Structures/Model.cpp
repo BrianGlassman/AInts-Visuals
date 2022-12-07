@@ -278,7 +278,6 @@ void Cylinder::Draw(bool hasControl)
           }
 
           // Bottom
-        // OPTIM texture is probably swirly // NORELEASE
           if (bottom)
           {
                glBegin(GL_TRIANGLE_FAN); {
@@ -389,7 +388,6 @@ void Sphere::Draw(bool hasControl)
             glBegin(GL_QUAD_STRIP);
             for (int theta = 0; theta <= 360; theta += d)
             {
-                // OPTIM texture // NORELEASE
                 Polar2Cart(r0, theta, &x, &z);
                 glNormal3d(x, y0, z);
                 glVertex3d(x, y0, z);
