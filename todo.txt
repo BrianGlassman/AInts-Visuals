@@ -1,31 +1,9 @@
 
-[RELEASE] do all the ./find things
-
-[RELEASE] Get rid of Debug menu option for Release
-
-[RELEASE] clean out old and unused code / files
-	main.cpp for menus, noise
-
 README documentation of overall code structure?
 
 go through Key and Special functions, make sure all the keys are documented in README
 
 include time spent in README
-
-check for anything substantially uncommented and comment it
-
-[RELEASE] default to not showing the light source trace (red and blue lines) because that might be what's causing the problem
-
-
-should check which menu options don't currently work and implement or remove them
-	toggle ambient light
-	toggle directed light
-	toggle smooth/flat shadows
-	...?
-
-
-for release: remove everything that has a "// NORELEASE" tag
-	CANNOT just delete the lines. Sometimes the tag just means a comment that's part of the line
 
 README update
 
