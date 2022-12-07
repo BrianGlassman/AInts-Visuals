@@ -68,11 +68,10 @@ for vertex in vertices:
         outer_edge = mx
 print(f"Outer edge = {outer_edge}")
 
-# Remove MV box corners
 edgeMap = ['1-INDEX']
 skipped = 0
 for i, vertex in enumerate(vertices):
-    if any(abs(v) == outer_edge for v in vertex):
+    if all(abs(v) == outer_edge for v in vertex):
         skipped += 1
         edgeMap.append(None)
     else:
