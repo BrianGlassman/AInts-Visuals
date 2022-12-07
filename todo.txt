@@ -3,6 +3,11 @@ OPTIM: could remove faces on outer edges of caps
 	
 Core outer edges of caps should be removed (including Right)
 
+{
+	make interior eye position stop moving when new structures are added
+	Errors out if you delete the Structure that eyePoint is inside of
+} can solve both these by having it set CL idx to be whichever one is closest to where it used to be on building create/Destroy
+
 make UseShader private, force everything to use Push/Pop
 
 PROBLEMS:
@@ -49,7 +54,6 @@ should check which menu options don't currently work and implement or remove the
 	...?
 
 
-make interior eye position stop moving when new structures are added
 
 should add a check "glGetIntegervl(GL_MAX_TEXTURE_UNITS, n)" where n is however many textures I need to use
 	there's also a check for max texture size
