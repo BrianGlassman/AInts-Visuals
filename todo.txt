@@ -5,10 +5,8 @@ OPTIM: could maybe remove the sides of caps, but would have to have a way to mak
 	Errors out if you delete the Structure that eyePoint is inside of
 } can solve both these by having it set CL idx to be whichever one is closest to where it used to be on building create/Destroy
 
-make UseShader private, force everything to use Push/Pop
-
-need to test a large colony with several mines, make sure the FPS keeps up
-	if not, have to start optimizing. Start with the array creation
+FPS tanks in full screen, especially when inside the Mine
+	implies the problem is with per-pixel calculations (shader) not caused by array-ification
 
 specular lighting doesn't do anything?
 	did I set the shininess?
@@ -36,8 +34,6 @@ also make textures brighter
 	could maybe do something involving setting the stencil buffer per-chamber, and clear it at the start of the next chamber
 	also might be able to set VALUES in the stencil buffer. So only draw if the Z-buffer value is greater/less than the value stored in the stencil buffer
 	could also do some trick using textures? See example whatever-was-second-half-of-12/1
-
-figure out how to do 3d texturing that can handle Z axis lines
 
 have "Toggle wireframe" show a wireframe with polygon offset even when filled geometry is active
 add "Toggle filled"

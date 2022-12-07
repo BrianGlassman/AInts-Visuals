@@ -90,9 +90,6 @@ void preDisplay()
 		FatalDef();
 	}
 
-	// Use brick shader as a scream test
-	UseShader(Shader::brickShader);
-
 	ErrCheck("PreDisplay");
 }
 

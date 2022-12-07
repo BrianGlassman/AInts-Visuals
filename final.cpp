@@ -112,9 +112,6 @@ void display()
 		displayModelPtr->Draw();
 	}
 
-	//  Revert to fixed pipeline // FIXME shouldn't do this
-	UseShader(Shader::fixedPipeline);
-
 	if (Globals::toBuild != StructureType::NONE) buildIndicator.Draw();
 
 	if (Toggles::Noise::showPVectors) noisePtr->DrawNoise();
