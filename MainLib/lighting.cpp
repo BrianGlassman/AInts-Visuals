@@ -40,7 +40,7 @@ void initLighting()
 }
 
 
-Light::Light(float ambient, float diffuse, float specular)
+Light::Light(float _ambient, float _diffuse, float _specular)
 {
 	// Assign an ID
 	if (nextID > 7) Fatal(999, "Ran out of lights\n");
@@ -53,9 +53,15 @@ Light::Light(float ambient, float diffuse, float specular)
 	active = true;
 
 	// Translate intensity to color vectors
-	SetAmbientLevel(ambient);
-	SetDiffuseLevel(diffuse);
-	SetSpecularLevel(specular);
+	SetAmbientLevel(_ambient);
+	ambient = _ambient;
+	ambientActive = (_ambient > 0);
+	SetDiffuseLevel(_diffuse);
+	diffuse = _diffuse;
+	diffuseActive = (_diffuse > 0);
+	SetSpecularLevel(_specular);
+	specular = _specular;
+	specularActive = (_specular > 0);
 
 	// fprintf(stdout, "(Creation) Light pos = (%f, %f, %f), elevation = %f\n", position[0], position[1], position[2]); // NORELEASE
 }
@@ -83,6 +89,31 @@ void Light::SetDiffuseLevel(float level)
 void Light::SetSpecularLevel(float level)
 {
 	SetLightfv(GL_SPECULAR, level);
+}
+
+void Light::Crement(float val)
+{
+	if (ambientActive)
+	{
+		ambient += val;
+		if (ambient > 1.0) ambient = 1.0;
+		if (ambient < 0.0) ambient = 0.0;
+		SetAmbientLevel(ambient);
+	}
+	if (diffuseActive)
+	{
+		diffuse += val;
+		if (diffuse > 1.0) diffuse = 1.0;
+		if (diffuse < 0.0) diffuse = 0.0;
+		SetDiffuseLevel(diffuse);
+	}
+	if (specularActive)
+	{
+		specular += val;
+		if (specular > 1.0) specular = 1.0;
+		if (specular < 0.0) specular = 0.0;
+		SetSpecularLevel(specular);
+	}
 }
 
 OrbitLight::OrbitLight(float ambient, float diffuse, float specular) : Light(ambient, diffuse, specular)

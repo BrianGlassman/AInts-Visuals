@@ -12,6 +12,7 @@ CSCI 5229 (graduate)
 		- "[" and "]" will cycle through the available scenes: A full colony (the main, default scene), individual views of the different buildings, and a test of tunnel interconnection.
 		- "\" will go back to the full colony scene
 		- "m" will cycle between interior and exterior views
+		- "-" and "=" will decrease or increase, respectively, the ambient light levels. "_" and "+" will do the same for the directed light
 	B. Exterior view
 		- Moving the mouse towards the edges of the window will rotate the camera around the origin
 		- The red square shows where the eye position for the interior view is located

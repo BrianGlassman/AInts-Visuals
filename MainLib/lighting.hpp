@@ -38,11 +38,18 @@ public:
 	void SetAmbientLevel(float level);
 	void SetDiffuseLevel(float level);
 	void SetSpecularLevel(float level);
+	void Increment() { Crement( 0.1); }
+	void Decrement() { Crement(-0.1); }
 protected:
 	GLenum id;
 	bool active;
 	float position[4] = {0, 0, 0, 0}; // MUST be a float[4] (supposedly)
 
+	float ambient; bool ambientActive;
+	float diffuse; bool diffuseActive;
+	float specular; bool specularActive;
+
+	void Crement(float val); // Called by Increment/Decrement
 	void SetLightfv(GLenum pname, float level);
 };
 

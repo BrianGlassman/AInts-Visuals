@@ -17,8 +17,6 @@ FPS tanks in full screen, especially when inside the Mine
 
 build on Windows box
 
-	
-option to increase the light levels
 
 Build menu shouldn't be accessible in Interior View
 

@@ -1,6 +1,7 @@
 
 #include "input.hpp"
 #include "globals.hpp"
+#include "lighting.hpp"
 #include "window.hpp"
 
 
@@ -144,6 +145,18 @@ void key(unsigned char k, int x, int y)
 		lightMode = 1 - lightMode;
 		break;
 	*/
+	case '-':
+		Globals::Lighting::ambient->Decrement();
+		break;
+	case '_':
+		Globals::Lighting::directed->Decrement();
+		break;
+	case '=':
+		Globals::Lighting::ambient->Increment();
+		break;
+	case '+':
+		Globals::Lighting::directed->Increment();
+		break;
 	case '[':
 		Globals::sceneChoice--;
 		Globals::InteriorView = &(Globals::IVs.at(Globals::sceneChoice));

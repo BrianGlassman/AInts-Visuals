@@ -59,10 +59,10 @@ loadobj.o: $(CLIBDIR)/loadobj.c $(CLIBDIR)/CSCIx229.h
 globals.o: $(MLIBDIR)/globals.cpp $(MLIBDIR)/globals.hpp
 Vector.o: $(MLIBDIR)/Vector.cpp $(MLIBDIR)/Vector.hpp
 Vertex.o: $(MLIBDIR)/Vertex.cpp $(MLIBDIR)/Vertex.hpp
+lighting.o: $(MLIBDIR)/lighting.cpp $(MLIBDIR)/lighting.hpp $(MLIBDIR)/globals.hpp
 # Everything else depends on some combination of the above
 display.o: $(MLIBDIR)/display.cpp $(MLIBDIR)/display.hpp $(MLIBDIR)/globals.hpp $(MLIBDIR)/util.hpp
-input.o: $(MLIBDIR)/input.cpp $(MLIBDIR)/input.hpp $(MLIBDIR)/globals.hpp
-lighting.o: $(MLIBDIR)/lighting.cpp $(MLIBDIR)/lighting.hpp $(MLIBDIR)/globals.hpp
+input.o: $(MLIBDIR)/input.cpp $(MLIBDIR)/input.hpp $(MLIBDIR)/globals.hpp $(MLIBDIR)/lighting.hpp
 textures.o: $(MLIBDIR)/textures.cpp $(MLIBDIR)/textures.hpp $(MLIBDIR)/globals.hpp
 util.o: $(MLIBDIR)/util.cpp $(MLIBDIR)/util.hpp $(MLIBDIR)/globals.hpp
 window.o: $(MLIBDIR)/window.cpp $(MLIBDIR)/window.hpp $(MLIBDIR)/globals.hpp
