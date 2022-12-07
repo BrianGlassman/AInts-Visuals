@@ -26,18 +26,18 @@ BASE_CLEAN=rm -f final *.o *.a
 #---------------
 #  Msys/MinGW
 ifeq "$(OS)" "Windows_NT"
-CFLAGS=-O3 -Wall -DUSEGLEW -Wextra -Wno-unused-parameter -Wno-unused-variable
+CFLAGS=-O3 -Wall -DUSEGLEW -Wextra -Wno-unused-parameter
 LIBS=-lfreeglut -lglew32 -lglu32 -lopengl32 -lm
 CLEAN=$(BASE_CLEAN) *.exe
 else
 #  OSX
 ifeq "$(shell uname)" "Darwin"
 RES=$(shell uname -r|sed -E 's/(.).*/\1/'|tr 12 21)
-CFLAGS=-O3 -Wall -Wno-deprecated-declarations -Wextra -DRES=$(RES) -Wno-unused-parameter -Wno-unused-variable
+CFLAGS=-O3 -Wall -Wno-deprecated-declarations -Wextra -DRES=$(RES) -Wno-unused-parameter
 LIBS=-framework GLUT -framework OpenGL
 #  Linux/Unix/Solaris
 else
-CFLAGS=-O3 -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable
+CFLAGS=-O3 -Wall -Wextra -Wno-unused-parameter
 LIBS=-lglut -lGLU -lGL -lm
 endif
 #  OSX/Linux/Unix/Solaris

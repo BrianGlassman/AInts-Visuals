@@ -28,7 +28,7 @@ public:
     virtual void Create();
 	virtual void PostCreate();
 	void DrawNormals(float scale = 1);
-	virtual void Draw(bool hasControl = true);
+	virtual void Draw(bool hasControl = true) = 0; // pure virtual
 
     virtual void ApplyNoise();
 protected:

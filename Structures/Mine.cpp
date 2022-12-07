@@ -68,7 +68,6 @@ void Mine::ApplyNoise()
 
 	for (auto&& dirPiece : pieces)
 	{
-		auto& dir = dirPiece.first;
 		auto& piece = dirPiece.second;
 		if (piece.created) piece.ApplyNoise();
 	}
@@ -84,7 +83,6 @@ void Mine::Draw(bool hasControl)
 	{
 		for (auto&& dirPiece : pieces)
 		{
-			auto& dir = dirPiece.first;
 			auto& piece = dirPiece.second;
 			if (piece.created) piece.Draw(false);
 		}

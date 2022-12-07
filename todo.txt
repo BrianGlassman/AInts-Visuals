@@ -15,16 +15,16 @@ hotkeys to show off functionality
 FPS tanks in full screen, especially when inside the Mine
 	implies the problem is with per-pixel calculations (shader) not caused by array-ification
 
-
+build on Windows box
 
 	
 option to increase the light levels
 
 Build menu shouldn't be accessible in Interior View
 
-Get rid of Debug menu option for Release
+[RELEASE] Get rid of Debug menu option for Release
 
-clean out old and unused code / files
+[RELEASE] clean out old and unused code / files
 	main.cpp for menus, noise
 
 README documentation of overall code structure?
@@ -33,12 +33,9 @@ go through Key and Special functions, make sure all the keys are documented in R
 
 include time spent in README
 
-are there any more Makefile warnings I turned off that can be turned back on?
-	make sure I'm using -Wall
-
 check for anything substantially uncommented and comment it
 
-default to not showing the light source trace (red and blue lines) because that might be what's causing the problem
+[RELEASE] default to not showing the light source trace (red and blue lines) because that might be what's causing the problem
 
 replace tabs with spaces
 

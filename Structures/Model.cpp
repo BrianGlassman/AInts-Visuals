@@ -233,11 +233,6 @@ void Model::DrawNormals(float scale)
 	PopShader();
 }
 
-void Model::Draw(bool hasControl)
-{
-	fprintf(stdout, "WARNING base draw\n");
-}
-
 Cylinder::Cylinder()
 {
 }

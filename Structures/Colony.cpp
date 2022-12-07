@@ -59,7 +59,6 @@ void LinkEndpoints(ChildMap& children, OffsetsMap& offsets, std::vector<Vertex>&
         auto dstEnd = dstChild->GetEndpoint(dstEPdir);
         if (dstEnd == -1) continue;
 
-        int offset;
         dstCL[srcEnd + srcOffset].AddNeighbor(dstEnd + dstOffset);
         // Don't need to do the reciprocal, will be caught when processing the opposite direction
     }
