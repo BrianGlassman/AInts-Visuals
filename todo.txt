@@ -1,8 +1,5 @@
 
-build on Windows box
-
-
-Build menu shouldn't be accessible in Interior View
+[RELEASE] do all the ./find things
 
 [RELEASE] Get rid of Debug menu option for Release
 
@@ -33,8 +30,8 @@ for release: remove everything that has a "// NORELEASE" tag
 README update
 
 
-have "Toggle wireframe" show a wireframe with polygon offset even when filled geometry is active
-add "Toggle filled"
+
+
 
 
 Go to OH Thursday to make sure it runs on his machine?
@@ -42,6 +39,11 @@ Go to OH Thursday to make sure it runs on his machine?
 
 SHOULD DO, BUT PROBABLY WON'T
 ------------------------------
+
+have "Toggle wireframe" show a wireframe with polygon offset even when filled geometry is active
+add "Toggle filled"
+
+Build menu shouldn't be accessible in Interior View
 
 toggle for texture usage?
 

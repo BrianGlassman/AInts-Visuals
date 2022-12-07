@@ -119,10 +119,6 @@ void MinePiece::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector
             vertexArray[i*3 + 0] = drawVertices[i][0];
             vertexArray[i*3 + 1] = drawVertices[i][1];
             vertexArray[i*3 + 2] = drawVertices[i][2];
-            if (std::find(OBJindices.begin(), OBJindices.end(), i) != OBJindices.end())
-            {
-                // fprintf(stdout, "vertexArray %d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]); // NORELEASE
-            }
         }
         float normalArray[drawNormals.size() * 3];
         for (unsigned int i = 0; i < drawNormals.size(); i++)
