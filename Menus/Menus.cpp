@@ -87,6 +87,8 @@ MainMenu::MainMenu()
 //-------
 namespace Callbacks{ void Build(int val)
 {
+    if (Globals::viewMode == ViewMode::INTERIOR) return;
+    
     switch(val)
     {
     case 0:
