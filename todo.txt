@@ -1,6 +1,4 @@
 
-Mine buildIndicator shows up too dark
-
 hotkeys to show off functionality
 	PROMINENTLY documented in README
 

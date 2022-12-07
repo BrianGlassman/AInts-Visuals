@@ -76,7 +76,7 @@ void Mine::ApplyNoise()
 
 void Mine::Draw(bool hasControl)
 {
-	Chamber::Draw();
+	Chamber::Draw(hasControl);
 
 	if (hasControl) PushShader(Shader::threeDshader);
 	// Only draw the inside from interior view
