@@ -253,6 +253,10 @@ namespace Callbacks{ void Noise(int val)
             Toggles::Noise::showPerturbed = true;
         }
         break;
+    case 3:
+        Toggles::Noise::bezierFade = !Toggles::Noise::bezierFade;
+        displayModelPtr->ApplyNoise();
+        break;
     default:
         Fatal(999, "Unknown val %d to Noise callback\n");
     }
@@ -260,6 +264,6 @@ namespace Callbacks{ void Noise(int val)
 NoiseMenu::NoiseMenu()
 {
     name = "Noise";
-    buttons = { "Toggle perturbed geometry", "Toggle P Vectors", "Toggle base geometry" };
+    buttons = { "Toggle perturbed geometry", "Toggle P Vectors", "Toggle base geometry", "Toggle Bezier fade" };
     callback = Callbacks::Noise;
 }

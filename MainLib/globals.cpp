@@ -12,6 +12,7 @@ bool Toggles::Light::smooth = true;
 bool Toggles::Noise::showPerturbed = true;
 bool Toggles::Noise::showPVectors = false;
 bool Toggles::Noise::showBase = false;
+bool Toggles::Noise::bezierFade = true;
 bool Toggles::Display::showAxes = false;
 bool Toggles::Display::wireframe = false;
 bool Toggles::Display::faceCulling = true;

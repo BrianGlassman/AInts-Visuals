@@ -1,11 +1,10 @@
 
-toggle for texture usage
+toggle for texture usage?
+
+toggles for things I want to present?
 
 specular lighting doesn't do anything?
 	did I set the shininess?
-
-toBuild movement should change with view direction, probably
-	include instructions for moving toBuild in README, once I've figured out what they are
 
 hotkeys to show off functionality
 	PROMINENTLY documented in README

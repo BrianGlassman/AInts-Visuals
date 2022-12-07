@@ -36,6 +36,7 @@ namespace Toggles
         extern bool showPerturbed;
         extern bool showPVectors;
         extern bool showBase;
+        extern bool bezierFade;
     }
     namespace Display
     {

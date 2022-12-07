@@ -5,6 +5,7 @@
 
 #include "CSCIx229.h"
 #include "Perlin.hpp"
+#include "globals.hpp"
 #include "Shaders.hpp"
 #include "util.hpp"
 
@@ -45,10 +46,6 @@ Vector3 Perlin::getPVector(int x, int y, int z)
     return getPVector(coords);
 }
 
-float PerlinFade(float t)
-{
-    return t * t * t * (t * (t * 6 - 15) + 10);
-}
 float _BezierY(float t)
 { // Cubic Bezier curve
     float t2 = t*t, t3 = t*t*t;
@@ -85,7 +82,8 @@ float BezierFade(float x)
 }
 float fade(float x)
 {
-    return BezierFade(x);
+    if (Toggles::Noise::bezierFade) return BezierFade(x);
+    else return x; // "linear fade" aka no fade, direct interpolation
 }
 
 float lerp(float fraction, float low, float high)

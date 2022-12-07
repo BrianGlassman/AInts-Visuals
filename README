@@ -17,6 +17,10 @@ CSCI 5229 (graduate)
 		- Moving the mouse towards the edges of the window will rotate the camera around the origin
 		- The red square shows where the eye position for the interior view is located
 		- When the directed light is not orbiting (Right-Click > Lighting > Toggle auto/manual orbit), IJKL (up, clockwise, down, CCW) will move the directed light source
+		- When placing/deleting a building
+				1. Right-Click > Build > Select what to build
+				2. WASD or the arrow keys will move the "cursor". These directions are locked to world coordinates, with D along the +X axis, W along -Z, etc.
+				3. Space bar to execute the command, either placing a new building or deleting an existing one
 	C. Interior (first person) view
 		- Moving the mouse towards the edges of the window will rotate the view around the current eye position
 		- WASD or the arrow keys will move the viewpoint, node by node. Movement is locked to the centerline nodes shown in cyan
