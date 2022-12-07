@@ -1,5 +1,7 @@
 Brian Glassman
 CSCI 5229 (graduate)
+Time Spent: approximately 150 hours
+	I spent a long time thinking about perturbations, normals, and buildings
 
 1. To build and run
 	"make" will build
@@ -7,8 +9,8 @@ CSCI 5229 (graduate)
 
 2. Interface
 	A. Both views
-		- Pressing Escape will exit the program
-		- Right clicking opens a menu to change the view and or access various debug options (detailed below)
+		- Escape will exit the program
+		- Right clicking opens menus for building, changing the view, and accessing various debug options (detailed below)
 		- "[" and "]" will cycle through the available scenes: A full colony (the main, default scene), individual views of the different buildings, and a test of tunnel interconnection.
 		- "\" will go back to the full colony scene
 		- "m" will cycle between interior and exterior views
@@ -17,7 +19,7 @@ CSCI 5229 (graduate)
 	B. Exterior view
 		- Moving the mouse towards the edges of the window will rotate the camera around the origin
 		- The red square shows where the eye position for the interior view is located
-		- When the directed light is not orbiting (Right-Click > Lighting > Toggle auto/manual orbit), IJKL (up, clockwise, down, CCW) will move the directed light source
+		- IJKL (up, clockwise, down, CCW) will move the directed light source
 		- When placing/deleting a building
 				1. Right-Click > Build > Select what to build
 				2. WASD or the arrow keys will move the "cursor". These directions are locked to world coordinates, with D along the +X axis, W along -Z, etc.
@@ -29,13 +31,13 @@ CSCI 5229 (graduate)
 3. Right-Click menu
 	A. Build - allows building new structures or deleting existing ones. Select "None" to hide the visual indicator
 	B. View - change between interior and exterior views
-	C. Lighting - toggle the orbit of the directed light
-		TODO
+	C. Lighting - toggle the ambient or directed light, toggle the orbit of the directed light
 	D. Noise
 		- Toggle perturbed geometry - show/hide the geometry that has been randomly perturbed
 		- Toggle P vectors - show/hide the random vectors that are used to create the perturbations
 		- Toggle base geometry - show/hide the base, unperturbed geometry
-		note: if both geometries are shown, base will be in wireframe mode
+			note: if both geometries are shown, base will be in wireframe mode
+		- Toggle Bezier fade - switch between using a Bezier curve or linear interpolation for fading the noise between cell corners
 	E. Gizmos - toggle various settings
 		- Wireframe / Filled
 		- Show/hide axes
@@ -46,7 +48,7 @@ CSCI 5229 (graduate)
 		- Cycle through different modes for setting colors: glColor4f, glMaterialfv, both (default)
 			Note: hopefully one of these options will work in the case of hardware-specific graphical problems
 
-TODO. Feature List
+4. Feature List
 	A. Predefined colony layout, displayed on startup.
 	B. Adjacent structures connect to each other appropriately, automatically updating when new structures are placed or existing structures are deleted.
 	C. 3D texturing via shader - Y position chooses one of 16 texture slices, X and Z position determine the location on that texture. Adjacent slices are blended together to avoid sharp cuts.
@@ -74,16 +76,25 @@ TODO. Feature List
 		- A visualization is shown when building/deleting so that the user knows where the change will occur.
 	H. Interior View, showing the colony from the perspective of a resident.
 		- The user can move around the colony, following pre-defined paths. Movement is node-to-node along whichever path is closest to the desired direction.
-		
 
-TODO. Known Issues
+5. Code Structure
+	- MainLib: core functionality, including most of the OpenGL interaction
+	- Menus: Right-Click menus
+	- Noise: The noise generation system, implemented as a base and derived class for possible future work
+	- Objects: OBJ related files, processing, and interface wrapper
+	- Shaders: The shader code itself, as well as a wrapper for switching between shaders or fixed pipeline
+	- Structures: The buildings/structures used in the colony
+		Note: Tunnels are composed of 8 Corners to reduce the number of mesh configurations needed
+	- Textures: The texture BMPs
+	- ./final.hpp and ./final.cpp: the top-level runner script, split into hpp/cpp for readability
+
+6. Known Issues
 	A. Errors out if the last building is deleted.
 	B. Low framerate in fullscreen, likely because of the computations involved in 3D texturing.
 	C. The Right-Click > Build menu is visible in Interior View, although it has no effect.
-	D. When placing/deleting a building, the movement mapping is locked to world coordinates rather than changing as the camera is rotated.
-	E. Placing/deleting a building re-generates geometry for the entire colony, which can get very slow if there are multiple mines
+	D. Placing/deleting a building re-generates geometry for the entire colony, which can get very slow if there are multiple mines
 
-TODO. Future Work
+7. Future Work
 	A. Add more variety in the textures, and/or using a noise algorithm to generate the 3D texture rather than slicing a 2D texture.
 	B. Add functionality for merging adjacent chambers, rather than connecting them with a short tunnel.
 	C. Add shadowing and multiple light sources, especially for the Interior View.
@@ -92,21 +103,24 @@ TODO. Future Work
 	F. Add ants populating the colony.
 	G. Add animations to the ants and buildings.
 	H. Allow freeform movement in Interior View, rather than being tethered to a pre-defined path.
+	I. Investigate other noise algorithms
+	J. Optimizations and performance improvements, as well as more robust error handling
 
-Texture sources:
+8. Texture sources:
 dirtGroundTileable - https://www.deviantart.com/fabooguy/art/Dirt-Ground-Texture-Tileable-2048x2048-441212191
 	Sliced to create the various _x#_y# textures
 
-Code references:
-Class slides, examples, and library
-TODO FIXME
-Shaders adapted from Ex. 25, with modification to apply texture based on vertex position
+9. Code references:
+Class slides, examples and examples used to varying degrees
+Shader processing largely taken from Ex. 25, with modification to work for 3D texturing
+Heavy usage of the CSCIx229 library
 Polymorphic list - https://stackoverflow.com/questions/17532076/whats-the-preferred-c-idiom-to-own-a-collection-of-polymorphic-objects
 GLUT menus
 	http://www.cs.sjsu.edu/~bruce/fall_2016_cs_116a_lecture_creating_mouse_driven_menus.html
 	http://www.cs.sjsu.edu/~bruce/programs/fall_2016_cs_116a/example_glut_menu/example_glut_menu.c
 	https://www.opengl.org/resources/libraries/glut/spec3/node35.html
+Various other sources for small snippets, linked in comments where used
 
-Tool references:
+10. Tool references:
 MagicaVoxel - A voxel modelling program, used to generate the Mine geometry - https://www.voxelmade.com/magicavoxel/
 Magick - An image manipulation tool, used to split the dirt texture into several slices - https://imagemagick.org/

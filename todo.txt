@@ -1,17 +1,4 @@
 
-README documentation of overall code structure?
-
-go through Key and Special functions, make sure all the keys are documented in README
-
-include time spent in README
-
-README update
-
-
-
-
-
-
 Go to OH Thursday to make sure it runs on his machine?
 
 
