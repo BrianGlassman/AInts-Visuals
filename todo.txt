@@ -1,10 +1,4 @@
-OPTIM: could remove faces on outer edges of caps
-	could maybe remove the sides, but would have to have a way to make sure they aren't visible from inside
-	
-Core outer edges of caps should be removed (including Right)
-
-buildIndicator shouldn't show Normals
-	also it gets VERY glitchy if you do? Looks like Debug is on
+OPTIM: could maybe remove the sides of caps, but would have to have a way to make sure they aren't visible from inside
 
 {
 	make interior eye position stop moving when new structures are added
@@ -13,9 +7,8 @@ buildIndicator shouldn't show Normals
 
 make UseShader private, force everything to use Push/Pop
 
-PROBLEMS:
-	processing time is too long, need to either simplify the object or reduce the voxel count
-
+need to test a large colony with several mines, make sure the FPS keeps up
+	if not, have to start optimizing. Start with the array creation
 
 specular lighting doesn't do anything?
 	did I set the shininess?
@@ -34,7 +27,9 @@ do what prof said: make a wrapper that sets color AND material, and use this eve
 also make textures brighter
 
 
-[thanksgiving] buildings and other ants
+[thanksgiving] buildings: farm
+[thanksgiving] ants
+[thanksgiving] cutaway view
 	idea: somehow invert the Z-buffer or something. Only render parts of the building that would be occluded by chamber walls
 	ex 37(maybe? Whatever was shown in class 12/1) deals with the stencil buffer, so may be helpful here
 		IMPORTANT NOTE: stencil buffer is complicated, so should rewatch this lecture if I end up using stencil buffer
