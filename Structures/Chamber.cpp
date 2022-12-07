@@ -39,8 +39,6 @@ void Chamber::FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool
 {
     Vector3 coords;
 
-    // FIXME generalize for n != 8 // NORELEASE
-
     // Ref https://en.cppreference.com/w/cpp/utility/functional/bind
     auto boundSetCoords = std::bind(SetCoords, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, i0, f0, i1, f1, i2, f2);
 
@@ -171,8 +169,6 @@ void Chamber::CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2)
 
 void Chamber::CreateCLHelper(std::vector<Vertex> &CLtoUse, int axis, bool flip)
 {
-    // FIXME should match arm panelling exactly, then handle core differently // NORELEASE
-
     int panels = round(0.5 / tunnelRadius); // <-- different from Tunnel
     float d = (0.5) / panels; // <-- different from Tunnel
 

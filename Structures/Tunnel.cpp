@@ -12,7 +12,7 @@ Tunnel::Tunnel()
 
 void Tunnel::CreateCLHelper(std::vector<Vertex> &CLtoUse, const int axis, const bool flip)
 {
-    int panels = 4; // FIXME generalize // NORELEASE
+    int panels = 4;
     float d = (0.5 - radius) / panels;
 
     int lastIdx = 0;

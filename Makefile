@@ -162,7 +162,7 @@ Objects.a: Objects.o
 #-----------
 # Link (and final.o dependency to keep them together)
 final.o: final.cpp final.hpp $(CLIBDIR)/CSCIx229.h MainLib.a Structures.a Noise.a Menus.a Shaders.a Objects.a
-# FIXME I have no clue why Vertex.o needs to be here, but apparently it does
+# I have no clue why Vertex.o needs to be here, but apparently it does
 final:               final.o            CSCIx229.a MainLib.a Structures.a Noise.a Menus.a Shaders.a Objects.a Vertex.o
 	g++ -o $@ $^ $(CFLAGS) $(LIBS) $(INCLUDE)
 

@@ -16,7 +16,6 @@ public:
 
     void DrawNoise();
 protected:
-    //FIXME HACK. Tried using unordered_map but it got weird about the key. Seems solvable, though
     std::vector<Vector3Int> pVectorsKeys;
     std::vector<Vector3> pVectorsVals;
 };
