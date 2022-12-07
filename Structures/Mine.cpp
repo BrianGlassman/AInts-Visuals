@@ -40,11 +40,15 @@ void Mine::Create()
 	for (auto&& dirPiece : pieces)
 	{
 		auto& dir = dirPiece.first;
-		if (dir == Vector3Int::Zero || GetSide(dir))
-		{ // Always use core. Only use caps if that side exists
-			auto& piece = dirPiece.second;
+		auto& piece = dirPiece.second;
+		if (dir == Vector3Int::Zero || ! GetSide(dir))
+		{ // Always use core. Only use caps if that side is unconnected
 			piece.center = center;
 			piece.Create();
+		}
+		else
+		{ // If a piece was created before but isn't re-created, mark it old
+			piece.created = false;
 		}
 	}
 
