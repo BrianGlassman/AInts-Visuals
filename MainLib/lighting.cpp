@@ -120,11 +120,18 @@ OrbitLight::OrbitLight(float ambient, float diffuse, float specular) : Light(amb
 {
 }
 
-void OrbitLight::UpdatePosition()
+void OrbitLight::UpdatePosition(float dAz, float dEl)
 {
 	// Position is set relative to the eye, so have to update whenever the eye point moves
 	if (Toggles::Light::lightOrbiting) azimuth -= speed;
+	
+	azimuth += dAz;
 	azimuth = fmod(azimuth, 360.0);
+
+	elevation += dEl;
+	if (elevation > 89.9) elevation = 89.9;
+	if (elevation < -89.9) elevation = -89.9;
+
 	position[0] = radius*Cos(azimuth)*Cos(elevation);
 	position[1] = radius*Sin(elevation);
 	position[2] = radius*Sin(azimuth)*Cos(elevation);

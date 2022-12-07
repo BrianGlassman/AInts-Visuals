@@ -117,6 +117,37 @@ void fpsKey(unsigned char k)
 	}
 }
 
+void lightKey(unsigned char k)
+{
+	switch (k) {
+	// Movement
+	case 'i':
+	case 'I':
+		{
+			Globals::Lighting::directed->UpdatePosition(0, 2.0f);
+		}
+		break;
+	case 'j':
+	case 'J':
+		{
+			Globals::Lighting::directed->UpdatePosition(4.0f, 0);
+		}
+		break;
+	case 'k':
+	case 'K':
+		{
+			Globals::Lighting::directed->UpdatePosition(0, -2.0f);
+		}
+		break;
+	case 'l':
+	case 'L':
+		{
+			Globals::Lighting::directed->UpdatePosition(-4.0f, 0);
+		}
+		break;
+	}
+}
+
 /*
  * Process standard keys
  */
@@ -196,6 +227,7 @@ void key(unsigned char k, int x, int y)
 
 	if (Globals::viewMode == ViewMode::EXTERIOR)
 	{
+		lightKey(k);
 		Input::buildKey(k);
 	}
 	

@@ -61,7 +61,8 @@ public:
 	float speed = 1.0;
 	float radius = 5;
 
-    void UpdatePosition();
+    void UpdatePosition(float dAz, float dEl);
+	void UpdatePosition() { UpdatePosition(0, 0); }
 	void Draw();
 private:
 	float azimuth = 0, elevation = 0;
