@@ -104,12 +104,12 @@ void postDisplay(float scale)
 		glDisable(GL_DEPTH_TEST);
 		glDisable(GL_LIGHTING);
 		glPointSize(20);
-		glColor3f(1, 0, 0);
+		SetColor(1, 0, 0);
 
 		auto& eyePos = Globals::InteriorView->eyePos;
 		glBegin(GL_POINTS); glVertex3f(eyePos.x, eyePos.y, eyePos.z); glEnd();
 
-		glColor3f(1, 1, 1);
+		SetColor(1, 1, 1);
 		glPopAttrib();
 		PopShader();
 	}

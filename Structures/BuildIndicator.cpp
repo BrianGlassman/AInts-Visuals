@@ -157,19 +157,19 @@ void BuildIndicator::Draw(bool hasControl)
 
     // First draw - Mostly transparent, filled in
     glPolygonOffset(0, -1); // Make sure it shows even when overlayed on existing geometry
-    if (Globals::toBuild == StructureType::Delete) glColor4f(1, 0, 0, 0.2);
-    else glColor4f(0, 0.5, 1, 0.2);
+    if (Globals::toBuild == StructureType::Delete) SetColor(1, 0, 0, 0.2);
+    else SetColor(0, 0.5, 1, 0.2);
     model->Draw(false);
 
     // Second draw - Opaque, wireframe
     glPolygonOffset(0, -2); // Show over the first draw (matters in wireframe mode)
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    if (Globals::toBuild == StructureType::Delete) glColor4f(1, 0.3, 0.3, 1.0);
-    else glColor4f(0.3, 0.7, 1, 1.0);
+    if (Globals::toBuild == StructureType::Delete) SetColor(1, 0.3, 0.3, 1.0);
+    else SetColor(0.3, 0.7, 1, 1.0);
     model->Draw(false);
 
     glPolygonOffset(0, 0);
-    glColor4f(1, 1, 1, 1);
+    SetColor(1, 1, 1, 1);
     glPopAttrib();
     PopShader();
 

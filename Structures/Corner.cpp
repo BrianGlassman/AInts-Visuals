@@ -410,7 +410,7 @@ void Corner::Draw(bool hasControl)
 		{
 			PushShader(Shader::fixedPipeline);
 			glPushAttrib(GL_ENABLE_BIT); glDisable(GL_TEXTURE_2D);
-			glColor3f(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25);
+			SetColor(0.75 + baseScale[0]*.25, 0.75 + baseScale[1]*.25, 0.75 + baseScale[2]*.25);
 		}
 		else
 		{
@@ -432,7 +432,7 @@ void Corner::Draw(bool hasControl)
 		{
 			if (Toggles::Noise::showPerturbed && hasControl)
 			{ // Use white, transparent wireframe
-				glColor4f(1, 1, 1, 0.5);
+				SetColor(1, 1, 1, 0.5);
 				glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
 				glDisable(GL_TEXTURE_2D);
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -441,7 +441,7 @@ void Corner::Draw(bool hasControl)
 			if (Toggles::Noise::showPerturbed && hasControl)
 			{
 				glPopAttrib();
-				glColor4f(1, 1, 1, 1);
+				SetColor(1, 1, 1, 1);
 			}
 		}
     } glPopMatrix();
@@ -449,7 +449,7 @@ void Corner::Draw(bool hasControl)
 	if (Toggles::debug && hasControl)
 	{
 		glPopAttrib();
-		glColor3f(1, 1, 1);
+		SetColor(1, 1, 1);
 	}
 	
 	glFrontFace(GL_CCW);

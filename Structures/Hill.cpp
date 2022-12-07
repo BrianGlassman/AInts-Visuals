@@ -250,7 +250,7 @@ void Hill::Draw(bool hasControl)
 		{
 			if (Toggles::Noise::showPerturbed && hasControl)
 			{ // Use white, transparent wireframe
-				glColor4f(1, 1, 1, 0.5);
+				SetColor(1, 1, 1, 0.5);
 				glPushAttrib(GL_ENABLE_BIT | GL_POLYGON_BIT);
 				glDisable(GL_TEXTURE_2D);
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -262,7 +262,7 @@ void Hill::Draw(bool hasControl)
 			if (Toggles::Noise::showPerturbed && hasControl)
 			{
 				glPopAttrib();
-				glColor4f(1, 1, 1, 1);
+				SetColor(1, 1, 1, 1);
 			}
 		}
 	} glPopMatrix();

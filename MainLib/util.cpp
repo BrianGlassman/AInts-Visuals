@@ -27,19 +27,19 @@ void DrawAxes(float scale)
 	glPushMatrix(); {
 			glScaled(scale, scale, scale);
 	
-			glColor3f(1,0,0);
+			SetColor(1,0,0);
 			glBegin(GL_LINES); {
 					glVertex3d(ORIGIN);
 					glVertex3d(X_AXIS);
 			} glEnd();
 			
-			glColor3f(0,1,0);
+			SetColor(0,1,0);
 			glBegin(GL_LINES); {
 					glVertex3d(ORIGIN);
 					glVertex3d(Y_AXIS);
 			} glEnd();
 			
-			glColor3f(0,0,1);
+			SetColor(0,0,1);
 			glBegin(GL_LINES); {
 					glVertex3d(ORIGIN);
 					glVertex3d(Z_AXIS);
@@ -47,7 +47,7 @@ void DrawAxes(float scale)
 	} glPopMatrix();
 	
 	glPopAttrib();
-	glColor3f(1, 1, 1);
+	SetColor(1, 1, 1);
 	PopShader();
 	
 	ErrCheck("DrawAxes");
@@ -113,7 +113,7 @@ void SetColor(float r, float g, float b, float a)
 		glColor4f(r, g, b, a);
 		break;
 	case SetColorMode::materialProps:
-		glColor4f(g, r, g, a); // TODO (this is just for now)
+		glColor4f(b, r, g, a); // TODO (this is just for now)
 		break;
 	case SetColorMode::both:
 		glColor4f(r, g, b, a);

@@ -1,3 +1,7 @@
+
+go through the doc from class 12/1 and look for other things I still need to do
+	buttons showing off functionality
+
 OPTIM: could maybe remove the sides of caps, but would have to have a way to make sure they aren't visible from inside
 
 {

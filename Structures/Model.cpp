@@ -200,7 +200,7 @@ void Model::DrawNormalHelper(float scale, std::vector<Vector3> verticesToUse, st
 void Model::DrawNormals(float scale)
 {
 	PushShader(Shader::fixedPipeline);
-	glColor3f(1, 0, 0);
+	SetColor(1, 0, 0);
 	glPushAttrib(GL_ENABLE_BIT | GL_LINE_BIT);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
@@ -217,7 +217,7 @@ void Model::DrawNormals(float scale)
 			if (Toggles::Noise::showPerturbed)
 			{
 				// Show base for comparison
-				glColor3f(0.7, 0.2, 0.2);
+				SetColor(0.7, 0.2, 0.2);
 				glLineWidth(5);
 				DrawNormalHelper(scale*0.5, vertices, baseNormals);
 			}
@@ -229,7 +229,7 @@ void Model::DrawNormals(float scale)
 		}
 	} glPopMatrix();
 	glPopAttrib();
-	glColor3f(1, 1, 1);
+	SetColor(1, 1, 1);
 	PopShader();
 }
 

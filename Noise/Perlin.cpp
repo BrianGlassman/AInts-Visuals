@@ -6,6 +6,7 @@
 #include "CSCIx229.h"
 #include "Perlin.hpp"
 #include "Shaders.hpp"
+#include "util.hpp"
 
 // Broadly adapted from https://cs.nyu.edu/~perlin/noise/
 
@@ -146,7 +147,7 @@ void Perlin::DrawNoise()
     glDisable(GL_LIGHTING);
     glPointSize(15);
     glLineWidth(7);
-    glColor4f(1, 1, 0.6, 0.5);
+    SetColor(1, 1, 0.6, 0.5);
 
     for (unsigned int i = 0; i < pVectorsKeys.size(); i++)
     {
@@ -165,6 +166,7 @@ void Perlin::DrawNoise()
         glEnd();
     }
 
+    SetColor(1, 1, 1, 1);
     glPopAttrib();
     PopShader();
 }

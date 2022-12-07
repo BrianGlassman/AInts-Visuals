@@ -63,13 +63,13 @@ void Structure::DrawCenterlines()
 	glDisable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
 	glPointSize(7);
-	glColor3f(0, 1, 1);
+	SetColor(0, 1, 1);
 
 	auto& CLtoUse = *getCL();
 	if (CLtoUse.size() == 0)
 	{ // Exit early to prevent SegFault
 		fprintf(stderr, "Called DrawCenterLines with no elements\n");
-		glColor3f(1, 1, 1);
+		SetColor(1, 1, 1);
 		glPopAttrib();
 		PopShader();
 		return;
@@ -114,7 +114,7 @@ void Structure::DrawCenterlines()
 		closedSet.insert(currentIdx);
 	}
 	
-	glColor3f(1, 1, 1);
+	SetColor(1, 1, 1);
 	glPopAttrib();
 	PopShader();
 

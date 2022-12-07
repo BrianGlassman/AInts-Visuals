@@ -1,6 +1,7 @@
 #include "lighting.hpp"
 #include "globals.hpp"
 #include "Shaders.hpp"
+#include "util.hpp"
 
 #define SHINY_DEFAULT 10
 
@@ -114,7 +115,7 @@ void OrbitLight::Draw()
 		
 		glTranslatef(position[0], position[1], position[2]);
 
-		glColor3f(1, 1, 1);
+		SetColor(1, 1, 1);
 		glPushMatrix(); {
 			glScalef(0.2, 0.2, 0.2);
 			glBegin(GL_LINES); {
@@ -130,18 +131,18 @@ void OrbitLight::Draw()
 
 		glBegin(GL_LINES); {
 			// Draw axis projections to the origin
-			glColor3f(0.6, 0, 0);
+			SetColor(0.6, 0, 0);
 			glVertex3d(0, 0, 0);
 			glVertex3d(-position[0], 0, 0);
-			glColor3f(0, 0, 0.7);
+			SetColor(0, 0, 0.7);
 			glVertex3d(-position[0], 0, 0);
 			glVertex3d(-position[0], 0, -position[2]);
-			glColor3f(0, 0.5, 0);
+			SetColor(0, 0.5, 0);
 			glVertex3d(-position[0], 0, -position[2]);
 			glVertex3d(-position[0], -position[1], -position[2]);
 		} glEnd();
 
-		glColor3f(1, 1, 1);
+		SetColor(1, 1, 1);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_TEXTURE_2D);
 	} glPopMatrix();
