@@ -1,6 +1,6 @@
 import os
 
-orig_dim = 2048
+orig_dim = 1024
 orig_filename = "dirtGroundTileable"
 
 splits = 4

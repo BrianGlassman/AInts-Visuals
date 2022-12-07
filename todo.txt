@@ -1,6 +1,4 @@
 
-shrink textures. Each slice should be 256x256 at most
-
 specular lighting doesn't do anything?
 	did I set the shininess?
 
