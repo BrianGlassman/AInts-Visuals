@@ -205,8 +205,6 @@ void Chamber::Create(bool PrePost, bool createFaces, bool createArms)
 {
     if (PrePost) PreCreate();
 
-    // fprintf(stdout, "panelWidth = %f\n", panelWidth); // NORELEASE
-
     // Note: flip i0 to change winding direction
 
     // Faces
@@ -303,7 +301,6 @@ void Chamber::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3>
             vertexArray[i*3 + 0] = drawVertices[i][0];
             vertexArray[i*3 + 1] = drawVertices[i][1];
             vertexArray[i*3 + 2] = drawVertices[i][2];
-            // fprintf(stdout, "vertexArray %d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]); // NORELEASE
         }
         float normalArray[drawNormals.size() * 3];
         for (unsigned int i = 0; i < drawNormals.size(); i++)
@@ -319,9 +316,7 @@ void Chamber::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3>
             for (unsigned int i = 0; i < triIndices.size(); i++)
             {
                 triIndexArray[i] = triIndices[i];
-                // fprintf(stdout, "%d\n", triIndexArray[i]); // NORELEASE
             }
-            // fprintf(stdout, "%d: %d\n", triIndices.size()-1, triIndexArray[triIndices.size()-1]); // Check for overflow // NORELEASE
 
             glVertexPointer(3, GL_FLOAT, 0, vertexArray);
             glNormalPointer(GL_FLOAT, 0, normalArray);
@@ -334,9 +329,7 @@ void Chamber::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3>
             for (unsigned int i = 0; i < quadIndices.size(); i++)
             {
                 quadIndexArray[i] = quadIndices[i];
-                // fprintf(stdout, "%d\n", quadIndexArray[i]); // NORELEASE
             }
-            // fprintf(stdout, "%d: %d\n", quadIndices.size()-1, quadIndexArray[quadIndices.size()-1]); // Check for overflow // NORELEASE
 
             glVertexPointer(3, GL_FLOAT, 0, vertexArray);
             glNormalPointer(GL_FLOAT, 0, normalArray);

@@ -29,7 +29,6 @@ protected:
     const char* name;
     std::vector<const char*> buttons;
     Callback callback;
-    // std::vector<std::function<void(int)>> callbacks; // https://en.cppreference.com/w/cpp/utility/functional/function
 };
 
 class MainMenu : public Menu { public: MainMenu(); };

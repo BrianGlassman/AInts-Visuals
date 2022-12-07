@@ -190,12 +190,6 @@ void key(unsigned char k, int x, int y)
             Project();
         }
         break;
-    /*
-    case 'l':
-    case 'L':
-        lightMode = 1 - lightMode;
-        break;
-    */
     case '-':
         Globals::Lighting::ambient->Decrement();
         break;
@@ -225,22 +219,6 @@ void key(unsigned char k, int x, int y)
         fprintf(stdout, "User exit\n");
         exit(0);
         break;
-    /*
-    case 32: // Space - reset view
-        if (viewMode == VIEW_FIRST)
-        {
-            fp_rotH = 0.0; fp_rotV = 0.0;
-            fp_centX = 0.0; fp_centY = 0.0; fp_centZ = 0.0;
-            fp_eyeX = 0.0; fp_eyeY = 0.0; fp_eyeZ = 20.0;
-        }
-        else
-        {
-            view_rotx = 45.0;
-            view_roty = 40.0;
-            view_rotz = 0.0;
-        }
-        break;
-    */
     }
 
     if (Globals::viewMode == ViewMode::INTERIOR) fpsKey(k);
@@ -252,16 +230,6 @@ void key(unsigned char k, int x, int y)
     }
 
     noiseKey(k);
-    
-    /*
-    // Clamp light position
-    if (lightPhi > 89) lightPhi = 89;
-    if (lightPhi < -89) lightPhi = -89;
-    
-    reshape(_width, _height);
-    
-    glutPostRedisplay();
-    */
 }
 
 /*
@@ -285,8 +253,6 @@ void special(int k, int x, int y)
     default:
         return;
     }
-    
-    // glutPostRedisplay();
 }
 
 
@@ -302,8 +268,6 @@ void mouseMovement(int x, int y)
     // Create a deadzone in the middle
     if (Globals::mouse_x > -0.1 && Globals::mouse_x < 0.1) Globals::mouse_x = 0;
     if (Globals::mouse_y > -0.1 && Globals::mouse_y < 0.1) Globals::mouse_y = 0;
-
-    // DEBUG fprintf(stdout, "(%f, %f) = %d / %d - 0.5, %d / %d - 0.5\n", mouse_x, mouse_y, x, windowWidth, y, windowHeight);
 }
 
 /*

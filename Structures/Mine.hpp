@@ -17,6 +17,4 @@ public:
     void Draw(bool hasControl = true) override;
 private:
     std::unordered_map<Vector3Int, MinePiece> pieces;
-
-    // void DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> drawNormals);
 };

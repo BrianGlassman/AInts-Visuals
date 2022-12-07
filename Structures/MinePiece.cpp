@@ -65,13 +65,11 @@ void MinePiece::Create(bool joinToChamber)
                 {
                     edge.clear();
                     mx = val;
-                    // printf("New mx = %f\n", mx); // NORELEASE
                 }
 
                 if (val == mx)
                 {
                     edge.push_back(i);
-                    // printf("Edge vertex (i = %d) %f, %f, %f\n", i, vertex.x, vertex.y, vertex.z); // NORELEASE
                 }
             }
         }
@@ -81,7 +79,6 @@ void MinePiece::Create(bool joinToChamber)
         {
             auto& vertex = vertices.at(i);
             auto& normal = normals.at(i);
-            // printf("vertices_i = %d: before %f, %f, %f\n", i, vertex.x, vertex.y, vertex.z); // NORELEASE
 
             float bestSqrMag = 999;
             int bestI = i;
@@ -97,10 +94,7 @@ void MinePiece::Create(bool joinToChamber)
             }
             vertex = vertices.at(bestI);
             normal = normals.at(bestI);
-
-            // printf("after %f, %f, %f\n", vertex.x, vertex.y, vertex.z); // NORELEASE
         }
-        // printf("Done\n"); // NORELEASE
     }
 
     PostCreate();
@@ -142,9 +136,7 @@ void MinePiece::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector
             for (unsigned int i = 0; i < OBJindices.size(); i++)
             {
                 triIndexArray[i] = OBJindices[i];
-                // fprintf(stdout, "%d\n", triIndexArray[i]); // NORELEASE
             }
-            // fprintf(stdout, "%d: %d\n", OBJindices.size()-1, triIndexArray[triIndices.size()-1]); // Check for overflow // NORELEASE
 
             glVertexPointer(3, GL_FLOAT, 0, vertexArray);
             glNormalPointer(GL_FLOAT, 0, normalArray);

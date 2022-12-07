@@ -45,7 +45,6 @@ Light::Light(float _ambient, float _diffuse, float _specular)
     // Assign an ID
     if (nextID > 7) Fatal(999, "Ran out of lights\n");
     id = IDs[nextID];
-    // printf("Creating light number %d, ID = %d\n", nextID, id); // NORELEASE
     nextID++;
 
     // Setup the light
@@ -62,8 +61,6 @@ Light::Light(float _ambient, float _diffuse, float _specular)
     SetSpecularLevel(_specular);
     specular = _specular;
     specularActive = (_specular > 0);
-
-    // fprintf(stdout, "(Creation) Light pos = (%f, %f, %f), elevation = %f\n", position[0], position[1], position[2]); // NORELEASE
 }
 
 void Light::Toggle()
@@ -145,7 +142,6 @@ void OrbitLight::UpdatePosition(float dAz, float dEl)
     position[0] = radius*Cos(azimuth)*Cos(elevation);
     position[1] = radius*Sin(elevation);
     position[2] = radius*Sin(azimuth)*Cos(elevation);
-    // fprintf(stdout, "Light pos = (%f, %f, %f), elevation = %f\n", position[0], position[1], position[2], elevation); // NORELEASE
     glLightfv(id, GL_POSITION, position);
 }
 
@@ -172,19 +168,6 @@ void OrbitLight::Draw()
                 glVertex3d( 0,  0, +1);
             } glEnd();
         } glPopMatrix();
-
-        glBegin(GL_LINES); { // NORELEASE
-            // Draw axis projections to the origin
-            SetColor(0.6, 0, 0);
-            glVertex3d(0, 0, 0);
-            glVertex3d(-position[0], 0, 0);
-            SetColor(0, 0, 0.7);
-            glVertex3d(-position[0], 0, 0);
-            glVertex3d(-position[0], 0, -position[2]);
-            SetColor(0, 0.5, 0);
-            glVertex3d(-position[0], 0, -position[2]);
-            glVertex3d(-position[0], -position[1], -position[2]);
-        } glEnd();
 
         SetColor(1, 1, 1);
         glEnable(GL_LIGHTING);

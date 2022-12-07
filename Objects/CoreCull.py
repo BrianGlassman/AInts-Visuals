@@ -80,61 +80,6 @@ for i, vertex in enumerate(vertices):
 
 removeVertMap(edgeMap, vertices, faces)
 
-#%% Patch the cut from core to outside
-if (False):
-    cut_verts = set()
-    cut_faces = set()
-    for f, face in enumerate(faces):
-        if any(abs(vertices[v['v']-1][0]) == outer_edge for v in face):
-            # Face of the cut
-            cut_faces.add(f)
-            cut_verts.update([v['v']-1 for v in face])
-    cut_inner = [v for v in cut_verts if vertices[v][0] < outer_edge]
-    cut_outer = [v for v in cut_verts if vertices[v][0] == outer_edge]
-    del cut_verts
-
-    # Get the middle of the cut
-    avg_v = [0, 0, 0]
-    for v in cut_inner:
-        v = vertices[v]
-        avg_v[0] += v[0]
-        avg_v[1] += v[1]
-        avg_v[2] += v[2]
-    n = len(cut_inner)
-    avg_v[0] /= n
-    avg_v[1] /= n
-    avg_v[2] /= n
-
-    # Pull outer vertices to the middle
-    for v in cut_outer:
-        vertices[v] = avg_v
-
-    # Update normals
-    for f in cut_faces:
-        face = faces[f]
-        for v in face:
-            v['n'] = 1
-
-    print(f"Patched cut to ({avg_v[0]:0.2f}, {avg_v[1]:0.2f}, {avg_v[2]:0.2f})" +
-        f" with normal = {normals[1]}")
-
-    del cut_inner, cut_outer, avg_v, cut_faces
-
-#%% Remove the core for now so I can see what I'm doing
-if False:
-    coreMap = ['1-INDEX']
-    skipped = 0
-    for i, vertex in enumerate(vertices):
-        if all(abs(v) <= 4.5 for v in vertex):
-            skipped += 1
-            coreMap.append(None)
-        else:
-            if any(abs(v) > 6.35 for v in vertex):
-                print(vertex)
-            coreMap.append(i - skipped + 1)
-
-    removeVertMap(coreMap, vertices, faces)
-
 #%% Convert back to text
 normals = ['# normals'] + ["vn " + " ".join(str(v) for v in line) for line in normals]
 colors = ['# texcoords'] + ["vt " + " ".join(str(v) for v in line) for line in colors]

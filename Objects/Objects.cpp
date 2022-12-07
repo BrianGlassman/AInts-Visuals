@@ -21,7 +21,6 @@ Vector3 ReadVertex(const std::string line, float scale)
         vec[i] = std::stof(line.substr(next), &inc) / scale;
         next += inc + 1;
     }
-    // printf("vertex %f, %f, %f\n", vec.x, vec.y, vec.z); // NORELEASE
 
     return vec;
 }
@@ -38,7 +37,6 @@ Vector3 ReadNormal(const std::string line)
         vec[i] = std::stof(line.substr(next), &inc);
         next += inc + 1;
     }
-    // printf("normal %f, %f, %f\n", vec.x, vec.y, vec.z); // NORELEASE
 
     // MagicaVoxel expects you to look at the outside, so reverse the normals
     return vec.Reversed();
@@ -56,7 +54,6 @@ Vector3 ReadTXCoord(const std::string line)
         vec[i] = std::stof(line.substr(next), &inc);
         next += inc + 1;
     }
-    // printf("texture coord %f, %f\n", vec.x, vec.y); // NORELEASE
 
     return vec;
 }
@@ -78,7 +75,6 @@ Objects::Face ReadFace(const std::string line)
         next += inc + 1;
         n = std::stoi(line.substr(next), &inc) - 1;
         next += inc + 1;
-        // printf("v = %d, t = %d, n = %d\n", v, c, n); // NORELEASE
 
         // MagicaVoxel expects you to look at the outside, so reverse the winding
         face.vIdxs[2-i] = v; face.cIdxs[2-i] = c; face.nIdxs[2-i] = n;
@@ -153,6 +149,4 @@ void InitOBJs()
     Objects::MineFrontCap->OBJcolors = {outer, inner};
     Objects::MineBackCap = std::make_shared<OBJ>("Mine4-5.obj", mineScale);
     Objects::MineBackCap->OBJcolors = {ore, outer, inner};
-    // Something is very wrong though
-    // Still drawing the outer sphere, and also the cube walls aren't getting changed by the scaling factor
 }

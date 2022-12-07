@@ -87,7 +87,6 @@ void Structure::DrawCenterlines()
         auto currentIdx = *frontier.begin();
         frontier.erase(frontier.begin());
         auto current = CLtoUse[currentIdx];
-        // printf("Current has %lu neighbors\n", current.neighbors.size()); // NORELEASE
 
         for (auto&& neighborIdx : current.neighbors)
         {
@@ -96,9 +95,7 @@ void Structure::DrawCenterlines()
             // Draw line from this point to the neighbor
             glBegin(GL_LINES);
             glVertex3f( current.x(),  current.y(),  current.z());
-            // printf("current %f, %f, %f\n", current.x(),  current.y(),  current.z()); // NORELEASE
             glVertex3f(neighbor.x(), neighbor.y(), neighbor.z());
-            // printf("neighbor %f, %f, %f\n", neighbor.x(),  neighbor.y(),  neighbor.z()); // NORELEASE
             glEnd();
 
             // Add the neighbor to the frontier (if not already in closedSet or frontier)

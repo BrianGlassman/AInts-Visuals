@@ -163,82 +163,12 @@ void Tunnel::ApplyNoise()
 
         centerline[i].coords = baseCenterline[i].coords + p*Globals::tunnelNoiseScale;
     }
-
-    // printf("%f, %f, %f\n", centerline[0].coords.x, centerline[0].coords.y, centerline[0].coords.z); // NORELEASE
-}
-
-void Tunnel::OldDraw() // NORELEASE
-{
-    // Arms
-    {
-        float cyl_height = 0.5f - radius*0.5;
-
-        static Cylinder cyl;
-        cyl.top = true;
-        cyl.bottom = false;
-        cyl.radius = radius * 0.5;
-        cyl.height = cyl_height;
-        cyl.SetTopCenter(0, 0.5f, 0);
-
-        if (right)
-        {
-            glPushMatrix(); {
-                glRotatef(-90, Z_AXIS);
-                cyl.Draw();
-            } glPopMatrix();
-        }
-
-        if (left)
-        {
-            glPushMatrix(); {
-                glRotatef(90, Z_AXIS);
-                cyl.Draw();
-            } glPopMatrix();
-        }
-
-        if (top)
-        {
-                cyl.Draw();
-        }
-
-        if (bottom)
-        {
-            glPushMatrix(); {
-                glRotatef(180, Z_AXIS);
-                cyl.Draw();
-            } glPopMatrix();
-        }
-
-        if (forward)
-        {
-            glPushMatrix(); {
-                glRotatef(90, X_AXIS);
-                cyl.Draw();
-            } glPopMatrix();
-        }
-
-        if (back)
-        {
-            glPushMatrix(); {
-                glRotatef(-90, X_AXIS);
-                cyl.Draw();
-            } glPopMatrix();
-        }
-    }
-
-    // Core
-    static Cube core;
-    core.radius = radius * 0.5;
-    core.Draw();
-
 }
 
 void Tunnel::Draw(bool hasControl)
 {
     glPushMatrix(); {
         glTranslatef(center[0], center[1], center[2]);
-
-        // OldDraw();
 
         for (auto &&corner : corners)
         {

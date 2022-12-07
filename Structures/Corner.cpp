@@ -291,29 +291,19 @@ void Corner::Create()
     // Apply scaling and rotation to the created vertices
     for (auto&& vertex : vertices)
     {
-        // fprintf(stdout, "Pre (%f, %f, %f) rot (%f, %f, %f) * (%f, %f, %f)\n", // NORELEASE
-        //     vertex[0], vertex[1], vertex[2], // NORELEASE
-        //     meshRotate[0], meshRotate[1], meshRotate[2], // NORELEASE
-        //     meshScale[0], meshScale[1], meshScale[2]); // NORELEASE
-
         // Rotate around Z axis
         vertex.RotateZ(meshRotate[2]);
-        // fprintf(stdout, "Post Z (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]); // NORELEASE
 
         // Rotate around Y axis
         vertex.RotateY(meshRotate[1]);
-        // fprintf(stdout, "Post Y (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]); // NORELEASE
 
         // Rotate around X axis
         vertex.RotateX(meshRotate[0]);
-        // fprintf(stdout, "Post X (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]); // NORELEASE
 
         // Scale
         vertex[0] *= baseScale[0] * meshScale[0];
         vertex[1] *= baseScale[1] * meshScale[1];
         vertex[2] *= baseScale[2] * meshScale[2];
-
-        // fprintf(stdout, "Post scale (%f, %f, %f)\n", vertex[0], vertex[1], vertex[2]); // NORELEASE
     }
 
     // Apply scaling and rotation to the created normals
@@ -342,7 +332,6 @@ void Corner::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> 
             vertexArray[i*3 + 0] = drawVertices[i][0];
             vertexArray[i*3 + 1] = drawVertices[i][1];
             vertexArray[i*3 + 2] = drawVertices[i][2];
-            // fprintf(stdout, "%d: (%f, %f, %f)\n", i, vertexArray[i*3 + 0], vertexArray[i*3 + 1], vertexArray[i*3 + 2]); // NORELEASE
         }
         float normalArray[drawNormals.size() * 3];
         for (unsigned int i = 0; i < drawNormals.size(); i++)
@@ -356,7 +345,6 @@ void Corner::DrawHelper(std::vector<Vector3> drawVertices, std::vector<Vector3> 
         for (unsigned int i = 0; i < indices.size(); i++)
         {
             indexArray[i] = indices[i];
-            // fprintf(stdout, "%d\n", indices[i]); // NORELEASE
         }
 
         glVertexPointer(3, GL_FLOAT, 0, vertexArray);

@@ -18,18 +18,15 @@ void HandleMousePosition()
         // Wrap-around horizontal
         iv->rotH = fmodf(iv->rotH, 360.0);
         if (iv->rotH < 0) iv->rotH = 360 + iv->rotH;
-        // printf("rotH = %f\n", iv->rotH);
 
         // Clamp vertical
         if (iv->rotV > 89.9) iv->rotV = 89.9;
         if (iv->rotV < -89.9) iv->rotV = -89.9;
-        // printf("rotV = %f\n", iv->rotV);
 
         // Update view vector
         iv->lookDir[0] =  Sin(iv->rotH)*Cos(iv->rotV);
         iv->lookDir[1] = -Sin(iv->rotV);
         iv->lookDir[2] = -Cos(iv->rotH)*Cos(iv->rotV);
-        // printf("lookDir (%f, %f, %f)\n", iv->lookDir[0], iv->lookDir[1], iv->lookDir[2]);
 
         // Update Right to match new view vector
         iv->right = iv->lookDir.Cross(iv->up);
@@ -46,7 +43,6 @@ void HandleMousePosition()
         // Clamp vertical
         if (view_rotx > 89.9) view_rotx = 89.9;
         if (view_rotx < -89.9) view_rotx = -89.9;
-        // printf("view_rotx = %f\n", view_rotx);
     }
 }
 
