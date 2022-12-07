@@ -140,19 +140,21 @@ void InitOBJs()
         {0.4, 0.4, 0.5}, // Inner surface
     });
 
-    Objects::MineCore = std::make_shared<OBJ>("Mine4-0.obj", 100);
+    float mineScale = 115;
+
+    Objects::MineCore = std::make_shared<OBJ>("Mine4-0.obj", mineScale);
     Objects::MineCore->OBJcolors = MineColors;
-    Objects::MineRightCap = std::make_shared<OBJ>("Mine4-1.obj", 100);;
+    Objects::MineRightCap = std::make_shared<OBJ>("Mine4-1.obj", mineScale);;
     Objects::MineRightCap->OBJcolors = MineColors;
-    Objects::MineLeftCap = std::make_shared<OBJ>("Mine4-6.obj", 100);
+    Objects::MineLeftCap = std::make_shared<OBJ>("Mine4-6.obj", mineScale);
     Objects::MineLeftCap->OBJcolors = MineColors;
-    Objects::MineTopCap = std::make_shared<OBJ>("Mine4-2.obj", 100);
+    Objects::MineTopCap = std::make_shared<OBJ>("Mine4-2.obj", mineScale);
     Objects::MineTopCap->OBJcolors = MineColors;
-    Objects::MineBottomCap = std::make_shared<OBJ>("Mine4-3.obj", 100);
+    Objects::MineBottomCap = std::make_shared<OBJ>("Mine4-3.obj", mineScale);
     Objects::MineBottomCap->OBJcolors = MineColors;
-    Objects::MineFrontCap = std::make_shared<OBJ>("Mine4-4.obj", 100);
+    Objects::MineFrontCap = std::make_shared<OBJ>("Mine4-4.obj", mineScale);
     Objects::MineFrontCap->OBJcolors = MineColors;
-    Objects::MineBackCap = std::make_shared<OBJ>("Mine4-5.obj", 100);
+    Objects::MineBackCap = std::make_shared<OBJ>("Mine4-5.obj", mineScale);
     Objects::MineBackCap->OBJcolors = MineColors;
     // Something is very wrong though
     // Still drawing the outer sphere, and also the cube walls aren't getting changed by the scaling factor
