@@ -11,7 +11,6 @@ const vec3 BrickPct    = vec3(0.90,0.85,0.85);
 //  Model coordinates and light from vertex shader
 varying float LightIntensity;
 varying vec3  ModelPos;
-uniform float time;
 
 void main()
 {
@@ -19,8 +18,6 @@ void main()
    vec3 position = ModelPos / BrickSize;
    //  Stagger rows
    if (fract(0.5*position.y)>0.5) position.x += 0.5;
-   //  Scroll bricks at 2.5 bricks per second
-   position.x += 2.5*time;
    //  Don't care about the integer part
    position = fract(position);
    //  Snap to 0 or 1

@@ -24,7 +24,7 @@ void UseShader(int shader)
    {
       glUseProgram(0);
    }
-   else if (shader == Shader::brickShader || shader == Shader::threeDshader)
+   else if (shader == Shader::brickShader)
    {
       glUseProgram(shader);
       int id;
@@ -34,17 +34,37 @@ void UseShader(int shader)
       glUniform1i(id, Globals::Lighting::ambient->GetConst());
       id = glGetUniformLocation(shader,"directedLight");
       glUniform1i(id, Globals::Lighting::directed->GetConst());
+   }
+   else if (shader == Shader::threeDshader)
+   {
+      glUseProgram(shader);
+      int id;
 
-      // // Set textures (ref https://stackoverflow.com/a/25252981)
-      id = glGetUniformLocation(shader, "tex0");
-      glUniform1i(id, 0);
-      glActiveTexture(GL_TEXTURE0);
-      BindTexture("dirt");
-      //---
-      id = glGetUniformLocation(shader, "tex1");
-      glUniform1i(id, 1);
-      glActiveTexture(GL_TEXTURE1);
-      BindTexture("dirtF");
+      // Set lights
+      id = glGetUniformLocation(shader,"ambientLight");
+      glUniform1i(id, Globals::Lighting::ambient->GetConst());
+      id = glGetUniformLocation(shader,"directedLight");
+      glUniform1i(id, Globals::Lighting::directed->GetConst());
+      id = glGetUniformLocation(shader,"p");
+      glUniform1f(id, 0.5);
+      id = glGetUniformLocation(shader,"amp");
+      glUniform1f(id, 16 - 1);
+
+      // Set all the textures
+      int t = 0;
+      for (int x = 0; x < 4; x++)
+      {
+         for (int y = 0; y < 4; y++)
+         {
+            // Set textures (ref https://stackoverflow.com/a/25252981)
+            id = glGetUniformLocation(shader, ("tex" + std::to_string(t)).c_str());
+            glUniform1i(id, t+1); // Save GL_TEXTURE0 for fixed pipeline, so offset t by 1
+            glActiveTexture(GL_TEXTURE1 + t);
+            BindTexture("dirt" + std::to_string(x) + std::to_string(y));
+
+            t++;
+         }
+      }
 
       // Reset active texture to 0 otherwise fixed pipeline stuff gets weird
       glActiveTexture(GL_TEXTURE0);

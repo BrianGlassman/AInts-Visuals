@@ -18,7 +18,14 @@ void InitTextures()
 
 	// Load textures
 	LoadTexture("dirt", "dirtGroundTileable.bmp");
-	LoadTexture("dirtF", "dirtGroundTileableFlipped.bmp");
+	for (int x = 0; x < 4; x++)
+	{
+		for (int y = 0; y < 4; y++)
+		{
+			LoadTexture("dirt" + std::to_string(x) + std::to_string(y),
+				"dirtGroundTileable_x" + std::to_string(x) + "_y" + std::to_string(y) + ".bmp");
+		}
+	}
 }
 
 void BindTexture(std::string key)
