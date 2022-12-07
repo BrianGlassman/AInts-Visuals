@@ -12,8 +12,8 @@ public:
     Chamber();
 
     virtual void PreCreate();
-    virtual void Create(bool PrePost);
-    virtual void Create() override { Create(true); }
+    virtual void Create(bool PrePost, bool createFaces, bool createArms);
+    virtual void Create() override { Create(true, true, true); }
     virtual void ApplyNoise();
     virtual void Draw(bool hasControl = true);
 
@@ -39,8 +39,8 @@ protected:
 
     static Vector3 SetCoords(const float v0, const float v1, const float v2, int i0, bool f0, int i1, bool f1, int i2, bool f2);
     void FacePointHelper(std::function<Vector3(const float, const float, const float)> BoundSetCoords, const float v0, const float v1, const float v2);
-    void FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm);
-    void CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm);
+    void FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm, bool createArms);
+    void CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm, bool createFaces, bool createArms);
     void CreateArm(int i0, bool f0, int i1, bool f1, int i2, bool f2);
     void CreateCLHelper(std::vector<Vertex> &CLtoUse, int axis, bool flip);
     void CreateCenterline(int axis, bool flip);

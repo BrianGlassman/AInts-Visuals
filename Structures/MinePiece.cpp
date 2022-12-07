@@ -15,13 +15,17 @@ void MinePiece::PreCreate()
     OBJcolors.clear();
 }
 
-void MinePiece::Create()
+void MinePiece::Create(bool joinToChamber)
 {
     if (OBJptr == nullptr) return;
 
 	PreCreate();
 
-    Chamber::Create(false);
+	if (joinToChamber)
+	{
+		// Create Chamber arms/caps so they can be connected to
+		Chamber::Create(false, false, true);
+	}
 
 	// Need the color vector to be the same length as the other vectors for the sake of indexing
 	Vector3 grey({0.5, 0.5, 0.5});
@@ -43,13 +47,12 @@ void MinePiece::Create()
         }
     }
 
-	if (false) { // Join the OBJ geometry to the Chamber geometry
+	if (joinToChamber) { // Join the OBJ geometry to the Chamber geometry
+		float mx = 0.43; // Large enough that it only triggers for Core
 		std::vector<int> edge;
 		for (int axis = 0; axis <= 2; axis++)
 		{
 			// --- Find the furthest points
-			float mx = 49.0 / 144;
-			std::vector<int> thisEdge;
 			float val;
 			for (std::size_t i = OBJindices.front() ; i < vertices.size(); i++)
 			{
@@ -60,28 +63,28 @@ void MinePiece::Create()
 
 				if (val > mx)
 				{
-					thisEdge.clear();
+					edge.clear();
 					mx = val;
 					// printf("New mx = %f\n", mx); // NORELEASE
 				}
 
 				if (val == mx)
 				{
-					thisEdge.push_back(i);
+					edge.push_back(i);
 					// printf("Edge vertex (i = %d) %f, %f, %f\n", i, vertex.x, vertex.y, vertex.z); // NORELEASE
 				}
 			}
-
-			edge.insert(edge.begin(), thisEdge.begin(), thisEdge.end());
 		}
 
 		// --- Move the edge vertices to the nearest Chamber arm vertices
 		for (auto& i : edge)
 		{
 			auto& vertex = vertices.at(i);
+			auto& normal = normals.at(i);
 			// printf("vertices_i = %d: before %f, %f, %f\n", i, vertex.x, vertex.y, vertex.z); // NORELEASE
 
 			float bestSqrMag = 999;
+			int bestI = i;
 			Vector3 bestCoords;
 			for (int ci = 0; ci < OBJindices.front(); ci++)
 			{
@@ -89,10 +92,11 @@ void MinePiece::Create()
 				if ((cvert - vertex).SqrMag() < bestSqrMag)
 				{
 					bestSqrMag = (cvert - vertex).SqrMag();
-					bestCoords = cvert;
+					bestI = ci;
 				}
 			}
-			vertex = bestCoords;
+			vertex = vertices.at(bestI);
+			normal = normals.at(bestI);
 
 			// printf("after %f, %f, %f\n", vertex.x, vertex.y, vertex.z); // NORELEASE
 		}
@@ -161,8 +165,7 @@ void MinePiece::Draw(bool hasControl)
 {
     if (OBJptr == nullptr) return;
 
-	PushShader(Shader::threeDshader);
-	glPushAttrib(GL_ENABLE_BIT);
+	if (hasControl) PushShader(Shader::threeDshader);
 	glPushMatrix(); {
 		glTranslatef(center.x, center.y, center.z);
 
@@ -172,8 +175,7 @@ void MinePiece::Draw(bool hasControl)
 		else if (Toggles::Noise::showBase) DrawHelper(baseVertices, baseNormals);
 
 	} glPopMatrix();
-	glPopAttrib();
-	PopShader();
+	if (hasControl) PopShader();
 
 	ErrCheck("MinePiece::Draw");
 }

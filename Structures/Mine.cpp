@@ -35,16 +35,21 @@ void Mine::Create()
 {
 	PreCreate();
 
-	Chamber::Create(false);
+	Chamber::Create(false, true, true);
 
 	for (auto&& dirPiece : pieces)
 	{
 		auto& dir = dirPiece.first;
 		auto& piece = dirPiece.second;
-		if (dir == Vector3Int::Zero || ! GetSide(dir))
-		{ // Always use core. Only use caps if that side is unconnected
+		if (dir == Vector3Int::Zero)
+		{ // Always use core, don't join with chamber geometry
 			piece.center = center;
-			piece.Create();
+			piece.Create(true);
+		}
+		else if (! GetSide(dir))
+		{ // Only use caps if that side is unconnected, don't join with Chamber geometry
+			piece.center = center;
+			piece.Create(false);
 		}
 		else
 		{ // If a piece was created before but isn't re-created, mark it old
@@ -71,19 +76,20 @@ void Mine::ApplyNoise()
 
 void Mine::Draw(bool hasControl)
 {
-	// Chamber::Draw();
+	Chamber::Draw();
 
+	if (hasControl) PushShader(Shader::threeDshader);
 	// Only draw the inside from interior view
 	if (Globals::viewMode == ViewMode::INTERIOR)
 	{
-		PushShader(Shader::fixedPipeline);
 		for (auto&& dirPiece : pieces)
 		{
 			auto& dir = dirPiece.first;
 			auto& piece = dirPiece.second;
-			if (piece.created) piece.Draw();
+			if (piece.created) piece.Draw(false);
 		}
 	}
+	if (hasControl) PopShader();
 
 	ErrCheck("Mine::Draw");
 }

@@ -36,7 +36,7 @@ void Chamber::FacePointHelper(std::function<Vector3(const float, const float, co
 	normals.push_back(coords);
 }
 /// @brief Create 1/4 of a face 
-void Chamber::FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm)
+void Chamber::FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm, bool createArms)
 {
 	Vector3 coords;
 
@@ -75,7 +75,7 @@ void Chamber::FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool
 	}
 
 	// Face inside the arm, if applicable
-	if (!hasArm)
+	if (!hasArm && createArms)
 	{ // Start at 90 degrees viewed from +X, move CCW
 		if (true) { // A
 			FacePointHelper(boundSetCoords, r, 0, 0); // Bottom point
@@ -89,14 +89,17 @@ void Chamber::FaceHelper(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool
 		}
 	}
 }
-void Chamber::CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm)
+void Chamber::CreateFace(int i0, bool f0, int i1, bool f1, int i2, bool f2, bool hasArm, bool createFaces, bool createArms)
 {
-	FaceHelper(i0, f0, i1, f1, i2, f2, hasArm);
-	FaceHelper(i0, f0, i2, f2, i1, !f1, hasArm);
-	FaceHelper(i0, f0, i2, !f2, i1, f1, hasArm);
-	FaceHelper(i0, f0, i1, !f1, i2, !f2, hasArm);
+	if (createFaces)
+	{
+		FaceHelper(i0, f0, i1, f1, i2, f2, hasArm, createArms);
+		FaceHelper(i0, f0, i2, f2, i1, !f1, hasArm, createArms);
+		FaceHelper(i0, f0, i2, !f2, i1, f1, hasArm, createArms);
+		FaceHelper(i0, f0, i1, !f1, i2, !f2, hasArm, createArms);
+	}
 
-	if (hasArm)
+	if (hasArm && createArms)
 	{
 		CreateArm(i0, f0, i1, f1, i2, f2);
 	}
@@ -207,7 +210,7 @@ void Chamber::PreCreate()
 	triIndices.clear();
 	quadIndices.clear();
 }
-void Chamber::Create(bool PrePost)
+void Chamber::Create(bool PrePost, bool createFaces, bool createArms)
 {
 	if (PrePost) PreCreate();
 
@@ -218,12 +221,12 @@ void Chamber::Create(bool PrePost)
 	// Faces
 	if (true)
 	{
-		CreateFace(0, false, 1, false, 2, false, right);
-		CreateFace(1, false, 2, false, 0, false, top);
-		CreateFace(2, false, 0, false, 1, false, forward);
-		CreateFace(0,  true, 1, false, 2,  true, left);
-		CreateFace(1,  true, 2, false, 0,  true, bottom);
-		CreateFace(2,  true, 0, false, 1,  true, back);
+		CreateFace(0, false, 1, false, 2, false, right, createFaces, createArms);
+		CreateFace(1, false, 2, false, 0, false, top, createFaces, createArms);
+		CreateFace(2, false, 0, false, 1, false, forward, createFaces, createArms);
+		CreateFace(0,  true, 1, false, 2,  true, left, createFaces, createArms);
+		CreateFace(1,  true, 2, false, 0,  true, bottom, createFaces, createArms);
+		CreateFace(2,  true, 0, false, 1,  true, back, createFaces, createArms);
 	}
 
 	// Create centerlines

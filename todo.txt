@@ -3,6 +3,9 @@ OPTIM: could remove faces on outer edges of caps
 	
 Core outer edges of caps should be removed (including Right)
 
+buildIndicator shouldn't show Normals
+	also it gets VERY glitchy if you do? Looks like Debug is on
+
 {
 	make interior eye position stop moving when new structures are added
 	Errors out if you delete the Structure that eyePoint is inside of

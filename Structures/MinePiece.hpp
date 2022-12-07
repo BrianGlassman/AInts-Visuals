@@ -11,7 +11,8 @@ public:
     MinePiece(std::shared_ptr<OBJ> OBJtoUse);
 
     void PreCreate() override;
-    void Create() override;
+    void Create(bool joinToChamber);
+    void Create() override { Create(false); }
     void Draw(bool hasControl = true) override;
 private:
     std::vector<int> OBJindices;
