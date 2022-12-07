@@ -92,6 +92,12 @@ void CycleSetColor()
 	switch (Globals::setColorMode)
 	{
 	case SetColorMode::glColor:
+		// Not set in Ex. 25, but is used in other examples
+		glEnable(GL_COLOR_MATERIAL);
+
+		// Setting color will set ambient and diffuse colors
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+
 		printf("SetColor Mode set to: glColor\n");
 		break;
 	case SetColorMode::materialProps:
@@ -113,12 +119,20 @@ void SetColor(float r, float g, float b, float a)
 		glColor4f(r, g, b, a);
 		break;
 	case SetColorMode::materialProps:
-		glColor4f(b, r, g, a); // TODO (this is just for now)
+	{
+		float color[] = {r, g, b, 1.0};
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
 		break;
+	}
 	case SetColorMode::both:
+	{
+		// Very similar to Ex. 25 so it *should* work on both machines
+		// Difference: I call glColor4f, Ex. 25 calls glColor3f
+		float color[] = {r, g, b, 1.0};
 		glColor4f(r, g, b, a);
-		// TODO
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
 		break;
+	}
 	default:
 		Fatal(999, "Unrecognized SetColorMode");
 	}

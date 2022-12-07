@@ -26,7 +26,7 @@ bool Toggles::printMove = false;
 float Globals::tunnelNoiseScale =  0.3;
 float Globals::chamberNoiseScale = 0.3;
 StructureType Globals::toBuild = StructureType::NONE;
-SetColorMode Globals::setColorMode = SetColorMode::glColor;
+SetColorMode Globals::setColorMode = SetColorMode::both;
 // Special behavior for ++SetColorMode
 SetColorMode& operator++(SetColorMode &val ) {
   using IntType = typename std::underlying_type<SetColorMode>::type;

@@ -24,7 +24,6 @@ void initLighting()
 {
 	// Setup for Lighting, based on Ex. 13
 	glEnable(GL_LIGHTING);
-	glEnable(GL_COLOR_MATERIAL);
 	glShadeModel(Toggles::Light::smooth ? GL_SMOOTH : GL_FLAT);
 
 	// Turn off the default ambient light
@@ -36,9 +35,6 @@ void initLighting()
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, 1.0); 
 
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, SHINY_DEFAULT);
-
-	// Setting color will set ambient and diffuse colors
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
 	ErrCheck("initLighting");
 }
