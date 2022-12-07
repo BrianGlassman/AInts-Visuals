@@ -1,6 +1,4 @@
 
-SetColorMode::both doesn't seem to allow transparency?
-
 Going from building something to Delete doesn't spawn the Delete cube
 
 hotkeys to show off functionality

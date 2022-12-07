@@ -120,15 +120,15 @@ void SetColor(float r, float g, float b, float a)
 		break;
 	case SetColorMode::materialProps:
 	{
-		float color[] = {r, g, b, 1.0};
+		float color[] = {r, g, b, a};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
 		break;
 	}
 	case SetColorMode::both:
 	{
 		// Very similar to Ex. 25 so it *should* work on both machines
-		// Difference: I call glColor4f, Ex. 25 calls glColor3f
-		float color[] = {r, g, b, 1.0};
+		// Difference: I call glColor4f with alpha, Ex. 25 calls glColor3f with implied alpha = 1
+		float color[] = {r, g, b, a};
 		glColor4f(r, g, b, a);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
 		break;
