@@ -49,7 +49,6 @@ void display();
 void SetCallbacks()
 {
 	glutDisplayFunc(display);
-	//FIXME
 	glutReshapeFunc(reshape);
 	glutVisibilityFunc(visible);
 

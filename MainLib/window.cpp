@@ -37,7 +37,7 @@ void Project()
 		{
 			// OPTIM scale based on the smaller of width/height rather than always using height
 			double asp = (windowHeight>0) ? (double)windowWidth/windowHeight : 1;
-			float maxMag = baseMag * Globals::mouse_zoom; // FIXME
+			float maxMag = baseMag * Globals::mouse_zoom;
 			// glOrtho(left, right, bottom, top, near, far)
 			glOrtho(-asp*maxMag, +asp*maxMag, -maxMag, +maxMag, -maxMag*1.5, +maxMag*1.5);
 		}

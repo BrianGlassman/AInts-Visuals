@@ -38,6 +38,7 @@ Build menu shouldn't be accessible in Interior View
 Get rid of Debug menu option for Release
 
 clean out old and unused code / files
+	main.cpp for menus, noise
 
 README documentation of overall code structure?
 

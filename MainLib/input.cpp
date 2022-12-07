@@ -4,7 +4,7 @@
 #include "window.hpp"
 
 
-float speed = 1.0; // FIXME for now speed is irrelevant because movement is vertex-to-vertex
+float speed = 1.0; // Future work may use speed if not moving node-to-node
 
 void PrintMoveOptions()
 {
@@ -263,7 +263,7 @@ void mouseAction(int button, int state, int x, int y)
 		return;
 	}
 
-	// FIXME
+	// Limit zoom in
 	if (Globals::mouse_zoom < 0.1)
 	{
 		Globals::mouse_zoom = 0.1;

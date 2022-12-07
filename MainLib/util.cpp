@@ -101,11 +101,11 @@ void CycleSetColor()
 		printf("SetColor Mode set to: glColor\n");
 		break;
 	case SetColorMode::materialProps:
+		glDisable(GL_COLOR_MATERIAL);
 		printf("SetColor Mode set to: material properties\n");
 		break;
 	case SetColorMode::both:
 		printf("SetColor Mode set to: both\n");
-		// TODO
 		break;
 	default:
 		Fatal(999, "Unrecognized SetColorMode");
