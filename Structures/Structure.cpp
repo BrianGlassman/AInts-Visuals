@@ -36,7 +36,7 @@ void Structure::ApplyNoise()
 	// Apply to the centerline
 	for (unsigned int i = 0; i < baseCenterline.size(); i++)
 	{
-		ApplyNoiseCLHelper(i, noiseScale);
+		ApplyNoiseCLHelper(i, Globals::chamberNoiseScale);
 	}
 }
 

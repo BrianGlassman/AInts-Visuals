@@ -6,7 +6,6 @@ Mine::Mine()
 {
 	type = StructureType::Mine;
 	sideType = SideType::chamber;
-	noiseScale = Globals::chamberNoiseScale;
 
 	// Padding between edge of chamber and edge of cell
 	float padding = 0.1;

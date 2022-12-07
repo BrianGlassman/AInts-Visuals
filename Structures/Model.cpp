@@ -6,7 +6,6 @@
 Model::Model()
 {
 	type = StructureType::Model;
-	noiseScale = Globals::chamberNoiseScale;
 }
 
 Model::~Model() {}
@@ -181,7 +180,7 @@ void Model::ApplyNoise()
 {
     for (unsigned int i = 0; i < baseVertices.size(); i++)
     {
-		ApplyNoiseHelper(i, noiseScale);
+		ApplyNoiseHelper(i, Globals::chamberNoiseScale);
     }
 }
 

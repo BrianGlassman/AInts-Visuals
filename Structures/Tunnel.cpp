@@ -161,7 +161,7 @@ void Tunnel::ApplyNoise()
 	{
 		Vector3 p = noisePtr->getNoise(baseCenterline[i].coords + center);
 
-		centerline[i].coords = baseCenterline[i].coords + p*noiseScale;
+		centerline[i].coords = baseCenterline[i].coords + p*Globals::tunnelNoiseScale;
 	}
 
 	// printf("%f, %f, %f\n", centerline[0].coords.x, centerline[0].coords.y, centerline[0].coords.z); // NORELEASE

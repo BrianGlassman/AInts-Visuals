@@ -8,7 +8,6 @@ Chamber::Chamber()
 {
 	type = StructureType::Chamber;
 	sideType = SideType::chamber;
-	noiseScale = Globals::chamberNoiseScale;
 
 	padding = 0.1;
 	radius = 0.5 - padding;
@@ -276,7 +275,7 @@ void Chamber::ApplyNoise()
 	{
 		if (armIndices.find(i) == armIndices.end())
 		{
-			scale = noiseScale;
+			scale = Globals::chamberNoiseScale;
 		}
 		else
 		{
@@ -291,7 +290,7 @@ void Chamber::ApplyNoise()
 	{
 		if (armIndices.find(i) == armIndices.end())
 		{
-			scale = noiseScale;
+			scale = Globals::chamberNoiseScale;
 		}
 		else
 		{

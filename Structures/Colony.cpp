@@ -238,7 +238,7 @@ void Colony::ApplyNoise()
 	{
 		Vector3 p = noisePtr->getNoise(baseCenterline[i].coords + center);
 
-		centerline[i].coords = baseCenterline[i].coords + p*noiseScale;
+		centerline[i].coords = baseCenterline[i].coords + p*Globals::chamberNoiseScale;
 	}
 }
 

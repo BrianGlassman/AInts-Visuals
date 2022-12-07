@@ -32,9 +32,6 @@ public:
 
     virtual void ApplyNoise();
 protected:
-	// Scaling factor applied to the noise effect
-	float noiseScale;
-
     std::vector<Vector3> vertices;
 	std::vector<Vector3> baseVertices;
 	std::vector<Vector3> normals;

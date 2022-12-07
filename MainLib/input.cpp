@@ -1,5 +1,6 @@
 
 #include "input.hpp"
+#include "display.hpp"
 #include "globals.hpp"
 #include "lighting.hpp"
 #include "window.hpp"
@@ -148,6 +149,25 @@ void lightKey(unsigned char k)
 	}
 }
 
+void noiseKey(unsigned char k)
+{
+	switch (k) {
+	case 'n':
+		Globals::chamberNoiseScale -= 0.05;
+		Globals::tunnelNoiseScale -= 0.05;
+		break;
+	case 'N':
+		Globals::chamberNoiseScale += 0.05;
+		Globals::tunnelNoiseScale += 0.05;
+		break;
+	default:
+		return; // Exit early, don't need to re-apply
+	}
+
+	printf("Noise factor = %f\n", Globals::chamberNoiseScale);
+	displayModelPtr->ApplyNoise();
+}
+
 /*
  * Process standard keys
  */
@@ -230,6 +250,8 @@ void key(unsigned char k, int x, int y)
 		lightKey(k);
 		Input::buildKey(k);
 	}
+
+	noiseKey(k);
 	
 	/*
 	// Clamp light position

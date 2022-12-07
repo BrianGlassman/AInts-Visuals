@@ -13,6 +13,7 @@ CSCI 5229 (graduate)
 		- "\" will go back to the full colony scene
 		- "m" will cycle between interior and exterior views
 		- "-" and "=" will decrease or increase, respectively, the ambient light levels. "_" and "+" will do the same for the directed light
+		- "n" and "N" will decreate or increase, respectively, the scaling factor applied to perturbation effects. A factor near or above 0.5 may cause crossovers and degenerate geometry.
 	B. Exterior view
 		- Moving the mouse towards the edges of the window will rotate the camera around the origin
 		- The red square shows where the eye position for the interior view is located
@@ -54,7 +55,8 @@ TODO. Feature List
 		- The perturbed and original geometries can be toggled from the Right-Click > Noise menu.
 		- Each "cell" is 1x1x1 units, with a perturbation vector at each corner. The perturbation vectors can be shown/hidden from the Right-Click menu: Noise > Toggle P Vectors.
 		- The interpolation is based on f(x,y,z) where f is a Bezier curve (defined in Noise/Perlin.cpp::BezierFade). This prevents sharp changes at the borders between cells.
-		- Crossover (adjacent vertices being perturbed enough that they switch relative positions) is mathematically impossible due to the nature of the perturbation and scaling factor.
+		- Crossover is mathematically impossible due to the nature of the perturbation with scaling factors less than approximately 0.5
+			"crossover" meaning adjacent vertices being perturbed enough that they switch relative positions
 		- Normal vectors are perturbed to match the new geometry through the following process (implemented in Structures/Models.cpp::Model::ApplyNoiseHelper):
 			1. Take the cross product of the unperturbed Normal vector with each of the X, Y, and Z axes. This creates three tangent vectors based on the unperturbed geometry.
 			2. Reduce the magnitude of these tangent vectors to a small value (0.001) to remain in the neighborhood of the original vertex.
