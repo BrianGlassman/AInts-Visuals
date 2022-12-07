@@ -68,8 +68,18 @@ Light::Light(float _ambient, float _diffuse, float _specular)
 
 void Light::Toggle()
 {
-	if (active) glDisable(id);
-	else glEnable(id);
+	if (active)
+	{
+		SetAmbientLevel(0);
+		SetDiffuseLevel(0);
+		SetSpecularLevel(0);
+	}
+	else
+	{
+		SetAmbientLevel(ambient);
+		SetDiffuseLevel(diffuse);
+		SetSpecularLevel(specular);
+	}
 	active = !active;
 }
 
