@@ -7,36 +7,37 @@ CSCI 5229 (graduate)
 
 2. Interface
 	A. Both views
-		  i. Pressing Escape will exit the program
-		 ii. Right clicking opens a menu to change the view and or access various debug options (detailed below)
-		iii. "[" and "]" will cycle through the available scenes: A full colony (the main, default scene), individual views of the different buildings, and a test of tunnel interconnection.
-		 iv. "\" will go back to the full colony scene
-		  v. "m" will cycle between interior and exterior views
+		- Pressing Escape will exit the program
+		- Right clicking opens a menu to change the view and or access various debug options (detailed below)
+		- "[" and "]" will cycle through the available scenes: A full colony (the main, default scene), individual views of the different buildings, and a test of tunnel interconnection.
+		- "\" will go back to the full colony scene
+		- "m" will cycle between interior and exterior views
 	B. Exterior view
-		  i. Moving the mouse towards the edges of the window will rotate the camera around the origin
-		 ii. The red square shows where the eye position for the interior view is located
+		- Moving the mouse towards the edges of the window will rotate the camera around the origin
+		- The red square shows where the eye position for the interior view is located
 	C. Interior (first person) view
-		  i. Moving the mouse towards the edges of the window will rotate the view around the current eye position
-		 ii. WASD or the arrow keys will move the viewpoint, node by node. Movement is locked to the centerline nodes shown in cyan
+		- Moving the mouse towards the edges of the window will rotate the view around the current eye position
+		- WASD or the arrow keys will move the viewpoint, node by node. Movement is locked to the centerline nodes shown in cyan
 
 3. Right-Click menu
-	A. View - change between interior and exterior views
-	B. Lighting - toggle the orbit of the directed light
-	C. Noise
-		  i. Toggle perturbed geometry - show/hide the geometry that has been randomly perturbed
-		 ii. Toggle P vectors - show/hide the random vectors that are used to create the perturbations
-		iii. Toggle base geometry - show/hide the base, unperturbed geometry
+	A. Build - allows building new structures or deleting existing ones. Select "None" to hide the visual indicator
+	B. View - change between interior and exterior views
+	C. Lighting - toggle the orbit of the directed light
+		TODO
+	D. Noise
+		- Toggle perturbed geometry - show/hide the geometry that has been randomly perturbed
+		- Toggle P vectors - show/hide the random vectors that are used to create the perturbations
+		- Toggle base geometry - show/hide the base, unperturbed geometry
 		note: if both geometries are shown, base will be in wireframe mode
-	D. Gizmos - toggle various settings
-		  i. Wireframe / Filled
-		 ii. Show/hide axes
-		iii. Show/hide normal vectors
-		 iv. Show/hide centerline nodes
-		  v. Console printout to debug movement from interior view
-
-4. Remaining work
-	A. Adding buildings and ants to the environment. I originally planned to allow a cutaway in the exterior view to see inside the chambers and buildings, but this is turning out to be very challenging. I will probably drop the cutaway to be able to implement buildings.
-	B. Refinements on the texture and lighting. The current texture method can't handle geometry that is mostly parallel to the Z axis. I also want to improve the lighting overall, particularly in the interior view.
+	E. Gizmos - toggle various settings
+		- Wireframe / Filled
+		- Show/hide axes
+		- Show/hide normal vectors
+		- Show/hide centerline nodes
+		- Console printout to debug movement from interior view
+		- Toggle face culling
+		- Cycle through different modes for setting colors: glColor4f, glMaterialfv, both (default)
+			Note: hopefully one of these options will work in the case of hardware-specific graphical problems
 
 TODO. Feature List
 	A. Predefined colony layout, displayed on startup.

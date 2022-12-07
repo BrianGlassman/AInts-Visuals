@@ -3,8 +3,8 @@ SetColorMode::both doesn't seem to allow transparency?
 
 Going from building something to Delete doesn't spawn the Delete cube
 
-go through the doc from class 12/1 and look for other things I still need to do
-	hotkeys to show off functionality
+hotkeys to show off functionality
+	PROMINENTLY documented in README
 
 OPTIM: could maybe remove the sides of caps, but would have to have a way to make sure they aren't visible from inside
 
@@ -21,17 +21,36 @@ toBuild movement should change with view direction, probably
 
 Hill movement is wonky. Jumps from the bottom straight to the top, then you're stuck
 	Proably not setting the endpoint correctly?
+	
+shrink textures. Each slice should be 256x256 at most
 
 
 
 default to not showing the light source trace (red and blue lines) because that might be what's causing the problem
 
-do what prof said: make a wrapper that sets color AND material, and use this everywhere
-also make textures brighter
+make textures brighter
+	option to switch to a brighter version?
+	
+option to increase the light levels
 
 Build menu shouldn't be accessible in Interior View
 
+Get rid of Debug menu option for Release
 
+clean out old and unused code / files
+
+README documentation of overall code structure?
+
+go through Key and Special functions, make sure all the keys are documented in README
+
+include time spent in README
+
+are there any more Makefile warnings I turned off that can be turned back on?
+	make sure I'm using -Wall
+
+check for anything substantially uncommented and comment it
+
+replace tabs with spaces
 
 
 
@@ -51,6 +70,8 @@ README update
 have "Toggle wireframe" show a wireframe with polygon offset even when filled geometry is active
 add "Toggle filled"
 
+
+Go to OH Thursday to make sure it runs on his machine?
 
 
 SHOULD DO, BUT PROBABLY WON'T
