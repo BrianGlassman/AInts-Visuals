@@ -161,7 +161,7 @@ int main(int argc, char* argv[])
 {
     InitOBJs();
 
-    Perlin noise;
+    Perlin noise(1670526744);
     noisePtr = &noise;
 
     {
@@ -177,7 +177,6 @@ int main(int argc, char* argv[])
     if (true) // Colony
     {
         PopulateColony(colony);
-        colony.AddStructure(2, -1, 1, StructureType::Mine);
         colony.Create();
         colony.ApplyNoise();
         Globals::IVs.at(Scene::colony).pathHolder = &colony;

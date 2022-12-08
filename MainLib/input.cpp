@@ -307,6 +307,6 @@ void SetInputCallbacks()
 {
     glutKeyboardFunc(key);
     glutSpecialFunc(special);
-    glutPassiveMotionFunc(mouseMovement);
+    // glutPassiveMotionFunc(mouseMovement);
     glutMouseFunc(mouseAction);
 }

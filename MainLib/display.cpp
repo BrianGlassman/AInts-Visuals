@@ -92,7 +92,7 @@ void preDisplay()
 void postDisplay(float scale)
 {
     // In exterior view, draw an indicator of where the interior view is
-    if (Globals::viewMode == ViewMode::EXTERIOR && displayModelPtr->created)
+    if (false && Globals::viewMode == ViewMode::EXTERIOR && displayModelPtr->created)
     {
         PushShader(Shader::fixedPipeline);
         glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);

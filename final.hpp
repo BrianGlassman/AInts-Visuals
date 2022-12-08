@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "CSCIx229.h"
 
 // MainLib
@@ -98,19 +100,38 @@ void SetDisplayPtr()
 
 void PopulateColony(Colony& colony)
 {
-	int tunnelCoords[][3] = {
-		// Base layer
-		{0, 0, 0}, // 0
-		{0, 0, 1}, // 1
-		{0, 0, 2}, // 2
-		{1, 0, 2}, // 3
+	std::vector<std::vector<int>> tunnelCoords
+	({
+		{-2, -2, 0},
+		{-1, -2, 0},
+		{ 0, -2, 0},
+		{ 1, -2, 0},
+		{ 2, -2, 0},
 
-		// Up shaft
-		{0, 1, 0}, // 4
-		{0, 2, 0}, // 5
-		{0, 3, 0}, // 6
-		{-1, 3, 0}, // 7
-	};
+		{-2, -1, 0},
+		{-1, -1, 0},
+		{ 0, -1, 0},
+		{ 1, -1, 0},
+		{ 2, -1, 0},
+
+		{-2,  0, 0},
+		{-1,  0, 0},
+		{ 0,  0, 0},
+		{ 1,  0, 0},
+		{ 2,  0, 0},
+
+		{-2,  1, 0},
+		{-1,  1, 0},
+		{ 0,  1, 0},
+		{ 1,  1, 0},
+		{ 2,  1, 0},
+
+		{-2,  2, 0},
+		{-1,  2, 0},
+		{ 0,  2, 0},
+		{ 1,  2, 0},
+		{ 2,  2, 0},
+	});
 
 	int chamberCoords[][3] = {
 		// Individual chambers
@@ -125,20 +146,17 @@ void PopulateColony(Colony& colony)
 		{2, 0, 1}, // 14
 	};
 
-	Vector3Int coords;
-	for (int i = 0; i < 8; i++)
+	for (auto&& coords : tunnelCoords)
 	{
-		coords = tunnelCoords[i];
-		coords.y -= 1;
-		colony.AddTunnel(coords);
+		colony.AddTunnel(coords.data());
 	}
-	for (int i = 0; i < 7; i++)
-	{
-		coords = chamberCoords[i];
-		coords.y -= 1;
-		colony.AddChamber(coords);
-	}
-	colony.AddHill(-1, 4 - 1, 0);
+	// for (int i = 0; i < 7; i++)
+	// {
+	// 	coords = chamberCoords[i];
+	// 	coords.y -= 1;
+	// 	colony.AddChamber(coords);
+	// }
+	// colony.AddHill(-1, 4 - 1, 0);
 }
 
 void PopulateTunnels(Colony& colony)

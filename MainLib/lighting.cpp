@@ -125,6 +125,8 @@ void Light::Crement(float val)
 
 OrbitLight::OrbitLight(float ambient, float diffuse, float specular) : Light(ambient, diffuse, specular)
 {
+    elevation = 45;
+    azimuth = 150;
 }
 
 void OrbitLight::UpdatePosition(float dAz, float dEl)

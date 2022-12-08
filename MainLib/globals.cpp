@@ -7,7 +7,7 @@
 //---------
 // Toggles
 //---------
-bool Toggles::Light::lightOrbiting = true;
+bool Toggles::Light::lightOrbiting = false;
 bool Toggles::Light::smooth = true;
 bool Toggles::Noise::showPerturbed = true;
 bool Toggles::Noise::showPVectors = false;
@@ -18,7 +18,7 @@ bool Toggles::Display::wireframe = false;
 bool Toggles::Display::faceCulling = true;
 bool Toggles::showNormals = false;
 bool Toggles::debug = false;
-bool Toggles::showCenterlines = true;
+bool Toggles::showCenterlines = false;
 bool Toggles::printMove = false;
 
 //--------
@@ -60,9 +60,9 @@ SetColorMode operator--(SetColorMode &val, int ) {
 //-------------------
 // Input --> Display
 //-------------------
-float Globals::mouse_x = 0.5f;
-float Globals::mouse_y = 0.5f;
-float Globals::mouse_zoom = 1;
+float Globals::mouse_x = 0;
+float Globals::mouse_y = 0;
+float Globals::mouse_zoom = 1 - 0.2;
 
 //-------------------------
 // Main, Input --> Display

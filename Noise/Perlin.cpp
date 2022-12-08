@@ -55,7 +55,7 @@ float _BezierY(float t)
 float _BezierX(float t)
 { // Cubic Bezier curve
     float P0 = 0;
-    float P1 = 0.25;
+    float P1 = 0.5;
     float P2 = 1 - P1;
     float P3 = 1;
     float t2 = t*t, t3 = t*t*t;
