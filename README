@@ -104,7 +104,6 @@ dirtGroundTileable - https://www.deviantart.com/fabooguy/art/Dirt-Ground-Texture
 
 Code references:
 Class slides, examples, and library
-TODO FIXME
 Shaders adapted from Ex. 25, with modification to apply texture based on vertex position
 Polymorphic list - https://stackoverflow.com/questions/17532076/whats-the-preferred-c-idiom-to-own-a-collection-of-polymorphic-objects
 GLUT menus
